@@ -31,7 +31,8 @@ public class IVGACApplicationDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
 
         configureApplicationContainer(container)
-
+        container.executeDefaultRouteSequence()
+        
         return container.willFinishLaunching()
     }
     

@@ -33,7 +33,6 @@
 		F8B199C31CB4CB0A005C49C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199B31CB4CB0A005C49C5 /* AppDelegate.swift */; };
 		F8B199C41CB4CB0A005C49C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8B199B41CB4CB0A005C49C5 /* Assets.xcassets */; };
 		F8B199C71CB4CB0A005C49C5 /* DemoAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */; };
-		F8B199C81CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BB1CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift */; };
 		F8B199C91CB4CB0A005C49C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */; };
 		F8B199CB1CB4CB0A005C49C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */; };
 		F8B199CC1CB4CB0A005C49C5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BF1CB4CB0A005C49C5 /* MasterViewController.swift */; };
@@ -72,6 +71,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F808DCE01CB5C17D003B6D56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8B199061CB4B577005C49C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F8B1990E1CB4B577005C49C5;
+			remoteInfo = IVGAppContainer;
+		};
+		F808DCE21CB5C17D003B6D56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8B199061CB4B577005C49C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F8B199611CB4C989005C49C5;
+			remoteInfo = IVGRouter;
+		};
 		F8B1991B1CB4B577005C49C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F8B199061CB4B577005C49C5 /* Project object */;
@@ -140,7 +153,6 @@
 		F8B199B31CB4CB0A005C49C5 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F8B199B41CB4CB0A005C49C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppCoordinator.swift; sourceTree = "<group>"; };
-		F8B199BB1CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppRouteSegmentTypes.swift; sourceTree = "<group>"; };
 		F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F8B199BD1CB4CB0A005C49C5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -296,7 +308,6 @@
 				F8B199B31CB4CB0A005C49C5 /* AppDelegate.swift */,
 				F8B199B41CB4CB0A005C49C5 /* Assets.xcassets */,
 				F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */,
-				F8B199BB1CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift */,
 				F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */,
 				F8B199BD1CB4CB0A005C49C5 /* Info.plist */,
 				F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */,
@@ -701,6 +712,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				F808DCE11CB5C17D003B6D56 /* PBXTargetDependency */,
+				F808DCE31CB5C17D003B6D56 /* PBXTargetDependency */,
 			);
 			name = IVGAppContainerDemo;
 			productName = IVGAppContainerDemo;
@@ -933,7 +946,6 @@
 			files = (
 				F8B199CC1CB4CB0A005C49C5 /* MasterViewController.swift in Sources */,
 				F8B199CF1CB4CB0A005C49C5 /* WelcomeViewController.swift in Sources */,
-				F8B199C81CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift in Sources */,
 				F8B199C31CB4CB0A005C49C5 /* AppDelegate.swift in Sources */,
 				F8B199CE1CB4CB0A005C49C5 /* RootViewController.swift in Sources */,
 				F8B199CD1CB4CB0A005C49C5 /* NextScreenViewController.swift in Sources */,
@@ -997,6 +1009,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F808DCE11CB5C17D003B6D56 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F8B1990E1CB4B577005C49C5 /* IVGAppContainer */;
+			targetProxy = F808DCE01CB5C17D003B6D56 /* PBXContainerItemProxy */;
+		};
+		F808DCE31CB5C17D003B6D56 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F8B199611CB4C989005C49C5 /* IVGRouter */;
+			targetProxy = F808DCE21CB5C17D003B6D56 /* PBXContainerItemProxy */;
+		};
 		F8B1991C1CB4B577005C49C5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F8B1990E1CB4B577005C49C5 /* IVGAppContainer */;

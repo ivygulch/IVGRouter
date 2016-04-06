@@ -22,6 +22,8 @@ public protocol ApplicationContainerType: class {
     var window: UIWindow? { get }
     var containerState: ContainerState { get }
     var router: RouterType { get }
+    var defaultRouteSequence: [Any] { get set }
+    func executeDefaultRouteSequence()
 
     var resourceCount: Int { get }
     func resource<T>(type: T.Type) -> T?
@@ -57,12 +59,19 @@ public class ApplicationContainer : ApplicationContainerType {
             }
         }
     }
+
     public let router:RouterType
 
     public init(window: UIWindow?) {
         self.window = window
         router = Router(window: window)
         router.registerDefaultPresenters()
+    }
+
+    public var defaultRouteSequence: [Any] = []
+
+    public func executeDefaultRouteSequence() {
+        router.executeRoute(defaultRouteSequence)
     }
 
     // MARK: - Resources
