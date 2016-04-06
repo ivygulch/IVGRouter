@@ -1,0 +1,102 @@
+//
+//  PushRouteSegmentPresenterSpec.swift
+//  IVGAppContainer
+//
+//  Created by Douglas Sjoquist on 4/6/16.
+//  Copyright © 2016 Ivy Gulch LLC. All rights reserved.
+//
+
+import UIKit
+import Quick
+import Nimble
+import IVGRouter
+
+class PushRouteSegmentPresenterSpec: QuickSpec {
+
+    override func spec() {
+
+        let mockViewControllerA = MockViewController("A")
+        let mockViewControllerB = MockViewController("B")
+        let mockViewControllerC = MockViewController("C")
+
+        describe("when presentingViewController is nil") {
+
+            it("should fail") {
+                let mockCompletionBlock = MockCompletionBlock()
+                let presenter = PushRouteSegmentPresenter()
+                let result = presenter.presentViewController(mockViewControllerC, from: nil, options:[:], window: nil, completion: mockCompletionBlock.completion)
+                expect(result).to(beNil())
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
+            }
+
+        }
+
+        describe("when presentingViewController is not part of a navigationController stack") {
+            
+            it("should fail") {
+                let mockCompletionBlock = MockCompletionBlock()
+                let presenter = PushRouteSegmentPresenter()
+                let result = presenter.presentViewController(mockViewControllerC, from: mockViewControllerA, options:[:], window: nil, completion: mockCompletionBlock.completion)
+                expect(result).to(beNil())
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
+            }
+
+        }
+
+        describe("when presentingViewController is a UINavigationController") {
+            
+            it("should succeed when navigation stack is empty") {
+                let mockCompletionBlock = MockCompletionBlock(expectation: self.expectationWithDescription("completion"))
+                let presenter = PushRouteSegmentPresenter()
+                let navigationController = UINavigationController()
+                expect(navigationController.viewControllers).to(beEmpty())
+                
+                let result = presenter.presentViewController(mockViewControllerC, from: navigationController, options:[:], window: nil, completion: mockCompletionBlock.completion)
+                self.waitForExpectationsWithTimeout(5, handler: nil)
+                expect(navigationController.viewControllers).to(equal([mockViewControllerC]))
+                expect(result).to(equal(mockViewControllerC))
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["true"]]]))
+            }
+
+            it("should replace stack when navigation stack already has values") {
+                let mockCompletionBlock = MockCompletionBlock(expectation: self.expectationWithDescription("completion replace statck"))
+                let presenter = PushRouteSegmentPresenter()
+                let navigationController = UINavigationController()
+                navigationController.viewControllers = [mockViewControllerA,mockViewControllerB]
+                expect(navigationController.viewControllers).toNot(beEmpty())
+
+                // test environment does not work with animated pushes
+                let options:RouteSequenceOptions = [PushRouteSegmentPresenterOptions.PushAnimatedKey:false]
+
+                let result = presenter.presentViewController(mockViewControllerC, from: navigationController, options:options, window: nil, completion: mockCompletionBlock.completion)
+                self.waitForExpectationsWithTimeout(5, handler: nil)
+                expect(navigationController.viewControllers).to(equal([mockViewControllerC]))
+                expect(result).to(equal(mockViewControllerC))
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["true"]]]))
+            }
+
+        }
+
+        describe("when presentingViewController has a navigationController") {
+
+            it("should succeed") {
+                let mockCompletionBlock = MockCompletionBlock(expectation: self.expectationWithDescription("completion"))
+                let presenter = PushRouteSegmentPresenter()
+                let navigationController = UINavigationController()
+                navigationController.viewControllers = [mockViewControllerA]
+
+                // test environment does not work with animated pushes
+                let options:RouteSequenceOptions = [PushRouteSegmentPresenterOptions.PushAnimatedKey:false]
+
+                let result = presenter.presentViewController(mockViewControllerC, from: mockViewControllerA, options:options, window: nil, completion: mockCompletionBlock.completion)
+                self.waitForExpectationsWithTimeout(5, handler: nil)
+                expect(navigationController.viewControllers).to(equal([mockViewControllerA, mockViewControllerC]))
+                expect(result).to(equal(mockViewControllerC))
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["true"]]]))
+            }
+
+        }
+
+    }
+    
+}

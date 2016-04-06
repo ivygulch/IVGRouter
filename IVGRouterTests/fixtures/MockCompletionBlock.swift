@@ -7,14 +7,23 @@
 //
 
 import UIKit
+import XCTest
 
 class MockCompletionBlock : TrackableTestClass {
+
+    init(expectation: XCTestExpectation? = nil) {
+        self.expectation = expectation
+    }
 
     var completion: (Bool) -> Void {
         return {
             (finished:Bool) -> Void in
             self.track("completion", ["\(finished)"])
+            if let expectation = self.expectation {
+                expectation.fulfill()
+            }
         }
     }
 
+    let expectation: XCTestExpectation?
 }

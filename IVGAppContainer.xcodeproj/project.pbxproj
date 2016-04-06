@@ -69,6 +69,7 @@
 		F8B19A281CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */; };
 		F8B19A2A1CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */; };
 		F8B19A2C1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A2B1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift */; };
+		F8B19A2E1CB54F21005C49C5 /* PushRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A2D1CB54F21005C49C5 /* PushRouteSegmentPresenterSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -178,6 +179,7 @@
 		F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
 		F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
 		F8B19A2B1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushRouteSegmentPresenter.swift; sourceTree = "<group>"; };
+		F8B19A2D1CB54F21005C49C5 /* PushRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -636,6 +638,7 @@
 				F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */,
 				F8B19A121CB4D04D005C49C5 /* RootRouteSegmentPresenterSpec.swift */,
 				F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */,
+				F8B19A2D1CB54F21005C49C5 /* PushRouteSegmentPresenterSpec.swift */,
 			);
 			path = presenters;
 			sourceTree = "<group>";
@@ -999,6 +1002,7 @@
 				F8B19A2A1CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift in Sources */,
 				F8B199F61CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift in Sources */,
 				F8B19A131CB4D04D005C49C5 /* RootRouteSegmentPresenterSpec.swift in Sources */,
+				F8B19A2E1CB54F21005C49C5 /* PushRouteSegmentPresenterSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
