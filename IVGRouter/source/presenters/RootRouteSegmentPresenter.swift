@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ivy Gulch LLC. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
 
