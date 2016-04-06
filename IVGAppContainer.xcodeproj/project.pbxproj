@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F808DCDD1CB5911E003B6D56 /* LazyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F808DCDC1CB5911E003B6D56 /* LazyViewController.swift */; };
 		F8B1991A1CB4B577005C49C5 /* IVGAppContainer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B1990F1CB4B577005C49C5 /* IVGAppContainer.framework */; };
 		F8B199471CB4C73F005C49C5 /* IVGAppContainerDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199461CB4C73F005C49C5 /* IVGAppContainerDemoTests.swift */; };
 		F8B199521CB4C73F005C49C5 /* IVGAppContainerDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199511CB4C73F005C49C5 /* IVGAppContainerDemoUITests.swift */; };
@@ -47,7 +48,6 @@
 		F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DB1CB4CB31005C49C5 /* Router.swift */; };
 		F8B199E41CB4CB31005C49C5 /* RouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */; };
 		F8B199E51CB4CB31005C49C5 /* RouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */; };
-		F8B199E61CB4CB31005C49C5 /* LazyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DF1CB4CB31005C49C5 /* LazyViewController.swift */; };
 		F8B199F41CB4CB39005C49C5 /* MockCompletionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199E81CB4CB39005C49C5 /* MockCompletionBlock.swift */; };
 		F8B199F51CB4CB39005C49C5 /* MockRouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199E91CB4CB39005C49C5 /* MockRouteSegment.swift */; };
 		F8B199F61CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199EA1CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift */; };
@@ -104,6 +104,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F808DCDC1CB5911E003B6D56 /* LazyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyViewController.swift; sourceTree = "<group>"; };
 		F8B1990F1CB4B577005C49C5 /* IVGAppContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IVGAppContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8B199141CB4B577005C49C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8B199191CB4B577005C49C5 /* IVGAppContainerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IVGAppContainerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,7 +157,6 @@
 		F8B199DB1CB4CB31005C49C5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegment.swift; sourceTree = "<group>"; };
 		F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegmentPresenter.swift; sourceTree = "<group>"; };
-		F8B199DF1CB4CB31005C49C5 /* LazyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyViewController.swift; sourceTree = "<group>"; };
 		F8B199E81CB4CB39005C49C5 /* MockCompletionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCompletionBlock.swift; sourceTree = "<group>"; };
 		F8B199E91CB4CB39005C49C5 /* MockRouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRouteSegment.swift; sourceTree = "<group>"; };
 		F8B199EA1CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRouteSegmentPresenter.swift; sourceTree = "<group>"; };
@@ -350,8 +350,8 @@
 		F8B199791CB4CA67005C49C5 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				F8B1997A1CB4CA67005C49C5 /* app */,
 				F8B1997F1CB4CA67005C49C5 /* IVGContainerApp.h */,
+				F8B1997A1CB4CA67005C49C5 /* app */,
 				F8B199801CB4CA67005C49C5 /* common */,
 				F8B199831CB4CA67005C49C5 /* coordinator */,
 				F8B199851CB4CA67005C49C5 /* model */,
@@ -425,6 +425,7 @@
 		F8B1998B1CB4CA67005C49C5 /* viewController */ = {
 			isa = PBXGroup;
 			children = (
+				F808DCDC1CB5911E003B6D56 /* LazyViewController.swift */,
 				F8B1998C1CB4CA67005C49C5 /* ViewControllerLoader.swift */,
 			);
 			path = viewController;
@@ -544,7 +545,6 @@
 				F8B199D71CB4CB31005C49C5 /* IVGRouter.h */,
 				F8B199D81CB4CB31005C49C5 /* router */,
 				F8B19A0E1CB4CE1A005C49C5 /* presenters */,
-				F8B199DE1CB4CB31005C49C5 /* viewController */,
 			);
 			path = source;
 			sourceTree = "<group>";
@@ -559,14 +559,6 @@
 				F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */,
 			);
 			path = router;
-			sourceTree = "<group>";
-		};
-		F8B199DE1CB4CB31005C49C5 /* viewController */ = {
-			isa = PBXGroup;
-			children = (
-				F8B199DF1CB4CB31005C49C5 /* LazyViewController.swift */,
-			);
-			path = viewController;
 			sourceTree = "<group>";
 		};
 		F8B199E71CB4CB39005C49C5 /* fixtures */ = {
@@ -920,6 +912,7 @@
 				F8B1998F1CB4CA67005C49C5 /* Coordinator.swift in Sources */,
 				F8B1998E1CB4CA67005C49C5 /* ApplicationContainer.swift in Sources */,
 				F8B199951CB4CA67005C49C5 /* AppCoordinator.swift in Sources */,
+				F808DCDD1CB5911E003B6D56 /* LazyViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -976,7 +969,6 @@
 				F8B199E21CB4CB31005C49C5 /* OldRouter.swift in Sources */,
 				F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */,
 				F8B19A171CB52872005C49C5 /* TabRouteSegmentPresenter.swift in Sources */,
-				F8B199E61CB4CB31005C49C5 /* LazyViewController.swift in Sources */,
 				F8B199E11CB4CB31005C49C5 /* Identifier.swift in Sources */,
 				F8B199E41CB4CB31005C49C5 /* RouteSegment.swift in Sources */,
 				F8B19A101CB4CE8A005C49C5 /* RootRouteSegmentPresenter.swift in Sources */,
