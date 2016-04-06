@@ -67,6 +67,7 @@
 		F8B19A171CB52872005C49C5 /* TabRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A161CB52872005C49C5 /* TabRouteSegmentPresenter.swift */; };
 		F8B19A1C1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A1B1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift */; };
 		F8B19A281CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */; };
+		F8B19A2A1CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,6 +175,7 @@
 		F8B19A181CB52A0A005C49C5 /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		F8B19A1B1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
+		F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -630,6 +632,7 @@
 			children = (
 				F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */,
 				F8B19A121CB4D04D005C49C5 /* RootRouteSegmentPresenterSpec.swift */,
+				F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */,
 			);
 			path = presenters;
 			sourceTree = "<group>";
@@ -989,6 +992,7 @@
 				F8B199F51CB4CB39005C49C5 /* MockRouteSegment.swift in Sources */,
 				F8B199FC1CB4CB39005C49C5 /* RouteSegmentSpec.swift in Sources */,
 				F8B199FB1CB4CB39005C49C5 /* RouteSegmentIdentifierSpec.swift in Sources */,
+				F8B19A2A1CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift in Sources */,
 				F8B199F61CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift in Sources */,
 				F8B19A131CB4D04D005C49C5 /* RootRouteSegmentPresenterSpec.swift in Sources */,
 			);

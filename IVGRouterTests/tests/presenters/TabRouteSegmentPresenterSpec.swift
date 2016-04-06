@@ -1,5 +1,5 @@
 //
-//  RootRouteSegmentPresenterSpec.swift
+//  TabRouteSegmentPresenterSpec.swift
 //  IVGAppContainer
 //
 //  Created by Douglas Sjoquist on 4/6/16.
@@ -11,43 +11,39 @@ import Quick
 import Nimble
 import IVGRouter
 
-class RootRouteSegmentPresenterSpec: QuickSpec {
+class TabRouteSegmentPresenterSpec: QuickSpec {
 
     override func spec() {
 
         let mockViewControllerA = MockViewController("A")
         let mockViewControllerB = MockViewController("B")
-        var mockWindow: MockWindow!
         var mockCompletionBlock: MockCompletionBlock!
 
         beforeEach {
-            mockWindow = MockWindow()
             mockCompletionBlock = MockCompletionBlock()
         }
 
         describe("presentViewController") {
 
-            it("should fail when window is nil") {
-                let presenter = RootRouteSegmentPresenter()
+            it("should fail when presentingViewController is nil") {
+                let presenter = TabRouteSegmentPresenter()
                 let result = presenter.presentViewController(mockViewControllerB, from: nil, withWindow: nil, completion: mockCompletionBlock.completion)
                 expect(result).to(beNil())
                 expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
             }
 
-            it("should fail when presentingViewController is not nil") {
-                let presenter = RootRouteSegmentPresenter()
-                let result = presenter.presentViewController(mockViewControllerB, from: mockViewControllerA, withWindow: mockWindow, completion: mockCompletionBlock.completion)
+            it("should fail when presentingViewController is not a UITabBarController") {
+                let presenter = TabRouteSegmentPresenter()
+                let result = presenter.presentViewController(mockViewControllerB, from: mockViewControllerA, withWindow: nil, completion: mockCompletionBlock.completion)
                 expect(result).to(beNil())
                 expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
-                expect(mockWindow.trackerKeyValues).to(beEmpty())
             }
 
-            it("should pass when window is not nil") {
-                let presenter = RootRouteSegmentPresenter()
-                let result = presenter.presentViewController(mockViewControllerB, from: nil, withWindow: mockWindow, completion: mockCompletionBlock.completion)
+            it("should succeed when presentingViewController is a UITabBarController") {
+                let presenter = TabRouteSegmentPresenter()
+                let result = presenter.presentViewController(mockViewControllerB, from: UITabBarController(), withWindow: nil, completion: mockCompletionBlock.completion)
                 expect(result).to(equal(mockViewControllerB))
                 expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["true"]]]))
-                expect(mockWindow.trackerKeyValues).to(equal(["makeKeyAndVisible":[[]],"setRootViewController":[[mockViewControllerB.description]]]))
             }
 
         }

@@ -27,7 +27,8 @@ public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentP
 extension UITabBarController {
 
     func selectViewControllerAppendingIfNeeded(viewController: UIViewController) {
-        if let exists = viewControllers?.contains(viewController) where !exists {
+        let exists = viewControllers?.contains(viewController) ?? false
+        if !exists {
             appendViewController(viewController)
         }
         selectedViewController = viewController
