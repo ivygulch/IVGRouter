@@ -39,6 +39,7 @@ public protocol RouterType {
     var viewControllers:[UIViewController] { get }
     func registerRouteSegment(routeSegment:RouteSegmentType)
     func executeRoute(routeSequence:[Any]) -> Bool
+    func registerDefaultPresenters()
 }
 
 public class Router : RouterType {
@@ -62,6 +63,12 @@ public class Router : RouterType {
 
     public func registerRouteSegment(routeSegment:RouteSegmentType) {
         routeSegments[routeSegment.segmentIdentifier] = routeSegment
+    }
+
+    public func registerDefaultPresenters() {
+        registerPresenter(RootRouteSegmentPresenter())
+        registerPresenter(TabRouteSegmentPresenter())
+        registerPresenter(PushRouteSegmentPresenter())
     }
 
     public func executeRoute(routeSequence:[Any]) -> Bool {

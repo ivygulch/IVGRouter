@@ -26,6 +26,7 @@ class DemoAppCoordinator: DemoAppCoordinatorType {
     }
 
     private func rootRouteSegment() -> RouteSegment {
+        return RouteSegment(segmentIdentifier: Identifier(name: "root"), )
         return RouteSegment(segmentType: DemoAppRouteSegmentTypes.Root, presentationType: .Root) {
             return { return RootViewController() }
         }

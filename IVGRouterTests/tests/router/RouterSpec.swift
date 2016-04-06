@@ -33,6 +33,11 @@ class RouterSpec: QuickSpec {
                 expect(router.routeSegments).to(beEmpty())
             }
 
+            it("should have an empty set of presenters") {
+                let router = Router(window: nil)
+                expect(router.presenters).to(beEmpty())
+            }
+
             it("should have an empty set of viewControllers") {
                 let router = Router(window: nil)
                 expect(router.viewControllers).to(beEmpty())
@@ -42,6 +47,29 @@ class RouterSpec: QuickSpec {
                 let mockWindow = UIWindow()
                 let router = Router(window: mockWindow)
                 expect(router.window).to(equal(mockWindow))
+            }
+
+        }
+
+        describe("registering default presenters") {
+
+            var router: Router!
+
+            beforeEach {
+                router = Router(window: nil)
+                router.registerDefaultPresenters()
+            }
+
+            it("should include RootRouteSegmentPresenter") {
+                expect(router.presenters[Identifier(name: String(RootRouteSegmentPresenter))]).toNot(beNil())
+            }
+
+            it("should include TabRouteSegmentPresenter") {
+                expect(router.presenters[Identifier(name: String(TabRouteSegmentPresenter))]).toNot(beNil())
+            }
+
+            it("should include PushRouteSegmentPresenter") {
+                expect(router.presenters[Identifier(name: String(PushRouteSegmentPresenter))]).toNot(beNil())
             }
 
         }
