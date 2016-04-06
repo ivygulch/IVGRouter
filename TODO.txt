@@ -1,0 +1,4 @@
+Router
+- add error/throws/something when adding presenter or segment with identifer that already exists
+- ? verify that presenter exists when adding segment
+- better error handing/logging

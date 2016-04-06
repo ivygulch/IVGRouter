@@ -34,7 +34,6 @@
 		F8B199C71CB4CB0A005C49C5 /* DemoAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */; };
 		F8B199C81CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BB1CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift */; };
 		F8B199C91CB4CB0A005C49C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */; };
-		F8B199CA1CB4CB0A005C49C5 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F8B199BD1CB4CB0A005C49C5 /* Info.plist */; };
 		F8B199CB1CB4CB0A005C49C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */; };
 		F8B199CC1CB4CB0A005C49C5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BF1CB4CB0A005C49C5 /* MasterViewController.swift */; };
 		F8B199CD1CB4CB0A005C49C5 /* NextScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199C01CB4CB0A005C49C5 /* NextScreenViewController.swift */; };
@@ -48,7 +47,7 @@
 		F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DB1CB4CB31005C49C5 /* Router.swift */; };
 		F8B199E41CB4CB31005C49C5 /* RouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */; };
 		F8B199E51CB4CB31005C49C5 /* RouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */; };
-		F8B199E61CB4CB31005C49C5 /* LazyTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DF1CB4CB31005C49C5 /* LazyTabViewController.swift */; };
+		F8B199E61CB4CB31005C49C5 /* LazyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DF1CB4CB31005C49C5 /* LazyViewController.swift */; };
 		F8B199F41CB4CB39005C49C5 /* MockCompletionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199E81CB4CB39005C49C5 /* MockCompletionBlock.swift */; };
 		F8B199F51CB4CB39005C49C5 /* MockRouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199E91CB4CB39005C49C5 /* MockRouteSegment.swift */; };
 		F8B199F61CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199EA1CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift */; };
@@ -65,6 +64,9 @@
 		F8B19A101CB4CE8A005C49C5 /* RootRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A0F1CB4CE8A005C49C5 /* RootRouteSegmentPresenter.swift */; };
 		F8B19A131CB4D04D005C49C5 /* RootRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A121CB4D04D005C49C5 /* RootRouteSegmentPresenterSpec.swift */; };
 		F8B19A151CB4D660005C49C5 /* MockWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A141CB4D660005C49C5 /* MockWindow.swift */; };
+		F8B19A171CB52872005C49C5 /* TabRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A161CB52872005C49C5 /* TabRouteSegmentPresenter.swift */; };
+		F8B19A1C1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A1B1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift */; };
+		F8B19A281CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,7 +153,7 @@
 		F8B199DB1CB4CB31005C49C5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegment.swift; sourceTree = "<group>"; };
 		F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegmentPresenter.swift; sourceTree = "<group>"; };
-		F8B199DF1CB4CB31005C49C5 /* LazyTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyTabViewController.swift; sourceTree = "<group>"; };
+		F8B199DF1CB4CB31005C49C5 /* LazyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyViewController.swift; sourceTree = "<group>"; };
 		F8B199E81CB4CB39005C49C5 /* MockCompletionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCompletionBlock.swift; sourceTree = "<group>"; };
 		F8B199E91CB4CB39005C49C5 /* MockRouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRouteSegment.swift; sourceTree = "<group>"; };
 		F8B199EA1CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRouteSegmentPresenter.swift; sourceTree = "<group>"; };
@@ -168,6 +170,10 @@
 		F8B19A0F1CB4CE8A005C49C5 /* RootRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F8B19A121CB4D04D005C49C5 /* RootRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
 		F8B19A141CB4D660005C49C5 /* MockWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockWindow.swift; sourceTree = "<group>"; };
+		F8B19A161CB52872005C49C5 /* TabRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabRouteSegmentPresenter.swift; sourceTree = "<group>"; };
+		F8B19A181CB52A0A005C49C5 /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
+		F8B19A1B1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouteSegmentPresenter.swift; sourceTree = "<group>"; };
+		F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +238,7 @@
 		F8B199051CB4B577005C49C5 = {
 			isa = PBXGroup;
 			children = (
+				F8B19A181CB52A0A005C49C5 /* TODO.txt */,
 				F8B199111CB4B577005C49C5 /* IVGAppContainer */,
 				F8B1991D1CB4B577005C49C5 /* IVGAppContainerTests */,
 				F8B1992E1CB4C73F005C49C5 /* IVGAppContainerDemo */,
@@ -551,7 +558,7 @@
 		F8B199DE1CB4CB31005C49C5 /* viewController */ = {
 			isa = PBXGroup;
 			children = (
-				F8B199DF1CB4CB31005C49C5 /* LazyTabViewController.swift */,
+				F8B199DF1CB4CB31005C49C5 /* LazyViewController.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -611,7 +618,9 @@
 		F8B19A0E1CB4CE1A005C49C5 /* presenters */ = {
 			isa = PBXGroup;
 			children = (
+				F8B19A1B1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift */,
 				F8B19A0F1CB4CE8A005C49C5 /* RootRouteSegmentPresenter.swift */,
+				F8B19A161CB52872005C49C5 /* TabRouteSegmentPresenter.swift */,
 			);
 			path = presenters;
 			sourceTree = "<group>";
@@ -619,6 +628,7 @@
 		F8B19A111CB4D032005C49C5 /* presenters */ = {
 			isa = PBXGroup;
 			children = (
+				F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */,
 				F8B19A121CB4D04D005C49C5 /* RootRouteSegmentPresenterSpec.swift */,
 			);
 			path = presenters;
@@ -849,7 +859,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8B199CA1CB4CB0A005C49C5 /* Info.plist in Resources */,
 				F8B199D51CB4CB23005C49C5 /* Main.storyboard in Resources */,
 				F8B199D41CB4CB23005C49C5 /* LaunchScreen.storyboard in Resources */,
 				F8B199CB1CB4CB0A005C49C5 /* Main.storyboard in Resources */,
@@ -956,11 +965,13 @@
 			files = (
 				F8B199E21CB4CB31005C49C5 /* OldRouter.swift in Sources */,
 				F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */,
-				F8B199E61CB4CB31005C49C5 /* LazyTabViewController.swift in Sources */,
+				F8B19A171CB52872005C49C5 /* TabRouteSegmentPresenter.swift in Sources */,
+				F8B199E61CB4CB31005C49C5 /* LazyViewController.swift in Sources */,
 				F8B199E11CB4CB31005C49C5 /* Identifier.swift in Sources */,
 				F8B199E41CB4CB31005C49C5 /* RouteSegment.swift in Sources */,
 				F8B19A101CB4CE8A005C49C5 /* RootRouteSegmentPresenter.swift in Sources */,
 				F8B199E51CB4CB31005C49C5 /* RouteSegmentPresenter.swift in Sources */,
+				F8B19A1C1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -974,6 +985,7 @@
 				F8B19A151CB4D660005C49C5 /* MockWindow.swift in Sources */,
 				F8B199F91CB4CB39005C49C5 /* TrackableTestClass.swift in Sources */,
 				F8B199F41CB4CB39005C49C5 /* MockCompletionBlock.swift in Sources */,
+				F8B19A281CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift in Sources */,
 				F8B199F51CB4CB39005C49C5 /* MockRouteSegment.swift in Sources */,
 				F8B199FC1CB4CB39005C49C5 /* RouteSegmentSpec.swift in Sources */,
 				F8B199FB1CB4CB39005C49C5 /* RouteSegmentIdentifierSpec.swift in Sources */,

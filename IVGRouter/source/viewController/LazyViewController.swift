@@ -1,5 +1,5 @@
 //
-//  LazyTabViewController.swift
+//  LazyViewController.swift
 //  IVGAppContainer
 //
 //  Created by Douglas Sjoquist on 3/29/16.
@@ -8,23 +8,18 @@
 
 import UIKit
 
-class LazyTabViewController : UIViewController {
+public class LazyViewController : UIViewController {
 
-    var loadSegment:((Void) -> (UIViewController?))?
-
-    init(title:String?, image:UIImage?, loadSegment:(Void) -> (UIViewController?)) {
+    public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?, loadSegment:(Void) -> (UIViewController?)) {
         self.loadSegment = loadSegment
-        super.init(nibName: nil, bundle: nil)
-
-        tabBarItem.title = title
-        tabBarItem.image = image
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
-
-    required init?(coder aDecoder: NSCoder) {
+    
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         if let loadSegment = loadSegment, childViewController = loadSegment() {
@@ -36,8 +31,10 @@ class LazyTabViewController : UIViewController {
         }
     }
 
-    lazy var childViewController: UIViewController? = {
+    public lazy var childViewController: UIViewController? = {
         return self.childViewControllers.first
     }()
+
+    private var loadSegment:((Void) -> (UIViewController?))?
 
 }

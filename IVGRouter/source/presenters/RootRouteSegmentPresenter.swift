@@ -8,32 +8,20 @@
 
 import Foundation
 
-public class RootRouteSegmentPresenter : RouteSegmentPresenterType {
+public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
 
-    public convenience init() {
-        self.init(presenterIdentifier: Identifier(name: String(self.dynamicType)))
-    }
-    
-    public init(presenterIdentifier: Identifier) {
-        self.presenterIdentifier = presenterIdentifier
-    }
-    
-    public let presenterIdentifier: Identifier
-
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, withWindow window: UIWindow?, completion: ((Bool) -> Void)) {
-        guard let window = window else {
-            print("Cannot present Root: Router.window is nil")
-            completion(false)
-            return
+    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, withWindow window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController? {
+        guard verify(checkNotNil(window, "Router.window"), completion: completion),
+            let window = window else {
+            return nil
         }
-        if let _ = presentingViewController {
-            print("Cannot present Root: presentingViewController is not nil")
-            completion(false)
-            return
+        guard verify(checkNil(presentingViewController, "presentingViewController"), completion: completion) else {
+            return nil
         }
         window.rootViewController = presentedViewController
         window.makeKeyAndVisible()
         completion(true)
+        return presentedViewController
     }
     
 }
