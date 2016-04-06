@@ -1,0 +1,29 @@
+{
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "95438028B10BBB846574013D29F154A00556A9D1" : 0,
+    "D0725CAC6FF2D66F2C83C2C48DC12106D42DAA64" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "30ACDE14-679E-49AE-93A0-AD3BA413208F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "95438028B10BBB846574013D29F154A00556A9D1" : "IVGAppContainer\/external\/Nimble\/",
+    "D0725CAC6FF2D66F2C83C2C48DC12106D42DAA64" : "IVGAppContainer\/external\/Quick\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "IVGAppContainer",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "IVGAppContainer.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Quick\/Nimble.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "95438028B10BBB846574013D29F154A00556A9D1"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Quick\/Quick.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D0725CAC6FF2D66F2C83C2C48DC12106D42DAA64"
+    }
+  ]
+}

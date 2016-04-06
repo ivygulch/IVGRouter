@@ -1,15 +1,15 @@
 //
-//  IVGAppContainerTests.swift
-//  IVGAppContainerTests
+//  IVGAppContainerDemoTests.swift
+//  IVGAppContainerDemoTests
 //
-//  Created by Douglas Sjoquist on 4/5/16.
+//  Created by Douglas Sjoquist on 4/6/16.
 //  Copyright © 2016 Ivy Gulch LLC. All rights reserved.
 //
 
 import XCTest
-@testable import IVGAppContainer
+@testable import IVGAppContainerDemo
 
-class IVGAppContainerTests: XCTestCase {
+class IVGAppContainerDemoTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

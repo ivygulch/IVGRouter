@@ -7,9 +7,61 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F8B199131CB4B577005C49C5 /* IVGAppContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B199121CB4B577005C49C5 /* IVGAppContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8B1991A1CB4B577005C49C5 /* IVGAppContainer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B1990F1CB4B577005C49C5 /* IVGAppContainer.framework */; };
-		F8B1991F1CB4B577005C49C5 /* IVGAppContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1991E1CB4B577005C49C5 /* IVGAppContainerTests.swift */; };
+		F8B199471CB4C73F005C49C5 /* IVGAppContainerDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199461CB4C73F005C49C5 /* IVGAppContainerDemoTests.swift */; };
+		F8B199521CB4C73F005C49C5 /* IVGAppContainerDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199511CB4C73F005C49C5 /* IVGAppContainerDemoUITests.swift */; };
+		F8B1996C1CB4C98A005C49C5 /* IVGRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B199621CB4C989005C49C5 /* IVGRouter.framework */; };
+		F8B1998E1CB4CA67005C49C5 /* ApplicationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1997B1CB4CA67005C49C5 /* ApplicationContainer.swift */; };
+		F8B1998F1CB4CA67005C49C5 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1997C1CB4CA67005C49C5 /* Coordinator.swift */; };
+		F8B199901CB4CA67005C49C5 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1997D1CB4CA67005C49C5 /* Resource.swift */; };
+		F8B199911CB4CA67005C49C5 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1997E1CB4CA67005C49C5 /* Service.swift */; };
+		F8B199921CB4CA67005C49C5 /* IVGContainerApp.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B1997F1CB4CA67005C49C5 /* IVGContainerApp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8B199931CB4CA67005C49C5 /* Synchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199811CB4CA67005C49C5 /* Synchronizer.swift */; };
+		F8B199941CB4CA67005C49C5 /* TypeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199821CB4CA67005C49C5 /* TypeKey.swift */; };
+		F8B199951CB4CA67005C49C5 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199841CB4CA67005C49C5 /* AppCoordinator.swift */; };
+		F8B199961CB4CA67005C49C5 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199881CB4CA67005C49C5 /* UserDefaultsService.swift */; };
+		F8B199971CB4CA67005C49C5 /* IVGACApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1998A1CB4CA67005C49C5 /* IVGACApplicationDelegate.swift */; };
+		F8B199981CB4CA67005C49C5 /* ViewControllerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1998C1CB4CA67005C49C5 /* ViewControllerLoader.swift */; };
+		F8B199AC1CB4CAF7005C49C5 /* BaseTestCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1999A1CB4CAF7005C49C5 /* BaseTestCoordinator.swift */; };
+		F8B199AD1CB4CAF7005C49C5 /* BaseTestResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1999B1CB4CAF7005C49C5 /* BaseTestResource.swift */; };
+		F8B199AE1CB4CAF7005C49C5 /* BaseTestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1999C1CB4CAF7005C49C5 /* BaseTestService.swift */; };
+		F8B199AF1CB4CAF7005C49C5 /* TrackableTestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1999D1CB4CAF7005C49C5 /* TrackableTestClass.swift */; };
+		F8B199B01CB4CAF7005C49C5 /* ApplicationContainerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199A11CB4CAF7005C49C5 /* ApplicationContainerSpec.swift */; };
+		F8B199B11CB4CAF7005C49C5 /* UserDefaultsServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199A71CB4CAF7005C49C5 /* UserDefaultsServiceSpec.swift */; };
+		F8B199B21CB4CAF7005C49C5 /* IVGACApplicationDelegateSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199A91CB4CAF7005C49C5 /* IVGACApplicationDelegateSpec.swift */; };
+		F8B199C31CB4CB0A005C49C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199B31CB4CB0A005C49C5 /* AppDelegate.swift */; };
+		F8B199C41CB4CB0A005C49C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8B199B41CB4CB0A005C49C5 /* Assets.xcassets */; };
+		F8B199C71CB4CB0A005C49C5 /* DemoAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */; };
+		F8B199C81CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BB1CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift */; };
+		F8B199C91CB4CB0A005C49C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */; };
+		F8B199CA1CB4CB0A005C49C5 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F8B199BD1CB4CB0A005C49C5 /* Info.plist */; };
+		F8B199CB1CB4CB0A005C49C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */; };
+		F8B199CC1CB4CB0A005C49C5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BF1CB4CB0A005C49C5 /* MasterViewController.swift */; };
+		F8B199CD1CB4CB0A005C49C5 /* NextScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199C01CB4CB0A005C49C5 /* NextScreenViewController.swift */; };
+		F8B199CE1CB4CB0A005C49C5 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199C11CB4CB0A005C49C5 /* RootViewController.swift */; };
+		F8B199CF1CB4CB0A005C49C5 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199C21CB4CB0A005C49C5 /* WelcomeViewController.swift */; };
+		F8B199D41CB4CB23005C49C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8B199D01CB4CB23005C49C5 /* LaunchScreen.storyboard */; };
+		F8B199D51CB4CB23005C49C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8B199D21CB4CB23005C49C5 /* Main.storyboard */; };
+		F8B199E01CB4CB31005C49C5 /* IVGRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B199D71CB4CB31005C49C5 /* IVGRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8B199E11CB4CB31005C49C5 /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199D91CB4CB31005C49C5 /* Identifier.swift */; };
+		F8B199E21CB4CB31005C49C5 /* OldRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DA1CB4CB31005C49C5 /* OldRouter.swift */; };
+		F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DB1CB4CB31005C49C5 /* Router.swift */; };
+		F8B199E41CB4CB31005C49C5 /* RouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */; };
+		F8B199E51CB4CB31005C49C5 /* RouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */; };
+		F8B199E61CB4CB31005C49C5 /* LazyTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DF1CB4CB31005C49C5 /* LazyTabViewController.swift */; };
+		F8B199F41CB4CB39005C49C5 /* MockCompletionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199E81CB4CB39005C49C5 /* MockCompletionBlock.swift */; };
+		F8B199F51CB4CB39005C49C5 /* MockRouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199E91CB4CB39005C49C5 /* MockRouteSegment.swift */; };
+		F8B199F61CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199EA1CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift */; };
+		F8B199F71CB4CB39005C49C5 /* MockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199EB1CB4CB39005C49C5 /* MockViewController.swift */; };
+		F8B199F81CB4CB39005C49C5 /* MockViewControllerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199EC1CB4CB39005C49C5 /* MockViewControllerLoader.swift */; };
+		F8B199F91CB4CB39005C49C5 /* TrackableTestClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199ED1CB4CB39005C49C5 /* TrackableTestClass.swift */; };
+		F8B199FA1CB4CB39005C49C5 /* RouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199F01CB4CB39005C49C5 /* RouterSpec.swift */; };
+		F8B199FB1CB4CB39005C49C5 /* RouteSegmentIdentifierSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199F11CB4CB39005C49C5 /* RouteSegmentIdentifierSpec.swift */; };
+		F8B199FC1CB4CB39005C49C5 /* RouteSegmentSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199F21CB4CB39005C49C5 /* RouteSegmentSpec.swift */; };
+		F8B19A071CB4CBFA005C49C5 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B19A051CB4CBFA005C49C5 /* Nimble.framework */; };
+		F8B19A081CB4CBFA005C49C5 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B19A061CB4CBFA005C49C5 /* Quick.framework */; };
+		F8B19A0B1CB4CC0D005C49C5 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B19A091CB4CC0D005C49C5 /* Nimble.framework */; };
+		F8B19A0C1CB4CC0D005C49C5 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8B19A0A1CB4CC0D005C49C5 /* Quick.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,15 +72,96 @@
 			remoteGlobalIDString = F8B1990E1CB4B577005C49C5;
 			remoteInfo = IVGAppContainer;
 		};
+		F8B199431CB4C73F005C49C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8B199061CB4B577005C49C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F8B1992C1CB4C73F005C49C5;
+			remoteInfo = IVGAppContainerDemo;
+		};
+		F8B1994E1CB4C73F005C49C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8B199061CB4B577005C49C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F8B1992C1CB4C73F005C49C5;
+			remoteInfo = IVGAppContainerDemo;
+		};
+		F8B1996D1CB4C98A005C49C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8B199061CB4B577005C49C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F8B199611CB4C989005C49C5;
+			remoteInfo = IVGRouter;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		F8B1990F1CB4B577005C49C5 /* IVGAppContainer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IVGAppContainer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8B199121CB4B577005C49C5 /* IVGAppContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IVGAppContainer.h; sourceTree = "<group>"; };
 		F8B199141CB4B577005C49C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8B199191CB4B577005C49C5 /* IVGAppContainerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IVGAppContainerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8B1991E1CB4B577005C49C5 /* IVGAppContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVGAppContainerTests.swift; sourceTree = "<group>"; };
 		F8B199201CB4B577005C49C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8B1992D1CB4C73F005C49C5 /* IVGAppContainerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IVGAppContainerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B199421CB4C73F005C49C5 /* IVGAppContainerDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IVGAppContainerDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B199461CB4C73F005C49C5 /* IVGAppContainerDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVGAppContainerDemoTests.swift; sourceTree = "<group>"; };
+		F8B199481CB4C73F005C49C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8B1994D1CB4C73F005C49C5 /* IVGAppContainerDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IVGAppContainerDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B199511CB4C73F005C49C5 /* IVGAppContainerDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IVGAppContainerDemoUITests.swift; sourceTree = "<group>"; };
+		F8B199531CB4C73F005C49C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8B199621CB4C989005C49C5 /* IVGRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IVGRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B199661CB4C989005C49C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8B1996B1CB4C98A005C49C5 /* IVGRouterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IVGRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8B199721CB4C98A005C49C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8B1997B1CB4CA67005C49C5 /* ApplicationContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationContainer.swift; sourceTree = "<group>"; };
+		F8B1997C1CB4CA67005C49C5 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		F8B1997D1CB4CA67005C49C5 /* Resource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resource.swift; sourceTree = "<group>"; };
+		F8B1997E1CB4CA67005C49C5 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		F8B1997F1CB4CA67005C49C5 /* IVGContainerApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVGContainerApp.h; sourceTree = "<group>"; };
+		F8B199811CB4CA67005C49C5 /* Synchronizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronizer.swift; sourceTree = "<group>"; };
+		F8B199821CB4CA67005C49C5 /* TypeKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeKey.swift; sourceTree = "<group>"; };
+		F8B199841CB4CA67005C49C5 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		F8B199881CB4CA67005C49C5 /* UserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
+		F8B1998A1CB4CA67005C49C5 /* IVGACApplicationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVGACApplicationDelegate.swift; sourceTree = "<group>"; };
+		F8B1998C1CB4CA67005C49C5 /* ViewControllerLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerLoader.swift; sourceTree = "<group>"; };
+		F8B1999A1CB4CAF7005C49C5 /* BaseTestCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTestCoordinator.swift; sourceTree = "<group>"; };
+		F8B1999B1CB4CAF7005C49C5 /* BaseTestResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTestResource.swift; sourceTree = "<group>"; };
+		F8B1999C1CB4CAF7005C49C5 /* BaseTestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTestService.swift; sourceTree = "<group>"; };
+		F8B1999D1CB4CAF7005C49C5 /* TrackableTestClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackableTestClass.swift; sourceTree = "<group>"; };
+		F8B199A11CB4CAF7005C49C5 /* ApplicationContainerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationContainerSpec.swift; sourceTree = "<group>"; };
+		F8B199A71CB4CAF7005C49C5 /* UserDefaultsServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsServiceSpec.swift; sourceTree = "<group>"; };
+		F8B199A91CB4CAF7005C49C5 /* IVGACApplicationDelegateSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVGACApplicationDelegateSpec.swift; sourceTree = "<group>"; };
+		F8B199B31CB4CB0A005C49C5 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F8B199B41CB4CB0A005C49C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppCoordinator.swift; sourceTree = "<group>"; };
+		F8B199BB1CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppRouteSegmentTypes.swift; sourceTree = "<group>"; };
+		F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		F8B199BD1CB4CB0A005C49C5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		F8B199BF1CB4CB0A005C49C5 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		F8B199C01CB4CB0A005C49C5 /* NextScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextScreenViewController.swift; sourceTree = "<group>"; };
+		F8B199C11CB4CB0A005C49C5 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		F8B199C21CB4CB0A005C49C5 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		F8B199D11CB4CB23005C49C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F8B199D31CB4CB23005C49C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F8B199D71CB4CB31005C49C5 /* IVGRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVGRouter.h; sourceTree = "<group>"; };
+		F8B199D91CB4CB31005C49C5 /* Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
+		F8B199DA1CB4CB31005C49C5 /* OldRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldRouter.swift; sourceTree = "<group>"; };
+		F8B199DB1CB4CB31005C49C5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegment.swift; sourceTree = "<group>"; };
+		F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegmentPresenter.swift; sourceTree = "<group>"; };
+		F8B199DF1CB4CB31005C49C5 /* LazyTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyTabViewController.swift; sourceTree = "<group>"; };
+		F8B199E81CB4CB39005C49C5 /* MockCompletionBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCompletionBlock.swift; sourceTree = "<group>"; };
+		F8B199E91CB4CB39005C49C5 /* MockRouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRouteSegment.swift; sourceTree = "<group>"; };
+		F8B199EA1CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRouteSegmentPresenter.swift; sourceTree = "<group>"; };
+		F8B199EB1CB4CB39005C49C5 /* MockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockViewController.swift; sourceTree = "<group>"; };
+		F8B199EC1CB4CB39005C49C5 /* MockViewControllerLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockViewControllerLoader.swift; sourceTree = "<group>"; };
+		F8B199ED1CB4CB39005C49C5 /* TrackableTestClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackableTestClass.swift; sourceTree = "<group>"; };
+		F8B199F01CB4CB39005C49C5 /* RouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterSpec.swift; sourceTree = "<group>"; };
+		F8B199F11CB4CB39005C49C5 /* RouteSegmentIdentifierSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegmentIdentifierSpec.swift; sourceTree = "<group>"; };
+		F8B199F21CB4CB39005C49C5 /* RouteSegmentSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegmentSpec.swift; sourceTree = "<group>"; };
+		F8B19A051CB4CBFA005C49C5 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "external/Nimble/build/Debug-iphoneos/Nimble.framework"; sourceTree = "<group>"; };
+		F8B19A061CB4CBFA005C49C5 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "external/Quick/build/Debug-iphoneos/Quick.framework"; sourceTree = "<group>"; };
+		F8B19A091CB4CC0D005C49C5 /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "external/Nimble/build/Debug-iphoneos/Nimble.framework"; sourceTree = "<group>"; };
+		F8B19A0A1CB4CC0D005C49C5 /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "external/Quick/build/Debug-iphoneos/Quick.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,7 +176,47 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8B19A0B1CB4CC0D005C49C5 /* Nimble.framework in Frameworks */,
+				F8B19A0C1CB4CC0D005C49C5 /* Quick.framework in Frameworks */,
 				F8B1991A1CB4B577005C49C5 /* IVGAppContainer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B1992A1CB4C73F005C49C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B1993F1CB4C73F005C49C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B1994A1CB4C73F005C49C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B1995E1CB4C989005C49C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B199681CB4C98A005C49C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B19A071CB4CBFA005C49C5 /* Nimble.framework in Frameworks */,
+				F8B19A081CB4CBFA005C49C5 /* Quick.framework in Frameworks */,
+				F8B1996C1CB4C98A005C49C5 /* IVGRouter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +228,12 @@
 			children = (
 				F8B199111CB4B577005C49C5 /* IVGAppContainer */,
 				F8B1991D1CB4B577005C49C5 /* IVGAppContainerTests */,
+				F8B1992E1CB4C73F005C49C5 /* IVGAppContainerDemo */,
+				F8B199451CB4C73F005C49C5 /* IVGAppContainerDemoTests */,
+				F8B199501CB4C73F005C49C5 /* IVGAppContainerDemoUITests */,
+				F8B199631CB4C989005C49C5 /* IVGRouter */,
+				F8B1996F1CB4C98A005C49C5 /* IVGRouterTests */,
+				F8B19A0D1CB4CC1A005C49C5 /* Frameworks */,
 				F8B199101CB4B577005C49C5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,6 +243,11 @@
 			children = (
 				F8B1990F1CB4B577005C49C5 /* IVGAppContainer.framework */,
 				F8B199191CB4B577005C49C5 /* IVGAppContainerTests.xctest */,
+				F8B1992D1CB4C73F005C49C5 /* IVGAppContainerDemo.app */,
+				F8B199421CB4C73F005C49C5 /* IVGAppContainerDemoTests.xctest */,
+				F8B1994D1CB4C73F005C49C5 /* IVGAppContainerDemoUITests.xctest */,
+				F8B199621CB4C989005C49C5 /* IVGRouter.framework */,
+				F8B1996B1CB4C98A005C49C5 /* IVGRouterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -71,7 +255,7 @@
 		F8B199111CB4B577005C49C5 /* IVGAppContainer */ = {
 			isa = PBXGroup;
 			children = (
-				F8B199121CB4B577005C49C5 /* IVGAppContainer.h */,
+				F8B199791CB4CA67005C49C5 /* source */,
 				F8B199141CB4B577005C49C5 /* Info.plist */,
 			);
 			path = IVGAppContainer;
@@ -80,10 +264,339 @@
 		F8B1991D1CB4B577005C49C5 /* IVGAppContainerTests */ = {
 			isa = PBXGroup;
 			children = (
-				F8B1991E1CB4B577005C49C5 /* IVGAppContainerTests.swift */,
+				F8B199991CB4CAF7005C49C5 /* fixtures */,
+				F8B1999E1CB4CAF7005C49C5 /* tests */,
 				F8B199201CB4B577005C49C5 /* Info.plist */,
 			);
 			path = IVGAppContainerTests;
+			sourceTree = "<group>";
+		};
+		F8B1992E1CB4C73F005C49C5 /* IVGAppContainerDemo */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199D01CB4CB23005C49C5 /* LaunchScreen.storyboard */,
+				F8B199D21CB4CB23005C49C5 /* Main.storyboard */,
+				F8B199B31CB4CB0A005C49C5 /* AppDelegate.swift */,
+				F8B199B41CB4CB0A005C49C5 /* Assets.xcassets */,
+				F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */,
+				F8B199BB1CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift */,
+				F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */,
+				F8B199BD1CB4CB0A005C49C5 /* Info.plist */,
+				F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */,
+				F8B199BF1CB4CB0A005C49C5 /* MasterViewController.swift */,
+				F8B199C01CB4CB0A005C49C5 /* NextScreenViewController.swift */,
+				F8B199C11CB4CB0A005C49C5 /* RootViewController.swift */,
+				F8B199C21CB4CB0A005C49C5 /* WelcomeViewController.swift */,
+			);
+			path = IVGAppContainerDemo;
+			sourceTree = "<group>";
+		};
+		F8B199451CB4C73F005C49C5 /* IVGAppContainerDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199461CB4C73F005C49C5 /* IVGAppContainerDemoTests.swift */,
+				F8B199481CB4C73F005C49C5 /* Info.plist */,
+			);
+			path = IVGAppContainerDemoTests;
+			sourceTree = "<group>";
+		};
+		F8B199501CB4C73F005C49C5 /* IVGAppContainerDemoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199511CB4C73F005C49C5 /* IVGAppContainerDemoUITests.swift */,
+				F8B199531CB4C73F005C49C5 /* Info.plist */,
+			);
+			path = IVGAppContainerDemoUITests;
+			sourceTree = "<group>";
+		};
+		F8B199631CB4C989005C49C5 /* IVGRouter */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199D61CB4CB31005C49C5 /* source */,
+				F8B199661CB4C989005C49C5 /* Info.plist */,
+			);
+			path = IVGRouter;
+			sourceTree = "<group>";
+		};
+		F8B1996F1CB4C98A005C49C5 /* IVGRouterTests */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199E71CB4CB39005C49C5 /* fixtures */,
+				F8B199EE1CB4CB39005C49C5 /* tests */,
+				F8B199721CB4C98A005C49C5 /* Info.plist */,
+			);
+			path = IVGRouterTests;
+			sourceTree = "<group>";
+		};
+		F8B199791CB4CA67005C49C5 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				F8B1997A1CB4CA67005C49C5 /* app */,
+				F8B1997F1CB4CA67005C49C5 /* IVGContainerApp.h */,
+				F8B199801CB4CA67005C49C5 /* common */,
+				F8B199831CB4CA67005C49C5 /* coordinator */,
+				F8B199851CB4CA67005C49C5 /* model */,
+				F8B199861CB4CA67005C49C5 /* resource */,
+				F8B199871CB4CA67005C49C5 /* service */,
+				F8B199891CB4CA67005C49C5 /* template */,
+				F8B1998B1CB4CA67005C49C5 /* viewController */,
+				F8B1998D1CB4CA67005C49C5 /* viewModel */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		F8B1997A1CB4CA67005C49C5 /* app */ = {
+			isa = PBXGroup;
+			children = (
+				F8B1997B1CB4CA67005C49C5 /* ApplicationContainer.swift */,
+				F8B1997C1CB4CA67005C49C5 /* Coordinator.swift */,
+				F8B1997D1CB4CA67005C49C5 /* Resource.swift */,
+				F8B1997E1CB4CA67005C49C5 /* Service.swift */,
+			);
+			path = app;
+			sourceTree = "<group>";
+		};
+		F8B199801CB4CA67005C49C5 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199811CB4CA67005C49C5 /* Synchronizer.swift */,
+				F8B199821CB4CA67005C49C5 /* TypeKey.swift */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		F8B199831CB4CA67005C49C5 /* coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199841CB4CA67005C49C5 /* AppCoordinator.swift */,
+			);
+			path = coordinator;
+			sourceTree = "<group>";
+		};
+		F8B199851CB4CA67005C49C5 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		F8B199861CB4CA67005C49C5 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
+		F8B199871CB4CA67005C49C5 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199881CB4CA67005C49C5 /* UserDefaultsService.swift */,
+			);
+			path = service;
+			sourceTree = "<group>";
+		};
+		F8B199891CB4CA67005C49C5 /* template */ = {
+			isa = PBXGroup;
+			children = (
+				F8B1998A1CB4CA67005C49C5 /* IVGACApplicationDelegate.swift */,
+			);
+			path = template;
+			sourceTree = "<group>";
+		};
+		F8B1998B1CB4CA67005C49C5 /* viewController */ = {
+			isa = PBXGroup;
+			children = (
+				F8B1998C1CB4CA67005C49C5 /* ViewControllerLoader.swift */,
+			);
+			path = viewController;
+			sourceTree = "<group>";
+		};
+		F8B1998D1CB4CA67005C49C5 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
+		F8B199991CB4CAF7005C49C5 /* fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				F8B1999A1CB4CAF7005C49C5 /* BaseTestCoordinator.swift */,
+				F8B1999B1CB4CAF7005C49C5 /* BaseTestResource.swift */,
+				F8B1999C1CB4CAF7005C49C5 /* BaseTestService.swift */,
+				F8B1999D1CB4CAF7005C49C5 /* TrackableTestClass.swift */,
+			);
+			path = fixtures;
+			sourceTree = "<group>";
+		};
+		F8B1999E1CB4CAF7005C49C5 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				F8B1999F1CB4CAF7005C49C5 /* app */,
+				F8B199A01CB4CAF7005C49C5 /* common */,
+				F8B199A21CB4CAF7005C49C5 /* coordinator */,
+				F8B199A31CB4CAF7005C49C5 /* model */,
+				F8B199A41CB4CAF7005C49C5 /* resource */,
+				F8B199A51CB4CAF7005C49C5 /* router */,
+				F8B199A61CB4CAF7005C49C5 /* service */,
+				F8B199A81CB4CAF7005C49C5 /* template */,
+				F8B199AA1CB4CAF7005C49C5 /* viewController */,
+				F8B199AB1CB4CAF7005C49C5 /* viewModel */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
+		F8B1999F1CB4CAF7005C49C5 /* app */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = app;
+			sourceTree = "<group>";
+		};
+		F8B199A01CB4CAF7005C49C5 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199A11CB4CAF7005C49C5 /* ApplicationContainerSpec.swift */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		F8B199A21CB4CAF7005C49C5 /* coordinator */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = coordinator;
+			sourceTree = "<group>";
+		};
+		F8B199A31CB4CAF7005C49C5 /* model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		F8B199A41CB4CAF7005C49C5 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
+		F8B199A51CB4CAF7005C49C5 /* router */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = router;
+			sourceTree = "<group>";
+		};
+		F8B199A61CB4CAF7005C49C5 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199A71CB4CAF7005C49C5 /* UserDefaultsServiceSpec.swift */,
+			);
+			path = service;
+			sourceTree = "<group>";
+		};
+		F8B199A81CB4CAF7005C49C5 /* template */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199A91CB4CAF7005C49C5 /* IVGACApplicationDelegateSpec.swift */,
+			);
+			path = template;
+			sourceTree = "<group>";
+		};
+		F8B199AA1CB4CAF7005C49C5 /* viewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewController;
+			sourceTree = "<group>";
+		};
+		F8B199AB1CB4CAF7005C49C5 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
+		F8B199D61CB4CB31005C49C5 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199D71CB4CB31005C49C5 /* IVGRouter.h */,
+				F8B199D81CB4CB31005C49C5 /* router */,
+				F8B199DE1CB4CB31005C49C5 /* viewController */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		F8B199D81CB4CB31005C49C5 /* router */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199D91CB4CB31005C49C5 /* Identifier.swift */,
+				F8B199DA1CB4CB31005C49C5 /* OldRouter.swift */,
+				F8B199DB1CB4CB31005C49C5 /* Router.swift */,
+				F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */,
+				F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */,
+			);
+			path = router;
+			sourceTree = "<group>";
+		};
+		F8B199DE1CB4CB31005C49C5 /* viewController */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199DF1CB4CB31005C49C5 /* LazyTabViewController.swift */,
+			);
+			path = viewController;
+			sourceTree = "<group>";
+		};
+		F8B199E71CB4CB39005C49C5 /* fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199E81CB4CB39005C49C5 /* MockCompletionBlock.swift */,
+				F8B199E91CB4CB39005C49C5 /* MockRouteSegment.swift */,
+				F8B199EA1CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift */,
+				F8B199EB1CB4CB39005C49C5 /* MockViewController.swift */,
+				F8B199EC1CB4CB39005C49C5 /* MockViewControllerLoader.swift */,
+				F8B199ED1CB4CB39005C49C5 /* TrackableTestClass.swift */,
+			);
+			path = fixtures;
+			sourceTree = "<group>";
+		};
+		F8B199EE1CB4CB39005C49C5 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199EF1CB4CB39005C49C5 /* router */,
+				F8B199F31CB4CB39005C49C5 /* viewController */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
+		F8B199EF1CB4CB39005C49C5 /* router */ = {
+			isa = PBXGroup;
+			children = (
+				F8B199F01CB4CB39005C49C5 /* RouterSpec.swift */,
+				F8B199F11CB4CB39005C49C5 /* RouteSegmentIdentifierSpec.swift */,
+				F8B199F21CB4CB39005C49C5 /* RouteSegmentSpec.swift */,
+			);
+			path = router;
+			sourceTree = "<group>";
+		};
+		F8B199F31CB4CB39005C49C5 /* viewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewController;
+			sourceTree = "<group>";
+		};
+		F8B19A0D1CB4CC1A005C49C5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F8B19A091CB4CC0D005C49C5 /* Nimble.framework */,
+				F8B19A0A1CB4CC0D005C49C5 /* Quick.framework */,
+				F8B19A051CB4CBFA005C49C5 /* Nimble.framework */,
+				F8B19A061CB4CBFA005C49C5 /* Quick.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -93,7 +606,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8B199131CB4B577005C49C5 /* IVGAppContainer.h in Headers */,
+				F8B199921CB4CA67005C49C5 /* IVGContainerApp.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B1995F1CB4C989005C49C5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B199E01CB4CB31005C49C5 /* IVGRouter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +657,95 @@
 			productReference = F8B199191CB4B577005C49C5 /* IVGAppContainerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F8B1992C1CB4C73F005C49C5 /* IVGAppContainerDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8B199541CB4C73F005C49C5 /* Build configuration list for PBXNativeTarget "IVGAppContainerDemo" */;
+			buildPhases = (
+				F8B199291CB4C73F005C49C5 /* Sources */,
+				F8B1992A1CB4C73F005C49C5 /* Frameworks */,
+				F8B1992B1CB4C73F005C49C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IVGAppContainerDemo;
+			productName = IVGAppContainerDemo;
+			productReference = F8B1992D1CB4C73F005C49C5 /* IVGAppContainerDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F8B199411CB4C73F005C49C5 /* IVGAppContainerDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8B199571CB4C73F005C49C5 /* Build configuration list for PBXNativeTarget "IVGAppContainerDemoTests" */;
+			buildPhases = (
+				F8B1993E1CB4C73F005C49C5 /* Sources */,
+				F8B1993F1CB4C73F005C49C5 /* Frameworks */,
+				F8B199401CB4C73F005C49C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F8B199441CB4C73F005C49C5 /* PBXTargetDependency */,
+			);
+			name = IVGAppContainerDemoTests;
+			productName = IVGAppContainerDemoTests;
+			productReference = F8B199421CB4C73F005C49C5 /* IVGAppContainerDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F8B1994C1CB4C73F005C49C5 /* IVGAppContainerDemoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8B1995A1CB4C73F005C49C5 /* Build configuration list for PBXNativeTarget "IVGAppContainerDemoUITests" */;
+			buildPhases = (
+				F8B199491CB4C73F005C49C5 /* Sources */,
+				F8B1994A1CB4C73F005C49C5 /* Frameworks */,
+				F8B1994B1CB4C73F005C49C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F8B1994F1CB4C73F005C49C5 /* PBXTargetDependency */,
+			);
+			name = IVGAppContainerDemoUITests;
+			productName = IVGAppContainerDemoUITests;
+			productReference = F8B1994D1CB4C73F005C49C5 /* IVGAppContainerDemoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		F8B199611CB4C989005C49C5 /* IVGRouter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8B199771CB4C98A005C49C5 /* Build configuration list for PBXNativeTarget "IVGRouter" */;
+			buildPhases = (
+				F8B1995D1CB4C989005C49C5 /* Sources */,
+				F8B1995E1CB4C989005C49C5 /* Frameworks */,
+				F8B1995F1CB4C989005C49C5 /* Headers */,
+				F8B199601CB4C989005C49C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IVGRouter;
+			productName = IVGRouter;
+			productReference = F8B199621CB4C989005C49C5 /* IVGRouter.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F8B1996A1CB4C98A005C49C5 /* IVGRouterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F8B199781CB4C98A005C49C5 /* Build configuration list for PBXNativeTarget "IVGRouterTests" */;
+			buildPhases = (
+				F8B199671CB4C98A005C49C5 /* Sources */,
+				F8B199681CB4C98A005C49C5 /* Frameworks */,
+				F8B199691CB4C98A005C49C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F8B1996E1CB4C98A005C49C5 /* PBXTargetDependency */,
+			);
+			name = IVGRouterTests;
+			productName = IVGRouterTests;
+			productReference = F8B1996B1CB4C98A005C49C5 /* IVGRouterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -152,6 +762,23 @@
 					F8B199181CB4B577005C49C5 = {
 						CreatedOnToolsVersion = 7.3;
 					};
+					F8B1992C1CB4C73F005C49C5 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					F8B199411CB4C73F005C49C5 = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = F8B1992C1CB4C73F005C49C5;
+					};
+					F8B1994C1CB4C73F005C49C5 = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = F8B1992C1CB4C73F005C49C5;
+					};
+					F8B199611CB4C989005C49C5 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					F8B1996A1CB4C98A005C49C5 = {
+						CreatedOnToolsVersion = 7.3;
+					};
 				};
 			};
 			buildConfigurationList = F8B199091CB4B577005C49C5 /* Build configuration list for PBXProject "IVGAppContainer" */;
@@ -160,6 +787,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = F8B199051CB4B577005C49C5;
 			productRefGroup = F8B199101CB4B577005C49C5 /* Products */;
@@ -168,6 +796,11 @@
 			targets = (
 				F8B1990E1CB4B577005C49C5 /* IVGAppContainer */,
 				F8B199181CB4B577005C49C5 /* IVGAppContainerTests */,
+				F8B1992C1CB4C73F005C49C5 /* IVGAppContainerDemo */,
+				F8B199411CB4C73F005C49C5 /* IVGAppContainerDemoTests */,
+				F8B1994C1CB4C73F005C49C5 /* IVGAppContainerDemoUITests */,
+				F8B199611CB4C989005C49C5 /* IVGRouter */,
+				F8B1996A1CB4C98A005C49C5 /* IVGRouterTests */,
 			);
 		};
 /* End PBXProject section */
@@ -187,6 +820,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F8B1992B1CB4C73F005C49C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B199CA1CB4CB0A005C49C5 /* Info.plist in Resources */,
+				F8B199D51CB4CB23005C49C5 /* Main.storyboard in Resources */,
+				F8B199D41CB4CB23005C49C5 /* LaunchScreen.storyboard in Resources */,
+				F8B199CB1CB4CB0A005C49C5 /* Main.storyboard in Resources */,
+				F8B199C41CB4CB0A005C49C5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B199401CB4C73F005C49C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B1994B1CB4C73F005C49C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B199601CB4C989005C49C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B199691CB4C98A005C49C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -194,6 +867,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8B199971CB4CA67005C49C5 /* IVGACApplicationDelegate.swift in Sources */,
+				F8B199901CB4CA67005C49C5 /* Resource.swift in Sources */,
+				F8B199931CB4CA67005C49C5 /* Synchronizer.swift in Sources */,
+				F8B199911CB4CA67005C49C5 /* Service.swift in Sources */,
+				F8B199941CB4CA67005C49C5 /* TypeKey.swift in Sources */,
+				F8B199981CB4CA67005C49C5 /* ViewControllerLoader.swift in Sources */,
+				F8B199961CB4CA67005C49C5 /* UserDefaultsService.swift in Sources */,
+				F8B1998F1CB4CA67005C49C5 /* Coordinator.swift in Sources */,
+				F8B1998E1CB4CA67005C49C5 /* ApplicationContainer.swift in Sources */,
+				F8B199951CB4CA67005C49C5 /* AppCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,7 +884,73 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8B1991F1CB4B577005C49C5 /* IVGAppContainerTests.swift in Sources */,
+				F8B199AD1CB4CAF7005C49C5 /* BaseTestResource.swift in Sources */,
+				F8B199AC1CB4CAF7005C49C5 /* BaseTestCoordinator.swift in Sources */,
+				F8B199B21CB4CAF7005C49C5 /* IVGACApplicationDelegateSpec.swift in Sources */,
+				F8B199AF1CB4CAF7005C49C5 /* TrackableTestClass.swift in Sources */,
+				F8B199AE1CB4CAF7005C49C5 /* BaseTestService.swift in Sources */,
+				F8B199B01CB4CAF7005C49C5 /* ApplicationContainerSpec.swift in Sources */,
+				F8B199B11CB4CAF7005C49C5 /* UserDefaultsServiceSpec.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B199291CB4C73F005C49C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B199CC1CB4CB0A005C49C5 /* MasterViewController.swift in Sources */,
+				F8B199CF1CB4CB0A005C49C5 /* WelcomeViewController.swift in Sources */,
+				F8B199C81CB4CB0A005C49C5 /* DemoAppRouteSegmentTypes.swift in Sources */,
+				F8B199C31CB4CB0A005C49C5 /* AppDelegate.swift in Sources */,
+				F8B199CE1CB4CB0A005C49C5 /* RootViewController.swift in Sources */,
+				F8B199CD1CB4CB0A005C49C5 /* NextScreenViewController.swift in Sources */,
+				F8B199C71CB4CB0A005C49C5 /* DemoAppCoordinator.swift in Sources */,
+				F8B199C91CB4CB0A005C49C5 /* DetailViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B1993E1CB4C73F005C49C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B199471CB4C73F005C49C5 /* IVGAppContainerDemoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B199491CB4C73F005C49C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B199521CB4C73F005C49C5 /* IVGAppContainerDemoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B1995D1CB4C989005C49C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B199E21CB4CB31005C49C5 /* OldRouter.swift in Sources */,
+				F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */,
+				F8B199E61CB4CB31005C49C5 /* LazyTabViewController.swift in Sources */,
+				F8B199E11CB4CB31005C49C5 /* Identifier.swift in Sources */,
+				F8B199E41CB4CB31005C49C5 /* RouteSegment.swift in Sources */,
+				F8B199E51CB4CB31005C49C5 /* RouteSegmentPresenter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8B199671CB4C98A005C49C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8B199F71CB4CB39005C49C5 /* MockViewController.swift in Sources */,
+				F8B199FA1CB4CB39005C49C5 /* RouterSpec.swift in Sources */,
+				F8B199F81CB4CB39005C49C5 /* MockViewControllerLoader.swift in Sources */,
+				F8B199F91CB4CB39005C49C5 /* TrackableTestClass.swift in Sources */,
+				F8B199F41CB4CB39005C49C5 /* MockCompletionBlock.swift in Sources */,
+				F8B199F51CB4CB39005C49C5 /* MockRouteSegment.swift in Sources */,
+				F8B199FC1CB4CB39005C49C5 /* RouteSegmentSpec.swift in Sources */,
+				F8B199FB1CB4CB39005C49C5 /* RouteSegmentIdentifierSpec.swift in Sources */,
+				F8B199F61CB4CB39005C49C5 /* MockRouteSegmentPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +962,41 @@
 			target = F8B1990E1CB4B577005C49C5 /* IVGAppContainer */;
 			targetProxy = F8B1991B1CB4B577005C49C5 /* PBXContainerItemProxy */;
 		};
+		F8B199441CB4C73F005C49C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F8B1992C1CB4C73F005C49C5 /* IVGAppContainerDemo */;
+			targetProxy = F8B199431CB4C73F005C49C5 /* PBXContainerItemProxy */;
+		};
+		F8B1994F1CB4C73F005C49C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F8B1992C1CB4C73F005C49C5 /* IVGAppContainerDemo */;
+			targetProxy = F8B1994E1CB4C73F005C49C5 /* PBXContainerItemProxy */;
+		};
+		F8B1996E1CB4C98A005C49C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F8B199611CB4C989005C49C5 /* IVGRouter */;
+			targetProxy = F8B1996D1CB4C98A005C49C5 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F8B199D01CB4CB23005C49C5 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F8B199D11CB4CB23005C49C5 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F8B199D21CB4CB23005C49C5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F8B199D31CB4CB23005C49C5 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F8B199211CB4B577005C49C5 /* Debug */ = {
@@ -254,7 +1037,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -297,7 +1080,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -359,6 +1142,129 @@
 			};
 			name = Release;
 		};
+		F8B199551CB4C73F005C49C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = IVGAppContainerDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGAppContainerDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F8B199561CB4C73F005C49C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				INFOPLIST_FILE = IVGAppContainerDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGAppContainerDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F8B199581CB4C73F005C49C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = IVGAppContainerDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGAppContainerDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IVGAppContainerDemo.app/IVGAppContainerDemo";
+			};
+			name = Debug;
+		};
+		F8B199591CB4C73F005C49C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = IVGAppContainerDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGAppContainerDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IVGAppContainerDemo.app/IVGAppContainerDemo";
+			};
+			name = Release;
+		};
+		F8B1995B1CB4C73F005C49C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = IVGAppContainerDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGAppContainerDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = IVGAppContainerDemo;
+			};
+			name = Debug;
+		};
+		F8B1995C1CB4C73F005C49C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = IVGAppContainerDemoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGAppContainerDemoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = IVGAppContainerDemo;
+			};
+			name = Release;
+		};
+		F8B199731CB4C98A005C49C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = IVGRouter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F8B199741CB4C98A005C49C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = IVGRouter/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouter;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		F8B199751CB4C98A005C49C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = IVGRouterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F8B199761CB4C98A005C49C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = IVGRouterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -378,12 +1284,57 @@
 				F8B199251CB4B577005C49C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F8B199261CB4B577005C49C5 /* Build configuration list for PBXNativeTarget "IVGAppContainerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F8B199271CB4B577005C49C5 /* Debug */,
 				F8B199281CB4B577005C49C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8B199541CB4C73F005C49C5 /* Build configuration list for PBXNativeTarget "IVGAppContainerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B199551CB4C73F005C49C5 /* Debug */,
+				F8B199561CB4C73F005C49C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8B199571CB4C73F005C49C5 /* Build configuration list for PBXNativeTarget "IVGAppContainerDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B199581CB4C73F005C49C5 /* Debug */,
+				F8B199591CB4C73F005C49C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8B1995A1CB4C73F005C49C5 /* Build configuration list for PBXNativeTarget "IVGAppContainerDemoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B1995B1CB4C73F005C49C5 /* Debug */,
+				F8B1995C1CB4C73F005C49C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F8B199771CB4C98A005C49C5 /* Build configuration list for PBXNativeTarget "IVGRouter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B199731CB4C98A005C49C5 /* Debug */,
+				F8B199741CB4C98A005C49C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F8B199781CB4C98A005C49C5 /* Build configuration list for PBXNativeTarget "IVGRouterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8B199751CB4C98A005C49C5 /* Debug */,
+				F8B199761CB4C98A005C49C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
