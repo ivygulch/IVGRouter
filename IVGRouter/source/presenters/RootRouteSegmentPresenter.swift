@@ -10,7 +10,7 @@ import Foundation
 
 public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, withWindow window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController? {
+    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController? {
         guard verify(checkNotNil(window, "Router.window"), completion: completion),
             let window = window else {
             return nil

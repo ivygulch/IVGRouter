@@ -1,5 +1,5 @@
 //
-//  TabRouteSegmentPresenter.swift
+//  PushRouteSegmentPresenter.swift
 //  IVGAppContainer
 //
 //  Created by Douglas Sjoquist on 4/6/16.
@@ -8,37 +8,18 @@
 
 import Foundation
 
-public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
+public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, withWindow window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController?{
-        guard verify(checkType(presentingViewController, type:UITabBarController.self, "presentingViewController"), completion: completion),
-            let tabBarController = presentingViewController as? UITabBarController
+    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController?{
+        guard verify(checkType(presentingViewController, type:UINavigationController.self, "presentingViewController"), completion: completion),
+            let navigationController = presentingViewController as? UINavigationController
             else {
                 return nil
         }
 
-        tabBarController.selectViewControllerAppendingIfNeeded(presentedViewController)
+        navigationController.pushViewController(presentedViewController, animated: true)
         completion(true)
         return presentedViewController
     }
 
 }
-
-extension UITabBarController {
-
-    func selectViewControllerAppendingIfNeeded(viewController: UIViewController) {
-        let exists = viewControllers?.contains(viewController) ?? false
-        if !exists {
-            appendViewController(viewController)
-        }
-        selectedViewController = viewController
-    }
-
-    func appendViewController(viewController: UIViewController) {
-        var useViewControllers = viewControllers ?? []
-        useViewControllers.append(viewController)
-        viewControllers = useViewControllers
-    }
-
-}
-

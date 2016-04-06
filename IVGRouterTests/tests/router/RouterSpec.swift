@@ -146,8 +146,8 @@ class RouterSpec: QuickSpec {
             var mockRouteSegmentC: MockRouteSegment!
             var mockRouteSegmentInvalid: MockRouteSegment!
             var router: Router!
-            var validSequence:[Identifier]!
-            var invalidSequence:[Identifier]!
+            var validSequence:[Any]!
+            var invalidSequence:[Any]!
 
             beforeEach {
                 mockPresenterCompletionSucceeds = MockRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)

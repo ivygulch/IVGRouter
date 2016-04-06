@@ -8,13 +8,37 @@
 
 import UIKit
 
+public typealias RouteSequence = [RouteSequenceItem]
+public typealias RouteSequenceOptions = [String:Any]
+
+public struct RouteSequenceItem {
+    let segmentIdentifer: Identifier
+    let options: RouteSequenceOptions
+}
+
+public func buildRouteSequence(source: [Any]) -> RouteSequence {
+    var result:RouteSequence = []
+    for item in source {
+        if let routeSequenceItem = item as? RouteSequenceItem {
+            result.append(routeSequenceItem)
+        } else if let segmentIdentifer = item as? Identifier {
+            result.append(RouteSequenceItem(segmentIdentifer: segmentIdentifer, options:[:]))
+        } else if let name = item as? String {
+            result.append(RouteSequenceItem(segmentIdentifer: Identifier(name: name), options:[:]))
+        } else {
+            print("Invalid sourceItem: \(item)")
+        }
+    }
+    return result
+}
+
 public protocol RouterType {
     var window: UIWindow? { get }
     var routeSegments:[Identifier:RouteSegmentType] { get }
     var presenters:[Identifier:RouteSegmentPresenterType] { get }
     var viewControllers:[UIViewController] { get }
     func registerRouteSegment(routeSegment:RouteSegmentType)
-    func executeRoute(identifiers:[Identifier]) -> Bool
+    func executeRoute(routeSequence:[Any]) -> Bool
 }
 
 public class Router : RouterType {
@@ -40,21 +64,23 @@ public class Router : RouterType {
         routeSegments[routeSegment.segmentIdentifier] = routeSegment
     }
 
-    public func executeRoute(identifiers:[Identifier]) -> Bool {
+    public func executeRoute(routeSequence:[Any]) -> Bool {
         var newActiveSegments:[ActiveSegment] = []
         var routeChanged = false
         defer {
             currentActiveSegments = newActiveSegments
         }
+        let useRouteSequence = buildRouteSequence(routeSequence)
         var parent: UIViewController?
-        for identifierIndex in 0..<identifiers.count {
-            let segmentIdentifier = identifiers[identifierIndex]
+        for itemIndex in 0..<useRouteSequence.count {
+            let routeSequenceItem = useRouteSequence[itemIndex]
+            let segmentIdentifier = routeSequenceItem.segmentIdentifer
             guard let routeSegment = routeSegments[segmentIdentifier] else {
                 print("No segment registered for: \(segmentIdentifier)")
                 return false
             }
-            let isLastSegment = (identifierIndex == (identifiers.count - 1))
-            let currentActiveSegment:ActiveSegment? = (identifierIndex < currentActiveSegments.count) ? currentActiveSegments[identifierIndex] : nil
+            let isLastSegment = (itemIndex == (routeSequence.count - 1))
+            let currentActiveSegment:ActiveSegment? = (itemIndex < currentActiveSegments.count) ? currentActiveSegments[itemIndex] : nil
             var currentChild = currentActiveSegment?.viewController
 
             var needNewChild = false
@@ -74,7 +100,7 @@ public class Router : RouterType {
                 if let presenter = presenters[routeSegment.presenterIdentifier],
                     let viewController = routeSegment.viewController() {
                     child = viewController
-                    presenter.presentViewController(viewController, from: parent, withWindow: window, completion: {
+                    presenter.presentViewController(viewController, from: parent, options: routeSequenceItem.options, window: window, completion: {
                         success in
                         completionSucessful = success
                     })

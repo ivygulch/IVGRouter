@@ -68,6 +68,7 @@
 		F8B19A1C1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A1B1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift */; };
 		F8B19A281CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */; };
 		F8B19A2A1CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */; };
+		F8B19A2C1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A2B1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +177,7 @@
 		F8B19A1B1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F8B19A271CB53BE5005C49C5 /* BaseRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
 		F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
+		F8B19A2B1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -623,6 +625,7 @@
 				F8B19A1B1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift */,
 				F8B19A0F1CB4CE8A005C49C5 /* RootRouteSegmentPresenter.swift */,
 				F8B19A161CB52872005C49C5 /* TabRouteSegmentPresenter.swift */,
+				F8B19A2B1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift */,
 			);
 			path = presenters;
 			sourceTree = "<group>";
@@ -966,6 +969,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8B19A2C1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift in Sources */,
 				F8B199E21CB4CB31005C49C5 /* OldRouter.swift in Sources */,
 				F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */,
 				F8B19A171CB52872005C49C5 /* TabRouteSegmentPresenter.swift in Sources */,
