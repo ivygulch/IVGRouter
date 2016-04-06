@@ -32,7 +32,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
         }
 
         describe("when presentingViewController is not part of a navigationController stack") {
-            
+
             it("should fail") {
                 let mockCompletionBlock = MockCompletionBlock()
                 let presenter = PushRouteSegmentPresenter()
@@ -42,7 +42,25 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
             }
 
         }
+        
+        describe("when presentedViewController is already part of a navigationController stack") {
 
+            it("should fail") {
+                let mockCompletionBlock = MockCompletionBlock(expectation: self.expectationWithDescription("completion"))
+                let presenter = PushRouteSegmentPresenter()
+                let navigationController = UINavigationController()
+                navigationController.viewControllers = [mockViewControllerA, mockViewControllerB]
+
+                // test environment does not work with animated pushes
+                let options:RouteSequenceOptions = [PushRouteSegmentPresenterOptions.PushAnimatedKey:false]
+
+                let result = presenter.presentViewController(mockViewControllerA, from: mockViewControllerB, options:options, window: nil, completion: mockCompletionBlock.completion)
+                expect(result).to(beNil())
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
+            }
+
+        }
+        
         describe("when presentingViewController is a UINavigationController") {
             
             it("should succeed when navigation stack is empty") {
