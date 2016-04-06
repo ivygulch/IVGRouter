@@ -44,7 +44,6 @@
 		F8B199D51CB4CB23005C49C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8B199D21CB4CB23005C49C5 /* Main.storyboard */; };
 		F8B199E01CB4CB31005C49C5 /* IVGRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B199D71CB4CB31005C49C5 /* IVGRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8B199E11CB4CB31005C49C5 /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199D91CB4CB31005C49C5 /* Identifier.swift */; };
-		F8B199E21CB4CB31005C49C5 /* OldRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DA1CB4CB31005C49C5 /* OldRouter.swift */; };
 		F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DB1CB4CB31005C49C5 /* Router.swift */; };
 		F8B199E41CB4CB31005C49C5 /* RouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */; };
 		F8B199E51CB4CB31005C49C5 /* RouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */; };
@@ -153,7 +152,6 @@
 		F8B199D31CB4CB23005C49C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F8B199D71CB4CB31005C49C5 /* IVGRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVGRouter.h; sourceTree = "<group>"; };
 		F8B199D91CB4CB31005C49C5 /* Identifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
-		F8B199DA1CB4CB31005C49C5 /* OldRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldRouter.swift; sourceTree = "<group>"; };
 		F8B199DB1CB4CB31005C49C5 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegment.swift; sourceTree = "<group>"; };
 		F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegmentPresenter.swift; sourceTree = "<group>"; };
@@ -553,7 +551,6 @@
 			isa = PBXGroup;
 			children = (
 				F8B199D91CB4CB31005C49C5 /* Identifier.swift */,
-				F8B199DA1CB4CB31005C49C5 /* OldRouter.swift */,
 				F8B199DB1CB4CB31005C49C5 /* Router.swift */,
 				F8B199DC1CB4CB31005C49C5 /* RouteSegment.swift */,
 				F8B199DD1CB4CB31005C49C5 /* RouteSegmentPresenter.swift */,
@@ -966,7 +963,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8B19A2C1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift in Sources */,
-				F8B199E21CB4CB31005C49C5 /* OldRouter.swift in Sources */,
 				F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */,
 				F8B19A171CB52872005C49C5 /* TabRouteSegmentPresenter.swift in Sources */,
 				F8B199E11CB4CB31005C49C5 /* Identifier.swift in Sources */,
