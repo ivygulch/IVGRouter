@@ -8,6 +8,16 @@
 
 import Foundation
 
+public struct TabRouteSegmentPresenterOptions {
+    public static let AppendOnlyKey = "appendOnly"
+    public static let AppendOnlyDefault = false
+
+    static func appendOnlyFromOptions(options: RouteSequenceOptions) -> Bool {
+        return options[TabRouteSegmentPresenterOptions.AppendOnlyKey] as? Bool ?? TabRouteSegmentPresenterOptions.AppendOnlyDefault
+    }
+}
+
+
 public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
 
     public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController?{
@@ -17,7 +27,12 @@ public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentP
                 return nil
         }
 
-        tabBarController.selectViewControllerAppendingIfNeeded(presentedViewController)
+        if TabRouteSegmentPresenterOptions.appendOnlyFromOptions(options) {
+            tabBarController.appendViewControllerIfNeeded(presentedViewController)
+        } else {
+            tabBarController.selectViewControllerAppendingIfNeeded(presentedViewController)
+        }
+
         completion(true)
         return presentedViewController
     }
@@ -27,11 +42,15 @@ public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentP
 extension UITabBarController {
 
     func selectViewControllerAppendingIfNeeded(viewController: UIViewController) {
+        appendViewControllerIfNeeded(viewController)
+        selectedViewController = viewController
+    }
+
+    func appendViewControllerIfNeeded(viewController: UIViewController) {
         let exists = viewControllers?.contains(viewController) ?? false
         if !exists {
             appendViewController(viewController)
         }
-        selectedViewController = viewController
     }
 
     func appendViewController(viewController: UIViewController) {

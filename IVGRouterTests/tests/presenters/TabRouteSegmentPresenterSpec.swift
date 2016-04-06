@@ -47,6 +47,35 @@ class TabRouteSegmentPresenterSpec: QuickSpec {
             }
 
         }
+
+        describe("adding multiple tabs") {
+
+            it("should leave last tab added as selected one by default") {
+                let presenter = TabRouteSegmentPresenter()
+                let tabBarController = UITabBarController()
+                presenter.presentViewController(mockViewControllerA, from: tabBarController, options:[:], window: nil, completion: mockCompletionBlock.completion)
+                expect(tabBarController.selectedViewController).to(equal(mockViewControllerA))
+                presenter.presentViewController(mockViewControllerB, from: tabBarController, options:[:], window: nil, completion: mockCompletionBlock.completion)
+                expect(tabBarController.selectedViewController).to(equal(mockViewControllerB))
+            }
+
+            it("should not select a tab when appendOnly option is false") {
+                let presenter = TabRouteSegmentPresenter()
+                let tabBarController = UITabBarController()
+
+                let options:RouteSequenceOptions = [TabRouteSegmentPresenterOptions.AppendOnlyKey:true]
+
+                expect(tabBarController.selectedViewController).to(beNil())
+
+                presenter.presentViewController(mockViewControllerA, from: tabBarController, options:options, window: nil, completion: mockCompletionBlock.completion)
+                // the first tab added will automatically become the selected one, regardless of the options
+                expect(tabBarController.selectedViewController).to(equal(mockViewControllerA))
+
+                presenter.presentViewController(mockViewControllerB, from: tabBarController, options:options, window: nil, completion: mockCompletionBlock.completion)
+                expect(tabBarController.selectedViewController).to(equal(mockViewControllerA))
+            }
+
+        }
         
     }
     

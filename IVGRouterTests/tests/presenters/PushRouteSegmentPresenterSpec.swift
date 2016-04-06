@@ -52,7 +52,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
                 navigationController.viewControllers = [mockViewControllerA, mockViewControllerB]
 
                 // test environment does not work with animated pushes
-                let options:RouteSequenceOptions = [PushRouteSegmentPresenterOptions.PushAnimatedKey:false]
+                let options:RouteSequenceOptions = [PushRouteSegmentPresenterOptions.AnimatedKey:false]
 
                 let result = presenter.presentViewController(mockViewControllerA, from: mockViewControllerB, options:options, window: nil, completion: mockCompletionBlock.completion)
                 expect(result).to(beNil())
@@ -84,7 +84,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
                 expect(navigationController.viewControllers).toNot(beEmpty())
 
                 // test environment does not work with animated pushes
-                let options:RouteSequenceOptions = [PushRouteSegmentPresenterOptions.PushAnimatedKey:false]
+                let options:RouteSequenceOptions = [PushRouteSegmentPresenterOptions.AnimatedKey:false]
 
                 let result = presenter.presentViewController(mockViewControllerC, from: navigationController, options:options, window: nil, completion: mockCompletionBlock.completion)
                 self.waitForExpectationsWithTimeout(5, handler: nil)
@@ -104,7 +104,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
                 navigationController.viewControllers = [mockViewControllerA]
 
                 // test environment does not work with animated pushes
-                let options:RouteSequenceOptions = [PushRouteSegmentPresenterOptions.PushAnimatedKey:false]
+                let options:RouteSequenceOptions = [PushRouteSegmentPresenterOptions.AnimatedKey:false]
 
                 let result = presenter.presentViewController(mockViewControllerC, from: mockViewControllerA, options:options, window: nil, completion: mockCompletionBlock.completion)
                 self.waitForExpectationsWithTimeout(5, handler: nil)

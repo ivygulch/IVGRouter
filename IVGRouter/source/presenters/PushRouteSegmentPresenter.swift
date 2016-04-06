@@ -9,8 +9,12 @@
 import Foundation
 
 public struct PushRouteSegmentPresenterOptions {
-    public static let PushAnimatedKey = "animated"
-    public static let PushAnimatedDefault = true
+    public static let AnimatedKey = "animated"
+    public static let AnimatedDefault = true
+
+    static func animatedFromOptions(options: RouteSequenceOptions) -> Bool {
+        return options[PushRouteSegmentPresenterOptions.AnimatedKey] as? Bool ?? PushRouteSegmentPresenterOptions.AnimatedDefault
+    }
 }
 
 public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
@@ -39,7 +43,7 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegment
             completion(false)
             return nil
         }
-        let animated = options[PushRouteSegmentPresenterOptions.PushAnimatedKey] as? Bool ?? PushRouteSegmentPresenterOptions.PushAnimatedDefault
+        let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
         navigationController.setViewControllers(stack, animated: animated, completion: {
             completion(true)
         })
@@ -51,7 +55,7 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegment
             completion(false)
             return nil
         }
-        let animated = options[PushRouteSegmentPresenterOptions.PushAnimatedKey] as? Bool ?? PushRouteSegmentPresenterOptions.PushAnimatedDefault
+        let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
         navigationController.pushViewController(presentedViewController, animated: animated, completion: {
             completion(true)
         })
