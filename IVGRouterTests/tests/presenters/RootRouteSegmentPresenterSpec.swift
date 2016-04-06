@@ -25,6 +25,14 @@ class RootRouteSegmentPresenterSpec: QuickSpec {
             mockCompletionBlock = MockCompletionBlock()
         }
 
+        describe("class definition") {
+
+            it("should have default identifier") {
+                expect(RootRouteSegmentPresenter.defaultPresenterIdentifier).to(equal(Identifier(name: String(RootRouteSegmentPresenter))))
+            }
+
+        }
+
         describe("presentViewController") {
 
             it("should fail when window is nil") {

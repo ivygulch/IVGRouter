@@ -23,6 +23,14 @@ class TabRouteSegmentPresenterSpec: QuickSpec {
             mockCompletionBlock = MockCompletionBlock()
         }
 
+        describe("class definition") {
+
+            it("should have default identifier") {
+                expect(TabRouteSegmentPresenter.defaultPresenterIdentifier).to(equal(Identifier(name: String(TabRouteSegmentPresenter))))
+            }
+
+        }
+
         describe("presentViewController") {
 
             it("should fail when presentingViewController is nil") {

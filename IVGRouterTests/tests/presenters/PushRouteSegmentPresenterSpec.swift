@@ -19,6 +19,14 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
         let mockViewControllerB = MockViewController("B")
         let mockViewControllerC = MockViewController("C")
 
+        describe("class definition") {
+
+            it("should have default identifier") {
+                expect(PushRouteSegmentPresenter.defaultPresenterIdentifier).to(equal(Identifier(name: String(PushRouteSegmentPresenter))))
+            }
+
+        }
+
         describe("when presentingViewController is nil") {
 
             it("should fail") {

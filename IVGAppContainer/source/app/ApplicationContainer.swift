@@ -61,7 +61,8 @@ public class ApplicationContainer : ApplicationContainerType {
 
     public init(window: UIWindow?) {
         self.window = window
-        self.router = Router(window: window)
+        router = Router(window: window)
+        router.registerDefaultPresenters()
     }
 
     // MARK: - Resources

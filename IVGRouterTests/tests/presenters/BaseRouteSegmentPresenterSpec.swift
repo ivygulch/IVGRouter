@@ -11,6 +11,15 @@ import Quick
 import Nimble
 @testable import IVGRouter
 
+// need a class that implements RouteSegmentPresenterType to make it testable
+public class TestBaseRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
+    public static let defaultPresenterIdentifier = Identifier(name: String(TestBaseRouteSegmentPresenter))
+
+    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController? {
+        return nil
+    }
+}
+
 class BaseRouteSegmentPresenterSpec: QuickSpec {
 
     override func spec() {
@@ -18,14 +27,14 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
         describe("presentIdentifier") {
 
             it("should get a default value") {
-                let presenter = BaseRouteSegmentPresenter()
+                let presenter = TestBaseRouteSegmentPresenter()
                 let defaultIdentifier = Identifier(name: String(presenter.dynamicType))
                 expect(presenter.presenterIdentifier).to(equal(defaultIdentifier))
             }
 
             it("should allow a custom identifier") {
                 let customIdentifier = Identifier(name: "Custom")
-                let presenter = BaseRouteSegmentPresenter(presenterIdentifier: customIdentifier)
+                let presenter = TestBaseRouteSegmentPresenter(presenterIdentifier: customIdentifier)
                 expect(presenter.presenterIdentifier).to(equal(customIdentifier))
             }
 
@@ -33,10 +42,10 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
 
         describe("conditions") {
 
-            var presenter: BaseRouteSegmentPresenter!
+            var presenter: TestBaseRouteSegmentPresenter!
 
             beforeEach {
-                presenter = BaseRouteSegmentPresenter()
+                presenter = TestBaseRouteSegmentPresenter()
             }
 
             describe("when item is nil") {

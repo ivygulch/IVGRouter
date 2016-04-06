@@ -13,6 +13,8 @@ import IVGRouter
 
 class MockRouteSegmentPresenter : TrackableTestClass, RouteSegmentPresenterType {
 
+    static let defaultPresenterIdentifier = Identifier(name: String(MockRouteSegmentPresenter))
+
     init(presenterIdentifier: String, completionBlockArg: Bool) {
         self.presenterIdentifier = Identifier(name: presenterIdentifier)
         self.completionBlockArg = completionBlockArg

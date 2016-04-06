@@ -8,17 +8,22 @@
 
 import UIKit
 
+// Note, this class deliberately does NOT implement RouteSegmentPresenterType
 public class BaseRouteSegmentPresenter {
 
-    public convenience init() {
-        self.init(presenterIdentifier: Identifier(name: String(self.dynamicType)))
+    public init() {
+        guard let subtype = self as? RouteSegmentPresenterType else {
+            fatalError("\(self) should implement RouteSegmentPresenterType")
+        }
+        self.presenterIdentifier = subtype.dynamicType.defaultPresenterIdentifier
     }
     
     public init(presenterIdentifier: Identifier) {
         self.presenterIdentifier = presenterIdentifier
     }
-    
-    public let presenterIdentifier: Identifier
+
+    // need this form & initialization to match the RouteSegmentPresenterType requirement
+    public private(set) var presenterIdentifier = Identifier(name: "")
 
     func checkNil(item : Any?, _ source: String) -> String? {
         if item == nil {

@@ -10,6 +10,8 @@ import UIKit
 
 public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
 
+    public static let defaultPresenterIdentifier = Identifier(name: String(RootRouteSegmentPresenter))
+
     public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController? {
         guard verify(checkNotNil(window, "Router.window"), completion: completion),
             let window = window else {

@@ -20,6 +20,8 @@ public struct TabRouteSegmentPresenterOptions {
 
 public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
 
+    public static let defaultPresenterIdentifier = Identifier(name: String(TabRouteSegmentPresenter))
+
     public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController?{
         guard verify(checkType(presentingViewController, type:UITabBarController.self, "presentingViewController"), completion: completion),
             let tabBarController = presentingViewController as? UITabBarController

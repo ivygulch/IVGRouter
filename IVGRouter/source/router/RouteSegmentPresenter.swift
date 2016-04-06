@@ -9,6 +9,7 @@
 import UIKit
 
 public protocol RouteSegmentPresenterType {
+    static var defaultPresenterIdentifier: Identifier { get }
     var presenterIdentifier: Identifier { get }
     func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController?
 }

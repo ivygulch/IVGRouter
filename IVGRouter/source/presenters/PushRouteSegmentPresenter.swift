@@ -19,6 +19,8 @@ public struct PushRouteSegmentPresenterOptions {
 
 public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
 
+    public static let defaultPresenterIdentifier = Identifier(name: String(PushRouteSegmentPresenter))
+
     private func stackIsValid(stack:[UIViewController], additional:UIViewController? = nil) -> Bool {
         var existingSet = Set<UIViewController>()
         for viewController in stack {
