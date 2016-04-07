@@ -19,6 +19,7 @@ public enum ContainerState {
 }
 
 public protocol ApplicationContainerType: class {
+    init(window: UIWindow?)
     var window: UIWindow? { get }
     var containerState: ContainerState { get }
     var router: RouterType { get }
@@ -62,7 +63,7 @@ public class ApplicationContainer : ApplicationContainerType {
 
     public let router:RouterType
 
-    public init(window: UIWindow?) {
+    public required init(window: UIWindow?) {
         self.window = window
         router = Router(window: window)
         router.registerDefaultPresenters()

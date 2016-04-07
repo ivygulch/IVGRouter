@@ -12,21 +12,21 @@ import IVGRouter
 // need @testable since we are using a package init method
 @testable import IVGAppContainer
 
-class TestIVGACApplicationDelegate : IVGACApplicationDelegate {
-    let testContainer: ApplicationContainerType
-    init(testContainer: ApplicationContainerType) {
+class TestIVGACApplicationDelegate : IVGACApplicationDelegate<ApplicationContainer> {
+    let testContainer: ApplicationContainer
+    init(testContainer: ApplicationContainer) {
         self.testContainer = testContainer
     }
 
-    override func createApplicationContainer(window: UIWindow?) -> ApplicationContainerType {
+    override func createApplicationContainer(window: UIWindow?) -> ApplicationContainer {
         return testContainer
     }
 
-    override func configureApplicationContainer(container: ApplicationContainerType) {
+    override func configureApplicationContainer(container: ApplicationContainer) {
     }
 }
 
-class TestAppCoordinator : TrackableTestClass, AppCoordinatorType {
+class TestAppCoordinator : TrackableTestClass, CoordinatorType {
     required init?(container: ApplicationContainerType) {
     }
 
@@ -59,7 +59,7 @@ class IVGACApplicationDelegateSpec: QuickSpec {
         describe("IVGACApplicationDelegate dependency injection") {
             var appDelegate: TestIVGACApplicationDelegate!
             var testService: BaseTestService!
-            var testContainer: ApplicationContainerType!
+            var testContainer: ApplicationContainer!
 
             beforeEach {
                 testContainer = ApplicationContainer(window: TestWindow())
@@ -116,7 +116,7 @@ class IVGACApplicationDelegateSpec: QuickSpec {
             }
         }
 
-        describe("IVGACApplicationDelegate launching with registered AppCoordinatorType") {
+        describe("IVGACApplicationDelegate launching with registered CoordinatorType") {
             var appDelegate: TestIVGACApplicationDelegate!
             var testAppCoordinator: TestAppCoordinator!
             var testWindow: TestWindow!
@@ -125,7 +125,7 @@ class IVGACApplicationDelegateSpec: QuickSpec {
                 testWindow = TestWindow()
                 let container = ApplicationContainer(window: testWindow)
                 testAppCoordinator = TestAppCoordinator(container: container)
-                container.addCoordinator(testAppCoordinator, forProtocol: AppCoordinatorType.self)
+                container.addCoordinator(testAppCoordinator, forProtocol: CoordinatorType.self)
                 appDelegate = TestIVGACApplicationDelegate(testContainer:container)
             }
 

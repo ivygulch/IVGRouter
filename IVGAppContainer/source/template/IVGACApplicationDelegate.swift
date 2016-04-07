@@ -10,18 +10,18 @@
 
 import UIKit
 
-public class IVGACApplicationDelegate: UIResponder, UIApplicationDelegate {
+public class IVGACApplicationDelegate<T: ApplicationContainerType> : UIResponder, UIApplicationDelegate {
 
     // MARK: - methods to override
 
     /// override for testing or if a subclass is desired
-    public lazy var container: ApplicationContainerType = self.createApplicationContainer(self.window)
+    public lazy var container: T = self.createApplicationContainer(self.window)
 
-    public func createApplicationContainer(window: UIWindow?) -> ApplicationContainerType {
-        return ApplicationContainer(window: window)
+    public func createApplicationContainer(window: UIWindow?) -> T {
+        return T(window: window)
     }
 
-    public func configureApplicationContainer(container: ApplicationContainerType) {
+    public func configureApplicationContainer(container: T) {
         fatalError("You must override this method to configure the application container")
     }
 

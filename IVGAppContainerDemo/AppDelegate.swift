@@ -10,7 +10,7 @@ import UIKit
 import IVGAppContainer
 
 @UIApplicationMain
-class AppDelegate: IVGACApplicationDelegate {
+class AppDelegate: IVGACApplicationDelegate<ApplicationContainerType> {
 
     override func configureApplicationContainer(container: ApplicationContainerType) {
         if let appCoordinator = DemoAppCoordinator(container: container) {
