@@ -44,6 +44,7 @@ public protocol RouterType {
     var viewControllers:[UIViewController] { get }
     func registerRouteSegment(routeSegment:RouteSegmentType)
     func executeRoute(routeSequence:[Any]) -> Bool
+    func appendRoute(routeSequence:[Any]) -> Bool
     func registerDefaultPresenters()
 }
 
@@ -75,6 +76,51 @@ public class Router : RouterType {
         registerPresenter(TabRouteSegmentPresenter())
         registerPresenter(PushRouteSegmentPresenter())
     }
+
+    public func appendRoute(routeSequence:[Any]) -> Bool {
+        guard let lastActiveSegment = currentActiveSegments.last else {
+            // cannot append to empty current route sequence
+            return false
+        }
+        let useRouteSequence = buildRouteSequence(routeSequence)
+        var parent = lastActiveSegment.viewController
+        for itemIndex in 0..<useRouteSequence.count {
+            let routeSequenceItem = useRouteSequence[itemIndex]
+            let segmentIdentifier = routeSequenceItem.segmentIdentifier
+            guard let routeSegment = routeSegments[segmentIdentifier] else {
+                print("No segment registered for: \(segmentIdentifier)")
+                return false
+            }
+
+            var newChild: UIViewController?
+
+            var completionSucessful = true
+            if let presenter = presenters[routeSegment.presenterIdentifier],
+                let viewController = routeSegment.viewController() {
+                newChild = viewController
+                presenter.presentViewController(viewController, from: parent, options: routeSequenceItem.options, window: window, completion: {
+                    success in
+                    completionSucessful = success
+                })
+            }
+            guard let child = newChild else {
+                print("Route segment did not load a viewController: \(segmentIdentifier)")
+                return false
+            }
+            if !completionSucessful {
+                print("Route segment completion block failed: \(segmentIdentifier)")
+                return false
+            }
+
+            currentActiveSegments.append(ActiveSegment(segmentIdentifier:segmentIdentifier,viewController:child))
+            registeredViewControllers[child] = segmentIdentifier
+
+            parent = child
+            
+        }
+        return true
+    }
+
 
     public func executeRoute(routeSequence:[Any]) -> Bool {
         var newActiveSegments:[ActiveSegment] = []
