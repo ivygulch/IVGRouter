@@ -84,6 +84,13 @@
 			remoteGlobalIDString = F8B199611CB4C989005C49C5;
 			remoteInfo = IVGRouter;
 		};
+		F808DD281CB6A0D5003B6D56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8B199061CB4B577005C49C5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F8B199611CB4C989005C49C5;
+			remoteInfo = IVGRouter;
+		};
 		F8B1991B1CB4B577005C49C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F8B199061CB4B577005C49C5 /* Project object */;
@@ -674,6 +681,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				F808DD291CB6A0D5003B6D56 /* PBXTargetDependency */,
 			);
 			name = IVGAppContainer;
 			productName = IVGAppContainer;
@@ -1014,6 +1022,11 @@
 			isa = PBXTargetDependency;
 			target = F8B199611CB4C989005C49C5 /* IVGRouter */;
 			targetProxy = F808DCE21CB5C17D003B6D56 /* PBXContainerItemProxy */;
+		};
+		F808DD291CB6A0D5003B6D56 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F8B199611CB4C989005C49C5 /* IVGRouter */;
+			targetProxy = F808DD281CB6A0D5003B6D56 /* PBXContainerItemProxy */;
 		};
 		F8B1991C1CB4B577005C49C5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

@@ -20,6 +20,20 @@
                ReferencedContainer = "container:IVGAppContainer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F8B199611CB4C989005C49C5"
+               BuildableName = "IVGRouter.framework"
+               BlueprintName = "IVGRouter"
+               ReferencedContainer = "container:IVGAppContainer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
