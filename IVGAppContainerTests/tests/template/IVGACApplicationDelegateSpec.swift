@@ -27,7 +27,7 @@ class TestIVGACApplicationDelegate : IVGACApplicationDelegate<ApplicationContain
 }
 
 class TestAppCoordinator : TrackableTestClass, CoordinatorType {
-    required init?(container: ApplicationContainerType) {
+    required init(container: ApplicationContainerType) {
     }
 
     func registerRouteSegments(router: RouterType) {

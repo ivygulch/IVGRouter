@@ -34,7 +34,7 @@ class ApplicationContainerTypeSpec: QuickSpec {
             beforeEach {
                 applicationContainer = ApplicationContainer(window: TestWindow())
                 service = BaseTestService(container: applicationContainer)!
-                coordinator = BaseTestCoordinator(container: applicationContainer)!
+                coordinator = BaseTestCoordinator(container: applicationContainer)
                 resource = BaseTestResource(container: applicationContainer)!
             }
 

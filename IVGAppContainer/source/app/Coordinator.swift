@@ -11,7 +11,7 @@ import IVGRouter
 
 public protocol CoordinatorType {
 
-    init?(container: ApplicationContainerType)
+    init(container: ApplicationContainerType)
 
     func registerRouteSegments(router: RouterType)
 }

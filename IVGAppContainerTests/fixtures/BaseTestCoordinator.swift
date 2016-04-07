@@ -12,7 +12,7 @@ import IVGAppContainer
 
 class BaseTestCoordinator : TrackableTestClass, CoordinatorType {
 
-    required init?(container: ApplicationContainerType) {
+    required init(container: ApplicationContainerType) {
     }
 
     func registerRouteSegments(router: RouterType) {
