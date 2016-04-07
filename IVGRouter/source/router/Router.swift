@@ -12,8 +12,13 @@ public typealias RouteSequence = [RouteSequenceItem]
 public typealias RouteSequenceOptions = [String:Any]
 
 public struct RouteSequenceItem {
-    let segmentIdentifer: Identifier
-    let options: RouteSequenceOptions
+    public let segmentIdentifier: Identifier
+    public let options: RouteSequenceOptions
+
+    public init(segmentIdentifier: Identifier, options: RouteSequenceOptions) {
+        self.segmentIdentifier = segmentIdentifier
+        self.options = options
+    }
 }
 
 public func buildRouteSequence(source: [Any]) -> RouteSequence {
@@ -21,10 +26,10 @@ public func buildRouteSequence(source: [Any]) -> RouteSequence {
     for item in source {
         if let routeSequenceItem = item as? RouteSequenceItem {
             result.append(routeSequenceItem)
-        } else if let segmentIdentifer = item as? Identifier {
-            result.append(RouteSequenceItem(segmentIdentifer: segmentIdentifer, options:[:]))
+        } else if let segmentIdentifier = item as? Identifier {
+            result.append(RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:[:]))
         } else if let name = item as? String {
-            result.append(RouteSequenceItem(segmentIdentifer: Identifier(name: name), options:[:]))
+            result.append(RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:[:]))
         } else {
             print("Invalid sourceItem: \(item)")
         }
@@ -81,7 +86,7 @@ public class Router : RouterType {
         var parent: UIViewController?
         for itemIndex in 0..<useRouteSequence.count {
             let routeSequenceItem = useRouteSequence[itemIndex]
-            let segmentIdentifier = routeSequenceItem.segmentIdentifer
+            let segmentIdentifier = routeSequenceItem.segmentIdentifier
             guard let routeSegment = routeSegments[segmentIdentifier] else {
                 print("No segment registered for: \(segmentIdentifier)")
                 return false
