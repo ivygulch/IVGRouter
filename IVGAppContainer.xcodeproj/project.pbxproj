@@ -19,7 +19,6 @@
 		F8B199921CB4CA67005C49C5 /* IVGContainerApp.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B1997F1CB4CA67005C49C5 /* IVGContainerApp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8B199931CB4CA67005C49C5 /* Synchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199811CB4CA67005C49C5 /* Synchronizer.swift */; };
 		F8B199941CB4CA67005C49C5 /* TypeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199821CB4CA67005C49C5 /* TypeKey.swift */; };
-		F8B199951CB4CA67005C49C5 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199841CB4CA67005C49C5 /* AppCoordinator.swift */; };
 		F8B199961CB4CA67005C49C5 /* UserDefaultsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199881CB4CA67005C49C5 /* UserDefaultsService.swift */; };
 		F8B199971CB4CA67005C49C5 /* IVGACApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1998A1CB4CA67005C49C5 /* IVGACApplicationDelegate.swift */; };
 		F8B199981CB4CA67005C49C5 /* ViewControllerLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B1998C1CB4CA67005C49C5 /* ViewControllerLoader.swift */; };
@@ -139,7 +138,6 @@
 		F8B1997F1CB4CA67005C49C5 /* IVGContainerApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVGContainerApp.h; sourceTree = "<group>"; };
 		F8B199811CB4CA67005C49C5 /* Synchronizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronizer.swift; sourceTree = "<group>"; };
 		F8B199821CB4CA67005C49C5 /* TypeKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeKey.swift; sourceTree = "<group>"; };
-		F8B199841CB4CA67005C49C5 /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		F8B199881CB4CA67005C49C5 /* UserDefaultsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsService.swift; sourceTree = "<group>"; };
 		F8B1998A1CB4CA67005C49C5 /* IVGACApplicationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IVGACApplicationDelegate.swift; sourceTree = "<group>"; };
 		F8B1998C1CB4CA67005C49C5 /* ViewControllerLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerLoader.swift; sourceTree = "<group>"; };
@@ -396,7 +394,6 @@
 		F8B199831CB4CA67005C49C5 /* coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				F8B199841CB4CA67005C49C5 /* AppCoordinator.swift */,
 			);
 			path = coordinator;
 			sourceTree = "<group>";
@@ -921,7 +918,6 @@
 				F8B199961CB4CA67005C49C5 /* UserDefaultsService.swift in Sources */,
 				F8B1998F1CB4CA67005C49C5 /* Coordinator.swift in Sources */,
 				F8B1998E1CB4CA67005C49C5 /* ApplicationContainer.swift in Sources */,
-				F8B199951CB4CA67005C49C5 /* AppCoordinator.swift in Sources */,
 				F808DCDD1CB5911E003B6D56 /* LazyViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
