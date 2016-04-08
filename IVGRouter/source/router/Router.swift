@@ -139,14 +139,21 @@ public class Router : RouterType {
                 return false
             }
 
-            let newActiveSegment = ActiveSegment(segmentIdentifier:segmentIdentifier,viewController:child)
-            debug("before normal=\(segmentIdentifier.name)")
-            currentActiveSegments.append(newActiveSegment)
-            debug("after normal=\(segmentIdentifier.name)")
+            if child == parent {
+                // TODO: handle menu removal better, but for now
+                print("remove menu instead of adding second copy")
+                currentActiveSegments.removeLast()
+                parent = parent.parentViewController!
+            } else {
+                let newActiveSegment = ActiveSegment(segmentIdentifier:segmentIdentifier,viewController:child)
+                debug("before normal=\(segmentIdentifier.name)")
+                currentActiveSegments.append(newActiveSegment)
+                debug("after normal=\(segmentIdentifier.name)")
 
-            registeredViewControllers[child] = segmentIdentifier
-
-            parent = child
+                registeredViewControllers[child] = segmentIdentifier
+                
+                parent = child
+            }
         }
         return true
     }
@@ -171,6 +178,7 @@ public class Router : RouterType {
             }
             let isLastSegment = (itemIndex == (routeSequence.count - 1))
             let currentActiveSegment:ActiveSegment? = (itemIndex < currentActiveSegments.count) ? currentActiveSegments[itemIndex] : nil
+            let nextActiveSegment:ActiveSegment? = ((itemIndex+1) < currentActiveSegments.count) ? currentActiveSegments[itemIndex+1] : nil
             var currentChild = currentActiveSegment?.viewController
 
             var needNewChild = false
@@ -207,8 +215,26 @@ public class Router : RouterType {
                 child = currentChild
                 // if we are still on the previous path, but on the last segment, check if we can simply pop back in the navigation stack
                 if isLastSegment {
-                    if let child = child, childNavigationController = child.navigationController {
-                        childNavigationController.popToViewController(child, animated: true)
+                    if var lastChild = child, let lastChildNavigationController = lastChild.navigationController {
+                        debug("popping last child=\(lastChild)")
+                        let lastChildParent = lastChild.parentViewController!
+
+                        var stillNeedToPop = true
+                        if lastChildNavigationController != lastChildParent {
+                            // TODO: this is all a kluge to trigger the menuPresenter to properly remove things
+                            let nextRouteSegment = routeSegments[nextActiveSegment!.segmentIdentifier]!
+                            if let presenter = presenters[nextRouteSegment.presenterIdentifier] {
+                                lastChild = presenter.presentViewController(lastChildParent, from: lastChildParent, options: [:], window: nil, completion: {
+                                    _ in
+                                    print("done")
+                                })!
+                                child = lastChild
+                                stillNeedToPop = false
+                            }
+                        }
+                        if stillNeedToPop {
+                            lastChildNavigationController.popToViewController(lastChild, animated: true)
+                        }
                     }
                 }
             }
