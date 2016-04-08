@@ -146,9 +146,7 @@ public class Router : RouterType {
                 parent = parent.parentViewController!
             } else {
                 let newActiveSegment = ActiveSegment(segmentIdentifier:segmentIdentifier,viewController:child)
-                debug("before normal=\(segmentIdentifier.name)")
                 currentActiveSegments.append(newActiveSegment)
-                debug("after normal=\(segmentIdentifier.name)")
 
                 registeredViewControllers[child] = segmentIdentifier
                 
@@ -163,9 +161,7 @@ public class Router : RouterType {
         var newActiveSegments:[ActiveSegment] = []
         var routeChanged = false
         defer {
-            debug("before defer=\(currentActiveSegments.map { a -> String in a.segmentIdentifier.name })")
             currentActiveSegments = newActiveSegments
-            debug("after defer=\(currentActiveSegments.map { a -> String in a.segmentIdentifier.name })")
         }
         let useRouteSequence = buildRouteSequence(routeSequence)
         var parent: UIViewController?
@@ -216,20 +212,18 @@ public class Router : RouterType {
                 // if we are still on the previous path, but on the last segment, check if we can simply pop back in the navigation stack
                 if isLastSegment {
                     if var lastChild = child, let lastChildNavigationController = lastChild.navigationController {
-                        debug("popping last child=\(lastChild)")
                         let lastChildParent = lastChild.parentViewController!
 
+                        // TODO: this is all a kluge to trigger the menuPresenter to properly remove things
                         var stillNeedToPop = true
                         if lastChildNavigationController != lastChildParent {
-                            // TODO: this is all a kluge to trigger the menuPresenter to properly remove things
                             let nextRouteSegment = routeSegments[nextActiveSegment!.segmentIdentifier]!
                             if let presenter = presenters[nextRouteSegment.presenterIdentifier] {
+                                stillNeedToPop = false
                                 lastChild = presenter.presentViewController(lastChildParent, from: lastChildParent, options: [:], window: nil, completion: {
                                     _ in
-                                    print("done")
                                 })!
                                 child = lastChild
-                                stillNeedToPop = false
                             }
                         }
                         if stillNeedToPop {
