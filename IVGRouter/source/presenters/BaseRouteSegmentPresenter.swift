@@ -25,21 +25,21 @@ public class BaseRouteSegmentPresenter {
     // need this form & initialization to match the RouteSegmentPresenterType requirement
     public private(set) var presenterIdentifier = Identifier(name: "")
 
-    func checkNil(item : Any?, _ source: String) -> String? {
+    public func checkNil(item : Any?, _ source: String) -> String? {
         if item == nil {
             return nil
         }
         return "\(source) must be nil"
     }
 
-    func checkNotNil(item : Any?, _ source: String) -> String? {
+    public func checkNotNil(item : Any?, _ source: String) -> String? {
         if item != nil {
             return nil
         }
         return "\(source) must not be nil"
     }
 
-    func checkType<T>(item : Any?, type: T.Type, _ source: String) -> String? {
+    public func checkType<T>(item : Any?, type: T.Type, _ source: String) -> String? {
         if let _ = item as? T {
             return nil
         }
@@ -47,7 +47,7 @@ public class BaseRouteSegmentPresenter {
         return "\(source) must be of type \(type) but found \(foundDescription)"
     }
 
-    func verify(verificationMessage: String?, completion: ((Bool) -> Void)) -> Bool {
+    public func verify(verificationMessage: String?, completion: ((Bool) -> Void)) -> Bool {
         if let verificationMessage = verificationMessage {
             print("\(String(self)) cannot present view controller: \(verificationMessage)")
             completion(false)

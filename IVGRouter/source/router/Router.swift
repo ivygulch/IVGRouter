@@ -42,16 +42,36 @@ public protocol RouterType {
     var routeSegments:[Identifier:RouteSegmentType] { get }
     var presenters:[Identifier:RouteSegmentPresenterType] { get }
     var viewControllers:[UIViewController] { get }
+    func registerPresenter(presenter:RouteSegmentPresenterType)
     func registerRouteSegment(routeSegment:RouteSegmentType)
     func executeRoute(routeSequence:[Any]) -> Bool
     func appendRoute(routeSequence:[Any]) -> Bool
     func registerDefaultPresenters()
+
+    var currentSequence:[Any] { get }
+    func debug(msg: String)
 }
 
 public class Router : RouterType {
 
     public init(window: UIWindow?) {
         self.window = window
+    }
+
+    public func debug(msg: String) {
+        print("Router(\(msg))")
+        for index in 0..<currentActiveSegments.count {
+            let activeSegment = currentActiveSegments[index]
+            let segmentIdentifier = activeSegment.segmentIdentifier
+            let vc = activeSegment.viewController
+            var result = "[\(index)]"
+            result += "=\(segmentIdentifier.name)"
+            result += "," + String(vc.dynamicType)
+            if let p = vc.parentViewController {
+                result += ",p=" + String(p.dynamicType)
+            }
+            print(result)
+        }
     }
 
     public private(set) var routeSegments:[Identifier:RouteSegmentType] = [:]
@@ -75,6 +95,13 @@ public class Router : RouterType {
         registerPresenter(RootRouteSegmentPresenter())
         registerPresenter(TabRouteSegmentPresenter())
         registerPresenter(PushRouteSegmentPresenter())
+    }
+
+    public var currentSequence:[Any] {
+        return currentActiveSegments.map {
+            activeSegment -> Identifier in
+            return activeSegment.segmentIdentifier
+        }
     }
 
     public func appendRoute(routeSequence:[Any]) -> Bool {
@@ -112,11 +139,14 @@ public class Router : RouterType {
                 return false
             }
 
-            currentActiveSegments.append(ActiveSegment(segmentIdentifier:segmentIdentifier,viewController:child))
+            let newActiveSegment = ActiveSegment(segmentIdentifier:segmentIdentifier,viewController:child)
+            debug("before normal=\(segmentIdentifier.name)")
+            currentActiveSegments.append(newActiveSegment)
+            debug("after normal=\(segmentIdentifier.name)")
+
             registeredViewControllers[child] = segmentIdentifier
 
             parent = child
-            
         }
         return true
     }
@@ -126,7 +156,9 @@ public class Router : RouterType {
         var newActiveSegments:[ActiveSegment] = []
         var routeChanged = false
         defer {
+            debug("before defer=\(currentActiveSegments.map { a -> String in a.segmentIdentifier.name })")
             currentActiveSegments = newActiveSegments
+            debug("after defer=\(currentActiveSegments.map { a -> String in a.segmentIdentifier.name })")
         }
         let useRouteSequence = buildRouteSequence(routeSequence)
         var parent: UIViewController?

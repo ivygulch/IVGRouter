@@ -3,3 +3,7 @@ Router
 - ? verify that presenter exists when adding segment
 - better error handing/logging
 - add tests for appendRoute
+- make presenters/segments reversable (e.g. reversing a push does pop, custom ones, etc)
+
+optional:
+- allow presentedViewController to be a list (e.g. all tabs at once, master/detail, vc stack)
