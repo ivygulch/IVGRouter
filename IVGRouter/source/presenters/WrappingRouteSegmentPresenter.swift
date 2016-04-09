@@ -117,6 +117,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSeg
             return {}
         }
 
+        wrapper.navigationItem.setValuesFrom(child.navigationItem)
         wrapper.addChildViewController(child)
         child.didMoveToParentViewController(wrapper)
 
@@ -198,4 +199,21 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSeg
     // MARK: private variables
 
     private var wrappingRouteSegmentAnimator: WrappingRouteSegmentAnimator
+}
+
+extension UINavigationItem {
+
+    private func setValuesFrom(fromNavigationItem: UINavigationItem) {
+        title = fromNavigationItem.title
+        titleView = fromNavigationItem.titleView
+        prompt = fromNavigationItem.prompt
+        backBarButtonItem = fromNavigationItem.backBarButtonItem
+        hidesBackButton = fromNavigationItem.hidesBackButton
+        leftBarButtonItems = fromNavigationItem.leftBarButtonItems
+        rightBarButtonItems = fromNavigationItem.rightBarButtonItems
+        leftItemsSupplementBackButton = fromNavigationItem.leftItemsSupplementBackButton
+        hidesBackButton = fromNavigationItem.hidesBackButton
+    }
+
+
 }
