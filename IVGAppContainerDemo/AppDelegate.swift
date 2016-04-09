@@ -10,14 +10,12 @@ import UIKit
 import IVGAppContainer
 
 @UIApplicationMain
-class AppDelegate: IVGACApplicationDelegate<ApplicationContainerType> {
+class AppDelegate: IVGACApplicationDelegate<ApplicationContainer> {
 
-    override func configureApplicationContainer(container: ApplicationContainerType) {
-        if let appCoordinator = DemoAppCoordinator(container: container) {
-            container.addCoordinator(appCoordinator, forProtocol: AppCoordinatorType.self)
-            container.defaultRouteSequence = appCoordinator.welcomeRouteSequence
-        }
-
+    override func configureApplicationContainer(container: ApplicationContainer) {
+        let appCoordinator = DemoAppCoordinator(container: container)
+        container.addCoordinator(appCoordinator, forProtocol: DemoAppCoordinatorType.self)
+        container.defaultRouteSequence = appCoordinator.welcomeRouteSequence
     }
 
 }

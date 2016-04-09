@@ -14,9 +14,7 @@ class WelcomeViewController : UIViewController {
 
     @IBAction func nextAction(button: UIButton) {
         print("nextAction")
-        if let nextAction = nextAction {
-            nextAction()
-        }
+        nextAction?()
     }
 
 }

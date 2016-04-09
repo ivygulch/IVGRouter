@@ -11,12 +11,16 @@ import UIKit
 class NextScreenViewController : UIViewController {
 
     var returnAction:(Void -> Void)?
+    var wrapAction:(Void -> Void)?
+
+    @IBAction func wrapAction(button: UIButton) {
+        print("wrapAction")
+        wrapAction?()
+    }
 
     @IBAction func returnAction(button: UIButton) {
         print("returnAction")
-        if let returnAction = returnAction {
-            returnAction()
-        }
+        returnAction?()
     }
 
 }

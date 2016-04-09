@@ -95,6 +95,7 @@ public class Router : RouterType {
         registerPresenter(RootRouteSegmentPresenter())
         registerPresenter(TabRouteSegmentPresenter())
         registerPresenter(PushRouteSegmentPresenter())
+        registerPresenter(WrappingRouteSegmentPresenter(wrappingRouteSegmentAnimator: SlidingWrappingRouteSegmentAnimator()))
     }
 
     public var currentSequence:[Any] {

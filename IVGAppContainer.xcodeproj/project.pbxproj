@@ -32,9 +32,7 @@
 		F8B199C31CB4CB0A005C49C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199B31CB4CB0A005C49C5 /* AppDelegate.swift */; };
 		F8B199C41CB4CB0A005C49C5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8B199B41CB4CB0A005C49C5 /* Assets.xcassets */; };
 		F8B199C71CB4CB0A005C49C5 /* DemoAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */; };
-		F8B199C91CB4CB0A005C49C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */; };
 		F8B199CB1CB4CB0A005C49C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */; };
-		F8B199CC1CB4CB0A005C49C5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199BF1CB4CB0A005C49C5 /* MasterViewController.swift */; };
 		F8B199CD1CB4CB0A005C49C5 /* NextScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199C01CB4CB0A005C49C5 /* NextScreenViewController.swift */; };
 		F8B199CE1CB4CB0A005C49C5 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199C11CB4CB0A005C49C5 /* RootViewController.swift */; };
 		F8B199CF1CB4CB0A005C49C5 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B199C21CB4CB0A005C49C5 /* WelcomeViewController.swift */; };
@@ -67,6 +65,9 @@
 		F8B19A2A1CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */; };
 		F8B19A2C1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A2B1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift */; };
 		F8B19A2E1CB54F21005C49C5 /* PushRouteSegmentPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B19A2D1CB54F21005C49C5 /* PushRouteSegmentPresenterSpec.swift */; };
+		F8C0742F1CB8515C00C75A84 /* WrappingRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C0742E1CB8515C00C75A84 /* WrappingRouteSegmentPresenter.swift */; };
+		F8C074311CB8892F00C75A84 /* SlidingWrappingRouteSegmentAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C074301CB8892F00C75A84 /* SlidingWrappingRouteSegmentAnimator.swift */; };
+		F8C074331CB88BB000C75A84 /* WrapperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C074321CB88BB000C75A84 /* WrapperViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,10 +159,8 @@
 		F8B199B31CB4CB0A005C49C5 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F8B199B41CB4CB0A005C49C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppCoordinator.swift; sourceTree = "<group>"; };
-		F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F8B199BD1CB4CB0A005C49C5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		F8B199BF1CB4CB0A005C49C5 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		F8B199C01CB4CB0A005C49C5 /* NextScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextScreenViewController.swift; sourceTree = "<group>"; };
 		F8B199C11CB4CB0A005C49C5 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		F8B199C21CB4CB0A005C49C5 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -195,6 +194,9 @@
 		F8B19A291CB541CA005C49C5 /* TabRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
 		F8B19A2B1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F8B19A2D1CB54F21005C49C5 /* PushRouteSegmentPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushRouteSegmentPresenterSpec.swift; sourceTree = "<group>"; };
+		F8C0742E1CB8515C00C75A84 /* WrappingRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrappingRouteSegmentPresenter.swift; sourceTree = "<group>"; };
+		F8C074301CB8892F00C75A84 /* SlidingWrappingRouteSegmentAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlidingWrappingRouteSegmentAnimator.swift; sourceTree = "<group>"; };
+		F8C074321CB88BB000C75A84 /* WrapperViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WrapperViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,11 +315,10 @@
 				F8B199B31CB4CB0A005C49C5 /* AppDelegate.swift */,
 				F8B199B41CB4CB0A005C49C5 /* Assets.xcassets */,
 				F8B199BA1CB4CB0A005C49C5 /* DemoAppCoordinator.swift */,
-				F8B199BC1CB4CB0A005C49C5 /* DetailViewController.swift */,
 				F8B199BD1CB4CB0A005C49C5 /* Info.plist */,
 				F8B199BE1CB4CB0A005C49C5 /* Main.storyboard */,
-				F8B199BF1CB4CB0A005C49C5 /* MasterViewController.swift */,
 				F8B199C01CB4CB0A005C49C5 /* NextScreenViewController.swift */,
+				F8C074321CB88BB000C75A84 /* WrapperViewController.swift */,
 				F8B199C11CB4CB0A005C49C5 /* RootViewController.swift */,
 				F8B199C21CB4CB0A005C49C5 /* WelcomeViewController.swift */,
 			);
@@ -632,6 +633,8 @@
 				F8B19A0F1CB4CE8A005C49C5 /* RootRouteSegmentPresenter.swift */,
 				F8B19A161CB52872005C49C5 /* TabRouteSegmentPresenter.swift */,
 				F8B19A2B1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift */,
+				F8C0742E1CB8515C00C75A84 /* WrappingRouteSegmentPresenter.swift */,
+				F8C074301CB8892F00C75A84 /* SlidingWrappingRouteSegmentAnimator.swift */,
 			);
 			path = presenters;
 			sourceTree = "<group>";
@@ -948,13 +951,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8B199CC1CB4CB0A005C49C5 /* MasterViewController.swift in Sources */,
 				F8B199CF1CB4CB0A005C49C5 /* WelcomeViewController.swift in Sources */,
 				F8B199C31CB4CB0A005C49C5 /* AppDelegate.swift in Sources */,
 				F8B199CE1CB4CB0A005C49C5 /* RootViewController.swift in Sources */,
 				F8B199CD1CB4CB0A005C49C5 /* NextScreenViewController.swift in Sources */,
 				F8B199C71CB4CB0A005C49C5 /* DemoAppCoordinator.swift in Sources */,
-				F8B199C91CB4CB0A005C49C5 /* DetailViewController.swift in Sources */,
+				F8C074331CB88BB000C75A84 /* WrapperViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -979,12 +981,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8B19A2C1CB544DE005C49C5 /* PushRouteSegmentPresenter.swift in Sources */,
+				F8C074311CB8892F00C75A84 /* SlidingWrappingRouteSegmentAnimator.swift in Sources */,
 				F8B199E31CB4CB31005C49C5 /* Router.swift in Sources */,
 				F8B19A171CB52872005C49C5 /* TabRouteSegmentPresenter.swift in Sources */,
 				F8B199E11CB4CB31005C49C5 /* Identifier.swift in Sources */,
 				F8B199E41CB4CB31005C49C5 /* RouteSegment.swift in Sources */,
 				F8B19A101CB4CE8A005C49C5 /* RootRouteSegmentPresenter.swift in Sources */,
 				F8B199E51CB4CB31005C49C5 /* RouteSegmentPresenter.swift in Sources */,
+				F8C0742F1CB8515C00C75A84 /* WrappingRouteSegmentPresenter.swift in Sources */,
 				F8B19A1C1CB5306F005C49C5 /* BaseRouteSegmentPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
