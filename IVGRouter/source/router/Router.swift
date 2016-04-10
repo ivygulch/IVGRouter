@@ -21,22 +21,6 @@ public struct RouteSequenceItem {
     }
 }
 
-public func buildRouteSequence(source: [Any]) -> RouteSequence {
-    var result:RouteSequence = []
-    for item in source {
-        if let routeSequenceItem = item as? RouteSequenceItem {
-            result.append(routeSequenceItem)
-        } else if let segmentIdentifier = item as? Identifier {
-            result.append(RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:[:]))
-        } else if let name = item as? String {
-            result.append(RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:[:]))
-        } else {
-            print("Invalid sourceItem: \(item)")
-        }
-    }
-    return result
-}
-
 public protocol RouterType {
     var window: UIWindow? { get }
     var routeSegments:[Identifier:RouteSegmentType] { get }
@@ -44,8 +28,8 @@ public protocol RouterType {
     var viewControllers:[UIViewController] { get }
     func registerPresenter(presenter:RouteSegmentPresenterType)
     func registerRouteSegment(routeSegment:RouteSegmentType)
-    func executeRoute(routeSequence:[Any]) -> Bool
     func appendRoute(routeSequence:[Any]) -> Bool
+    func executeRoute(routeSequence:[Any]) -> Bool
     func registerDefaultPresenters()
 
     var currentSequence:[Any] { get }
@@ -106,59 +90,14 @@ public class Router : RouterType {
     }
 
     public func appendRoute(routeSequence:[Any]) -> Bool {
-        guard let lastActiveSegment = currentActiveSegments.last else {
-            // cannot append to empty current route sequence
-            return false
-        }
-        let useRouteSequence = buildRouteSequence(routeSequence)
-        var parent = lastActiveSegment.viewController
-        for itemIndex in 0..<useRouteSequence.count {
-            let routeSequenceItem = useRouteSequence[itemIndex]
-            let segmentIdentifier = routeSequenceItem.segmentIdentifier
-            guard let routeSegment = routeSegments[segmentIdentifier] else {
-                print("No segment registered for: \(segmentIdentifier)")
-                return false
-            }
-
-            var newChild: UIViewController?
-
-            var completionSucessful = true
-            if let presenter = presenters[routeSegment.presenterIdentifier],
-                let viewController = routeSegment.viewController() {
-                newChild = viewController
-                presenter.presentViewController(viewController, from: parent, options: routeSequenceItem.options, window: window, completion: {
-                    success in
-                    completionSucessful = success
-                })
-            }
-            guard let child = newChild else {
-                print("Route segment did not load a viewController: \(segmentIdentifier)")
-                return false
-            }
-            if !completionSucessful {
-                print("Route segment completion block failed: \(segmentIdentifier)")
-                return false
-            }
-
-            if child == parent {
-                // TODO: handle menu removal better, but for now
-                print("remove menu instead of adding second copy")
-                currentActiveSegments.removeLast()
-                parent = parent.parentViewController!
-            } else {
-                let newActiveSegment = ActiveSegment(segmentIdentifier:segmentIdentifier,viewController:child)
-                currentActiveSegments.append(newActiveSegment)
-
-                registeredViewControllers[child] = segmentIdentifier
-                
-                parent = child
-            }
-        }
-        return true
+        return executeRouteSequence(routeSequence, append: true)
     }
 
-
     public func executeRoute(routeSequence:[Any]) -> Bool {
+        return executeRouteSequence(routeSequence, append: false)
+    }
+
+    private func executeRouteSequence(routeSequence:[Any], append: Bool) -> Bool {
         var newActiveSegments:[ActiveSegment] = []
         var routeChanged = false
         defer {
@@ -166,6 +105,12 @@ public class Router : RouterType {
         }
         let useRouteSequence = buildRouteSequence(routeSequence)
         var parent: UIViewController?
+
+        if append {
+            newActiveSegments.appendContentsOf(currentActiveSegments)
+            parent = currentActiveSegments.last?.viewController
+        }
+
         for itemIndex in 0..<useRouteSequence.count {
             let routeSequenceItem = useRouteSequence[itemIndex]
             let segmentIdentifier = routeSequenceItem.segmentIdentifier
@@ -266,4 +211,20 @@ public class Router : RouterType {
 private struct ActiveSegment {
     let segmentIdentifier: Identifier
     let viewController: UIViewController
+}
+
+private func buildRouteSequence(source: [Any]) -> RouteSequence {
+    var result:RouteSequence = []
+    for item in source {
+        if let routeSequenceItem = item as? RouteSequenceItem {
+            result.append(routeSequenceItem)
+        } else if let segmentIdentifier = item as? Identifier {
+            result.append(RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:[:]))
+        } else if let name = item as? String {
+            result.append(RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:[:]))
+        } else {
+            print("Invalid sourceItem: \(item)")
+        }
+    }
+    return result
 }
