@@ -28,8 +28,10 @@ public protocol RouterType {
     var viewControllers:[UIViewController] { get }
     func registerPresenter(presenter:RouteSegmentPresenterType)
     func registerRouteSegment(routeSegment:RouteSegmentType)
-    func appendRoute(routeSequence:[Any])
-    func executeRoute(routeSequence:[Any])
+    func appendRouteOnMain(routeSequence:[Any])
+    func executeRouteOnMain(routeSequence:[Any])
+    func appendRoute(routeSequence:[Any]) -> Bool
+    func executeRoute(routeSequence:[Any]) -> Bool
     func registerDefaultPresenters()
 
     var currentSequence:[Any] { get }
@@ -89,19 +91,27 @@ public class Router : RouterType {
         }
     }
 
-    public func appendRoute(routeSequence:[Any]) {
+    public func appendRouteOnMain(routeSequence:[Any]) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.executeRouteSequence(routeSequence, append: true)
+            self.appendRoute(routeSequence)
         }
     }
 
-    public func executeRoute(routeSequence:[Any]) {
+    public func executeRouteOnMain(routeSequence:[Any]) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.executeRouteSequence(routeSequence, append: false)
+            self.executeRoute(routeSequence)
         }
     }
+    
+    public func appendRoute(routeSequence:[Any]) -> Bool {
+        return self.executeRouteSequence(routeSequence, append: true)
+    }
 
-    private func executeRouteSequence(routeSequence:[Any], append: Bool) {
+    public func executeRoute(routeSequence:[Any]) -> Bool {
+        return self.executeRouteSequence(routeSequence, append: false)
+    }
+    
+    private func executeRouteSequence(routeSequence:[Any], append: Bool) -> Bool {
         var newActiveSegments:[ActiveSegment] = []
         var routeChanged = false
         defer {
@@ -120,7 +130,7 @@ public class Router : RouterType {
             let segmentIdentifier = routeSequenceItem.segmentIdentifier
             guard let routeSegment = routeSegments[segmentIdentifier] else {
                 print("No segment registered for: \(segmentIdentifier)")
-                return
+                return false
             }
             let isLastSegment = (itemIndex == (routeSequence.count - 1))
             let currentActiveSegment:ActiveSegment? = (itemIndex < currentActiveSegments.count) ? currentActiveSegments[itemIndex] : nil
@@ -151,11 +161,11 @@ public class Router : RouterType {
                 }
                 if child == nil {
                     print("Route segment did not load a viewController: \(segmentIdentifier)")
-                    return
+                    return false
                 }
                 if !completionSucessful {
                     print("Route segment completion block failed: \(segmentIdentifier)")
-                    return
+                    return false
                 }
             } else {
                 child = currentChild
@@ -191,6 +201,7 @@ public class Router : RouterType {
             parent = child
 
         }
+        return true
     }
 
     private func selectSibingInTabBarController(tabBarController:UITabBarController, forIdentifier segmentIdentifier:Identifier) -> UIViewController? {
