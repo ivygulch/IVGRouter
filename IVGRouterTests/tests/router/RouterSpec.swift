@@ -121,47 +121,6 @@ class RouterSpec: QuickSpec {
             }
         }
 
-        describe("execute simple route") {
-
-            var mockPresenterCompletionSucceeds: MockRouteSegmentPresenter!
-            var mockPresenterCompletionFails: MockRouteSegmentPresenter!
-            var mockRouteSegmentValid: MockRouteSegment!
-            var mockRouteSegmentNoViewController: MockRouteSegment!
-            var mockRouteSegmentCompletionFails: MockRouteSegment!
-            var router: Router!
-
-            beforeEach {
-                mockPresenterCompletionSucceeds = MockRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)
-                mockPresenterCompletionFails = MockRouteSegmentPresenter(presenterIdentifier: "Failure", completionBlockArg: false)
-                mockRouteSegmentValid = self.buildMockRouteSegment("Valid", presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, viewController:MockViewController(""))
-                mockRouteSegmentNoViewController = self.buildMockRouteSegment("NoViewController", presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, viewController:nil)
-                mockRouteSegmentCompletionFails = self.buildMockRouteSegment("CompletionFails", presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, viewController:MockViewController(""))
-                router = Router(window: nil)
-                router.registerPresenter(mockPresenterCompletionSucceeds)
-                router.registerPresenter(mockPresenterCompletionFails)
-                router.registerRouteSegment(mockRouteSegmentNoViewController)
-                router.registerRouteSegment(mockRouteSegmentCompletionFails)
-                router.registerRouteSegment(mockRouteSegmentValid)
-                router.registerRouteSegment(mockRouteSegmentNoViewController)
-                router.registerRouteSegment(mockRouteSegmentCompletionFails)
-            }
-
-            it("should succeed when segment produces a view controller and completion block arg is true") {
-                let success = router.executeRoute([mockRouteSegmentValid.segmentIdentifier])
-                expect(success).to(beTrue())
-            }
-
-            it("should fail when segment does not produce a view controller") {
-                let success = router.executeRoute([mockRouteSegmentNoViewController.segmentIdentifier])
-                expect(success).to(beFalse())
-            }
-
-            it("should fail when segment completion block arg is false") {
-                let success = router.executeRoute([mockRouteSegmentCompletionFails.segmentIdentifier])
-                expect(success).to(beFalse())
-            }
-        }
-
         describe("execute simple sequence route") {
 
             let mockViewControllerA = MockViewController("A")
@@ -196,11 +155,6 @@ class RouterSpec: QuickSpec {
 
             describe("when a valid sequence is used") {
 
-                it("should succeed") {
-                    let success = router.executeRoute(validSequence)
-                    expect(success).to(beTrue())
-                }
-
                 it("should produce full sequence") {
                     router.executeRoute(validSequence)
                     expect(router.viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
@@ -209,11 +163,6 @@ class RouterSpec: QuickSpec {
             }
 
             describe("when a invalid sequence is used") {
-
-                it("should fail") {
-                    let success = router.executeRoute(invalidSequence)
-                    expect(success).to(beFalse())
-                }
 
                 it("should produce partial sequence") {
                     router.executeRoute(invalidSequence)
