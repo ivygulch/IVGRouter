@@ -33,6 +33,8 @@
 		F8711CBE1CCD1C8800E6EEBB /* RouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8711CAF1CCD1C8800E6EEBB /* RouterSpec.swift */; };
 		F8711CBF1CCD1C8800E6EEBB /* RouteSegmentIdentifierSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8711CB01CCD1C8800E6EEBB /* RouteSegmentIdentifierSpec.swift */; };
 		F8711CC01CCD1C8800E6EEBB /* RouteSegmentSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8711CB11CCD1C8800E6EEBB /* RouteSegmentSpec.swift */; };
+		F8711CC81CCD1D9900E6EEBB /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8711CC71CCD1D9900E6EEBB /* Quick.framework */; };
+		F8711CCA1CCD1D9F00E6EEBB /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8711CC91CCD1D9F00E6EEBB /* Nimble.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		F8711CAF1CCD1C8800E6EEBB /* RouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterSpec.swift; sourceTree = "<group>"; };
 		F8711CB01CCD1C8800E6EEBB /* RouteSegmentIdentifierSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegmentIdentifierSpec.swift; sourceTree = "<group>"; };
 		F8711CB11CCD1C8800E6EEBB /* RouteSegmentSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSegmentSpec.swift; sourceTree = "<group>"; };
+		F8711CC71CCD1D9900E6EEBB /* Quick.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quick.framework; path = "external/Quick/build/Debug-iphoneos/Quick.framework"; sourceTree = "<group>"; };
+		F8711CC91CCD1D9F00E6EEBB /* Nimble.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nimble.framework; path = "../../../../Library/Developer/Xcode/DerivedData/IVGRouter-buhogojpullfwxevttfpzvqvikzt/Build/Products/Debug-iphonesimulator/Nimble.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8711CCA1CCD1D9F00E6EEBB /* Nimble.framework in Frameworks */,
+				F8711CC81CCD1D9900E6EEBB /* Quick.framework in Frameworks */,
 				F8711C771CCD1C0B00E6EEBB /* IVGRouter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -101,6 +107,7 @@
 			children = (
 				F8711C6E1CCD1C0A00E6EEBB /* IVGRouter */,
 				F8711C7A1CCD1C0B00E6EEBB /* IVGRouterTests */,
+				F8711CCB1CCD1DA600E6EEBB /* Frameworks */,
 				F8711C6D1CCD1C0A00E6EEBB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -225,6 +232,15 @@
 			children = (
 			);
 			path = viewController;
+			sourceTree = "<group>";
+		};
+		F8711CCB1CCD1DA600E6EEBB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F8711CC91CCD1D9F00E6EEBB /* Nimble.framework */,
+				F8711CC71CCD1D9900E6EEBB /* Quick.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -506,6 +522,10 @@
 		F8711C841CCD1C0B00E6EEBB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/external/Quick/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = IVGRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterTests;
@@ -516,6 +536,10 @@
 		F8711C851CCD1C0B00E6EEBB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/external/Quick/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = IVGRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterTests;
