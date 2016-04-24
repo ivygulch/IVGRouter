@@ -1,5 +1,5 @@
 //
-//  RouteSegmentSpec.swift
+//  VisualRouteSegmentSpec.swift
 //  IVGRouter
 //
 //  Created by Douglas Sjoquist on 4/1/16.
@@ -11,11 +11,11 @@ import Quick
 import Nimble
 import IVGRouter
 
-class RouteSegmentSpec: QuickSpec {
+class VisualRouteSegmentSpec: QuickSpec {
 
     override func spec() {
 
-        describe("routeSegment") {
+        describe("visualRouteSegment") {
             var mockIdentifier: Identifier!
             var mockViewControllerB: MockViewController!
 
@@ -31,15 +31,15 @@ class RouteSegmentSpec: QuickSpec {
 
             describe("present B from A once with singleton loading") {
 
-                var routeSegment: RouteSegment!
+                var visualRouteSegment: VisualRouteSegment!
                 var loadedViewController: UIViewController?
 
                 beforeEach {
-                    routeSegment = RouteSegment(segmentIdentifier: mockIdentifier,
+                    visualRouteSegment = VisualRouteSegment(segmentIdentifier: mockIdentifier,
                         presenterIdentifier: mockIdentifier,
                         isSingleton: true,
                         loadViewController: mockViewControllerBLoader.load)
-                    loadedViewController = routeSegment.viewController()
+                    loadedViewController = visualRouteSegment.viewController()
                 }
 
                 it("should load mockViewControllerB once") {
@@ -50,15 +50,15 @@ class RouteSegmentSpec: QuickSpec {
 
             describe("present B from A twice with singleton loading") {
 
-                var routeSegment: RouteSegment!
+                var visualRouteSegment: VisualRouteSegment!
 
                 beforeEach {
-                    routeSegment = RouteSegment(segmentIdentifier: mockIdentifier,
+                    visualRouteSegment = VisualRouteSegment(segmentIdentifier: mockIdentifier,
                         presenterIdentifier: mockIdentifier,
                         isSingleton: true,
                         loadViewController: mockViewControllerBLoader.load)
-                    routeSegment.viewController()
-                    routeSegment.viewController()
+                    visualRouteSegment.viewController()
+                    visualRouteSegment.viewController()
                 }
 
                 it("should load mockViewControllerB just once") {
@@ -69,15 +69,15 @@ class RouteSegmentSpec: QuickSpec {
 
             describe("present B from A twice without singleton loading") {
 
-                var routeSegment: RouteSegment!
+                var visualRouteSegment: VisualRouteSegment!
 
                 beforeEach {
-                    routeSegment = RouteSegment(segmentIdentifier: mockIdentifier,
+                    visualRouteSegment = VisualRouteSegment(segmentIdentifier: mockIdentifier,
                         presenterIdentifier: mockIdentifier,
                         isSingleton: false,
                         loadViewController: mockViewControllerBLoader.load)
-                    routeSegment.viewController()
-                    routeSegment.viewController()
+                    visualRouteSegment.viewController()
+                    visualRouteSegment.viewController()
                 }
 
                 it("should load mockViewControllerB twice") {
@@ -88,14 +88,14 @@ class RouteSegmentSpec: QuickSpec {
 
             describe("present nil from A") {
 
-                var routeSegment: RouteSegment!
+                var visualRouteSegment: VisualRouteSegment!
 
                 beforeEach {
-                    routeSegment = RouteSegment(segmentIdentifier: mockIdentifier,
+                    visualRouteSegment = VisualRouteSegment(segmentIdentifier: mockIdentifier,
                         presenterIdentifier: mockIdentifier,
                         isSingleton: false,
                         loadViewController: mockNilViewControllerLoader.load)
-                    routeSegment.viewController()
+                    visualRouteSegment.viewController()
                 }
 
                 it("load should return nil") {

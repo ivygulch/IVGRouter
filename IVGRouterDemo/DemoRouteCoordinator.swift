@@ -38,8 +38,8 @@ class DemoRouteCoordinator {
         router.registerRouteSegment(buildWrapperSegment())
     }
 
-    private func buildRootSegment() -> RouteSegment {
-        return RouteSegment(
+    private func buildRootSegment() -> VisualRouteSegment {
+        return VisualRouteSegment(
             segmentIdentifier: rootSegmentIdentifier,
             presenterIdentifier: RootRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,
@@ -47,8 +47,8 @@ class DemoRouteCoordinator {
         )
     }
 
-    private func buildWelcomeSegment() -> RouteSegment  {
-        return RouteSegment(
+    private func buildWelcomeSegment() -> VisualRouteSegment  {
+        return VisualRouteSegment(
             segmentIdentifier: welcomeSegmentIdentifier,
             presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,
@@ -62,8 +62,8 @@ class DemoRouteCoordinator {
         )
     }
 
-    private func buildNextSegment() -> RouteSegment  {
-        return RouteSegment(
+    private func buildNextSegment() -> VisualRouteSegment  {
+        return VisualRouteSegment(
             segmentIdentifier: nextSegmentIdentifier,
             presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,
@@ -85,8 +85,8 @@ class DemoRouteCoordinator {
         )
     }
 
-    private func buildWrapperSegment() -> RouteSegment  {
-        return RouteSegment(
+    private func buildWrapperSegment() -> VisualRouteSegment  {
+        return VisualRouteSegment(
             segmentIdentifier: wrapperSegmentIdentifier,
             presenterIdentifier: WrappingRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,

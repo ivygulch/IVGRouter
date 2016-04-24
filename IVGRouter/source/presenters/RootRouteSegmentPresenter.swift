@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
+public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
 
     public static let defaultPresenterIdentifier = Identifier(name: String(RootRouteSegmentPresenter))
 

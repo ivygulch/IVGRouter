@@ -18,7 +18,7 @@ public struct TabRouteSegmentPresenterOptions {
 }
 
 
-public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
+public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
 
     public static let defaultPresenterIdentifier = Identifier(name: String(TabRouteSegmentPresenter))
 

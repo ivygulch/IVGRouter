@@ -11,16 +11,30 @@ import UIKit
 public protocol RouteSegmentType {
     var segmentIdentifier: Identifier { get }
     var presenterIdentifier: Identifier { get }
+}
+
+public protocol VisualRouteSegmentType: RouteSegmentType {
     func viewController() -> UIViewController?
 }
 
 public class RouteSegment : RouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: (Void) -> ((Void) -> UIViewController?)) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
+    }
+
+    public let segmentIdentifier: Identifier
+    public let presenterIdentifier: Identifier
+
+}
+
+public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
+
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: (Void) -> ((Void) -> UIViewController?)) {
         self.isSingleton = isSingleton
         self.loadViewController = loadViewController
+        super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier)
     }
 
     public func viewController() -> UIViewController? {
@@ -38,10 +52,8 @@ public class RouteSegment : RouteSegmentType {
         }
     }
 
-    public let segmentIdentifier: Identifier
-    public let presenterIdentifier: Identifier
     private let isSingleton: Bool
     private let loadViewController: (Void) -> ((Void) -> UIViewController?)
     private var cachedViewController: UIViewController?
-
+    
 }

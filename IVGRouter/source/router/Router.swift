@@ -151,13 +151,19 @@ public class Router : RouterType {
             var child: UIViewController?
             if routeChanged || needNewChild {
                 var completionSucessful = true
-                if let presenter = presenters[routeSegment.presenterIdentifier],
-                    let viewController = routeSegment.viewController() {
-                    child = viewController
-                    presenter.presentViewController(viewController, from: parent, options: routeSequenceItem.options, window: window, completion: {
-                        success in
-                        completionSucessful = success
-                    })
+                if let presenter = presenters[routeSegment.presenterIdentifier] {
+                    if let visualPresenter = presenter as? VisualRouteSegmentPresenterType,
+                        let visualRouteSegment = routeSegment as? VisualRouteSegmentType {
+                        if let viewController = visualRouteSegment.viewController() {
+                            child = viewController
+                            visualPresenter.presentViewController(viewController, from: parent, options: routeSequenceItem.options, window: window, completion: {
+                                success in
+                                completionSucessful = success
+                            })
+                        }
+                    } else {
+                        fatalError("Need to handle non-visual presenters & segments: \(presenter)")
+                    }
                 }
                 if child == nil {
                     print("Route segment did not load a viewController: \(segmentIdentifier)")
@@ -180,10 +186,14 @@ public class Router : RouterType {
                             let nextRouteSegment = routeSegments[nextActiveSegment!.segmentIdentifier]!
                             if let presenter = presenters[nextRouteSegment.presenterIdentifier] {
                                 stillNeedToPop = false
-                                lastChild = presenter.presentViewController(lastChildParent, from: lastChildParent, options: [:], window: nil, completion: {
-                                    _ in
-                                })!
-                                child = lastChild
+                                if let visualPresenter = presenter as? VisualRouteSegmentPresenterType {
+                                    lastChild = visualPresenter.presentViewController(lastChildParent, from: lastChildParent, options: [:], window: nil, completion: {
+                                        _ in
+                                    })!
+                                    child = lastChild
+                                } else {
+                                    fatalError("Need to handle non-visual presenters")
+                                }
                             }
                         }
                         if stillNeedToPop {

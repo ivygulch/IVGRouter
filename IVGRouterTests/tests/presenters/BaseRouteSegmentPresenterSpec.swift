@@ -14,10 +14,6 @@ import Nimble
 // need a class that implements RouteSegmentPresenterType to make it testable
 public class TestBaseRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
     public static let defaultPresenterIdentifier = Identifier(name: String(TestBaseRouteSegmentPresenter))
-
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController? {
-        return nil
-    }
 }
 
 class BaseRouteSegmentPresenterSpec: QuickSpec {

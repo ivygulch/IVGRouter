@@ -22,7 +22,7 @@ public protocol WrappingRouteSegmentAnimator {
 //    var completeViewUnwrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) { get }
 }
 
-public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
+public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
 
     // MARK: public methods
 

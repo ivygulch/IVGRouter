@@ -1,5 +1,5 @@
 //
-//  MockRouteSegment.swift
+//  MockVisualRouteSegment.swift
 //  IVGRouter
 //
 //  Created by Douglas Sjoquist on 4/1/16.
@@ -11,12 +11,13 @@ import Quick
 import Nimble
 import IVGRouter
 
-class MockRouteSegment : TrackableTestClass, RouteSegmentType {
+class MockVisualRouteSegment : TrackableTestClass, VisualRouteSegmentType {
 
     init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, presentedViewController: UIViewController?) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
         self.presentedViewController = presentedViewController
+        print("DBG: set")
     }
 
     let segmentIdentifier: Identifier

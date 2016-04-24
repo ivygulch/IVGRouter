@@ -17,7 +17,7 @@ public struct PushRouteSegmentPresenterOptions {
     }
 }
 
-public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
+public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
 
     public static let defaultPresenterIdentifier = Identifier(name: String(PushRouteSegmentPresenter))
 
