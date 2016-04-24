@@ -1,14 +1,14 @@
 //
-//  MockViewController.swift
+//  MockTabBarController.swift
 //  IVGRouter
 //
-//  Created by Douglas Sjoquist on 4/1/16.
+//  Created by Douglas Sjoquist on 4/24/16.
 //  Copyright © 2016 Ivy Gulch LLC. All rights reserved.
 //
 
 import UIKit
 
-class MockViewController : UIViewController {
+class MockTabBarController : UITabBarController {
 
     init(_ name: String) {
         self.name = name

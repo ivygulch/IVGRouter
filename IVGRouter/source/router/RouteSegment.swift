@@ -17,6 +17,14 @@ public protocol VisualRouteSegmentType: RouteSegmentType {
     func viewController() -> UIViewController?
 }
 
+public protocol BranchedRouteSegmentType: RouteSegmentType {
+}
+
+public protocol BranchingRouteSegmentType: RouteSegmentType {
+    var branches:[BranchedRouteSegmentType] { get }
+    func addBranch(branchedRouteSegment: BranchedRouteSegmentType)
+}
+
 public class RouteSegment : RouteSegmentType {
 
     public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier) {

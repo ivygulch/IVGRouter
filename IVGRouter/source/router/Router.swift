@@ -132,9 +132,11 @@ public class Router : RouterType {
                 print("No segment registered for: \(segmentIdentifier)")
                 return false
             }
+
             let isLastSegment = (itemIndex == (routeSequence.count - 1))
-            let currentActiveSegment:ActiveSegment? = (itemIndex < currentActiveSegments.count) ? currentActiveSegments[itemIndex] : nil
-            let nextActiveSegment:ActiveSegment? = ((itemIndex+1) < currentActiveSegments.count) ? currentActiveSegments[itemIndex+1] : nil
+            let parentActiveSegment = currentActiveSegments[safe: itemIndex-1]
+            let currentActiveSegment = currentActiveSegments[safe: itemIndex]
+            let nextActiveSegment = currentActiveSegments[safe: itemIndex+1]
             var currentChild = currentActiveSegment?.viewController
 
             var needNewChild = false
@@ -162,7 +164,8 @@ public class Router : RouterType {
                             })
                         }
                     } else {
-                        fatalError("Need to handle non-visual presenters & segments: \(presenter)")
+                        print("WARNING: Need to handle non-visual presenters & segments: \(presenter)")
+                        return false
                     }
                 }
                 if child == nil {
@@ -192,7 +195,8 @@ public class Router : RouterType {
                                     })!
                                     child = lastChild
                                 } else {
-                                    fatalError("Need to handle non-visual presenters")
+                                    print("WARNING: Need to handle non-visual presenters")
+                                    return false
                                 }
                             }
                         }
@@ -230,6 +234,12 @@ public class Router : RouterType {
     private var currentActiveSegments:[ActiveSegment] = []
     private var registeredViewControllers:[UIViewController:Identifier] = [:]
 
+}
+
+private extension CollectionType {
+    subscript (safe index: Index) -> Generator.Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
 }
 
 private struct ActiveSegment {

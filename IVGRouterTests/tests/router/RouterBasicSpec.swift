@@ -1,5 +1,5 @@
 //
-//  RouterSpec.swift
+//  RouterBasicSpec.swift
 //  IVGRouter
 //
 //  Created by Douglas Sjoquist on 4/1/16.
@@ -11,13 +11,7 @@ import Quick
 import Nimble
 import IVGRouter
 
-class RouterSpec: QuickSpec {
-
-    func buildMockVisualRouteSegment(segmentIdentifier: String, presenterIdentifier: Identifier, viewController:UIViewController?) -> MockVisualRouteSegment {
-        return MockVisualRouteSegment(segmentIdentifier: Identifier(name: segmentIdentifier),
-                                      presenterIdentifier: presenterIdentifier,
-                                      presentedViewController : viewController)
-    }
+class RouterBasicSpec: QuickSpec {
 
     override func spec() {
 
@@ -93,8 +87,8 @@ class RouterSpec: QuickSpec {
                 beforeEach {
                     mockPresenterA = MockVisualRouteSegmentPresenter(presenterIdentifier: "A", completionBlockArg: true)
                     mockPresenterB = MockVisualRouteSegmentPresenter(presenterIdentifier: "B", completionBlockArg: true)
-                    mockVisualRouteSegmentA = self.buildMockVisualRouteSegment("A", presenterIdentifier: mockPresenterA.presenterIdentifier, viewController:MockViewController("A"))
-                    mockVisualRouteSegmentB = self.buildMockVisualRouteSegment("B", presenterIdentifier: mockPresenterB.presenterIdentifier, viewController:MockViewController("B"))
+                    mockVisualRouteSegmentA = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "A"), presenterIdentifier: mockPresenterA.presenterIdentifier, presentedViewController: MockViewController("A"))
+                    mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: mockPresenterB.presenterIdentifier, presentedViewController: MockViewController("B"))
                     router = Router(window: nil)
                 }
 
@@ -143,9 +137,9 @@ class RouterSpec: QuickSpec {
                 beforeEach {
                     mockPresenterCompletionSucceeds = MockVisualRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)
                     mockPresenterCompletionFails = MockVisualRouteSegmentPresenter(presenterIdentifier: "Failure", completionBlockArg: false)
-                    mockVisualRouteSegmentValid = self.buildMockVisualRouteSegment("Valid", presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, viewController:MockViewController(""))
-                    mockVisualRouteSegmentNoViewController = self.buildMockVisualRouteSegment("NoViewController", presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, viewController:nil)
-                    mockVisualRouteSegmentCompletionFails = self.buildMockVisualRouteSegment("CompletionFails", presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, viewController:MockViewController(""))
+                    mockVisualRouteSegmentValid = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "Valid"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: MockViewController(""))
+                    mockVisualRouteSegmentNoViewController = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "NoViewController"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: nil)
+                    mockVisualRouteSegmentCompletionFails = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "CompletionFails"), presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, presentedViewController: MockViewController(""))
                     router = Router(window: nil)
                     router.registerPresenter(mockPresenterCompletionSucceeds)
                     router.registerPresenter(mockPresenterCompletionFails)
@@ -204,10 +198,10 @@ class RouterSpec: QuickSpec {
                 beforeEach {
                     mockPresenterCompletionSucceeds = MockVisualRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)
                     mockPresenterCompletionFails = MockVisualRouteSegmentPresenter(presenterIdentifier: "Failure", completionBlockArg: false)
-                    mockVisualRouteSegmentA = self.buildMockVisualRouteSegment("A", presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, viewController:mockViewControllerA)
-                    mockVisualRouteSegmentB = self.buildMockVisualRouteSegment("B", presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, viewController:mockViewControllerB)
-                    mockVisualRouteSegmentC = self.buildMockVisualRouteSegment("C", presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, viewController:mockViewControllerC)
-                    mockVisualRouteSegmentInvalid = self.buildMockVisualRouteSegment("Invalid", presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, viewController:nil)
+                    mockVisualRouteSegmentA = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "A"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerA)
+                    mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerB)
+                    mockVisualRouteSegmentC = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "C"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerC)
+                    mockVisualRouteSegmentInvalid = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "Invalid"), presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, presentedViewController: nil)
                     router = Router(window: nil)
                     router.registerPresenter(mockPresenterCompletionSucceeds)
                     router.registerPresenter(mockPresenterCompletionFails)
@@ -233,12 +227,12 @@ class RouterSpec: QuickSpec {
                 }
 
                 context("with an invalid sequence") {
-                    
+
                     it("should fail") {
                         let success = router.executeRoute(invalidSequence)
                         expect(success).to(beFalse())
                     }
-                    
+
                     it("should produce partial sequence") {
                         router.executeRoute(invalidSequence)
                         expect(router.viewControllers).to(equal([mockViewControllerA]))
@@ -247,7 +241,7 @@ class RouterSpec: QuickSpec {
                 }
                 
             }
-            
+
         }
         
     }
