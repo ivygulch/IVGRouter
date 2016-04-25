@@ -22,6 +22,7 @@ public protocol BranchedRouteSegmentType: RouteSegmentType {
 
 public protocol BranchingRouteSegmentType: RouteSegmentType {
     var branches:[BranchedRouteSegmentType] { get }
+    func branchForIdentifier(segmentIdentifier: Identifier) -> BranchedRouteSegmentType?
     func addBranch(branchedRouteSegment: BranchedRouteSegmentType)
 }
 

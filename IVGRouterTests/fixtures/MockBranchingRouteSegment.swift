@@ -15,6 +15,15 @@ class MockBranchingRouteSegment : MockVisualRouteSegment, BranchingRouteSegmentT
 
     var branches:[BranchedRouteSegmentType] = []
 
+    func branchForIdentifier(segmentIdentifier: Identifier) -> BranchedRouteSegmentType? {
+        for branch in branches {
+            if branch.segmentIdentifier == segmentIdentifier {
+                return branch
+            }
+        }
+        return nil
+    }
+
     func addBranch(branchedRouteSegment: BranchedRouteSegmentType) {
         branches.append(branchedRouteSegment)
     }

@@ -8,8 +8,28 @@
 
 import UIKit
 
-public typealias RouteSequence = [RouteSequenceItem]
 public typealias RouteSequenceOptions = [String:Any]
+
+public struct RouteSequence {
+    public var items: [RouteSequenceItem] = []
+
+    public init(source: [Any] = []) {
+        source.forEach { self.addItem($0) }
+    }
+
+    public mutating func addItem(item: Any) {
+        if let routeSequenceItem = item as? RouteSequenceItem {
+            items.append(routeSequenceItem)
+        } else if let segmentIdentifier = item as? Identifier {
+            items.append(RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:[:]))
+        } else if let name = item as? String {
+            items.append(RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:[:]))
+        } else {
+            print("Invalid sourceItem: \(item)")
+        }
+    }
+
+}
 
 public struct RouteSequenceItem {
     public let segmentIdentifier: Identifier
@@ -23,15 +43,15 @@ public struct RouteSequenceItem {
 
 public protocol RouterType {
     var window: UIWindow? { get }
-    var routeSegments:[Identifier:RouteSegmentType] { get }
-    var presenters:[Identifier:RouteSegmentPresenterType] { get }
-    var viewControllers:[UIViewController] { get }
-    func registerPresenter(presenter:RouteSegmentPresenterType)
-    func registerRouteSegment(routeSegment:RouteSegmentType)
-    func appendRouteOnMain(routeSequence:[Any])
-    func executeRouteOnMain(routeSequence:[Any])
-    func appendRoute(routeSequence:[Any]) -> Bool
-    func executeRoute(routeSequence:[Any]) -> Bool
+    var routeSegments: [Identifier: RouteSegmentType] { get }
+    var presenters: [Identifier: RouteSegmentPresenterType] { get }
+    var viewControllers: [UIViewController] { get }
+    func registerPresenter(presenter: RouteSegmentPresenterType)
+    func registerRouteSegment(routeSegment: RouteSegmentType)
+    func appendRouteOnMain(source: [Any])
+    func executeRouteOnMain(source: [Any])
+    func appendRoute(source: [Any]) -> Bool
+    func executeRoute(source: [Any]) -> Bool
     func registerDefaultPresenters()
 
     var currentSequence:[Any] { get }
@@ -53,7 +73,7 @@ public class Router : RouterType {
             var result = "[\(index)]"
             result += "=\(segmentIdentifier.name)"
             result += "," + String(vc.dynamicType)
-            if let p = vc.parentViewController {
+            if let p = vc?.parentViewController {
                 result += ",p=" + String(p.dynamicType)
             }
             print(result)
@@ -66,7 +86,7 @@ public class Router : RouterType {
     public let window: UIWindow?
 
     public var viewControllers:[UIViewController] {
-        return currentActiveSegments.map { $0.viewController }
+        return currentActiveSegments.flatMap { $0.viewController }
     }
 
     public func registerPresenter(presenter:RouteSegmentPresenterType) {
@@ -91,33 +111,33 @@ public class Router : RouterType {
         }
     }
 
-    public func appendRouteOnMain(routeSequence:[Any]) {
+    public func appendRouteOnMain(source: [Any]) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.appendRoute(routeSequence)
+            self.appendRoute(source)
         }
     }
 
-    public func executeRouteOnMain(routeSequence:[Any]) {
+    public func executeRouteOnMain(source: [Any]) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.executeRoute(routeSequence)
+            self.executeRoute(source)
         }
     }
-    
-    public func appendRoute(routeSequence:[Any]) -> Bool {
-        return self.executeRouteSequence(routeSequence, append: true)
+
+    public func appendRoute(source: [Any]) -> Bool {
+        return self.executeRouteSequence(source, append: true)
     }
 
-    public func executeRoute(routeSequence:[Any]) -> Bool {
-        return self.executeRouteSequence(routeSequence, append: false)
+    public func executeRoute(source: [Any]) -> Bool {
+        return self.executeRouteSequence(source, append: false)
     }
-    
-    private func executeRouteSequence(routeSequence:[Any], append: Bool) -> Bool {
+
+    private func executeRouteSequence(source: [Any], append: Bool) -> Bool {
         var newActiveSegments:[ActiveSegment] = []
         var routeChanged = false
         defer {
             currentActiveSegments = newActiveSegments
         }
-        let useRouteSequence = buildRouteSequence(routeSequence)
+        let useRouteSequence = RouteSequence(source: source)
         var parent: UIViewController?
 
         if append {
@@ -125,15 +145,15 @@ public class Router : RouterType {
             parent = currentActiveSegments.last?.viewController
         }
 
-        for itemIndex in 0..<useRouteSequence.count {
-            let routeSequenceItem = useRouteSequence[itemIndex]
+        for itemIndex in 0..<useRouteSequence.items.count {
+            let routeSequenceItem = useRouteSequence.items[itemIndex]
             let segmentIdentifier = routeSequenceItem.segmentIdentifier
             guard let routeSegment = routeSegments[segmentIdentifier] else {
                 print("No segment registered for: \(segmentIdentifier)")
                 return false
             }
 
-            let isLastSegment = (itemIndex == (routeSequence.count - 1))
+            let isLastSegment = (itemIndex == (routeSegments.count - 1))
             let parentActiveSegment = currentActiveSegments[safe: itemIndex-1]
             let currentActiveSegment = currentActiveSegments[safe: itemIndex]
             let nextActiveSegment = currentActiveSegments[safe: itemIndex+1]
@@ -230,10 +250,10 @@ public class Router : RouterType {
         }
         return nil
     }
-
+    
     private var currentActiveSegments:[ActiveSegment] = []
     private var registeredViewControllers:[UIViewController:Identifier] = [:]
-
+    
 }
 
 private extension CollectionType {
@@ -244,21 +264,6 @@ private extension CollectionType {
 
 private struct ActiveSegment {
     let segmentIdentifier: Identifier
-    let viewController: UIViewController
-}
 
-private func buildRouteSequence(source: [Any]) -> RouteSequence {
-    var result:RouteSequence = []
-    for item in source {
-        if let routeSequenceItem = item as? RouteSequenceItem {
-            result.append(routeSequenceItem)
-        } else if let segmentIdentifier = item as? Identifier {
-            result.append(RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:[:]))
-        } else if let name = item as? String {
-            result.append(RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:[:]))
-        } else {
-            print("Invalid sourceItem: \(item)")
-        }
-    }
-    return result
+    let viewController: UIViewController?
 }

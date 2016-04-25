@@ -10,6 +10,8 @@
 		F82D21821CCD83AF0010CDFF /* MockBranchedRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21811CCD83AF0010CDFF /* MockBranchedRouteSegmentPresenter.swift */; };
 		F82D21841CCD844D0010CDFF /* MockBranchedRouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21831CCD844D0010CDFF /* MockBranchedRouteSegment.swift */; };
 		F82D21861CCD852D0010CDFF /* RouterBasicSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */; };
+		F82D21881CCD91D30010CDFF /* RouteBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21871CCD91D30010CDFF /* RouteBranch.swift */; };
+		F82D218A1CCD97040010CDFF /* RouteBranchSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21891CCD97040010CDFF /* RouteBranchSpec.swift */; };
 		F8711C771CCD1C0B00E6EEBB /* IVGRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8711C6C1CCD1C0A00E6EEBB /* IVGRouter.framework */; };
 		F8711C951CCD1C7300E6EEBB /* IVGRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = F8711C871CCD1C7300E6EEBB /* IVGRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8711C961CCD1C7300E6EEBB /* BaseRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8711C891CCD1C7300E6EEBB /* BaseRouteSegmentPresenter.swift */; };
@@ -74,6 +76,8 @@
 		F82D21811CCD83AF0010CDFF /* MockBranchedRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBranchedRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F82D21831CCD844D0010CDFF /* MockBranchedRouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBranchedRouteSegment.swift; sourceTree = "<group>"; };
 		F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterBasicSpec.swift; sourceTree = "<group>"; };
+		F82D21871CCD91D30010CDFF /* RouteBranch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBranch.swift; sourceTree = "<group>"; };
+		F82D21891CCD97040010CDFF /* RouteBranchSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteBranchSpec.swift; sourceTree = "<group>"; };
 		F8711C6C1CCD1C0A00E6EEBB /* IVGRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IVGRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8711C711CCD1C0A00E6EEBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8711C761CCD1C0B00E6EEBB /* IVGRouterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IVGRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +224,7 @@
 				F8711C901CCD1C7300E6EEBB /* Identifier.swift */,
 				F8711C911CCD1C7300E6EEBB /* Router.swift */,
 				F8711C921CCD1C7300E6EEBB /* RouteSegment.swift */,
+				F82D21871CCD91D30010CDFF /* RouteBranch.swift */,
 				F8711C931CCD1C7300E6EEBB /* RouteSegmentPresenter.swift */,
 			);
 			path = router;
@@ -276,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */,
+				F82D21891CCD97040010CDFF /* RouteBranchSpec.swift */,
 				F8711CAF1CCD1C8800E6EEBB /* RouterBranchingSpec.swift */,
 				F8711CB01CCD1C8800E6EEBB /* RouteSegmentIdentifierSpec.swift */,
 				F8711CB11CCD1C8800E6EEBB /* VisualRouteSegmentSpec.swift */,
@@ -467,6 +473,7 @@
 				F8711C9C1CCD1C7300E6EEBB /* Identifier.swift in Sources */,
 				F8711C9A1CCD1C7300E6EEBB /* TabRouteSegmentPresenter.swift in Sources */,
 				F8711C9E1CCD1C7400E6EEBB /* RouteSegment.swift in Sources */,
+				F82D21881CCD91D30010CDFF /* RouteBranch.swift in Sources */,
 				F8711C9B1CCD1C7300E6EEBB /* WrappingRouteSegmentPresenter.swift in Sources */,
 				F8711C991CCD1C7300E6EEBB /* SlidingWrappingRouteSegmentAnimator.swift in Sources */,
 			);
@@ -486,6 +493,7 @@
 				F82D21841CCD844D0010CDFF /* MockBranchedRouteSegment.swift in Sources */,
 				F8711CC01CCD1C8800E6EEBB /* VisualRouteSegmentSpec.swift in Sources */,
 				F8711CB41CCD1C8800E6EEBB /* MockVisualRouteSegment.swift in Sources */,
+				F82D218A1CCD97040010CDFF /* RouteBranchSpec.swift in Sources */,
 				F82D21861CCD852D0010CDFF /* RouterBasicSpec.swift in Sources */,
 				F8711CB51CCD1C8800E6EEBB /* MockVisualRouteSegmentPresenter.swift in Sources */,
 				F8711CBF1CCD1C8800E6EEBB /* RouteSegmentIdentifierSpec.swift in Sources */,
