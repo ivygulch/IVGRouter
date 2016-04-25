@@ -8,32 +8,23 @@
 
 import Foundation
 
-public protocol RouteBranchType {
-    var segmentIdentifiers: [Identifier] { get }
-    func validatedRouteSegmentsWithRouter(router: RouterType) -> [RouteSegmentType]?
+public protocol RouteBranchType: RouteSequenceType {
 }
 
-public class RouteBranch : RouteBranchType {
+public class RouteBranch: RouteSequence, RouteBranchType {
 
-    public let segmentIdentifiers: [Identifier]
-
-    public init(segmentIdentifiers: [Identifier]) {
-        self.segmentIdentifiers = segmentIdentifiers
-    }
-
-    public func validatedRouteSegmentsWithRouter(router: RouterType) -> [RouteSegmentType]? {
-        let routeSegments: [RouteSegmentType?] = segmentIdentifiers.map { router.routeSegments[$0] }
-        let checkRouteSegments = routeSegments.flatMap { $0 }
-        if routeSegments.count != checkRouteSegments.count {
-            return nil // all the route segments must be registered
+    public override func validatedRouteSegmentsWithRouter(router: RouterType) -> [RouteSegmentType]? {
+        guard let routeSegments = super.validatedRouteSegmentsWithRouter(router) else {
+            return nil // not a valid sequence
         }
-        var routeSegmentStack = checkRouteSegments
+
+        var routeSegmentStack = routeSegments
         guard let _ = routeSegmentStack.popLast() as? BranchedRouteSegmentType else {
             return nil // last segment must be Branched
         }
         guard let _ = routeSegmentStack.popLast() as? BranchingRouteSegmentType else {
             return nil // next to last segment must be Branching
         }
-        return checkRouteSegments
+        return routeSegments
     }
 }

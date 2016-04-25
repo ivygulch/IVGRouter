@@ -8,39 +8,6 @@
 
 import UIKit
 
-public typealias RouteSequenceOptions = [String:Any]
-
-public struct RouteSequence {
-    public var items: [RouteSequenceItem] = []
-
-    public init(source: [Any] = []) {
-        source.forEach { self.addItem($0) }
-    }
-
-    public mutating func addItem(item: Any) {
-        if let routeSequenceItem = item as? RouteSequenceItem {
-            items.append(routeSequenceItem)
-        } else if let segmentIdentifier = item as? Identifier {
-            items.append(RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:[:]))
-        } else if let name = item as? String {
-            items.append(RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:[:]))
-        } else {
-            print("Invalid sourceItem: \(item)")
-        }
-    }
-
-}
-
-public struct RouteSequenceItem {
-    public let segmentIdentifier: Identifier
-    public let options: RouteSequenceOptions
-
-    public init(segmentIdentifier: Identifier, options: RouteSequenceOptions) {
-        self.segmentIdentifier = segmentIdentifier
-        self.options = options
-    }
-}
-
 public protocol RouterType {
     var window: UIWindow? { get }
     var routeSegments: [Identifier: RouteSegmentType] { get }

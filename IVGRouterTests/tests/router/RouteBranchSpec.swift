@@ -37,7 +37,7 @@ class RouteBranchSpec: QuickSpec {
                     router.registerRouteSegment(mockVisualRouteSegment)
                     router.registerRouteSegment(mockBranchingRouteSegment)
                     router.registerRouteSegment(mockBranchedRouteSegment)
-                    routeBranch = RouteBranch(segmentIdentifiers: [
+                    routeBranch = RouteBranch(source: [
                         mockVisualRouteSegment.segmentIdentifier,
                         mockBranchingRouteSegment.segmentIdentifier,
                         mockBranchedRouteSegment.segmentIdentifier
@@ -47,10 +47,10 @@ class RouteBranchSpec: QuickSpec {
 
                 it("should have matching route segments") {
                     if let validatedRouteSegments = validatedRouteSegments {
-                        expect(validatedRouteSegments).to(haveCount(routeBranch.segmentIdentifiers.count))
-                        for index in 0..<routeBranch.segmentIdentifiers.count {
+                        expect(validatedRouteSegments).to(haveCount(routeBranch.items.count))
+                        for index in 0..<routeBranch.items.count {
                             if index < validatedRouteSegments.count {
-                                let segmentIdentifier = routeBranch.segmentIdentifiers[index]
+                                let segmentIdentifier = routeBranch.items[index].segmentIdentifier
                                 let validatedRouteSegment = validatedRouteSegments[index]
                                 expect(validatedRouteSegment.segmentIdentifier).to(equal(segmentIdentifier))
                             }
@@ -62,27 +62,6 @@ class RouteBranchSpec: QuickSpec {
                 
             }
 
-            context("with valid but unregistered segments") {
-
-                var routeBranch: RouteBranch!
-                var validatedRouteSegments: [RouteSegmentType]?
-
-                beforeEach {
-                    router = Router(window: nil)
-                    routeBranch = RouteBranch(segmentIdentifiers: [
-                        mockVisualRouteSegment.segmentIdentifier,
-                        mockBranchingRouteSegment.segmentIdentifier,
-                        mockBranchedRouteSegment.segmentIdentifier
-                        ])
-                    validatedRouteSegments = routeBranch.validatedRouteSegmentsWithRouter(router)
-                }
-
-                it("should not have validated route segments") {
-                    expect(validatedRouteSegments).to(beNil())
-                }
-                
-            }
-
             context("with missing branched segment") {
 
                 var routeBranch: RouteBranch!
@@ -90,7 +69,7 @@ class RouteBranchSpec: QuickSpec {
 
                 beforeEach {
                     router = Router(window: nil)
-                    routeBranch = RouteBranch(segmentIdentifiers: [
+                    routeBranch = RouteBranch(source: [
                         mockVisualRouteSegment.segmentIdentifier,
                         mockBranchingRouteSegment.segmentIdentifier,
                         ])
@@ -110,7 +89,7 @@ class RouteBranchSpec: QuickSpec {
 
                 beforeEach {
                     router = Router(window: nil)
-                    routeBranch = RouteBranch(segmentIdentifiers: [
+                    routeBranch = RouteBranch(source: [
                         mockVisualRouteSegment.segmentIdentifier,
                         mockBranchingRouteSegment.segmentIdentifier,
                         ])
@@ -130,7 +109,7 @@ class RouteBranchSpec: QuickSpec {
 
                 beforeEach {
                     router = Router(window: nil)
-                    routeBranch = RouteBranch(segmentIdentifiers: [
+                    routeBranch = RouteBranch(source: [
                         mockBranchingRouteSegment.segmentIdentifier,
                         mockBranchedRouteSegment.segmentIdentifier,
                         mockVisualRouteSegment.segmentIdentifier
