@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F82851691CD1200000A20190 /* RouteSequenceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82851681CD1200000A20190 /* RouteSequenceItem.swift */; };
 		F82D21821CCD83AF0010CDFF /* MockBranchedRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21811CCD83AF0010CDFF /* MockBranchedRouteSegmentPresenter.swift */; };
 		F82D21841CCD844D0010CDFF /* MockBranchedRouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21831CCD844D0010CDFF /* MockBranchedRouteSegment.swift */; };
 		F82D21861CCD852D0010CDFF /* RouterBasicSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */; };
@@ -75,6 +76,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F82851681CD1200000A20190 /* RouteSequenceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSequenceItem.swift; sourceTree = "<group>"; };
 		F82D21811CCD83AF0010CDFF /* MockBranchedRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBranchedRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F82D21831CCD844D0010CDFF /* MockBranchedRouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBranchedRouteSegment.swift; sourceTree = "<group>"; };
 		F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterBasicSpec.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				F8711C911CCD1C7300E6EEBB /* Router.swift */,
 				F8711C921CCD1C7300E6EEBB /* RouteSegment.swift */,
 				F82D218B1CCD9B2B0010CDFF /* RouteSequence.swift */,
+				F82851681CD1200000A20190 /* RouteSequenceItem.swift */,
 				F82D21871CCD91D30010CDFF /* RouteBranch.swift */,
 				F8711C931CCD1C7300E6EEBB /* RouteSegmentPresenter.swift */,
 			);
@@ -483,6 +486,7 @@
 				F8711C9B1CCD1C7300E6EEBB /* WrappingRouteSegmentPresenter.swift in Sources */,
 				F8711C991CCD1C7300E6EEBB /* SlidingWrappingRouteSegmentAnimator.swift in Sources */,
 				F82D218C1CCD9B2B0010CDFF /* RouteSequence.swift in Sources */,
+				F82851691CD1200000A20190 /* RouteSequenceItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

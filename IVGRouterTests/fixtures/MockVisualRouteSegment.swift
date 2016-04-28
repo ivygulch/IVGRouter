@@ -17,7 +17,6 @@ class MockVisualRouteSegment : TrackableTestClass, VisualRouteSegmentType {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
         self.presentedViewController = presentedViewController
-        print("DBG: set")
     }
 
     let segmentIdentifier: Identifier

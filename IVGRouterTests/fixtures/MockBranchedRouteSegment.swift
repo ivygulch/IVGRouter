@@ -16,7 +16,6 @@ class MockBranchedRouteSegment : TrackableTestClass, BranchedRouteSegmentType {
     init(segmentIdentifier: Identifier, presenterIdentifier: Identifier) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
-        print("DBG: set")
     }
 
     let segmentIdentifier: Identifier

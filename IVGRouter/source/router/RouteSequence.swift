@@ -9,42 +9,16 @@
 import Foundation
 
 public protocol RouteSequenceType {
-    var items: [RouteSequenceItem] { get }
+    var items: [RouteSequenceItemType] { get }
     func validatedRouteSegmentsWithRouter(router: RouterType) -> [RouteSegmentType]?
 }
 
-public typealias RouteSequenceOptions = [String:Any]
-
-public struct RouteSequenceItem {
-    public let segmentIdentifier: Identifier
-    public let options: RouteSequenceOptions
-
-    public init(segmentIdentifier: Identifier, options: RouteSequenceOptions) {
-        self.segmentIdentifier = segmentIdentifier
-        self.options = options
-    }
-
-    public static func routeSequenceItem(item: Any) -> RouteSequenceItem? {
-        if let routeSequenceItem = item as? RouteSequenceItem {
-            return routeSequenceItem
-        } else if let segmentIdentifier = item as? Identifier {
-            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:[:])
-        } else if let name = item as? String {
-            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:[:])
-        }
-        print("Invalid sourceItem: \(item)")
-        return nil
-    }
-
-}
-
-
 public class RouteSequence : RouteSequenceType {
 
-    public var items: [RouteSequenceItem] = []
+    public var items: [RouteSequenceItemType] = []
 
     public init(source: [Any]) {
-        self.items = source.map { RouteSequenceItem.routeSequenceItem($0) }.flatMap { $0 }
+        self.items = source.map { RouteSequenceItem.transform($0) }.flatMap { $0 }
     }
 
     public func validatedRouteSegmentsWithRouter(router: RouterType) -> [RouteSegmentType]? {
@@ -55,4 +29,5 @@ public class RouteSequence : RouteSequenceType {
         }
         return checkRouteSegments
     }
+
 }

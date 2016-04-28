@@ -127,6 +127,11 @@ class RouterBasicSpec: QuickSpec {
 
             context("when executing single segment route") {
 
+                let identifierNoViewController = Identifier(name: "NoViewController")
+                let identifierCompletionFails = Identifier(name: "CompletionFails")
+                let identifierValid = Identifier(name: "Valid")
+                let mockViewControllerA = MockViewController("A")
+                let mockViewControllerB = MockViewController("B")
                 var mockPresenterCompletionSucceeds: MockVisualRouteSegmentPresenter!
                 var mockPresenterCompletionFails: MockVisualRouteSegmentPresenter!
                 var mockVisualRouteSegmentValid: MockVisualRouteSegment!
@@ -137,9 +142,9 @@ class RouterBasicSpec: QuickSpec {
                 beforeEach {
                     mockPresenterCompletionSucceeds = MockVisualRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)
                     mockPresenterCompletionFails = MockVisualRouteSegmentPresenter(presenterIdentifier: "Failure", completionBlockArg: false)
-                    mockVisualRouteSegmentValid = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "Valid"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: MockViewController(""))
-                    mockVisualRouteSegmentNoViewController = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "NoViewController"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: nil)
-                    mockVisualRouteSegmentCompletionFails = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "CompletionFails"), presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, presentedViewController: MockViewController(""))
+                    mockVisualRouteSegmentValid = MockVisualRouteSegment(segmentIdentifier: identifierValid, presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerA)
+                    mockVisualRouteSegmentNoViewController = MockVisualRouteSegment(segmentIdentifier: identifierNoViewController, presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: nil)
+                    mockVisualRouteSegmentCompletionFails = MockVisualRouteSegment(segmentIdentifier: identifierCompletionFails, presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, presentedViewController: mockViewControllerB)
                     router = Router(window: nil)
                     router.registerPresenter(mockPresenterCompletionSucceeds)
                     router.registerPresenter(mockPresenterCompletionFails)
@@ -153,8 +158,19 @@ class RouterBasicSpec: QuickSpec {
                 context("with segment that produces a view controller and completion block arg is true") {
 
                     it("should succeed") {
-                        let success = router.executeRoute([mockVisualRouteSegmentValid.segmentIdentifier])
-                        expect(success).to(beTrue())
+                        let routeSequence: [Any] = [mockVisualRouteSegmentValid.segmentIdentifier]
+                        let expectation = self.expectationWithDescription("executeRoute completion callback")
+                        router.executeRoute2(routeSequence) {
+                            routingResult in
+                            switch routingResult {
+                            case .Success(let finalViewController):
+                                expect(finalViewController).to(equal(mockViewControllerA))
+                            case .Failure(let error):
+                                fail("Did not expect error: \(error)")
+                            }
+                            expectation.fulfill()
+                        }
+                        self.waitForExpectationsWithTimeout(5, handler: nil)
                     }
 
                 }
@@ -162,8 +178,27 @@ class RouterBasicSpec: QuickSpec {
                 context("with segment that does not produce a view controller") {
 
                     it("should fail") {
-                        let success = router.executeRoute([mockVisualRouteSegmentNoViewController.segmentIdentifier])
-                        expect(success).to(beFalse())
+                        let routeSequence: [Any] = [mockVisualRouteSegmentNoViewController.segmentIdentifier]
+                        let expectation = self.expectationWithDescription("executeRoute completion callback")
+                        router.executeRoute2(routeSequence) {
+                            routingResult in
+                            switch routingResult {
+                            case .Success(let finalViewController):
+                                fail("Did not expect success: \(finalViewController)")
+                            case .Failure(let error):
+                                expect(error as? RoutingErrors).toNot(beNil())
+                                if let error = error as? RoutingErrors {
+                                    switch error {
+                                    case .NoViewControllerProduced(let identifier):
+                                        expect(identifier).to(equal(identifierNoViewController))
+                                    default:
+                                        fail("Did not expect: \(error)")
+                                    }
+                                }
+                            }
+                            expectation.fulfill()
+                        }
+                        self.waitForExpectationsWithTimeout(5, handler: nil)
                     }
 
                 }
@@ -171,8 +206,27 @@ class RouterBasicSpec: QuickSpec {
                 context("with segment completion block that returns false") {
 
                     it("should fail") {
-                        let success = router.executeRoute([mockVisualRouteSegmentCompletionFails.segmentIdentifier])
-                        expect(success).to(beFalse())
+                        let routeSequence: [Any] = [mockVisualRouteSegmentCompletionFails.segmentIdentifier]
+                        let expectation = self.expectationWithDescription("executeRoute completion callback")
+                        router.executeRoute2(routeSequence) {
+                            routingResult in
+                            switch routingResult {
+                            case .Success(let finalViewController):
+                                fail("Did not expect success: \(finalViewController)")
+                            case .Failure(let error):
+                                expect(error as? RoutingErrors).toNot(beNil())
+                                if let error = error as? RoutingErrors {
+                                    switch error {
+                                    case .NoViewControllerProduced(let identifier):
+                                        expect(identifier).to(equal(identifierCompletionFails))
+                                    default:
+                                        fail("Did not expect: \(error)")
+                                    }
+                                }
+                            }
+                            expectation.fulfill()
+                        }
+                        self.waitForExpectationsWithTimeout(5, handler: nil)
                     }
 
                 }
@@ -182,6 +236,7 @@ class RouterBasicSpec: QuickSpec {
 
             context("when executing simple, multiple segment route") {
 
+                let identifierInvalid = Identifier(name: "Invalid")
                 let mockViewControllerA = MockViewController("A")
                 let mockViewControllerB = MockViewController("B")
                 let mockViewControllerC = MockViewController("C")
@@ -201,7 +256,7 @@ class RouterBasicSpec: QuickSpec {
                     mockVisualRouteSegmentA = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "A"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerA)
                     mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerB)
                     mockVisualRouteSegmentC = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "C"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerC)
-                    mockVisualRouteSegmentInvalid = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "Invalid"), presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, presentedViewController: nil)
+                    mockVisualRouteSegmentInvalid = MockVisualRouteSegment(segmentIdentifier: identifierInvalid, presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, presentedViewController: nil)
                     router = Router(window: nil)
                     router.registerPresenter(mockPresenterCompletionSucceeds)
                     router.registerPresenter(mockPresenterCompletionFails)
@@ -215,12 +270,27 @@ class RouterBasicSpec: QuickSpec {
                 context("with a valid sequence") {
 
                     it("should succeed") {
-                        let success = router.executeRoute(validSequence)
-                        expect(success).to(beTrue())
+                        let expectation = self.expectationWithDescription("executeRoute completion callback")
+                        router.executeRoute2(validSequence) {
+                            routingResult in
+                            switch routingResult {
+                            case .Success(let finalViewController):
+                                expect(finalViewController).to(equal(mockViewControllerC))
+                            case .Failure(let error):
+                                fail("Did not expect error: \(error)")
+                            }
+                            expectation.fulfill()
+                        }
+                        self.waitForExpectationsWithTimeout(5, handler: nil)
                     }
 
                     it("should produce full sequence") {
-                        router.executeRoute(validSequence)
+                        let expectation = self.expectationWithDescription("executeRoute completion callback")
+                        router.executeRoute2(validSequence) {
+                            _ in
+                            expectation.fulfill()
+                        }
+                        self.waitForExpectationsWithTimeout(5, handler: nil)
                         expect(router.viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
                     }
 
@@ -229,12 +299,35 @@ class RouterBasicSpec: QuickSpec {
                 context("with an invalid sequence") {
 
                     it("should fail") {
-                        let success = router.executeRoute(invalidSequence)
-                        expect(success).to(beFalse())
+                        let expectation = self.expectationWithDescription("executeRoute completion callback")
+                        router.executeRoute2(invalidSequence) {
+                            routingResult in
+                            switch routingResult {
+                            case .Success(let finalViewController):
+                                fail("Did not expect success: \(finalViewController)")
+                            case .Failure(let error):
+                                expect(error as? RoutingErrors).toNot(beNil())
+                                if let error = error as? RoutingErrors {
+                                    switch error {
+                                    case .SegmentNotRegistered(let identifier):
+                                        expect(identifier).to(equal(identifierInvalid))
+                                    default:
+                                        fail("Did not expect: \(error)")
+                                    }
+                                }
+                            }
+                            expectation.fulfill()
+                        }
+                        self.waitForExpectationsWithTimeout(5, handler: nil)
                     }
 
                     it("should produce partial sequence") {
-                        router.executeRoute(invalidSequence)
+                        let expectation = self.expectationWithDescription("executeRoute completion callback")
+                        router.executeRoute2(invalidSequence) {
+                            _ in
+                            expectation.fulfill()
+                        }
+                        self.waitForExpectationsWithTimeout(5, handler: nil)
                         expect(router.viewControllers).to(equal([mockViewControllerA]))
                     }
                     

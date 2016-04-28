@@ -8,6 +8,21 @@
 
 import UIKit
 
+public enum RoutingErrors: ErrorType {
+    case InvalidRouteSequence
+    case SegmentNotRegistered(Identifier)
+    case PresenterNotRegistered(Identifier)
+    case SequenceEndedWithoutViewController
+    case InvalidRouteSegment(Identifier, String)
+    case NoViewControllerProduced(Identifier)
+    case InvalidConfiguration(String)
+}
+
+public enum RoutingResult {
+    case Success(UIViewController)
+    case Failure(ErrorType)
+}
+
 public protocol RouterType {
     var window: UIWindow? { get }
     var routeSegments: [Identifier: RouteSegmentType] { get }
@@ -19,6 +34,7 @@ public protocol RouterType {
     func executeRouteOnMain(source: [Any])
     func appendRoute(source: [Any]) -> Bool
     func executeRoute(source: [Any]) -> Bool
+    func executeRoute2(source: [Any], completion:(RoutingResult -> Void))
     func registerDefaultPresenters()
 
     var currentSequence:[Any] { get }
@@ -116,12 +132,10 @@ public class Router : RouterType {
             let routeSequenceItem = useRouteSequence.items[itemIndex]
             let segmentIdentifier = routeSequenceItem.segmentIdentifier
             guard let routeSegment = routeSegments[segmentIdentifier] else {
-                print("No segment registered for: \(segmentIdentifier)")
                 return false
             }
 
             let isLastSegment = (itemIndex == (routeSegments.count - 1))
-            let parentActiveSegment = currentActiveSegments[safe: itemIndex-1]
             let currentActiveSegment = currentActiveSegments[safe: itemIndex]
             let nextActiveSegment = currentActiveSegments[safe: itemIndex+1]
             var currentChild = currentActiveSegment?.viewController
@@ -151,12 +165,12 @@ public class Router : RouterType {
                             })
                         }
                     } else {
-                        print("WARNING: Need to handle non-visual presenters & segments: \(presenter)")
+                        print("WARNING: Need to handle non-visual presenters & segments:\npresenter=\(presenter)\nsegment=\(routeSegment)")
                         return false
                     }
                 }
                 if child == nil {
-                    print("Route segment did not load a viewController: \(segmentIdentifier)")
+                    print("WARNING: Route segment did not load a viewController: \(segmentIdentifier)")
                     return false
                 }
                 if !completionSucessful {
@@ -205,6 +219,119 @@ public class Router : RouterType {
         return true
     }
 
+    public func executeRoute2(source: [Any], completion:(RoutingResult -> Void)) {
+        return self.executeRouteSequence2(source, append: false, completion: completion)
+    }
+
+    private func executeRouteSequence2(source: [Any], append: Bool, completion:(RoutingResult -> Void)) {
+        guard let executableRouteSequence = ExecutableRouteSequence(routeSequence: RouteSequence(source: source)) else {
+            completion(.Failure(RoutingErrors.InvalidRouteSequence))
+            return
+        }
+        var parent: UIViewController?
+        var parentRouteSegment: RouteSegmentType?
+        if append {
+            parent = nil // ...something...
+            parentRouteSegment = nil // ...something...
+        }
+        performNextExecutableRouteSequenceItem(
+            executableRouteSequence,
+            parent: parent,
+            parentRouteSegment: parentRouteSegment,
+            sequenceCompletion: completion
+        )
+    }
+
+
+    private func performNextExecutableRouteSequenceItem(executableRouteSequence: ExecutableRouteSequence, parent: UIViewController?, parentRouteSegment: RouteSegmentType?,  sequenceCompletion:(RoutingResult -> Void)) {
+        guard let routeSequenceItem = executableRouteSequence.next() else {
+            // we made it through all the items, so declare success
+            if let finalViewController = parent {
+                sequenceCompletion(.Success(finalViewController))
+            } else {
+                sequenceCompletion(.Failure(RoutingErrors.SequenceEndedWithoutViewController))
+            }
+            return
+        }
+
+        let segmentIdentifier = routeSequenceItem.segmentIdentifier
+        print("DBG: segmentIdentifier=\(segmentIdentifier)")
+        guard let routeSegment = routeSegments[segmentIdentifier] else {
+            sequenceCompletion(.Failure(RoutingErrors.SegmentNotRegistered(segmentIdentifier)))
+            return
+        }
+
+        let presenterIdentifier = routeSegment.presenterIdentifier
+        print("DBG: presenter=\(presenters[presenterIdentifier])")
+
+        let onSuccessfulPresentation = {
+            presentedViewController in
+
+            self.performNextExecutableRouteSequenceItem(
+                executableRouteSequence,
+                parent: presentedViewController,
+                parentRouteSegment: routeSegment,
+                sequenceCompletion: sequenceCompletion
+            )
+        }
+
+        guard let presenter = presenters[presenterIdentifier] else {
+            sequenceCompletion(.Failure(RoutingErrors.PresenterNotRegistered(presenterIdentifier)))
+            return
+        }
+
+        if !handledVisualPresenter(presenter, parent: parent, routeSegment: routeSegment, routeSequenceOptions: routeSequenceItem.options, sequenceCompletion: sequenceCompletion, presentationCompletion: onSuccessfulPresentation)
+            && !handledBranchedPresenter(presenter, parentRouteSegment: parentRouteSegment, routeSegment: routeSegment, routeSequenceOptions: routeSequenceItem.options, sequenceCompletion: sequenceCompletion, presentationCompletion: onSuccessfulPresentation) {
+            sequenceCompletion(.Failure(RoutingErrors.InvalidConfiguration("Presenter(\(presenter.dynamicType)) not handled for segment(\(routeSegment.dynamicType))")))
+        }
+    }
+
+    /// return true if this step was handled, otherwise false so another method can be called
+    private func handledVisualPresenter(presenter: RouteSegmentPresenterType, parent: UIViewController?, routeSegment: RouteSegmentType, routeSequenceOptions: RouteSequenceOptions, sequenceCompletion:(RoutingResult -> Void), presentationCompletion:(UIViewController -> Void)) -> Bool {
+        guard let visualPresenter = presenter as? VisualRouteSegmentPresenterType else {
+            return false // this is not the presenter you are looking for, we did not handle it
+        }
+        guard let visualRouteSegment = routeSegment as? VisualRouteSegmentType else {
+            sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "expected VisualRouteSegmentType")))
+            return true // we handled it by failing the sequence
+        }
+        guard let viewController = visualRouteSegment.viewController() else {
+            sequenceCompletion(.Failure(RoutingErrors.NoViewControllerProduced(routeSegment.segmentIdentifier)))
+            return true // we handled it by failing the sequence
+        }
+
+        visualPresenter.presentViewController(viewController, from: parent, options: routeSequenceOptions, window: window, completion: {
+            success in
+
+            if success {
+                presentationCompletion(viewController)
+            } else {
+                sequenceCompletion(.Failure(RoutingErrors.NoViewControllerProduced(routeSegment.segmentIdentifier)))
+            }
+
+        })
+        return true // we handled it by presenting the view controller
+    }
+
+    /// return true if this step was handled, otherwise false so another method can be called
+    private func handledBranchedPresenter(presenter: RouteSegmentPresenterType, parentRouteSegment: RouteSegmentType?, routeSegment: RouteSegmentType, routeSequenceOptions: RouteSequenceOptions, sequenceCompletion:(RoutingResult -> Void), presentationCompletion:(UIViewController -> Void)) -> Bool {
+        guard let branchedPresenter = presenter as? BranchedRouteSegmentPresenterType else {
+            return false // this is not the presenter you are looking for, we did not handle it
+        }
+        guard let branchedRouteSegment = routeSegment as? BranchedRouteSegmentType else {
+            sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "expected BranchedRouteSegmentType")))
+            return true // we handled it by failing the sequence
+        }
+        guard let _ = parentRouteSegment as? BranchingRouteSegmentType else {
+            sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "segment must be child segment of BranchingRouteSegmentType")))
+            return true // we handled it by failing the sequence
+        }
+
+        let message = "WARNING: handle \(branchedPresenter) & \(branchedRouteSegment)"
+        sequenceCompletion(.Failure(RoutingErrors.InvalidConfiguration(message)))
+        return true
+    }
+
     private func selectSibingInTabBarController(tabBarController:UITabBarController, forIdentifier segmentIdentifier:Identifier) -> UIViewController? {
         if let existingChildren = tabBarController.viewControllers {
             for index in 0..<existingChildren.count {
@@ -217,10 +344,10 @@ public class Router : RouterType {
         }
         return nil
     }
-    
+
     private var currentActiveSegments:[ActiveSegment] = []
     private var registeredViewControllers:[UIViewController:Identifier] = [:]
-    
+
 }
 
 private extension CollectionType {
@@ -233,4 +360,25 @@ private struct ActiveSegment {
     let segmentIdentifier: Identifier
 
     let viewController: UIViewController?
+}
+
+private class ExecutableRouteSequence {
+
+    init?(routeSequence: RouteSequenceType) {
+        self.routeSequence = routeSequence
+        if routeSequence.items.count == 0 {
+            return nil
+        }
+    }
+    
+    func next() -> RouteSequenceItemType? {
+        currentIndex += 1
+        guard currentIndex < routeSequence.items.count else {
+            return nil
+        }
+        return routeSequence.items[currentIndex]
+    }
+    
+    let routeSequence: RouteSequenceType
+    var currentIndex: Int = -1
 }
