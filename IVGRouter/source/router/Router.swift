@@ -16,6 +16,7 @@ public enum RoutingErrors: ErrorType {
     case InvalidRouteSegment(Identifier, String)
     case NoViewControllerProduced(Identifier)
     case InvalidConfiguration(String)
+    case CouldNotReversePresentation(Identifier)
 }
 
 public enum RoutingResult {
@@ -97,9 +98,32 @@ public class Router : RouterType {
     }
 
     public func popRoute(completion:(RoutingResult -> Void)) {
-        var lastSegmentIdentifiers: [Any] = self.lastRecordedSegments.map { $0.segmentIdentifier }
-        lastSegmentIdentifiers.removeLast()
-        self.executeRouteSequence(lastSegmentIdentifiers, append: false, completion: completion)
+        guard self.lastRecordedSegments.count > 0 else {
+            completion(.Failure(RoutingErrors.InvalidRouteSequence))
+            return
+        }
+
+        let lastRecordedSegment = lastRecordedSegments.removeLast()
+
+        let lastSegmentIdentifier = lastRecordedSegment.segmentIdentifier
+        if let lastPresenterIdentifier = routeSegments[lastSegmentIdentifier]?.presenterIdentifier,
+            let reversibleRouteSegmentPresenter = presenters[lastPresenterIdentifier] as? ReversibleRouteSegmentPresenterType,
+            let lastViewController = lastRecordedSegment.viewController,
+            let lastParentViewController = lastViewController.parentViewController {
+
+            reversibleRouteSegmentPresenter.reversePresentation(lastViewController) {
+                success in
+                if success {
+                    completion(.Success(lastParentViewController))
+                } else {
+                    completion(.Failure(RoutingErrors.CouldNotReversePresentation(lastSegmentIdentifier)))
+                }
+            }
+
+        } else {
+            let previousSequence: [Any] = self.lastRecordedSegments.map { $0.segmentIdentifier }
+            self.executeRouteSequence(previousSequence, append: false, completion: completion)
+        }
     }
 
     public func executeRoute(source: [Any], completion:(RoutingResult -> Void)) {

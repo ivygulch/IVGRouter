@@ -17,5 +17,9 @@ public protocol VisualRouteSegmentPresenterType: RouteSegmentPresenterType {
     func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController?
 }
 
+public protocol ReversibleRouteSegmentPresenterType: RouteSegmentPresenterType {
+    func reversePresentation(viewControllerToRemove : UIViewController, completion: ((Bool) -> Void)) -> UIViewController?
+}
+
 public protocol BranchedRouteSegmentPresenterType: RouteSegmentPresenterType {
 }

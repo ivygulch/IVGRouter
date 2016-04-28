@@ -22,7 +22,7 @@ public protocol WrappingRouteSegmentAnimator {
 //    var completeViewUnwrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) { get }
 }
 
-public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
+public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     // MARK: public methods
 
@@ -44,10 +44,26 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
             return nil
         }
         if presentedViewController == child {
+            // TODO: this case seems like a bug
             return unwrapChild(child, fromWrapper: presentedViewController, completion: completion)
         } else {
             return wrapChild(child, inWrapper: presentedViewController, completion: completion)
         }
+    }
+
+    public func reversePresentation(viewControllerToRemove: UIViewController, completion: ((Bool) -> Void)) -> UIViewController? {
+        let parent = viewControllerToRemove.parentViewController
+        guard let _ = parent else {
+            verify(checkNotNil(parent, "parent"), completion: completion)
+            return nil
+        }
+        let firstChild = viewControllerToRemove.childViewControllers.first
+        guard let child = firstChild else {
+            verify(checkNotNil(firstChild, "child"), completion: completion)
+            return nil
+        }
+
+        return unwrapChild(child, fromWrapper: viewControllerToRemove, completion: completion)
     }
 
     // MARK: wrapping methods
@@ -144,12 +160,16 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
             completion: {
                 finished in
 
-                parent.view.addSubview(child.view)
+                // do not just add the child back to the parent's view, there were potentially other views in there previously
+                wrapper.view.superview?.addSubview(child.view)
                 wrapper.view.removeFromSuperview()
                 parent.addChildViewController(child)
                 wrapper.willMoveToParentViewController(nil)
                 wrapper.removeFromParentViewController()
+
                 completion(true)
+
+
             }
         )
 
