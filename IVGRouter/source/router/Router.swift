@@ -30,10 +30,9 @@ public protocol RouterType {
     var viewControllers: [UIViewController] { get }
     func registerPresenter(presenter: RouteSegmentPresenterType)
     func registerRouteSegment(routeSegment: RouteSegmentType)
-    func appendRouteOnMain(source: [Any], completion:(RoutingResult -> Void))
-    func executeRouteOnMain(source: [Any], completion:(RoutingResult -> Void))
     func appendRoute(source: [Any], completion:(RoutingResult -> Void))
     func executeRoute(source: [Any], completion:(RoutingResult -> Void))
+    func popRoute(completion:(RoutingResult -> Void))
     func registerDefaultPresenters()
 
     var currentSequence:[Any] { get }
@@ -93,22 +92,15 @@ public class Router : RouterType {
         }
     }
 
-    public func appendRouteOnMain(source: [Any], completion:(RoutingResult -> Void)) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.appendRoute(source, completion: completion)
-        }
-    }
-
-    public func executeRouteOnMain(source: [Any], completion:(RoutingResult -> Void)) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.executeRoute(source, completion: completion)
-        }
-    }
-
     public func appendRoute(source: [Any], completion:(RoutingResult -> Void)) {
         self.executeRouteSequence(source, append: true, completion: completion)
     }
 
+    public func popRoute(completion:(RoutingResult -> Void)) {
+        var lastSegmentIdentifiers: [Any] = self.lastRecordedSegments.map { $0.segmentIdentifier }
+        lastSegmentIdentifiers.removeLast()
+        self.executeRouteSequence(lastSegmentIdentifiers, append: false, completion: completion)
+    }
 
     public func executeRoute(source: [Any], completion:(RoutingResult -> Void)) {
         self.executeRouteSequence(source, append: false, completion: completion)

@@ -102,7 +102,9 @@ class DemoRouteCoordinator {
                 let result = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(String(WrapperViewController)) as! WrapperViewController
 
                 result.unwrapAction = {
-                    print("do unwrap")
+                    self.router.popRoute() {
+                        _ in
+                    }
                 }
                 return result
                 } }
