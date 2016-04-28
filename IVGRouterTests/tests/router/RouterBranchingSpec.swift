@@ -54,7 +54,7 @@ class RouterBranchingSpec: QuickSpec {
 /*
                     it("should succeed") {
                         let expectation = self.expectationWithDescription("executeRoute completion callback")
-                        router.executeRoute2(validSequence) {
+                        router.executeRoute(validSequence) {
                             routingResult in
                             switch routingResult {
                             case .Success(let finalViewController):

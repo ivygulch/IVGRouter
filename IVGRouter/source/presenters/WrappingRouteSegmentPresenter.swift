@@ -163,7 +163,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
     //    return remove(presentedViewController, completion: completion)
     //    }
     /*
-     func unwrapChild2(child: UIViewController, fromWrapper wrapper: UIViewController, completion: ((Bool) -> Void)) -> UIViewController {
+     func unwrapChild(child: UIViewController, fromWrapper wrapper: UIViewController, completion: ((Bool) -> Void)) -> UIViewController {
      var newViewControllers = navigationController.viewControllers
      if let index = newViewControllers.indexOf(menu) {
      newViewControllers[index] = child

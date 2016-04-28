@@ -160,7 +160,7 @@ class RouterBasicSpec: QuickSpec {
                     it("should succeed") {
                         let routeSequence: [Any] = [mockVisualRouteSegmentValid.segmentIdentifier]
                         let expectation = self.expectationWithDescription("executeRoute completion callback")
-                        router.executeRoute2(routeSequence) {
+                        router.executeRoute(routeSequence) {
                             routingResult in
                             switch routingResult {
                             case .Success(let finalViewController):
@@ -180,7 +180,7 @@ class RouterBasicSpec: QuickSpec {
                     it("should fail") {
                         let routeSequence: [Any] = [mockVisualRouteSegmentNoViewController.segmentIdentifier]
                         let expectation = self.expectationWithDescription("executeRoute completion callback")
-                        router.executeRoute2(routeSequence) {
+                        router.executeRoute(routeSequence) {
                             routingResult in
                             switch routingResult {
                             case .Success(let finalViewController):
@@ -208,7 +208,7 @@ class RouterBasicSpec: QuickSpec {
                     it("should fail") {
                         let routeSequence: [Any] = [mockVisualRouteSegmentCompletionFails.segmentIdentifier]
                         let expectation = self.expectationWithDescription("executeRoute completion callback")
-                        router.executeRoute2(routeSequence) {
+                        router.executeRoute(routeSequence) {
                             routingResult in
                             switch routingResult {
                             case .Success(let finalViewController):
@@ -271,7 +271,7 @@ class RouterBasicSpec: QuickSpec {
 
                     it("should succeed") {
                         let expectation = self.expectationWithDescription("executeRoute completion callback")
-                        router.executeRoute2(validSequence) {
+                        router.executeRoute(validSequence) {
                             routingResult in
                             switch routingResult {
                             case .Success(let finalViewController):
@@ -286,7 +286,7 @@ class RouterBasicSpec: QuickSpec {
 
                     it("should produce full sequence") {
                         let expectation = self.expectationWithDescription("executeRoute completion callback")
-                        router.executeRoute2(validSequence) {
+                        router.executeRoute(validSequence) {
                             _ in
                             expectation.fulfill()
                         }
@@ -300,7 +300,7 @@ class RouterBasicSpec: QuickSpec {
 
                     it("should fail") {
                         let expectation = self.expectationWithDescription("executeRoute completion callback")
-                        router.executeRoute2(invalidSequence) {
+                        router.executeRoute(invalidSequence) {
                             routingResult in
                             switch routingResult {
                             case .Success(let finalViewController):
@@ -323,7 +323,7 @@ class RouterBasicSpec: QuickSpec {
 
                     it("should produce partial sequence") {
                         let expectation = self.expectationWithDescription("executeRoute completion callback")
-                        router.executeRoute2(invalidSequence) {
+                        router.executeRoute(invalidSequence) {
                             _ in
                             expectation.fulfill()
                         }

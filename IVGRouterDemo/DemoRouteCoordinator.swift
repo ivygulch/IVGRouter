@@ -28,7 +28,9 @@ class DemoRouteCoordinator {
     }
 
     func executeDefaultRouteSequence() {
-        router.executeRoute(welcomeRouteSequence)
+        router.executeRoute(welcomeRouteSequence) {
+            _ in
+        }
     }
 
     func registerRouteSegments() {
@@ -55,7 +57,9 @@ class DemoRouteCoordinator {
             loadViewController:{ return {
                 let result = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(String(WelcomeViewController)) as! WelcomeViewController
                 result.nextAction = {
-                    self.router.executeRoute(self.nextRouteSequence)
+                    self.router.executeRoute(self.nextRouteSequence) {
+                        _ in
+                    }
                 }
                 return result
                 } }
@@ -75,10 +79,14 @@ class DemoRouteCoordinator {
                 result.navigationItem.leftBarButtonItem = newBackButton;
 
                 result.returnAction = {
-                    self.router.executeRoute(self.welcomeRouteSequence)
+                    self.router.executeRoute(self.welcomeRouteSequence) {
+                        _ in
+                    }
                 }
                 result.wrapAction = {
-                    self.router.appendRoute([self.wrapperSegmentIdentifier])
+                    self.router.appendRoute([self.wrapperSegmentIdentifier]) {
+                        _ in
+                    }
                 }
                 return result
                 } }
@@ -102,7 +110,9 @@ class DemoRouteCoordinator {
     }
 
     @objc func nextScreenBack(bbi: UIBarButtonItem) {
-        self.router.executeRoute(self.welcomeRouteSequence)
+        self.router.executeRoute(self.welcomeRouteSequence) {
+            _ in
+        }
     }
     
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F82851691CD1200000A20190 /* RouteSequenceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82851681CD1200000A20190 /* RouteSequenceItem.swift */; };
+		F828516B1CD1B5A900A20190 /* OldRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F828516A1CD1B5A900A20190 /* OldRouter.swift */; };
 		F82D21821CCD83AF0010CDFF /* MockBranchedRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21811CCD83AF0010CDFF /* MockBranchedRouteSegmentPresenter.swift */; };
 		F82D21841CCD844D0010CDFF /* MockBranchedRouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21831CCD844D0010CDFF /* MockBranchedRouteSegment.swift */; };
 		F82D21861CCD852D0010CDFF /* RouterBasicSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */; };
@@ -77,6 +78,7 @@
 
 /* Begin PBXFileReference section */
 		F82851681CD1200000A20190 /* RouteSequenceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSequenceItem.swift; sourceTree = "<group>"; };
+		F828516A1CD1B5A900A20190 /* OldRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldRouter.swift; sourceTree = "<group>"; };
 		F82D21811CCD83AF0010CDFF /* MockBranchedRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBranchedRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F82D21831CCD844D0010CDFF /* MockBranchedRouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBranchedRouteSegment.swift; sourceTree = "<group>"; };
 		F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterBasicSpec.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 			children = (
 				F8711C901CCD1C7300E6EEBB /* Identifier.swift */,
 				F8711C911CCD1C7300E6EEBB /* Router.swift */,
+				F828516A1CD1B5A900A20190 /* OldRouter.swift */,
 				F8711C921CCD1C7300E6EEBB /* RouteSegment.swift */,
 				F82D218B1CCD9B2B0010CDFF /* RouteSequence.swift */,
 				F82851681CD1200000A20190 /* RouteSequenceItem.swift */,
@@ -474,6 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8711C9D1CCD1C7300E6EEBB /* Router.swift in Sources */,
+				F828516B1CD1B5A900A20190 /* OldRouter.swift in Sources */,
 				F8AB8D6A1CCD4FB800E50ABD /* PlaceholderViewController.swift in Sources */,
 				F8711C971CCD1C7300E6EEBB /* PushRouteSegmentPresenter.swift in Sources */,
 				F8711C981CCD1C7300E6EEBB /* RootRouteSegmentPresenter.swift in Sources */,
