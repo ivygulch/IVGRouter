@@ -120,10 +120,35 @@ public class Router : RouterType {
                 }
             }
 
+        } else if let lastViewController = lastRecordedSegment.viewController,
+            let navigationController = lastViewController.navigationController {
+            navigationController.popViewControllerAnimated(true, completion: {
+                completion(.Success(navigationController))
+            })
+
         } else {
             let previousSequence: [Any] = self.lastRecordedSegments.map { $0.segmentIdentifier }
             self.executeRouteSequence(previousSequence, append: false, completion: completion)
         }
+    }
+
+    private func popRecordedSegments(recordedSegmentsToPop: [RecordedSegment], sequenceCompletion:(RoutingResult -> Void)) {
+        print("DBG: popRecordedSegments(\(recordedSegmentsToPop.count))")
+        for recordedSegment in recordedSegmentsToPop {
+            print("DBG: pop \(recordedSegment)")
+            popRoute() {
+                routingResult in
+                switch routingResult {
+                case .Failure(_):
+                    sequenceCompletion(.Failure(RoutingErrors.PresenterNotRegistered(recordedSegment.segmentIdentifier)))
+                    return
+                default:
+                    print("DBG: successfully popped \(recordedSegment)")
+                    break // nothing to do
+                }
+            }
+        }
+
     }
 
     public func executeRoute(source: [Any], completion:(RoutingResult -> Void)) {
@@ -152,6 +177,9 @@ public class Router : RouterType {
 
     private func performNextRouteSequenceItem(routeSequenceTracker: RouteSequenceTracker, routeSegmentFIFOPipe: RouteSegmentFIFOPipe,  sequenceCompletion:(RoutingResult -> Void)) {
         guard let routeSequenceItem = routeSequenceTracker.next() else {
+
+            popRecordedSegments(routeSegmentFIFOPipe.oldSegmentsToPop, sequenceCompletion: sequenceCompletion)
+
             // we made it through all the items, so declare success
             if let finalViewController = routeSegmentFIFOPipe.peekNewRecordedSegment?.viewController {
                 sequenceCompletion(.Success(finalViewController))
@@ -161,18 +189,11 @@ public class Router : RouterType {
             return
         }
 
-        let oldRecordedSegment = routeSegmentFIFOPipe.popOldRecordedSegment()
-        let nextOldRecordedSegment = routeSegmentFIFOPipe.peekOldRecordedSegment
-
         let segmentIdentifier = routeSequenceItem.segmentIdentifier
-        print("DBG: segmentIdentifier=\(segmentIdentifier)")
         guard let routeSegment = routeSegments[segmentIdentifier] else {
             sequenceCompletion(.Failure(RoutingErrors.SegmentNotRegistered(segmentIdentifier)))
             return
         }
-
-        let presenterIdentifier = routeSegment.presenterIdentifier
-        print("DBG: presenter=\(presenters[presenterIdentifier])")
 
         let onSuccessfulPresentation: ((RouteSegmentType,UIViewController) -> Void) = {
             (routeSegment, presentedViewController) in
@@ -186,11 +207,23 @@ public class Router : RouterType {
             )
         }
 
+        if let oldRecordedSegment = routeSegmentFIFOPipe.popOldRecordedSegment() {
+            if oldRecordedSegment.segmentIdentifier == segmentIdentifier {
+                if let oldViewController = oldRecordedSegment.viewController {
+                    onSuccessfulPresentation(routeSegment, oldViewController)
+                    return
+                }
+            } else {
+                print("DBG: Changed directions, need to pop \(routeSegmentFIFOPipe.oldSegmentsToPop)")
+                popRecordedSegments(routeSegmentFIFOPipe.oldSegmentsToPop, sequenceCompletion: sequenceCompletion)
+            }
+        }
+
+        let presenterIdentifier = routeSegment.presenterIdentifier
         guard let presenter = presenters[presenterIdentifier] else {
             sequenceCompletion(.Failure(RoutingErrors.PresenterNotRegistered(presenterIdentifier)))
             return
         }
-
 
         if handledVisualPresenter(presenter, parent: routeSegmentFIFOPipe.peekNewRecordedSegment?.viewController, routeSegment: routeSegment, routeSequenceOptions: routeSequenceItem.options, sequenceCompletion: sequenceCompletion, presentationCompletion: onSuccessfulPresentation) {
             return
@@ -298,6 +331,18 @@ private class RouteSegmentFIFOPipe {
         return oldSubset != newRecordedSegments
     }
 
+    var oldSegmentsToPop: [RecordedSegment] {
+        if routeChanged {
+            return []
+        }
+        let remainingOldSegmentsCount = oldRecordedSegments.count - newRecordedSegments.count
+        guard remainingOldSegmentsCount > 0 else {
+            return []
+        }
+        let remainingOldSegments = Array<RecordedSegment>(oldRecordedSegments.suffix(remainingOldSegmentsCount))
+        return remainingOldSegments.reverse()
+    }
+
     var peekNewRecordedSegment: RecordedSegment? {
         return newRecordedSegments.last
     }
@@ -320,7 +365,15 @@ private class RouteSequenceTracker {
             return nil
         }
     }
-    
+
+    var remainingItems: [RouteSequenceItemType] {
+        let remainingCount = routeSequence.items.count - currentIndex
+        guard remainingCount > 0 else {
+            return []
+        }
+        return Array<RouteSequenceItemType>(routeSequence.items.suffix(remainingCount))
+    }
+
     func next() -> RouteSequenceItemType? {
         currentIndex += 1
         guard currentIndex < routeSequence.items.count else {

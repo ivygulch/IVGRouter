@@ -18,6 +18,6 @@ public struct Identifier: Hashable {
         self.name = name
     }
     
-    let name: String
+    public let name: String
     public var hashValue: Int { return name.hashValue }
 }

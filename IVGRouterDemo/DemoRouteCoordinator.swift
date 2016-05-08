@@ -13,13 +13,37 @@ class DemoRouteCoordinator {
 
     let router: Router
 
-    let rootSegmentIdentifier = Identifier(name: "DemoRouteCoordinator.root")
-    let welcomeSegmentIdentifier = Identifier(name: "DemoRouteCoordinator.welcome")
-    let nextSegmentIdentifier = Identifier(name: "DemoRouteCoordinator.next")
-    let wrapperSegmentIdentifier = Identifier(name: "DemoRouteCoordinator.wrapper")
+    let rootSegmentIdentifier = Identifier(name: "ID.root")
+    let welcomeSegmentIdentifier = Identifier(name: "ID.welcome")
+    let aSegmentIdentifier = Identifier(name: "ID.a")
+    let bSegmentIdentifier = Identifier(name: "ID.b")
+    let cSegmentIdentifier = Identifier(name: "ID.c")
+    let dSegmentIdentifier = Identifier(name: "ID.d")
+    let eSegmentIdentifier = Identifier(name: "ID.e")
+    let fSegmentIdentifier = Identifier(name: "ID.f")
+    let wrapperSegmentIdentifier = Identifier(name: "ID.wrapper")
 
-    lazy var welcomeRouteSequence:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier]
-    lazy var nextRouteSequence:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.nextSegmentIdentifier]
+    lazy var routeSequenceWelcome:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier]
+    lazy var routeSequenceWA:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.aSegmentIdentifier]
+    lazy var routeSequenceWAB:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.aSegmentIdentifier,self.bSegmentIdentifier]
+    lazy var routeSequenceWABC:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.aSegmentIdentifier,self.bSegmentIdentifier,self.cSegmentIdentifier]
+    lazy var routeSequenceWD:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.dSegmentIdentifier]
+    lazy var routeSequenceWDE:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.dSegmentIdentifier,self.eSegmentIdentifier]
+    lazy var routeSequenceWDEF:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.dSegmentIdentifier,self.eSegmentIdentifier,self.fSegmentIdentifier]
+    lazy var routeSequenceWAFE:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.aSegmentIdentifier,self.fSegmentIdentifier,self.eSegmentIdentifier]
+    lazy var routeSequenceWrapper:[Any] = [self.wrapperSegmentIdentifier]
+
+    lazy var sequences:[(String,[Any])] = [
+        ("Welcome", self.routeSequenceWelcome),
+        ("WA", self.routeSequenceWA),
+        ("WAB", self.routeSequenceWAB),
+        ("WABC", self.routeSequenceWABC),
+        ("WD", self.routeSequenceWD),
+        ("WDE", self.routeSequenceWDE),
+        ("WDEF", self.routeSequenceWDEF),
+        ("WAFE", self.routeSequenceWAFE),
+        ("Wrapper", self.routeSequenceWrapper)
+    ]
 
     init(window: UIWindow?) {
         router = Router(window: window)
@@ -28,15 +52,20 @@ class DemoRouteCoordinator {
     }
 
     func executeDefaultRouteSequence() {
-        router.executeRoute(welcomeRouteSequence) {
+        router.executeRoute(routeSequenceWelcome) {
             _ in
         }
     }
 
     func registerRouteSegments() {
         router.registerRouteSegment(buildRootSegment())
-        router.registerRouteSegment(buildWelcomeSegment())
-        router.registerRouteSegment(buildNextSegment())
+        router.registerRouteSegment(buildSegment(welcomeSegmentIdentifier))
+        router.registerRouteSegment(buildSegment(aSegmentIdentifier))
+        router.registerRouteSegment(buildSegment(bSegmentIdentifier))
+        router.registerRouteSegment(buildSegment(cSegmentIdentifier))
+        router.registerRouteSegment(buildSegment(dSegmentIdentifier))
+        router.registerRouteSegment(buildSegment(eSegmentIdentifier))
+        router.registerRouteSegment(buildSegment(fSegmentIdentifier))
         router.registerRouteSegment(buildWrapperSegment())
     }
 
@@ -49,48 +78,38 @@ class DemoRouteCoordinator {
         )
     }
 
-    private func buildWelcomeSegment() -> VisualRouteSegment  {
+    private func buildSegment(segmentIdentifier: Identifier) -> VisualRouteSegment  {
         return VisualRouteSegment(
-            segmentIdentifier: welcomeSegmentIdentifier,
+            segmentIdentifier: segmentIdentifier,
             presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,
             loadViewController:{ return {
-                let result = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(String(WelcomeViewController)) as! WelcomeViewController
-                result.nextAction = {
-                    self.router.executeRoute(self.nextRouteSequence) {
-                        _ in
-                    }
+                let result = ViewController(name: segmentIdentifier.name)
+
+                for (title,sequence) in self.sequences {
+                    result.addAction(title, action: {
+                        self.router.executeRoute(sequence) {
+                            _ in
+                        }
+                    })
                 }
+
+                result.addAction("Debug", action: {
+                    self.debug(result)
+                })
+
                 return result
                 } }
         )
     }
 
-    private func buildNextSegment() -> VisualRouteSegment  {
-        return VisualRouteSegment(
-            segmentIdentifier: nextSegmentIdentifier,
-            presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier,
-            isSingleton: true,
-            loadViewController:{ return {
-                let result = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(String(NextScreenViewController)) as! NextScreenViewController
-
-                result.navigationItem.hidesBackButton = true
-                let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.nextScreenBack))
-                result.navigationItem.leftBarButtonItem = newBackButton;
-
-                result.returnAction = {
-                    self.router.executeRoute(self.welcomeRouteSequence) {
-                        _ in
-                    }
-                }
-                result.wrapAction = {
-                    self.router.appendRoute([self.wrapperSegmentIdentifier]) {
-                        _ in
-                    }
-                }
-                return result
-                } }
-        )
+    private func debug(vc: UIViewController) {
+        print("debug: \(vc.dynamicType)")
+        let rvc = router.window!.rootViewController
+        print("  root=\(rvc.dynamicType)")
+        if let nc = rvc as? UINavigationController {
+            print("  vc=\(nc.viewControllers)")
+        }
     }
 
     private func buildWrapperSegment() -> VisualRouteSegment  {
@@ -99,22 +118,17 @@ class DemoRouteCoordinator {
             presenterIdentifier: WrappingRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,
             loadViewController:{ return {
-                let result = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier(String(WrapperViewController)) as! WrapperViewController
+                let result = ViewController(name: self.wrapperSegmentIdentifier.name)
 
-                result.unwrapAction = {
+                result.addAction("Unwrap", action: {
                     self.router.popRoute() {
                         _ in
                     }
-                }
+                })
+
                 return result
                 } }
         )
     }
 
-    @objc func nextScreenBack(bbi: UIBarButtonItem) {
-        self.router.executeRoute(self.welcomeRouteSequence) {
-            _ in
-        }
-    }
-    
 }
