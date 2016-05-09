@@ -100,6 +100,7 @@ class DemoRouteCoordinator {
 
                 result.addAction("Debug", action: {
                     self.debug(result)
+                    self.router.debug("debug")
                 })
 
                 return result
