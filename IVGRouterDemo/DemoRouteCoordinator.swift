@@ -21,6 +21,7 @@ class DemoRouteCoordinator {
     let dSegmentIdentifier = Identifier(name: "ID.d")
     let eSegmentIdentifier = Identifier(name: "ID.e")
     let fSegmentIdentifier = Identifier(name: "ID.f")
+    let gSegmentIdentifier = Identifier(name: "ID.g")
     let wrapperSegmentIdentifier = Identifier(name: "ID.wrapper")
 
     lazy var routeSequenceWelcome:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier]
@@ -30,6 +31,7 @@ class DemoRouteCoordinator {
     lazy var routeSequenceWD:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.dSegmentIdentifier]
     lazy var routeSequenceWDE:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.dSegmentIdentifier,self.eSegmentIdentifier]
     lazy var routeSequenceWDEF:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.dSegmentIdentifier,self.eSegmentIdentifier,self.fSegmentIdentifier]
+    lazy var routeSequenceWDEFG:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.dSegmentIdentifier,self.eSegmentIdentifier,self.fSegmentIdentifier,self.gSegmentIdentifier]
     lazy var routeSequenceWAFE:[Any] = [self.rootSegmentIdentifier,self.welcomeSegmentIdentifier,self.aSegmentIdentifier,self.fSegmentIdentifier,self.eSegmentIdentifier]
     lazy var routeSequenceWrapper:[Any] = [self.wrapperSegmentIdentifier]
 
@@ -41,6 +43,7 @@ class DemoRouteCoordinator {
         ("WD", self.routeSequenceWD),
         ("WDE", self.routeSequenceWDE),
         ("WDEF", self.routeSequenceWDEF),
+        ("WDEFG", self.routeSequenceWDEFG),
         ("WAFE", self.routeSequenceWAFE),
         ("Wrapper", self.routeSequenceWrapper)
     ]
@@ -66,6 +69,7 @@ class DemoRouteCoordinator {
         router.registerRouteSegment(buildSegment(dSegmentIdentifier))
         router.registerRouteSegment(buildSegment(eSegmentIdentifier))
         router.registerRouteSegment(buildSegment(fSegmentIdentifier))
+        router.registerRouteSegment(buildSegment(gSegmentIdentifier))
         router.registerRouteSegment(buildWrapperSegment())
     }
 
