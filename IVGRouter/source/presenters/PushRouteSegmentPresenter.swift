@@ -58,11 +58,8 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
             return nil
         }
         let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
-        print("DBG: about to present \(presentedViewController)")
         navigationController.pushViewController(presentedViewController, animated: animated, completion: {
-            print("DBG: before completion, presented \(presentedViewController)")
             completion(true)
-            print("DBG: after completion, presented \(presentedViewController)")
         })
         return presentedViewController
     }
