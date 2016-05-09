@@ -252,7 +252,7 @@ public class Router : RouterType {
         }
     }
 
-    private func finishRouteSequenceItem(routeSequenceItem: RouteSequenceItemType, routeSegment: RouteSegmentType, routeSegmentFIFOPipe: RouteSegmentFIFOPipe,  onSuccessfulPresentation: ((RouteSegmentType,UIViewController) -> Void), sequenceCompletion:(RoutingResult -> Void)) {
+    private func finishRouteSequenceItem(routeSequenceItem: RouteSequenceItemType, routeSegment: RouteSegmentType, routeSegmentFIFOPipe: RouteSegmentFIFOPipe, onSuccessfulPresentation: ((RouteSegmentType,UIViewController) -> Void), sequenceCompletion:(RoutingResult -> Void)) {
         let presenterIdentifier = routeSegment.presenterIdentifier
         guard let presenter = presenters[presenterIdentifier] else {
             sequenceCompletion(.Failure(RoutingErrors.PresenterNotRegistered(presenterIdentifier)))
@@ -291,6 +291,7 @@ public class Router : RouterType {
             success in
 
             if success {
+                print("DBG: successfully presented \(viewController)")
                 presentationCompletion(visualRouteSegment, viewController)
             } else {
                 sequenceCompletion(.Failure(RoutingErrors.NoViewControllerProduced(routeSegment.segmentIdentifier)))

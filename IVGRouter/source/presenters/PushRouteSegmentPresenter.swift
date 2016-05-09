@@ -58,8 +58,11 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
             return nil
         }
         let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
+        print("DBG: about to present \(presentedViewController)")
         navigationController.pushViewController(presentedViewController, animated: animated, completion: {
+            print("DBG: before completion, presented \(presentedViewController)")
             completion(true)
+            print("DBG: after completion, presented \(presentedViewController)")
         })
         return presentedViewController
     }
@@ -81,25 +84,37 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
 
 extension UINavigationController {
 
+    private func addCompletion(completion:(Void -> Void)) -> Bool {
+        if let transitionCoordinator = transitionCoordinator() {
+            return transitionCoordinator.animateAlongsideTransition(nil,
+                completion: {
+                    _ in
+                    completion()
+                }
+            )
+        }
+        return false
+    }
+
     func popViewControllerAnimated(animated: Bool, completion:(Void -> Void)) {
-        CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
         self.popViewControllerAnimated(animated)
-        CATransaction.commit()
+        if !addCompletion(completion) {
+            completion()
+        }
     }
 
     func pushViewController(viewController: UIViewController, animated: Bool, completion:(Void -> Void)) {
-        CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
         self.pushViewController(viewController, animated: animated)
-        CATransaction.commit()
+        if !addCompletion(completion) {
+            completion()
+        }
     }
 
     func setViewControllers(viewControllers: [UIViewController], animated: Bool, completion:(Void -> Void)) {
-        CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
         self.setViewControllers(viewControllers, animated: animated)
-        CATransaction.commit()
+        if !addCompletion(completion) {
+            completion()
+        }
     }
 
 }
