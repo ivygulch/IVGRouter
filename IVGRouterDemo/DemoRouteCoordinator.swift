@@ -103,6 +103,12 @@ class DemoRouteCoordinator {
                     self.router.debug("debug")
                 })
 
+                result.backAction = {
+                    self.router.popRoute() {
+                        _ in
+                    }
+                }
+
                 return result
                 } }
         )

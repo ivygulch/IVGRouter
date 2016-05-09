@@ -14,6 +14,16 @@ class ViewController : UIViewController {
 
     let name: String
     var actions: [UIButton: Action] = [:]
+    var backAction: Action? {
+        didSet {
+            if let _ = backAction {
+                let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.doBackAction))
+                navigationItem.leftBarButtonItem = backButton
+            } else {
+                navigationItem.leftBarButtonItem = nil
+            }
+        }
+    }
     var currentItemTop: CGFloat = 80.0
     let itemSize = CGSizeMake(200.0,30.0)
 
@@ -41,6 +51,8 @@ class ViewController : UIViewController {
         view.backgroundColor = UIColor.lightGrayColor()
         navigationItem.title = name
 
+        navigationItem.hidesBackButton = true
+
         let titleLabel = UILabel()
         titleLabel.textColor = UIColor.blackColor()
         titleLabel.text = name
@@ -63,6 +75,14 @@ class ViewController : UIViewController {
         button.addTarget(self, action: #selector(ViewController.doAction(_:)), forControlEvents: .TouchUpInside)
         actions[button] = action
         addItem(button)
+    }
+
+    func doBackAction() {
+        if let backAction = backAction {
+            let backTitle = navigationItem.leftBarButtonItem?.title
+            print("\(name).back(\(backTitle))")
+            backAction()
+        }
     }
 
     func doAction(button: UIButton) {
