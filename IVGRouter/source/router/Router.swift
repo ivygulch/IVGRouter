@@ -47,7 +47,7 @@ public class Router : RouterType {
     }
 
     public func debug(msg: String) {
-        print("Router(\(msg))")
+        print("Router(\(msg)), lastRecordedSegments.count=\(lastRecordedSegments.count)")
         for index in 0..<lastRecordedSegments.count {
             let recordedSegment = lastRecordedSegments[index]
             let segmentIdentifier = recordedSegment.segmentIdentifier
@@ -132,23 +132,41 @@ public class Router : RouterType {
         }
     }
 
-    private func popRecordedSegments(recordedSegmentsToPop: [RecordedSegment], sequenceCompletion:(RoutingResult -> Void)) {
+    private func popRecordedSegments(recordedSegmentsToPop: [RecordedSegment], sequenceCompletion:(RoutingResult -> Void), popCompletion:(Void -> Void)) {
+        guard recordedSegmentsToPop.count > 0 else {
+            popCompletion()
+            return // nothing to do here
+        }
         print("DBG: popRecordedSegments(\(recordedSegmentsToPop.count))")
-        for recordedSegment in recordedSegmentsToPop {
-            print("DBG: pop \(recordedSegment)")
-            popRoute() {
-                routingResult in
-                switch routingResult {
-                case .Failure(_):
-                    sequenceCompletion(.Failure(RoutingErrors.PresenterNotRegistered(recordedSegment.segmentIdentifier)))
-                    return
-                default:
-                    print("DBG: successfully popped \(recordedSegment)")
-                    break // nothing to do
-                }
+        debug("before pop")
+
+        popRouteUsingRouteSegmentsToPop(recordedSegmentsToPop, sequenceCompletion: sequenceCompletion, popCompletion: popCompletion)
+    }
+
+    private func popRouteUsingRouteSegmentsToPop(recordedSegmentsToPop: [RecordedSegment], sequenceCompletion:(RoutingResult -> Void), popCompletion:(Void -> Void)) {
+        guard recordedSegmentsToPop.count > 0 else {
+            // all finished popping
+            popCompletion()
+            return
+        }
+        var newRecordedSegmentsToPop = recordedSegmentsToPop
+        let recordedSegment = newRecordedSegmentsToPop.removeFirst()
+
+        popRoute() {
+            routingResult in
+            switch routingResult {
+            case .Success(_):
+                self.debug("after pop success")
+                print("DBG: pop success \(recordedSegment.segmentIdentifier)")
+                self.popRouteUsingRouteSegmentsToPop(newRecordedSegmentsToPop, sequenceCompletion: sequenceCompletion, popCompletion: popCompletion)
+            case .Failure(_):
+                self.debug("after pop failure")
+                // if popping this segment failed, do not attempt to pop the next one, just fail
+                print("DBG: pop failure \(recordedSegment.segmentIdentifier)")
+                sequenceCompletion(.Failure(RoutingErrors.PresenterNotRegistered(recordedSegment.segmentIdentifier)))
+                popCompletion()
             }
         }
-
     }
 
     public func executeRoute(source: [Any], completion:(RoutingResult -> Void)) {
@@ -162,6 +180,7 @@ public class Router : RouterType {
             completion(.Failure(RoutingErrors.InvalidRouteSequence))
             return
         }
+        print("DBG: executeRouteSequence=\(routeSequenceTracker.routeSequence.items.map { $0.segmentIdentifier.name })")
         let routeSegmentFIFOPipe = RouteSegmentFIFOPipe(oldRecordedSegments: lastRecordedSegments, appending: append)
         performNextRouteSequenceItem(
             routeSequenceTracker,
@@ -169,6 +188,7 @@ public class Router : RouterType {
             sequenceCompletion: {
                 routingResult in
                 self.lastRecordedSegments = routeSegmentFIFOPipe.newRecordedSegments
+                print("DBG: set lastRecordedSegments=\(self.lastRecordedSegments.map { $0.segmentIdentifier.name })")
                 completion(routingResult)
             }
         )
@@ -177,19 +197,23 @@ public class Router : RouterType {
 
     private func performNextRouteSequenceItem(routeSequenceTracker: RouteSequenceTracker, routeSegmentFIFOPipe: RouteSegmentFIFOPipe,  sequenceCompletion:(RoutingResult -> Void)) {
         guard let routeSequenceItem = routeSequenceTracker.next() else {
-
-            popRecordedSegments(routeSegmentFIFOPipe.oldSegmentsToPop, sequenceCompletion: sequenceCompletion)
-
-            // we made it through all the items, so declare success
-            if let finalViewController = routeSegmentFIFOPipe.peekNewRecordedSegment?.viewController {
-                sequenceCompletion(.Success(finalViewController))
-            } else {
-                sequenceCompletion(.Failure(RoutingErrors.SequenceEndedWithoutViewController))
-            }
+            print("DBG: pop early finish")
+            popRecordedSegments(routeSegmentFIFOPipe.oldSegmentsToPop,
+                                sequenceCompletion: sequenceCompletion,
+                                popCompletion: {
+                                    print("DBG: popCompletion")
+                                    // we made it through all the items, so declare success
+                                    if let finalViewController = routeSegmentFIFOPipe.peekNewRecordedSegment?.viewController {
+                                        sequenceCompletion(.Success(finalViewController))
+                                    } else {
+                                        sequenceCompletion(.Failure(RoutingErrors.SequenceEndedWithoutViewController))
+                                    }
+            })
             return
         }
 
         let segmentIdentifier = routeSequenceItem.segmentIdentifier
+        print("DBG: perform  next: \(segmentIdentifier)")
         guard let routeSegment = routeSegments[segmentIdentifier] else {
             sequenceCompletion(.Failure(RoutingErrors.SegmentNotRegistered(segmentIdentifier)))
             return
@@ -207,6 +231,8 @@ public class Router : RouterType {
             )
         }
 
+        let s = routeSegmentFIFOPipe.peekOldRecordedSegment == nil ? "nil" : routeSegmentFIFOPipe.peekOldRecordedSegment!.segmentIdentifier.name
+        print("DBG: last oldRecordedSegment: \(s)")
         if let oldRecordedSegment = routeSegmentFIFOPipe.popOldRecordedSegment() {
             if oldRecordedSegment.segmentIdentifier == segmentIdentifier {
                 if let oldViewController = oldRecordedSegment.viewController {
@@ -215,10 +241,18 @@ public class Router : RouterType {
                 }
             } else {
                 print("DBG: Changed directions, need to pop \(routeSegmentFIFOPipe.oldSegmentsToPop)")
-                popRecordedSegments(routeSegmentFIFOPipe.oldSegmentsToPop, sequenceCompletion: sequenceCompletion)
+                popRecordedSegments(routeSegmentFIFOPipe.oldSegmentsToPop,
+                                    sequenceCompletion: sequenceCompletion,
+                                    popCompletion: {
+                                        self.finishRouteSequenceItem(routeSequenceItem, routeSegment: routeSegment, routeSegmentFIFOPipe: routeSegmentFIFOPipe, onSuccessfulPresentation: onSuccessfulPresentation, sequenceCompletion: sequenceCompletion)
+                })
             }
+        } else {
+            finishRouteSequenceItem(routeSequenceItem, routeSegment: routeSegment, routeSegmentFIFOPipe: routeSegmentFIFOPipe, onSuccessfulPresentation: onSuccessfulPresentation, sequenceCompletion: sequenceCompletion)
         }
+    }
 
+    private func finishRouteSequenceItem(routeSequenceItem: RouteSequenceItemType, routeSegment: RouteSegmentType, routeSegmentFIFOPipe: RouteSegmentFIFOPipe,  onSuccessfulPresentation: ((RouteSegmentType,UIViewController) -> Void), sequenceCompletion:(RoutingResult -> Void)) {
         let presenterIdentifier = routeSegment.presenterIdentifier
         guard let presenter = presenters[presenterIdentifier] else {
             sequenceCompletion(.Failure(RoutingErrors.PresenterNotRegistered(presenterIdentifier)))
@@ -320,7 +354,7 @@ private class RouteSegmentFIFOPipe {
     }
 
     var peekOldRecordedSegment: RecordedSegment? {
-        return currentIndexIntoOld < oldRecordedSegments.count ? oldRecordedSegments[currentIndexIntoOld] : nil
+        return (currentIndexIntoOld >= 0) && (currentIndexIntoOld < oldRecordedSegments.count) ? oldRecordedSegments[currentIndexIntoOld] : nil
     }
 
     var routeChanged: Bool {
