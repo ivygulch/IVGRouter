@@ -17,22 +17,22 @@ public protocol VisualRouteSegmentType: RouteSegmentType {
     func viewController() -> UIViewController?
 }
 
-public protocol BranchedRouteSegmentType: RouteSegmentType {
+public protocol BranchRouteSegmentType: RouteSegmentType {
 }
 
-// view controllers that are presented via BranchingRouteSegmentType should implement this protocol
+// view controllers that are presented via TrunkRouteSegmentType should implement this protocol
 // UITabBarController would have extension that added tabs, selected, etc
 // UISplitViewController would have extension that set master or detail, selected, etc.
-public protocol BranchingRouteController {
+public protocol TrunkRouteController {
     func configureBranch(branchIdentifier: Identifier) -> PlaceholderViewController?
     func selectBranch(branchIdentifier: Identifier) -> PlaceholderViewController?
 }
 
-public protocol BranchingRouteSegmentType: RouteSegmentType {
-    var branchingRouteController: BranchingRouteController { get }
-    var branches: [BranchedRouteSegmentType] { get }
-    func branchForIdentifier(segmentIdentifier: Identifier) -> BranchedRouteSegmentType?
-    func addBranch(branchedRouteSegment: BranchedRouteSegmentType)
+public protocol TrunkRouteSegmentType: RouteSegmentType {
+    var trunkRouteController: TrunkRouteController { get }
+    var branches: [BranchRouteSegmentType] { get }
+    func branchForIdentifier(segmentIdentifier: Identifier) -> BranchRouteSegmentType?
+    func addBranch(branchRouteSegment: BranchRouteSegmentType)
 }
 
 public class RouteSegment : RouteSegmentType {
@@ -77,7 +77,7 @@ public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
 }
 
 
-extension UITabBarController: BranchingRouteController {
+extension UITabBarController: TrunkRouteController {
 
     private struct AssociatedKey {
         static var branchDictionary = "branchDictionary"
@@ -99,7 +99,7 @@ extension UITabBarController: BranchingRouteController {
 
         if let index = branches[branchIdentifier.name] as? Int where index < localViewControllers.count {
             guard let result = localViewControllers[index] as? PlaceholderViewController else {
-                print("WARNING: BranchingRouteSegment viewControllers must use PlaceholderViewController as direct children")
+                print("WARNING: TrunkRouteSegment viewControllers must use PlaceholderViewController as direct children")
                 return nil
             }
             return result

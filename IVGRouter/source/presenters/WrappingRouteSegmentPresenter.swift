@@ -106,9 +106,11 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         if let navigationController = parent as? UINavigationController {
             return startWrappingNavigationController(navigationController, withChild: child, inWrapper: wrapper)
         } else if let _ = parent as? UISplitViewController {
+            // TODO: splitViewController not handled yet
             print("WARNING: splitViewController not handled yet")
             return {}
         } else if let _ = parent as? UITabBarController {
+            // TODO: tabBarController not handled yet
             print("WARNING: tabBarController not handled yet")
             return {}
         } else {

@@ -1,5 +1,5 @@
 //
-//  MockBranchedRouteSegmentPresenter.swift
+//  MockBranchRouteSegmentPresenter.swift
 //  IVGRouter
 //
 //  Created by Douglas Sjoquist on 4/24/16.
@@ -11,7 +11,7 @@ import Quick
 import Nimble
 import IVGRouter
 
-class MockBranchedRouteSegmentPresenter : TrackableTestClass, BranchedRouteSegmentPresenterType {
+class MockBranchRouteSegmentPresenter : TrackableTestClass, BranchRouteSegmentPresenterType {
 
     static let defaultPresenterIdentifier = Identifier(name: String(MockVisualRouteSegmentPresenter))
 

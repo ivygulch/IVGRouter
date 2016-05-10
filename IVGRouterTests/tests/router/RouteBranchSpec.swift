@@ -21,8 +21,8 @@ class RouteBranchSpec: QuickSpec {
             let dummyIdentifier = Identifier(name: "dummy")
             let mockTabBarController = MockTabBarController("TBC")
             let mockVisualRouteSegment = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "VISUAL"), presenterIdentifier: dummyIdentifier, presentedViewController: nil)
-            let mockBranchingRouteSegment = MockBranchingRouteSegment(segmentIdentifier: Identifier(name: "BRANCHING"), presenterIdentifier: dummyIdentifier, branchingRouteController: mockTabBarController, presentedViewController: nil)
-            let mockBranchedRouteSegment = MockBranchedRouteSegment(segmentIdentifier: Identifier(name: "BRANCHED"), presenterIdentifier: dummyIdentifier)
+            let mockTrunkRouteSegment = MockTrunkRouteSegment(segmentIdentifier: Identifier(name: "Trunk"), presenterIdentifier: dummyIdentifier, trunkRouteController: mockTabBarController, presentedViewController: nil)
+            let mockBranchRouteSegment = MockBranchRouteSegment(segmentIdentifier: Identifier(name: "Branch"), presenterIdentifier: dummyIdentifier)
 
             beforeEach {
                 router = Router(window: nil)
@@ -36,12 +36,12 @@ class RouteBranchSpec: QuickSpec {
                 beforeEach {
                     router = Router(window: nil)
                     router.registerRouteSegment(mockVisualRouteSegment)
-                    router.registerRouteSegment(mockBranchingRouteSegment)
-                    router.registerRouteSegment(mockBranchedRouteSegment)
+                    router.registerRouteSegment(mockTrunkRouteSegment)
+                    router.registerRouteSegment(mockBranchRouteSegment)
                     routeBranch = RouteBranch(source: [
                         mockVisualRouteSegment.segmentIdentifier,
-                        mockBranchingRouteSegment.segmentIdentifier,
-                        mockBranchedRouteSegment.segmentIdentifier
+                        mockTrunkRouteSegment.segmentIdentifier,
+                        mockBranchRouteSegment.segmentIdentifier
                         ])
                     validatedRouteSegments = routeBranch.validatedRouteSegmentsWithRouter(router)
                 }
@@ -63,7 +63,7 @@ class RouteBranchSpec: QuickSpec {
                 
             }
 
-            context("with missing branched segment") {
+            context("with missing branch segment") {
 
                 var routeBranch: RouteBranch!
                 var validatedRouteSegments: [RouteSegmentType]?
@@ -72,7 +72,7 @@ class RouteBranchSpec: QuickSpec {
                     router = Router(window: nil)
                     routeBranch = RouteBranch(source: [
                         mockVisualRouteSegment.segmentIdentifier,
-                        mockBranchingRouteSegment.segmentIdentifier,
+                        mockTrunkRouteSegment.segmentIdentifier,
                         ])
                     validatedRouteSegments = routeBranch.validatedRouteSegmentsWithRouter(router)
                 }
@@ -83,7 +83,7 @@ class RouteBranchSpec: QuickSpec {
                 
             }
 
-            context("with missing branching segment") {
+            context("with missing trunk segment") {
 
                 var routeBranch: RouteBranch!
                 var validatedRouteSegments: [RouteSegmentType]?
@@ -92,7 +92,7 @@ class RouteBranchSpec: QuickSpec {
                     router = Router(window: nil)
                     routeBranch = RouteBranch(source: [
                         mockVisualRouteSegment.segmentIdentifier,
-                        mockBranchingRouteSegment.segmentIdentifier,
+                        mockTrunkRouteSegment.segmentIdentifier,
                         ])
                     validatedRouteSegments = routeBranch.validatedRouteSegmentsWithRouter(router)
                 }
@@ -103,7 +103,7 @@ class RouteBranchSpec: QuickSpec {
                 
             }
 
-            context("with out of order branching/branched segment") {
+            context("with out of order trunk/branch segment") {
 
                 var routeBranch: RouteBranch!
                 var validatedRouteSegments: [RouteSegmentType]?
@@ -111,8 +111,8 @@ class RouteBranchSpec: QuickSpec {
                 beforeEach {
                     router = Router(window: nil)
                     routeBranch = RouteBranch(source: [
-                        mockBranchingRouteSegment.segmentIdentifier,
-                        mockBranchedRouteSegment.segmentIdentifier,
+                        mockTrunkRouteSegment.segmentIdentifier,
+                        mockBranchRouteSegment.segmentIdentifier,
                         mockVisualRouteSegment.segmentIdentifier
                         ])
                     validatedRouteSegments = routeBranch.validatedRouteSegmentsWithRouter(router)

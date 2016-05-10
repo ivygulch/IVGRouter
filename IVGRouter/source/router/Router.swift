@@ -251,7 +251,7 @@ public class Router : RouterType {
 
         if let parentSegmentIdentifier = routeSegmentFIFOPipe.peekNewRecordedSegment?.segmentIdentifier,
             let parentSegment = routeSegments[parentSegmentIdentifier] {
-            if handledBranchedPresenter(presenter, parentRouteSegment: parentSegment, routeSegment: routeSegment, routeSequenceOptions: routeSequenceItem.options, sequenceCompletion: sequenceCompletion, presentationCompletion: onSuccessfulPresentation) {
+            if handledBranchPresenter(presenter, parentRouteSegment: parentSegment, routeSegment: routeSegment, routeSequenceOptions: routeSequenceItem.options, sequenceCompletion: sequenceCompletion, presentationCompletion: onSuccessfulPresentation) {
                 return
             }
         }
@@ -287,20 +287,21 @@ public class Router : RouterType {
     }
 
     /// return true if this step was handled, otherwise false so another method can be called
-    private func handledBranchedPresenter(presenter: RouteSegmentPresenterType, parentRouteSegment: RouteSegmentType?, routeSegment: RouteSegmentType, routeSequenceOptions: RouteSequenceOptions, sequenceCompletion:(RoutingResult -> Void), presentationCompletion:((RouteSegmentType,UIViewController) -> Void)) -> Bool {
-        guard let branchedPresenter = presenter as? BranchedRouteSegmentPresenterType else {
+    private func handledBranchPresenter(presenter: RouteSegmentPresenterType, parentRouteSegment: RouteSegmentType?, routeSegment: RouteSegmentType, routeSequenceOptions: RouteSequenceOptions, sequenceCompletion:(RoutingResult -> Void), presentationCompletion:((RouteSegmentType,UIViewController) -> Void)) -> Bool {
+        guard let branchPresenter = presenter as? BranchRouteSegmentPresenterType else {
             return false // this is not the presenter you are looking for, we did not handle it
         }
-        guard let branchedRouteSegment = routeSegment as? BranchedRouteSegmentType else {
-            sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "expected BranchedRouteSegmentType")))
+        guard let branchRouteSegment = routeSegment as? BranchRouteSegmentType else {
+            sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "expected BranchRouteSegmentType")))
             return true // we handled it by failing the sequence
         }
-        guard let _ = parentRouteSegment as? BranchingRouteSegmentType else {
-            sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "segment must be child segment of BranchingRouteSegmentType")))
+        guard let _ = parentRouteSegment as? TrunkRouteSegmentType else {
+            sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "segment must be child segment of TrunkRouteSegmentType")))
             return true // we handled it by failing the sequence
         }
 
-        let message = "WARNING: handle \(branchedPresenter) & \(branchedRouteSegment)"
+        // TODO: handle branchPresenter & branchRouteSegment
+        let message = "WARNING: handle \(branchPresenter) & \(branchRouteSegment)"
         sequenceCompletion(.Failure(RoutingErrors.InvalidConfiguration(message)))
         return true
     }
