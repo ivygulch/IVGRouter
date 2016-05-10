@@ -20,6 +20,7 @@ class RouterBasicSpec: QuickSpec {
             self.singleSegmentRouteExecutionTests()
             self.simpleMultipleSegmentRouteExecutionTests()
             self.popRouteTests()
+            self.executeSubsetOfCurrentRouteTests()
         }
     }
 }
@@ -432,7 +433,7 @@ extension RouterBasicSpec {
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
                 }
-                
+
             }
 
             context("then calling popRoute twice") {
@@ -455,6 +456,146 @@ extension RouterBasicSpec {
 
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
+// MARK: execute subset of current route
+extension RouterBasicSpec {
+
+    func executeSubsetOfCurrentRouteTests() {
+
+        context("when executing a sequence") {
+
+            let mockViewControllerA = MockViewController("A")
+            let mockViewControllerB = MockViewController("B")
+            let mockViewControllerC = MockViewController("C")
+            let mockViewControllerD = MockViewController("D")
+            let mockViewControllerE = MockViewController("E")
+            var mockPresenterCompletionSucceeds: MockVisualRouteSegmentPresenter!
+            var mockVisualRouteSegmentA: MockVisualRouteSegment!
+            var mockVisualRouteSegmentB: MockVisualRouteSegment!
+            var mockVisualRouteSegmentC: MockVisualRouteSegment!
+            var mockVisualRouteSegmentD: MockVisualRouteSegment!
+            var mockVisualRouteSegmentE: MockVisualRouteSegment!
+            var router: Router!
+            var initialSequence:[Any]!
+
+            beforeEach {
+                mockPresenterCompletionSucceeds = MockVisualRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)
+                mockVisualRouteSegmentA = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "A"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerA)
+                mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerB)
+                mockVisualRouteSegmentC = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "C"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerC)
+                mockVisualRouteSegmentD = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "D"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerD)
+                mockVisualRouteSegmentE = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "E"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerE)
+                router = Router(window: nil)
+                router.registerPresenter(mockPresenterCompletionSucceeds)
+                router.registerRouteSegment(mockVisualRouteSegmentA)
+                router.registerRouteSegment(mockVisualRouteSegmentB)
+                router.registerRouteSegment(mockVisualRouteSegmentC)
+                router.registerRouteSegment(mockVisualRouteSegmentD)
+                router.registerRouteSegment(mockVisualRouteSegmentE)
+                initialSequence = [mockVisualRouteSegmentA.segmentIdentifier,mockVisualRouteSegmentB.segmentIdentifier,mockVisualRouteSegmentC.segmentIdentifier,mockVisualRouteSegmentD.segmentIdentifier]
+
+                let expectation = self.expectationWithDescription("executeRoute initialRoute")
+                router.executeRoute(initialSequence) {
+                    routingResult in
+                    switch routingResult {
+                    case .Success(let finalViewController):
+                        let presentedVCNames = mockPresenterCompletionSucceeds.trackerLog.map { $0.values[0] }
+                        let actualVCNames = initialSequence.map { ($0 as! Identifier).name }
+                        expect(presentedVCNames).to(equal(actualVCNames))
+                        expect(finalViewController).to(equal(mockViewControllerD))
+                    case .Failure(let error):
+                        fail("Did not expect error: \(error)")
+                    }
+                    expectation.fulfill()
+                }
+                self.waitForExpectationsWithTimeout(5, handler: nil)
+            }
+
+            context("then executing subset of route with one less segment") {
+
+                it("should effectively pop to previous segment") {
+                    let subSequence = Array(initialSequence.prefix(initialSequence.count-1))
+                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    router.executeRoute(subSequence) {
+                        routingResult in
+                        switch routingResult {
+                        case .Success(let finalViewController):
+                            // executing a subsequence should not present any new VCs
+                            let presentedVCNames = mockPresenterCompletionSucceeds.trackerLog.map { $0.values[0] }
+                            let actualVCNames = initialSequence.map { ($0 as! Identifier).name }
+                            expect(presentedVCNames).to(equal(actualVCNames))
+                            expect(finalViewController).to(equal(mockViewControllerC))
+                        case .Failure(let error):
+                            fail("Did not expect error: \(error)")
+                        }
+                        expectation.fulfill()
+                    }
+                    self.waitForExpectationsWithTimeout(5, handler: nil)
+
+                    expect(router.viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
+                }
+                
+            }
+
+            context("then executing subset of route with two less segments") {
+
+                it("should effectively pop twice to earlier segment") {
+                    let subSequence = Array(initialSequence.prefix(initialSequence.count-2))
+                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    router.executeRoute(subSequence) {
+                        routingResult in
+                        switch routingResult {
+                        case .Success(let finalViewController):
+                            // executing a subsequence should not re-present any initial VCs
+                            let presentedVCNames = mockPresenterCompletionSucceeds.trackerLog.map { $0.values[0] }
+                            let actualVCNames = initialSequence.map { ($0 as! Identifier).name }
+                            expect(presentedVCNames).to(equal(actualVCNames))
+                            expect(finalViewController).to(equal(mockViewControllerB))
+                        case .Failure(let error):
+                            fail("Did not expect error: \(error)")
+                        }
+                        expectation.fulfill()
+                    }
+                    self.waitForExpectationsWithTimeout(5, handler: nil)
+
+                    expect(router.viewControllers).to(equal([mockViewControllerA,mockViewControllerB]))
+                }
+                
+            }
+
+            context("then executing new sequence that partially matches") {
+
+                it("should effectively pop some segments before moving to new one") {
+                    var subSequence = Array(initialSequence.prefix(initialSequence.count-2))
+                    subSequence.append(mockVisualRouteSegmentE.segmentIdentifier)
+                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    router.executeRoute(subSequence) {
+                        routingResult in
+                        switch routingResult {
+                        case .Success(let finalViewController):
+                            // executing new sequence should not re-present any initial VCs, just the new one
+                            let presentedVCNames = mockPresenterCompletionSucceeds.trackerLog.map { $0.values[0] }
+                            var actualVCNames = initialSequence.map { ($0 as! Identifier).name }
+                            actualVCNames.append(mockVisualRouteSegmentE.segmentIdentifier.name)
+                            expect(presentedVCNames).to(equal(actualVCNames))
+                            expect(finalViewController).to(equal(mockViewControllerE))
+                        case .Failure(let error):
+                            fail("Did not expect error: \(error)")
+                        }
+                        expectation.fulfill()
+                    }
+                    self.waitForExpectationsWithTimeout(5, handler: nil)
+
+                    expect(router.viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerE]))
                 }
                 
             }

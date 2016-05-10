@@ -29,6 +29,7 @@ protocol TrackableTestClassType {
 
     func track(key:String)
     func track(key:String, _ values:[String])
+    func reset()
 }
 
 protocol TrackableTestClassProxy : TrackableTestClassType {
@@ -61,6 +62,10 @@ extension TrackableTestClassProxy {
 
     func track(key:String, _ values:[String]) {
         trackableTestClass.track(key, values)
+    }
+
+    func reset() {
+        trackableTestClass.reset()
     }
 }
 
@@ -106,6 +111,10 @@ class TrackableTestClass : TrackableTestClassType {
         trackerSummary[key] = entries
         trackerLog.append(trackerLogEntry)
     }
-    
+
+    func reset() {
+        trackerLog = []
+        trackerSummary = [:]
+    }
 }
 
