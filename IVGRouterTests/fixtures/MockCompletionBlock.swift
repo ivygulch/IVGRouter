@@ -8,6 +8,7 @@
 
 import UIKit
 import XCTest
+import IVGRouter
 
 class MockCompletionBlock : TrackableTestClass {
 
@@ -15,11 +16,16 @@ class MockCompletionBlock : TrackableTestClass {
         self.expectation = expectation
     }
 
-    var completion: (Bool, UIViewController?) -> Void {
+    var completion: (RoutingResult -> Void) {
         return {
-            (finished:Bool, viewController:UIViewController?) -> Void in
-            let vcDesc = viewController == nil ? "nil" : String(viewController!)
-            self.track("completion", ["\(finished)",vcDesc])
+            routingResult -> Void in
+
+            switch routingResult {
+            case .Success(let viewController):
+                self.track("completion", [String(true),String(viewController)])
+            case .Failure(_):
+                self.track("completion", [String(false),"nil"])
+            }
             if let expectation = self.expectation {
                 expectation.fulfill()
             }

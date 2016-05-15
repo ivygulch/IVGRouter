@@ -17,6 +17,7 @@ public enum RoutingErrors: ErrorType {
     case NoViewControllerProduced(Identifier)
     case InvalidConfiguration(String)
     case CouldNotReversePresentation(Identifier)
+    case CannotPresent(Identifier,String)
 }
 
 public enum RoutingResult {
@@ -112,10 +113,12 @@ public class Router : RouterType {
             let lastParentViewController = lastViewController.parentViewController {
 
             reversibleRouteSegmentPresenter.reversePresentation(lastViewController) {
-                (success, _) in
-                if success {
+                presenterResult in
+
+                switch presenterResult {
+                case .Success(_):
                     completion(.Success(lastParentViewController))
-                } else {
+                case .Failure(_):
                     completion(.Failure(RoutingErrors.CouldNotReversePresentation(lastSegmentIdentifier)))
                 }
             }
@@ -274,12 +277,13 @@ public class Router : RouterType {
         }
 
         visualPresenter.presentViewController(viewController, from: parent, options: routeSequenceOptions, window: window, completion: {
-            (success, _) in
+            presenterResult in
 
-            if success {
+            switch presenterResult {
+            case .Success(_):
                 presentationCompletion(visualRouteSegment, viewController)
-            } else {
-                sequenceCompletion(.Failure(RoutingErrors.NoViewControllerProduced(routeSegment.segmentIdentifier)))
+            case .Failure(let error):
+                sequenceCompletion(.Failure(error))
             }
 
         })
@@ -300,16 +304,21 @@ public class Router : RouterType {
             return true // we handled it by failing the sequence
         }
 
-//        func selectBranch(branchRouteSegment : BranchRouteSegmentType, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: ((Bool, UIViewController?) -> Void)) {
-//        branchPresenter.selectBranch(branchRouteSegment.segmentIdentifier, from: trunkRouteSegment.trunkRouteController, options: routeSequenceOptions, completion: {
-//            success in
-//
-//            if success {
-//                presentationCompletion(branchRouteSegment, trunkRouteSegment.trunkRouteController.)
-//            } else {
-//                sequenceCompletion(.Failure(RoutingErrors.NoViewControllerProduced(routeSegment.segmentIdentifier)))
-//            }
-//        })
+//selectBranch(
+//        branchRouteSegment : BranchRouteSegmentType,
+//        from trunkRouteController: TrunkRouteController,
+//        options: RouteSequenceOptions,
+//        completion: ((Bool, UIViewController?) -> Void))
+        branchPresenter.selectBranch(branchRouteSegment, from: trunkRouteSegment.trunkRouteController, options: routeSequenceOptions, completion: {
+            presenterResult in
+
+            switch presenterResult {
+            case .Success(let selectedViewController):
+                presentationCompletion(branchRouteSegment, selectedViewController)
+            case .Failure(let error):
+                sequenceCompletion(.Failure(error))
+            }
+        })
 
         // TODO: handle branchPresenter & branchRouteSegment
         let message = "WARNING: handle \(branchPresenter) & \(branchRouteSegment)"

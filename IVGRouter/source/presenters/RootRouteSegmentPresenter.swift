@@ -12,7 +12,7 @@ public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
 
     public static let defaultPresenterIdentifier = Identifier(name: String(RootRouteSegmentPresenter))
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool, UIViewController?) -> Void)) {
+    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (RoutingResult -> Void)) {
         guard verify(checkNotNil(window, "Router.window"), completion: completion),
             let window = window else {
             return
@@ -22,7 +22,7 @@ public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
         }
         window.rootViewController = presentedViewController
         window.makeKeyAndVisible()
-        completion(true, presentedViewController)
+        completion(.Success(presentedViewController))
     }
     
 }

@@ -39,7 +39,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         super.init(presenterIdentifier: presenterIdentifier)
     }
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool, UIViewController?) -> Void)) {
+    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (RoutingResult -> Void)) {
         guard let child = presentingViewController else {
             verify(checkNotNil(presentingViewController, "presentingViewController"), completion: completion)
             return
@@ -52,7 +52,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         }
     }
 
-    public func reversePresentation(viewControllerToRemove: UIViewController, completion: ((Bool, UIViewController?) -> Void)) {
+    public func reversePresentation(viewControllerToRemove: UIViewController, completion: (RoutingResult -> Void)) {
         let parent = viewControllerToRemove.parentViewController
         guard let _ = parent else {
             verify(checkNotNil(parent, "parent"), completion: completion)
@@ -69,7 +69,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
 
     // MARK: wrapping methods
 
-    private func wrapChild(child: UIViewController, inWrapper wrapper : UIViewController, completion: ((Bool, UIViewController?) -> Void)) {
+    private func wrapChild(child: UIViewController, inWrapper wrapper : UIViewController, completion: (RoutingResult -> Void)) {
         let parent = child.parentViewController
         let previousChildViewIndex = parent?.view.subviews.indexOf(child.view)
 
@@ -94,7 +94,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
                 finished in
                 self.wrappingRouteSegmentAnimator.completeViewWrappingAnimation(child, wrapper, viewAnimationInfo)
                 finishWrappingViewControllerBlock()
-                completion(true, wrapper)
+                completion(.Success(wrapper))
             }
         )
     }
@@ -145,7 +145,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
 
     // MARK: unwrapping methods
 
-    private func unwrapChild(child: UIViewController, fromWrapper wrapper: UIViewController, completion: ((Bool, UIViewController?) -> Void))  {
+    private func unwrapChild(child: UIViewController, fromWrapper wrapper: UIViewController, completion: (RoutingResult -> Void))  {
         let parent = wrapper.parentViewController!
         let child = wrapper.childViewControllers.first!
         child.willMoveToParentViewController(parent)
@@ -168,7 +168,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
                 wrapper.willMoveToParentViewController(nil)
                 wrapper.removeFromParentViewController()
 
-                completion(true, child)
+                completion(.Success(child))
             }
         )
     }

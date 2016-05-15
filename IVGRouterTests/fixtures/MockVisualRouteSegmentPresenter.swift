@@ -22,11 +22,15 @@ class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPr
 
     let presenterIdentifier: Identifier
 
-    func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (Bool, UIViewController?) -> Void)  {
+    func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: RoutingResult -> Void)  {
         let from = presentingViewController?.description ?? "nil"
         let windowID = window == nil ? "nil" : "\(unsafeAddressOf(window!))"
         track("presentViewController", [presentedViewController.description,from,windowID])
-        completion(completionBlockArg, presentedViewController)
+        if completionBlockArg {
+            completion(.Success(presentedViewController))
+        } else {
+            completion(.Failure(RoutingErrors.CannotPresent(self.presenterIdentifier, "mock result is false")))
+        }
     }
 
     private let completionBlockArg: Bool

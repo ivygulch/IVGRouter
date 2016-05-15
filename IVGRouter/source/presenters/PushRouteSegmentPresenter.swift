@@ -21,48 +21,46 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
 
     public static let defaultPresenterIdentifier = Identifier(name: String(PushRouteSegmentPresenter))
 
-    private func stackIsValid(stack:[UIViewController], additional:UIViewController? = nil) -> Bool {
+    private func stackConfigurationError(stack:[UIViewController], additional:UIViewController? = nil) -> RoutingErrors? {
         var existingSet = Set<UIViewController>()
         for viewController in stack {
             if existingSet.contains(viewController) {
-                print("View controllers may only appear once in view controller stack: \(viewController)")
-                return false
+                return RoutingErrors.InvalidConfiguration("View controllers may only appear once in view controller stack: \(viewController)")
             }
             existingSet.insert(viewController)
         }
         if let additional = additional {
             if existingSet.contains(additional) {
-                print("View controllers may only appear once in view controller stack: \(additional)")
-                return false
+                return RoutingErrors.InvalidConfiguration("View controllers may only appear once in view controller stack: \(additional)")
             }
         }
-        return true
+        return nil
     }
 
-    private func setViewControllerAsRoot(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: ((Bool, UIViewController?) -> Void)) {
+    private func setViewControllerAsRoot(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: (RoutingResult -> Void)) {
         let stack = [presentedViewController]
-        guard stackIsValid(stack) else {
-            completion(false, nil)
+        if let stackConfigurationError = stackConfigurationError(stack) {
+            completion(.Failure(stackConfigurationError))
             return
         }
         let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
         navigationController.setViewControllers(stack, animated: animated, completion: {
-            completion(true, presentedViewController)
+            completion(.Success(presentedViewController))
         })
     }
 
-    private func pushViewController(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: ((Bool, UIViewController?) -> Void)) {
-        guard stackIsValid(navigationController.viewControllers, additional:presentedViewController) else {
-            completion(false, nil)
+    private func pushViewController(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: (RoutingResult -> Void)) {
+        if let stackConfigurationError = stackConfigurationError(navigationController.viewControllers, additional:presentedViewController) {
+            completion(.Failure(stackConfigurationError))
             return
         }
         let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
         navigationController.pushViewController(presentedViewController, animated: animated, completion: {
-            completion(true, presentedViewController)
+            completion(.Success(presentedViewController))
         })
     }
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool, UIViewController?) -> Void)) {
+    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (RoutingResult -> Void)) {
         if let asNavigationController = presentingViewController as? UINavigationController {
             setViewControllerAsRoot(presentedViewController, navigationController: asNavigationController, options: options, completion: completion)
             return

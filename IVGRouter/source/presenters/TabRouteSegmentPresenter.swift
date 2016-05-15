@@ -22,7 +22,7 @@ public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSe
 
     public static let defaultPresenterIdentifier = Identifier(name: String(TabRouteSegmentPresenter))
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool, UIViewController?) -> Void)) {
+    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (RoutingResult -> Void)) {
         guard verify(checkType(presentingViewController, type:UITabBarController.self, "presentingViewController"), completion: completion),
             let tabBarController = presentingViewController as? UITabBarController
             else {
@@ -35,7 +35,7 @@ public class TabRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSe
             tabBarController.selectViewControllerAppendingIfNeeded(presentedViewController)
         }
 
-        completion(true, presentedViewController)
+        completion(.Success(presentedViewController))
     }
 
 }

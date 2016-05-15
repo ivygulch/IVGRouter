@@ -246,8 +246,8 @@ extension RouterBasicSpec {
                             expect(error as? RoutingErrors).toNot(beNil())
                             if let error = error as? RoutingErrors {
                                 switch error {
-                                case .NoViewControllerProduced(let identifier):
-                                    expect(identifier).to(equal(identifierCompletionFails))
+                                case .CannotPresent(let identifier, _):
+                                    expect(identifier).to(equal(mockPresenterCompletionFails.presenterIdentifier))
                                 default:
                                     fail("Did not expect: \(error)")
                                 }
