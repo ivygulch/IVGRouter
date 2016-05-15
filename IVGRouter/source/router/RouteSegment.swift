@@ -24,8 +24,8 @@ public protocol BranchRouteSegmentType: RouteSegmentType {
 // UITabBarController would have extension that added tabs, selected, etc
 // UISplitViewController would have extension that set master or detail, selected, etc.
 public protocol TrunkRouteController {
-    func configureBranch(branchIdentifier: Identifier) -> PlaceholderViewController?
-    func selectBranch(branchIdentifier: Identifier) -> PlaceholderViewController?
+    func configureBranch(branchIdentifier: Identifier) -> RoutingResult
+    func selectBranch(branchIdentifier: Identifier) -> RoutingResult
 }
 
 public protocol TrunkRouteSegmentType: RouteSegmentType {
@@ -94,31 +94,35 @@ extension UITabBarController: TrunkRouteController {
         }
     }
 
-    private func appendBranchIfNeeded(branchIdentifier: Identifier) -> PlaceholderViewController? {
+    private func appendBranchIfNeeded(branchIdentifier: Identifier) -> RoutingResult {
         var localViewControllers: [UIViewController] = viewControllers ?? []
 
         if let index = branches[branchIdentifier.name] as? Int where index < localViewControllers.count {
             guard let result = localViewControllers[index] as? PlaceholderViewController else {
-                print("WARNING: TrunkRouteSegment viewControllers must use PlaceholderViewController as direct children")
-                return nil
+                return .Failure(RoutingErrors.InvalidRouteSegment(branchIdentifier, "TrunkRouteSegment viewControllers must use PlaceholderViewController as direct children"))
             }
-            return result
+            return .Success(result)
         }
 
         let result = PlaceholderViewController()
         localViewControllers.append(result)
         viewControllers = localViewControllers
         branches[branchIdentifier.name] = localViewControllers.count - 1
-        return result
+        return .Success(result)
     }
 
-    public func configureBranch(branchIdentifier: Identifier) -> PlaceholderViewController? {
+    public func configureBranch(branchIdentifier: Identifier) -> RoutingResult {
         return appendBranchIfNeeded(branchIdentifier)
     }
 
-    public func selectBranch(branchIdentifier: Identifier) -> PlaceholderViewController? {
+    public func selectBranch(branchIdentifier: Identifier) -> RoutingResult {
         let result = appendBranchIfNeeded(branchIdentifier)
-        selectedViewController = result
+        switch result {
+        case .Success(let viewController):
+            selectedViewController = viewController
+        case .Failure(_):
+            selectedViewController = nil
+        }
         return result
     }
 

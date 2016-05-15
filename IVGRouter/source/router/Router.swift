@@ -304,11 +304,6 @@ public class Router : RouterType {
             return true // we handled it by failing the sequence
         }
 
-//selectBranch(
-//        branchRouteSegment : BranchRouteSegmentType,
-//        from trunkRouteController: TrunkRouteController,
-//        options: RouteSequenceOptions,
-//        completion: ((Bool, UIViewController?) -> Void))
         branchPresenter.selectBranch(branchRouteSegment, from: trunkRouteSegment.trunkRouteController, options: routeSequenceOptions, completion: {
             presenterResult in
 
@@ -319,10 +314,6 @@ public class Router : RouterType {
                 sequenceCompletion(.Failure(error))
             }
         })
-
-        // TODO: handle branchPresenter & branchRouteSegment
-        let message = "WARNING: handle \(branchPresenter) & \(branchRouteSegment)"
-        sequenceCompletion(.Failure(RoutingErrors.InvalidConfiguration(message)))
         return true
     }
 

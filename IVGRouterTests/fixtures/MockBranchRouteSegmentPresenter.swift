@@ -27,7 +27,7 @@ class MockBranchRouteSegmentPresenter : TrackableTestClass, BranchRouteSegmentPr
         track("selectBranchViewController", [branchRouteSegment.segmentIdentifier.name,from])
         let result = trunkRouteController.selectBranch(branchRouteSegment.segmentIdentifier)
         if completionBlockArg {
-            completion(.Success(result!))
+            completion(result)
         } else {
             completion(.Failure(RoutingErrors.CannotPresent(self.presenterIdentifier, "mock result is false")))
         }
