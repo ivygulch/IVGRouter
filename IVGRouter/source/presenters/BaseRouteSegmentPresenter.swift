@@ -47,10 +47,10 @@ public class BaseRouteSegmentPresenter {
         return "\(source) must be of type \(type) but found \(foundDescription)"
     }
 
-    public func verify(verificationMessage: String?, completion: ((Bool) -> Void)) -> Bool {
+    public func verify(verificationMessage: String?, completion: ((Bool, UIViewController?) -> Void)) -> Bool {
         if let verificationMessage = verificationMessage {
             print("\(String(self)) cannot present view controller: \(verificationMessage)")
-            completion(false)
+            completion(false, nil)
             return false
         }
         return true

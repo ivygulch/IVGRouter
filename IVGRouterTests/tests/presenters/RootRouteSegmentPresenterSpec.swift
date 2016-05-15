@@ -37,24 +37,21 @@ class RootRouteSegmentPresenterSpec: QuickSpec {
 
             it("should fail when window is nil") {
                 let presenter = RootRouteSegmentPresenter()
-                let result = presenter.presentViewController(mockViewControllerB, from: nil, options: [:], window: nil, completion: mockCompletionBlock.completion)
-                expect(result).to(beNil())
-                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
+                presenter.presentViewController(mockViewControllerB, from: nil, options: [:], window: nil, completion: mockCompletionBlock.completion)
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false","nil"]]]))
             }
 
             it("should fail when presentingViewController is not nil") {
                 let presenter = RootRouteSegmentPresenter()
-                let result = presenter.presentViewController(mockViewControllerB, from: mockViewControllerA, options: [:], window: mockWindow, completion: mockCompletionBlock.completion)
-                expect(result).to(beNil())
-                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
+                presenter.presentViewController(mockViewControllerB, from: mockViewControllerA, options: [:], window: mockWindow, completion: mockCompletionBlock.completion)
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false","nil"]]]))
                 expect(mockWindow.trackerKeyValues).to(beEmpty())
             }
 
             it("should pass when window is not nil") {
                 let presenter = RootRouteSegmentPresenter()
-                let result = presenter.presentViewController(mockViewControllerB, from: nil, options: [:], window: mockWindow, completion: mockCompletionBlock.completion)
-                expect(result).to(equal(mockViewControllerB))
-                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["true"]]]))
+                presenter.presentViewController(mockViewControllerB, from: nil, options: [:], window: mockWindow, completion: mockCompletionBlock.completion)
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["true",String(mockViewControllerB)]]]))
                 expect(mockWindow.trackerKeyValues).to(equal(["makeKeyAndVisible":[[]],"setRootViewController":[[mockViewControllerB.description]]]))
             }
 

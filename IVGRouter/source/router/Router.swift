@@ -112,7 +112,7 @@ public class Router : RouterType {
             let lastParentViewController = lastViewController.parentViewController {
 
             reversibleRouteSegmentPresenter.reversePresentation(lastViewController) {
-                success in
+                (success, _) in
                 if success {
                     completion(.Success(lastParentViewController))
                 } else {
@@ -274,7 +274,7 @@ public class Router : RouterType {
         }
 
         visualPresenter.presentViewController(viewController, from: parent, options: routeSequenceOptions, window: window, completion: {
-            success in
+            (success, _) in
 
             if success {
                 presentationCompletion(visualRouteSegment, viewController)
@@ -295,10 +295,21 @@ public class Router : RouterType {
             sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "expected BranchRouteSegmentType")))
             return true // we handled it by failing the sequence
         }
-        guard let _ = parentRouteSegment as? TrunkRouteSegmentType else {
+        guard let trunkRouteSegment = parentRouteSegment as? TrunkRouteSegmentType else {
             sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "segment must be child segment of TrunkRouteSegmentType")))
             return true // we handled it by failing the sequence
         }
+
+//        func selectBranch(branchRouteSegment : BranchRouteSegmentType, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: ((Bool, UIViewController?) -> Void)) {
+//        branchPresenter.selectBranch(branchRouteSegment.segmentIdentifier, from: trunkRouteSegment.trunkRouteController, options: routeSequenceOptions, completion: {
+//            success in
+//
+//            if success {
+//                presentationCompletion(branchRouteSegment, trunkRouteSegment.trunkRouteController.)
+//            } else {
+//                sequenceCompletion(.Failure(RoutingErrors.NoViewControllerProduced(routeSegment.segmentIdentifier)))
+//            }
+//        })
 
         // TODO: handle branchPresenter & branchRouteSegment
         let message = "WARNING: handle \(branchPresenter) & \(branchRouteSegment)"

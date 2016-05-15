@@ -122,7 +122,7 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
                     }
 
                     it("should call completion block") {
-                        expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
+                        expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false","nil"]]]))
                     }
                 }
             }

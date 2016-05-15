@@ -13,7 +13,7 @@ import IVGRouter
 
 class MockBranchRouteSegmentPresenter : TrackableTestClass, BranchRouteSegmentPresenterType {
 
-    static let defaultPresenterIdentifier = Identifier(name: String(MockVisualRouteSegmentPresenter))
+    static let defaultPresenterIdentifier = Identifier(name: String(MockBranchRouteSegmentPresenter))
 
     init(presenterIdentifier: String, completionBlockArg: Bool) {
         self.presenterIdentifier = Identifier(name: presenterIdentifier)
@@ -22,13 +22,12 @@ class MockBranchRouteSegmentPresenter : TrackableTestClass, BranchRouteSegmentPr
 
     let presenterIdentifier: Identifier
 
-//    func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (Bool) -> Void) -> UIViewController? {
-//        let from = presentingViewController?.description ?? "nil"
-//        let windowID = window == nil ? "nil" : "\(unsafeAddressOf(window!))"
-//        track("presentViewController", [presentedViewController.description,from,windowID])
-//        completion(completionBlockArg)
-//        return presentedViewController
-//    }
+    func selectBranch(branchRouteSegment : BranchRouteSegmentType, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: ((Bool, UIViewController?) -> Void)) {
+        let from = (trunkRouteController as? CustomStringConvertible)?.description ?? "trunkRouteController"
+        track("selectBranchViewController", [branchRouteSegment.segmentIdentifier.name,from])
+        let result = trunkRouteController.selectBranch(branchRouteSegment.segmentIdentifier)
+        completion(completionBlockArg, result)
+    }
 
     private let completionBlockArg: Bool
 }

@@ -35,23 +35,20 @@ class TabRouteSegmentPresenterSpec: QuickSpec {
 
             it("should fail when presentingViewController is nil") {
                 let presenter = TabRouteSegmentPresenter()
-                let result = presenter.presentViewController(mockViewControllerB, from: nil, options:[:], window: nil, completion: mockCompletionBlock.completion)
-                expect(result).to(beNil())
-                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
+                presenter.presentViewController(mockViewControllerB, from: nil, options:[:], window: nil, completion: mockCompletionBlock.completion)
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false","nil"]]]))
             }
 
             it("should fail when presentingViewController is not a UITabBarController") {
                 let presenter = TabRouteSegmentPresenter()
-                let result = presenter.presentViewController(mockViewControllerB, from: mockViewControllerA, options:[:], window: nil, completion: mockCompletionBlock.completion)
-                expect(result).to(beNil())
-                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false"]]]))
+                presenter.presentViewController(mockViewControllerB, from: mockViewControllerA, options:[:], window: nil, completion: mockCompletionBlock.completion)
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false","nil"]]]))
             }
 
             it("should succeed when presentingViewController is a UITabBarController") {
                 let presenter = TabRouteSegmentPresenter()
-                let result = presenter.presentViewController(mockViewControllerB, from: UITabBarController(), options:[:], window: nil, completion: mockCompletionBlock.completion)
-                expect(result).to(equal(mockViewControllerB))
-                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["true"]]]))
+                presenter.presentViewController(mockViewControllerB, from: UITabBarController(), options:[:], window: nil, completion: mockCompletionBlock.completion)
+                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["true", String(mockViewControllerB)]]]))
             }
 
         }

@@ -33,7 +33,7 @@ class RouterBranchingSpec: QuickSpec {
 
                 beforeEach {
                     mockVisualRouteSegmentPresenter = MockVisualRouteSegmentPresenter(presenterIdentifier: "VISUAL", completionBlockArg: true)
-                    mockBranchRouteSegmentPresenter = MockBranchRouteSegmentPresenter(presenterIdentifier: "Branch", completionBlockArg: true)
+                    mockBranchRouteSegmentPresenter = MockBranchRouteSegmentPresenter(presenterIdentifier: "BRANCH", completionBlockArg: true)
                     mockTrunkRouteSegment = MockTrunkRouteSegment(segmentIdentifier: Identifier(name: mockTabBarController.name), presenterIdentifier: mockVisualRouteSegmentPresenter.presenterIdentifier, trunkRouteController: mockTabBarController, presentedViewController: mockTabBarController)
                     mockBranchRouteSegment = MockBranchRouteSegment(segmentIdentifier: Identifier(name: "BRANCH"), presenterIdentifier: mockBranchRouteSegmentPresenter.presenterIdentifier)
                     mockVisualRouteSegment = MockVisualRouteSegment(segmentIdentifier: Identifier(name: mockViewController.name), presenterIdentifier: mockVisualRouteSegmentPresenter.presenterIdentifier, presentedViewController: mockViewController)
@@ -67,16 +67,16 @@ class RouterBranchingSpec: QuickSpec {
                         self.waitForExpectationsWithTimeout(5, handler: nil)
                     }
 
-                    it("should produce full sequence") {
-                        router.executeRoute(validSequence) {
-                            _ in
-                        }
-                        expect(router.viewControllers).to(equal([mockTabBarController,mockViewController]))
-                    }
-
-                    it("should have one tab on tabBarController") {
-                        expect(mockTabBarController.viewControllers).to(equal([mockViewController]))
-                    }
+//                    it("should produce full sequence") {
+//                        router.executeRoute(validSequence) {
+//                            _ in
+//                        }
+//                        expect(router.viewControllers).to(equal([mockTabBarController,mockViewController]))
+//                    }
+//
+//                    it("should have one tab on tabBarController") {
+//                        expect(mockTabBarController.viewControllers).to(equal([mockViewController]))
+//                    }
 
                 }
 

@@ -39,42 +39,39 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
         return true
     }
 
-    private func setViewControllerAsRoot(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: ((Bool) -> Void)) -> UIViewController? {
+    private func setViewControllerAsRoot(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: ((Bool, UIViewController?) -> Void)) {
         let stack = [presentedViewController]
         guard stackIsValid(stack) else {
-            completion(false)
-            return nil
+            completion(false, nil)
+            return
         }
         let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
         navigationController.setViewControllers(stack, animated: animated, completion: {
-            completion(true)
+            completion(true, presentedViewController)
         })
-        return presentedViewController
     }
 
-    private func pushViewController(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: ((Bool) -> Void)) -> UIViewController? {
+    private func pushViewController(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: ((Bool, UIViewController?) -> Void)) {
         guard stackIsValid(navigationController.viewControllers, additional:presentedViewController) else {
-            completion(false)
-            return nil
+            completion(false, nil)
+            return
         }
         let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
         navigationController.pushViewController(presentedViewController, animated: animated, completion: {
-            completion(true)
+            completion(true, presentedViewController)
         })
-        return presentedViewController
     }
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool) -> Void)) -> UIViewController?{
+    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: ((Bool, UIViewController?) -> Void)) {
         if let asNavigationController = presentingViewController as? UINavigationController {
-            return setViewControllerAsRoot(presentedViewController, navigationController: asNavigationController, options: options, completion: completion)
+            setViewControllerAsRoot(presentedViewController, navigationController: asNavigationController, options: options, completion: completion)
+            return
         }
 
         if verify(checkNotNil(presentingViewController?.navigationController, "presentingViewController.navigationController"), completion: completion),
             let navigationController = presentingViewController?.navigationController {
-            return pushViewController(presentedViewController, navigationController: navigationController, options: options, completion: completion)
+            pushViewController(presentedViewController, navigationController: navigationController, options: options, completion: completion)
         }
-
-        return nil
     }
     
 }

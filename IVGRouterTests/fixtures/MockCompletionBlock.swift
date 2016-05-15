@@ -15,10 +15,11 @@ class MockCompletionBlock : TrackableTestClass {
         self.expectation = expectation
     }
 
-    var completion: (Bool) -> Void {
+    var completion: (Bool, UIViewController?) -> Void {
         return {
-            (finished:Bool) -> Void in
-            self.track("completion", ["\(finished)"])
+            (finished:Bool, viewController:UIViewController?) -> Void in
+            let vcDesc = viewController == nil ? "nil" : String(viewController!)
+            self.track("completion", ["\(finished)",vcDesc])
             if let expectation = self.expectation {
                 expectation.fulfill()
             }

@@ -48,8 +48,7 @@ class RouteSequenceItemSpec: QuickSpec {
                     let testOptions: RouteSequenceOptions = ["a":1, "b":true, "c":"value"]
                     let item = RouteSequenceItem(segmentIdentifier: testIdentifier, options: testOptions)
                     expect(item.segmentIdentifier).to(equal(testIdentifier))
-                    let mismatchedOptions = self.differenceFromExpectedOptions(testOptions, actualOptions: item.options)
-                    expect(mismatchedOptions).to(beEmpty())
+                    expect(String(item.options)).to(equal(String(testOptions)))
                 }
             }
 
@@ -75,8 +74,7 @@ class RouteSequenceItemSpec: QuickSpec {
                     expect(item).toNot(beNil())
                     if let item = item {
                         expect(item.segmentIdentifier).to(equal(testIdentifier))
-                        let mismatchedOptions = self.differenceFromExpectedOptions(testOptions, actualOptions: item.options)
-                        expect(mismatchedOptions).to(beEmpty())
+                        expect(String(item.options)).to(equal(String(testOptions)))
                     }
                 }
             }
@@ -90,8 +88,7 @@ class RouteSequenceItemSpec: QuickSpec {
                     expect(item).toNot(beNil())
                     if let item = item {
                         expect(item.segmentIdentifier).to(equal(Identifier(name: testValue)))
-                        let mismatchedOptions = self.differenceFromExpectedOptions(testOptions, actualOptions: item.options)
-                        expect(mismatchedOptions).to(beEmpty())
+                        expect(String(item.options)).to(equal(String(testOptions)))
                     }
                 }
             }
@@ -119,8 +116,7 @@ class RouteSequenceItemSpec: QuickSpec {
                     expect(item).toNot(beNil())
                     if let item = item {
                         expect(item.segmentIdentifier).to(equal(Identifier(name: testName)))
-                        let mismatchedOptions = self.differenceFromExpectedOptions(expectedOptions, actualOptions: item.options)
-                        expect(mismatchedOptions).to(beEmpty())
+                        expect(String(item.options)).to(equal(String(expectedOptions)))
                     }
                 }
             }
