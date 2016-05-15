@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F82851691CD1200000A20190 /* RouteSequenceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82851681CD1200000A20190 /* RouteSequenceItem.swift */; };
+		F82856EA1CE90FFD0042B8C0 /* RouteSequenceItemSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82856E91CE90FFD0042B8C0 /* RouteSequenceItemSpec.swift */; };
 		F82D21821CCD83AF0010CDFF /* MockBranchRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21811CCD83AF0010CDFF /* MockBranchRouteSegmentPresenter.swift */; };
 		F82D21841CCD844D0010CDFF /* MockBranchRouteSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21831CCD844D0010CDFF /* MockBranchRouteSegment.swift */; };
 		F82D21861CCD852D0010CDFF /* RouterBasicSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */; };
@@ -74,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		F82851681CD1200000A20190 /* RouteSequenceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSequenceItem.swift; sourceTree = "<group>"; };
+		F82856E91CE90FFD0042B8C0 /* RouteSequenceItemSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSequenceItemSpec.swift; sourceTree = "<group>"; };
 		F82D21811CCD83AF0010CDFF /* MockBranchRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBranchRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F82D21831CCD844D0010CDFF /* MockBranchRouteSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockBranchRouteSegment.swift; sourceTree = "<group>"; };
 		F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterBasicSpec.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 			children = (
 				F82D21851CCD852D0010CDFF /* RouterBasicSpec.swift */,
 				F82D218D1CCD9EBC0010CDFF /* RouteSequenceSpec.swift */,
+				F82856E91CE90FFD0042B8C0 /* RouteSequenceItemSpec.swift */,
 				F82D21891CCD97040010CDFF /* RouteBranchSpec.swift */,
 				F8711CAF1CCD1C8800E6EEBB /* RouteBranchingSpec.swift */,
 				F8711CB01CCD1C8800E6EEBB /* RouteSegmentIdentifierSpec.swift */,
@@ -497,6 +500,7 @@
 				F82D218A1CCD97040010CDFF /* RouteBranchSpec.swift in Sources */,
 				F82D218E1CCD9EBC0010CDFF /* RouteSequenceSpec.swift in Sources */,
 				F82D21861CCD852D0010CDFF /* RouterBasicSpec.swift in Sources */,
+				F82856EA1CE90FFD0042B8C0 /* RouteSequenceItemSpec.swift in Sources */,
 				F8711CB51CCD1C8800E6EEBB /* MockVisualRouteSegmentPresenter.swift in Sources */,
 				F8711CBF1CCD1C8800E6EEBB /* RouteSegmentIdentifierSpec.swift in Sources */,
 				F82D21821CCD83AF0010CDFF /* MockBranchRouteSegmentPresenter.swift in Sources */,

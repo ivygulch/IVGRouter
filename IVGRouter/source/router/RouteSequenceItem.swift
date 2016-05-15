@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias RouteSequenceOptions = [String:Any]
+public typealias RouteSequenceOptions = [String:AnyObject]
 
 public protocol RouteSequenceItemType {
     var segmentIdentifier: Identifier { get }
@@ -22,8 +22,24 @@ public struct RouteSequenceItem: RouteSequenceItemType {
             return routeSequenceItem
         } else if let segmentIdentifier = item as? Identifier {
             return RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:[:])
-        } else if let name = item as? String {
-            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:[:])
+        } else if let (segmentIdentifier,options) = item as? (Identifier,RouteSequenceOptions) {
+            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:options)
+        } else if let (name,options) = item as? (String,RouteSequenceOptions) {
+            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:options)
+        } else if let value = item as? String {
+            let values = value.componentsSeparatedByString(";")
+            let name = values.first!
+            var options: RouteSequenceOptions = [:]
+            for index in 1..<values.count {
+                let value = values[index]
+                let pieces = value.componentsSeparatedByString("=")
+                if pieces.count > 1 {
+                    options[pieces[0]] = pieces[1]
+                } else {
+                    options[value] = ""
+                }
+            }
+            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:options)
         }
         print("Invalid sourceItem: \(item)")
         return nil
