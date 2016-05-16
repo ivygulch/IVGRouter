@@ -82,8 +82,9 @@ public class Router : RouterType {
 
     public func registerDefaultPresenters() {
         registerPresenter(RootRouteSegmentPresenter())
-        registerPresenter(TabRouteSegmentPresenter())
+        registerPresenter(BranchRouteSegmentPresenter())
         registerPresenter(PushRouteSegmentPresenter())
+        registerPresenter(SetRouteSegmentPresenter())
         registerPresenter(WrappingRouteSegmentPresenter(wrappingRouteSegmentAnimator: SlidingWrappingRouteSegmentAnimator()))
     }
 
@@ -248,15 +249,14 @@ public class Router : RouterType {
             return
         }
 
-        if handledVisualPresenter(presenter, parent: routeSegmentFIFOPipe.peekNewRecordedSegment?.viewController, routeSegment: routeSegment, routeSequenceOptions: routeSequenceItem.options, sequenceCompletion: sequenceCompletion, presentationCompletion: onSuccessfulPresentation) {
+        let currentSegment = routeSegmentFIFOPipe.peekNewRecordedSegment
+        let currentViewController = currentSegment?.viewController
+        if handledVisualPresenter(presenter, parent: currentViewController, routeSegment: routeSegment, routeSequenceOptions: routeSequenceItem.options, sequenceCompletion: sequenceCompletion, presentationCompletion: onSuccessfulPresentation) {
             return
         }
 
-        if let parentSegmentIdentifier = routeSegmentFIFOPipe.peekNewRecordedSegment?.segmentIdentifier,
-            let parentSegment = routeSegments[parentSegmentIdentifier] {
-            if handledBranchPresenter(presenter, parentRouteSegment: parentSegment, routeSegment: routeSegment, routeSequenceOptions: routeSequenceItem.options, sequenceCompletion: sequenceCompletion, presentationCompletion: onSuccessfulPresentation) {
-                return
-            }
+        if handledBranchPresenter(presenter, parent: currentViewController, routeSegment: routeSegment, routeSequenceOptions: routeSequenceItem.options, sequenceCompletion: sequenceCompletion, presentationCompletion: onSuccessfulPresentation) {
+            return
         }
 
         sequenceCompletion(.Failure(RoutingErrors.InvalidConfiguration("Presenter(\(presenter.dynamicType)) not handled for segment(\(routeSegment.dynamicType))")))
@@ -291,7 +291,7 @@ public class Router : RouterType {
     }
 
     /// return true if this step was handled, otherwise false so another method can be called
-    private func handledBranchPresenter(presenter: RouteSegmentPresenterType, parentRouteSegment: RouteSegmentType?, routeSegment: RouteSegmentType, routeSequenceOptions: RouteSequenceOptions, sequenceCompletion:(RoutingResult -> Void), presentationCompletion:((RouteSegmentType,UIViewController) -> Void)) -> Bool {
+    private func handledBranchPresenter(presenter: RouteSegmentPresenterType, parent: UIViewController?, routeSegment: RouteSegmentType, routeSequenceOptions: RouteSequenceOptions, sequenceCompletion:(RoutingResult -> Void), presentationCompletion:((RouteSegmentType,UIViewController) -> Void)) -> Bool {
         guard let branchPresenter = presenter as? BranchRouteSegmentPresenterType else {
             return false // this is not the presenter you are looking for, we did not handle it
         }
@@ -299,12 +299,12 @@ public class Router : RouterType {
             sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "expected BranchRouteSegmentType")))
             return true // we handled it by failing the sequence
         }
-        guard let trunkRouteSegment = parentRouteSegment as? TrunkRouteSegmentType else {
-            sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "segment must be child segment of TrunkRouteSegmentType")))
+        guard let trunkRouteController = parent as? TrunkRouteController else {
+            sequenceCompletion(.Failure(RoutingErrors.InvalidRouteSegment(routeSegment.segmentIdentifier, "segment must be child segment of TrunkRouteController")))
             return true // we handled it by failing the sequence
         }
 
-        branchPresenter.selectBranch(branchRouteSegment, from: trunkRouteSegment.trunkRouteController, options: routeSequenceOptions, completion: {
+        branchPresenter.selectBranch(branchRouteSegment.segmentIdentifier, from: trunkRouteController, options: routeSequenceOptions, completion: {
             presenterResult in
 
             switch presenterResult {

@@ -22,5 +22,5 @@ public protocol ReversibleRouteSegmentPresenterType: RouteSegmentPresenterType {
 }
 
 public protocol BranchRouteSegmentPresenterType: RouteSegmentPresenterType {
-    func selectBranch(branchRouteSegment : BranchRouteSegmentType, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: (RoutingResult -> Void))
+    func selectBranch(branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: (RoutingResult -> Void))
 }

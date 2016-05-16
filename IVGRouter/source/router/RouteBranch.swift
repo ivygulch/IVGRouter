@@ -22,9 +22,6 @@ public class RouteBranch: RouteSequence, RouteBranchType {
         guard let _ = routeSegmentStack.popLast() as? BranchRouteSegmentType else {
             return nil // last segment must be Branch
         }
-        guard let _ = routeSegmentStack.popLast() as? TrunkRouteSegmentType else {
-            return nil // next to last segment must be Trunk
-        }
         return routeSegments
     }
 }

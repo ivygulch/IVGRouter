@@ -8,6 +8,8 @@
 
 import UIKit
 
+public typealias ViewControllerLoaderFunction = (Void) -> ((Void) -> UIViewController?)
+
 public protocol RouteSegmentType {
     var segmentIdentifier: Identifier { get }
     var presenterIdentifier: Identifier { get }
@@ -20,19 +22,12 @@ public protocol VisualRouteSegmentType: RouteSegmentType {
 public protocol BranchRouteSegmentType: RouteSegmentType {
 }
 
-// view controllers that are presented via TrunkRouteSegmentType should implement this protocol
+// view controllers that will present via BranchRouteSegmentType must implement this protocol
 // UITabBarController would have extension that added tabs, selected, etc
 // UISplitViewController would have extension that set master or detail, selected, etc.
 public protocol TrunkRouteController {
-    func configureBranch(branchIdentifier: Identifier) -> RoutingResult
-    func selectBranch(branchIdentifier: Identifier) -> RoutingResult
-}
-
-public protocol TrunkRouteSegmentType: RouteSegmentType {
-    var trunkRouteController: TrunkRouteController { get }
-    var branches: [BranchRouteSegmentType] { get }
-    func branchForIdentifier(segmentIdentifier: Identifier) -> BranchRouteSegmentType?
-    func addBranch(branchRouteSegment: BranchRouteSegmentType)
+    func configureBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void))
+    func selectBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void))
 }
 
 public class RouteSegment : RouteSegmentType {
@@ -49,7 +44,7 @@ public class RouteSegment : RouteSegmentType {
 
 public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: (Void) -> ((Void) -> UIViewController?)) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: ViewControllerLoaderFunction) {
         self.isSingleton = isSingleton
         self.loadViewController = loadViewController
         super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier)
@@ -71,11 +66,13 @@ public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
     }
 
     private let isSingleton: Bool
-    private let loadViewController: (Void) -> ((Void) -> UIViewController?)
+    private let loadViewController: ViewControllerLoaderFunction
     private var cachedViewController: UIViewController?
     
 }
 
+public class BranchRouteSegment : RouteSegment, BranchRouteSegmentType {
+}
 
 extension UITabBarController: TrunkRouteController {
 
@@ -94,36 +91,34 @@ extension UITabBarController: TrunkRouteController {
         }
     }
 
-    private func appendBranchIfNeeded(branchIdentifier: Identifier) -> RoutingResult {
+    private func appendBranchIfNeeded(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
         var localViewControllers: [UIViewController] = viewControllers ?? []
 
         if let index = branches[branchIdentifier.name] as? Int where index < localViewControllers.count {
             guard let result = localViewControllers[index] as? PlaceholderViewController else {
-                return .Failure(RoutingErrors.InvalidRouteSegment(branchIdentifier, "TrunkRouteSegment viewControllers must use PlaceholderViewController as direct children"))
+                completion(.Failure(RoutingErrors.InvalidRouteSegment(branchIdentifier, "TrunkRouteControllers must use PlaceholderViewController as direct children")))
+                return
             }
-            return .Success(result)
+            completion(.Success(result))
         }
 
         let result = PlaceholderViewController()
         localViewControllers.append(result)
         viewControllers = localViewControllers
         branches[branchIdentifier.name] = localViewControllers.count - 1
-        return .Success(result)
+        completion(.Success(result))
     }
 
-    public func configureBranch(branchIdentifier: Identifier) -> RoutingResult {
-        return appendBranchIfNeeded(branchIdentifier)
+    public var asViewController: UIViewController {
+        return self
     }
 
-    public func selectBranch(branchIdentifier: Identifier) -> RoutingResult {
-        let result = appendBranchIfNeeded(branchIdentifier)
-        switch result {
-        case .Success(let viewController):
-            selectedViewController = viewController
-        case .Failure(_):
-            selectedViewController = nil
-        }
-        return result
+    public func configureBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
+        return appendBranchIfNeeded(branchIdentifier, completion: completion)
+    }
+
+    public func selectBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
+        appendBranchIfNeeded(branchIdentifier, completion: completion)
     }
 
 

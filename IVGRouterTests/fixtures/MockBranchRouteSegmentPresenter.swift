@@ -22,12 +22,11 @@ class MockBranchRouteSegmentPresenter : TrackableTestClass, BranchRouteSegmentPr
 
     let presenterIdentifier: Identifier
 
-    func selectBranch(branchRouteSegment : BranchRouteSegmentType, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: (RoutingResult -> Void)) {
-        let from = (trunkRouteController as? CustomStringConvertible)?.description ?? "trunkRouteController"
-        track("selectBranchViewController", [branchRouteSegment.segmentIdentifier.name,from])
-        let result = trunkRouteController.selectBranch(branchRouteSegment.segmentIdentifier)
+    func selectBranch(branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: (RoutingResult -> Void)) {
+        track("selectBranchViewController", [branchRouteSegmentIdentifier.name, String(trunkRouteController)])
+
         if completionBlockArg {
-            completion(result)
+            trunkRouteController.selectBranch(branchRouteSegmentIdentifier, completion: completion)
         } else {
             completion(.Failure(RoutingErrors.CannotPresent(self.presenterIdentifier, "mock result is false")))
         }

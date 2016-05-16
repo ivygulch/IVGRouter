@@ -82,8 +82,8 @@ extension RouterBasicSpec {
                 expect(router.presenters[Identifier(name: String(RootRouteSegmentPresenter))]).toNot(beNil())
             }
 
-            it("should include TabRouteSegmentPresenter") {
-                expect(router.presenters[Identifier(name: String(TabRouteSegmentPresenter))]).toNot(beNil())
+            it("should include BranchRouteSegmentPresenter") {
+                expect(router.presenters[Identifier(name: String(BranchRouteSegmentPresenter))]).toNot(beNil())
             }
 
             it("should include PushRouteSegmentPresenter") {

@@ -21,7 +21,7 @@ class RouteBranchSpec: QuickSpec {
             let dummyIdentifier = Identifier(name: "dummy")
             let mockTabBarController = MockTabBarController("TBC")
             let mockVisualRouteSegment = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "VISUAL"), presenterIdentifier: dummyIdentifier, presentedViewController: nil)
-            let mockTrunkRouteSegment = MockTrunkRouteSegment(segmentIdentifier: Identifier(name: "Trunk"), presenterIdentifier: dummyIdentifier, trunkRouteController: mockTabBarController, presentedViewController: nil)
+            let mockTrunkRouteSegment = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "Trunk"), presenterIdentifier: dummyIdentifier, presentedViewController: mockTabBarController)
             let mockBranchRouteSegment = MockBranchRouteSegment(segmentIdentifier: Identifier(name: "Branch"), presenterIdentifier: dummyIdentifier)
 
             beforeEach {

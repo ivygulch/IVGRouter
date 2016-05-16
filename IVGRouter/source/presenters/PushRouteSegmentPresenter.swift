@@ -17,7 +17,7 @@ public struct PushRouteSegmentPresenterOptions {
     }
 }
 
-public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
+public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     public static let defaultPresenterIdentifier = Identifier(name: String(PushRouteSegmentPresenter))
 
@@ -60,6 +60,18 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
         })
     }
 
+    private func popViewController(navigationController: UINavigationController, completion: (RoutingResult -> Void)) {
+        guard navigationController.viewControllers.count > 1 else {
+            completion(.Failure(RoutingErrors.CouldNotReversePresentation(self.presenterIdentifier)))
+            return
+        }
+
+        let animated = true
+        navigationController.popViewControllerAnimated(animated, completion: {
+            completion(.Success(navigationController.topViewController!))
+        })
+    }
+
     public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (RoutingResult -> Void)) {
         if let asNavigationController = presentingViewController as? UINavigationController {
             setViewControllerAsRoot(presentedViewController, navigationController: asNavigationController, options: options, completion: completion)
@@ -71,7 +83,17 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
             pushViewController(presentedViewController, navigationController: navigationController, options: options, completion: completion)
         }
     }
-    
+
+    // TODO: consider passing options here, would need to figure out what they were  
+    public func reversePresentation(viewControllerToRemove : UIViewController, completion: (RoutingResult -> Void)) {
+        if verify(checkNotNil(viewControllerToRemove.navigationController, "viewControllerToRemove.navigationController"), completion: completion) {
+            let navigationController = viewControllerToRemove.navigationController!
+
+            popViewController(navigationController, completion: completion)
+        }
+    }
+
+
 }
 
 extension UINavigationController {

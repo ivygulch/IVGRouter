@@ -25,7 +25,7 @@ class RouterBranchingSpec: QuickSpec {
                 let mockViewController = MockViewController("VISUAL")
                 var mockVisualRouteSegmentPresenter: MockVisualRouteSegmentPresenter!
                 var mockBranchRouteSegmentPresenter: MockBranchRouteSegmentPresenter!
-                var mockTrunkRouteSegment: MockTrunkRouteSegment!
+                var mockTrunkRouteSegment: MockVisualRouteSegment!
                 var mockBranchRouteSegment: MockBranchRouteSegment!
                 var mockVisualRouteSegment: MockVisualRouteSegment!
                 var router: Router!
@@ -34,7 +34,7 @@ class RouterBranchingSpec: QuickSpec {
                 beforeEach {
                     mockVisualRouteSegmentPresenter = MockVisualRouteSegmentPresenter(presenterIdentifier: "VISUAL", completionBlockArg: true)
                     mockBranchRouteSegmentPresenter = MockBranchRouteSegmentPresenter(presenterIdentifier: "BRANCH", completionBlockArg: true)
-                    mockTrunkRouteSegment = MockTrunkRouteSegment(segmentIdentifier: Identifier(name: mockTabBarController.name), presenterIdentifier: mockVisualRouteSegmentPresenter.presenterIdentifier, trunkRouteController: mockTabBarController, presentedViewController: mockTabBarController)
+                    mockTrunkRouteSegment = MockVisualRouteSegment(segmentIdentifier: Identifier(name: mockTabBarController.name), presenterIdentifier: mockVisualRouteSegmentPresenter.presenterIdentifier, presentedViewController: mockTabBarController)
                     mockBranchRouteSegment = MockBranchRouteSegment(segmentIdentifier: Identifier(name: "BRANCH"), presenterIdentifier: mockBranchRouteSegmentPresenter.presenterIdentifier)
                     mockVisualRouteSegment = MockVisualRouteSegment(segmentIdentifier: Identifier(name: mockViewController.name), presenterIdentifier: mockVisualRouteSegmentPresenter.presenterIdentifier, presentedViewController: mockViewController)
                     router = Router(window: nil)
