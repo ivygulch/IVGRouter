@@ -40,12 +40,11 @@ class DemoRouteCoordinator {
     lazy var routeSequenceWAFE:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier,self.pushESegmentIdentifier]
     lazy var routeSequenceWrapper:[Any] = [self.wrapperSegmentIdentifier]
 
-    lazy var routeSequenceTbc:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier]
-    lazy var routeSequenceTab1:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab1SegmentIdentifier]
-    lazy var routeSequenceTab1NC:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab1SegmentIdentifier,self.setNCSegmentIdentifier]
-    lazy var routeSequenceTab1NCA:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab1SegmentIdentifier,self.setNCSegmentIdentifier,self.pushASegmentIdentifier]
-    lazy var routeSequenceTab1NCAF:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab1SegmentIdentifier,self.setNCSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier]
-    lazy var routeSequenceTab2:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab2SegmentIdentifier]
+    lazy var routeBranchSequenceTab1:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab1SegmentIdentifier]
+    lazy var routeBranchSequenceTab2:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab2SegmentIdentifier]
+
+    lazy var routeSequenceTab1NCA:[Any] = [self.tab1SegmentIdentifier,self.setNCSegmentIdentifier,self.pushASegmentIdentifier]
+    lazy var routeSequenceTab1NCAF:[Any] = [self.tab1SegmentIdentifier,self.setNCSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier]
     lazy var routeSequenceTab2Z:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab2SegmentIdentifier,self.setZSegmentIdentifier]
 
     lazy var sequences:[(String,[Any])] = [
@@ -58,12 +57,8 @@ class DemoRouteCoordinator {
         ("WDEF", self.routeSequenceWDEF),
         ("WDEFG", self.routeSequenceWDEFG),
         ("WAFE", self.routeSequenceWAFE),
-//        ("WTbc", self.routeSequenceTbc),
-//        ("Tab1", self.routeSequenceTab1),
-//        ("Tab1NC", self.routeSequenceTab1NC),
         ("Tab1NCA", self.routeSequenceTab1NCA),
         ("Tab1NCAF", self.routeSequenceTab1NCAF),
-//        ("Tab2", self.routeSequenceTab2),
         ("Tab2Z", self.routeSequenceTab2Z),
         ("Wrapper", self.routeSequenceWrapper)
     ]
@@ -91,12 +86,14 @@ class DemoRouteCoordinator {
         router.registerRouteSegment(buildPushSegment(pushFSegmentIdentifier))
         router.registerRouteSegment(buildPushSegment(pushGSegmentIdentifier))
         router.registerRouteSegment(buildTrunkSegment(pushTBCSegmentIdentifier))
-        router.registerRouteSegment(buildTrunkSegment(pushTBCSegmentIdentifier))
         router.registerRouteSegment(buildBranchSegment(tab1SegmentIdentifier))
         router.registerRouteSegment(buildSetNCSegment(setNCSegmentIdentifier))
         router.registerRouteSegment(buildBranchSegment(tab2SegmentIdentifier))
         router.registerRouteSegment(buildSetSegment(setZSegmentIdentifier))
         router.registerRouteSegment(buildWrapperSegment())
+
+        router.registerRouteBranch(tab1SegmentIdentifier, self.routeBranchSequenceTab1)
+        router.registerRouteBranch(tab2SegmentIdentifier, self.routeBranchSequenceTab2)
     }
 
     private func buildRootSegment() -> VisualRouteSegmentType {

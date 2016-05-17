@@ -65,6 +65,10 @@ public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
         }
     }
 
+    private func callLoadViewController() -> UIViewController? {
+        return loadViewController()()
+    }
+
     private let isSingleton: Bool
     private let loadViewController: ViewControllerLoaderFunction
     private var cachedViewController: UIViewController?

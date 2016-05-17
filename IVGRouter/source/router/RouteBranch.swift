@@ -8,20 +8,33 @@
 
 import Foundation
 
-public protocol RouteBranchType: RouteSequenceType {
+public protocol RouteBranchType {
+    var branchIdentifier: Identifier { get }
+    var routeSequence: RouteSequenceType { get }
+    func validateRouteSequenceWithRouter(router: RouterType) -> Bool
 }
 
-public class RouteBranch: RouteSequence, RouteBranchType {
+public class RouteBranch: RouteBranchType {
 
-    public override func validatedRouteSegmentsWithRouter(router: RouterType) -> [RouteSegmentType]? {
-        guard let routeSegments = super.validatedRouteSegmentsWithRouter(router) else {
-            return nil // not a valid sequence
+    public func validateRouteSequenceWithRouter(router: RouterType) -> Bool {
+        guard let routeSegments = routeSequence.validatedRouteSegmentsWithRouter(router) else {
+            return false // not a valid sequence
         }
 
         var routeSegmentStack = routeSegments
         guard let _ = routeSegmentStack.popLast() as? BranchRouteSegmentType else {
-            return nil // last segment must be Branch
+            return false // last segment must be Branch
         }
-        return routeSegments
+
+        return true
     }
+
+    public init(branchIdentifier: Identifier, routeSequence: RouteSequenceType) {
+        self.branchIdentifier = branchIdentifier
+        self.routeSequence = routeSequence
+    }
+
+    public let branchIdentifier: Identifier
+    public let routeSequence: RouteSequenceType
+
 }

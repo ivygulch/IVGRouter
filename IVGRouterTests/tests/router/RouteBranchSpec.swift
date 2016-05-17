@@ -31,97 +31,69 @@ class RouteBranchSpec: QuickSpec {
             context("with valid registered segments") {
 
                 var routeBranch: RouteBranch!
-                var validatedRouteSegments: [RouteSegmentType]?
 
                 beforeEach {
                     router = Router(window: nil)
                     router.registerRouteSegment(mockVisualRouteSegment)
                     router.registerRouteSegment(mockTrunkRouteSegment)
                     router.registerRouteSegment(mockBranchRouteSegment)
-                    routeBranch = RouteBranch(source: [
-                        mockVisualRouteSegment.segmentIdentifier,
-                        mockTrunkRouteSegment.segmentIdentifier,
-                        mockBranchRouteSegment.segmentIdentifier
-                        ])
-                    validatedRouteSegments = routeBranch.validatedRouteSegmentsWithRouter(router)
+                    routeBranch = RouteBranch(
+                        branchIdentifier: Identifier(name: "branch"),
+                        routeSequence: RouteSequence(source: [
+                            mockVisualRouteSegment.segmentIdentifier,
+                            mockTrunkRouteSegment.segmentIdentifier,
+                            mockBranchRouteSegment.segmentIdentifier
+                            ])
+                    )
                 }
 
-                it("should have matching route segments") {
-                    if let validatedRouteSegments = validatedRouteSegments {
-                        expect(validatedRouteSegments).to(haveCount(routeBranch.items.count))
-                        for index in 0..<routeBranch.items.count {
-                            if index < validatedRouteSegments.count {
-                                let segmentIdentifier = routeBranch.items[index].segmentIdentifier
-                                let validatedRouteSegment = validatedRouteSegments[index]
-                                expect(validatedRouteSegment.segmentIdentifier).to(equal(segmentIdentifier))
-                            }
-                        }
-                    } else {
-                        expect(validatedRouteSegments).toNot(beNil())
-                    }
+                it("should validate routeSeqeuence") {
+                    expect(routeBranch.validateRouteSequenceWithRouter(router)).to(beTrue())
                 }
-                
+
             }
 
             context("with missing branch segment") {
 
                 var routeBranch: RouteBranch!
-                var validatedRouteSegments: [RouteSegmentType]?
 
                 beforeEach {
                     router = Router(window: nil)
-                    routeBranch = RouteBranch(source: [
-                        mockVisualRouteSegment.segmentIdentifier,
-                        mockTrunkRouteSegment.segmentIdentifier,
-                        ])
-                    validatedRouteSegments = routeBranch.validatedRouteSegmentsWithRouter(router)
+                    routeBranch = RouteBranch(
+                        branchIdentifier: Identifier(name: "branch"),
+                        routeSequence: RouteSequence(source: [
+                            mockVisualRouteSegment.segmentIdentifier,
+                            mockTrunkRouteSegment.segmentIdentifier
+                            ])
+                    )
                 }
 
-                it("should not have validated route segments") {
-                    expect(validatedRouteSegments).to(beNil())
-                }
-                
-            }
-
-            context("with missing trunk segment") {
-
-                var routeBranch: RouteBranch!
-                var validatedRouteSegments: [RouteSegmentType]?
-
-                beforeEach {
-                    router = Router(window: nil)
-                    routeBranch = RouteBranch(source: [
-                        mockVisualRouteSegment.segmentIdentifier,
-                        mockTrunkRouteSegment.segmentIdentifier,
-                        ])
-                    validatedRouteSegments = routeBranch.validatedRouteSegmentsWithRouter(router)
+                it("should not validate routeSeqeuence") {
+                    expect(routeBranch.validateRouteSequenceWithRouter(router)).to(beFalse())
                 }
 
-                it("should not have validated route segments") {
-                    expect(validatedRouteSegments).to(beNil())
-                }
-                
             }
 
             context("with out of order trunk/branch segment") {
 
                 var routeBranch: RouteBranch!
-                var validatedRouteSegments: [RouteSegmentType]?
 
                 beforeEach {
                     router = Router(window: nil)
-                    routeBranch = RouteBranch(source: [
+                    routeBranch = RouteBranch(
+                        branchIdentifier: Identifier(name: "branch"),
+                        routeSequence: RouteSequence(source: [
                         mockTrunkRouteSegment.segmentIdentifier,
                         mockBranchRouteSegment.segmentIdentifier,
                         mockVisualRouteSegment.segmentIdentifier
-                        ])
-                    validatedRouteSegments = routeBranch.validatedRouteSegmentsWithRouter(router)
+                            ])
+                    )
                 }
 
-                it("should not have validated route segments") {
-                    expect(validatedRouteSegments).to(beNil())
+                it("should not validate routeSeqeuence") {
+                    expect(routeBranch.validateRouteSequenceWithRouter(router)).to(beFalse())
                 }
-                
+
             }
 
         }

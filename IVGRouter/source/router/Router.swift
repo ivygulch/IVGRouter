@@ -28,12 +28,16 @@ public enum RoutingResult {
 public protocol RouterType {
     var window: UIWindow? { get }
     var routeSegments: [Identifier: RouteSegmentType] { get }
+    var routeBranches: [Identifier: RouteBranchType] { get }
     var presenters: [Identifier: RouteSegmentPresenterType] { get }
     var viewControllers: [UIViewController] { get }
     func registerPresenter(presenter: RouteSegmentPresenterType)
     func registerRouteSegment(routeSegment: RouteSegmentType)
+    func registerRouteBranch(routeBranch: RouteBranchType)
     func appendRoute(source: [Any], completion:(RoutingResult -> Void))
+    func appendRoute(source: [Any], routeBranch: RouteBranchType?, completion:(RoutingResult -> Void))
     func executeRoute(source: [Any], completion:(RoutingResult -> Void))
+    func executeRoute(source: [Any], routeBranch: RouteBranchType?, completion:(RoutingResult -> Void))
     func popRoute(completion:(RoutingResult -> Void))
     func registerDefaultPresenters()
 
@@ -63,8 +67,9 @@ public class Router : RouterType {
         }
     }
 
-    public private(set) var routeSegments:[Identifier:RouteSegmentType] = [:]
-    public private(set) var presenters:[Identifier:RouteSegmentPresenterType] = [:]
+    public private(set) var routeSegments: [Identifier: RouteSegmentType] = [:]
+    public private(set) var routeBranches: [Identifier: RouteBranchType] = [:]
+    public private(set) var presenters: [Identifier: RouteSegmentPresenterType] = [:]
 
     public let window: UIWindow?
 
@@ -78,6 +83,10 @@ public class Router : RouterType {
 
     public func registerRouteSegment(routeSegment:RouteSegmentType) {
         routeSegments[routeSegment.segmentIdentifier] = routeSegment
+    }
+
+    public func registerRouteBranch(routeBranch: RouteBranchType) {
+        routeBranches[routeBranch.branchIdentifier] = routeBranch
     }
 
     public func registerDefaultPresenters() {
@@ -96,7 +105,11 @@ public class Router : RouterType {
     }
 
     public func appendRoute(source: [Any], completion:(RoutingResult -> Void)) {
-        self.executeRouteSequence(source, append: true, completion: completion)
+        self.appendRoute(source, routeBranch: nil, completion: completion)
+    }
+
+    public func appendRoute(source: [Any], routeBranch: RouteBranchType?, completion:(RoutingResult -> Void)) {
+        self.executeRouteSequence(source, append: true, routeBranch: routeBranch, completion: completion)
     }
 
     public func popRoute(completion:(RoutingResult -> Void)) {
@@ -132,7 +145,7 @@ public class Router : RouterType {
 
         } else {
             let previousSequence: [Any] = self.lastRecordedSegments.map { $0.segmentIdentifier }
-            self.executeRouteSequence(previousSequence, append: false, completion: completion)
+            self.executeRouteSequence(previousSequence, append: false, routeBranch: nil, completion: completion)
         }
     }
 
@@ -168,10 +181,14 @@ public class Router : RouterType {
     }
 
     public func executeRoute(source: [Any], completion:(RoutingResult -> Void)) {
-        self.executeRouteSequence(source, append: false, completion: completion)
+        self.executeRoute(source, routeBranch: nil, completion: completion)
     }
 
-    private func executeRouteSequence(source: [Any], append: Bool, completion:(RoutingResult -> Void)) {
+    public func executeRoute(source: [Any], routeBranch: RouteBranchType?, completion:(RoutingResult -> Void)) {
+        self.executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: completion)
+    }
+
+    private func executeRouteSequence(source: [Any], append: Bool, routeBranch: RouteBranchType?, completion:(RoutingResult -> Void)) {
         // routeSequenceTracker is the requested route
         // routeSegmentFIFOPipe is the actual route segments that were successful completed
         guard let routeSequenceTracker = RouteSequenceTracker(routeSequence: RouteSequence(source: source)) else {
