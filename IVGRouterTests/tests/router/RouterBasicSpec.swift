@@ -50,7 +50,8 @@ extension RouterBasicSpec {
 
             it("should have an empty set of viewControllers") {
                 let router = Router(window: nil)
-                expect(router.viewControllers).to(beEmpty())
+                let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                expect(defaultBranchViewControllers).to(beEmpty())
             }
 
             it("should allow for a non-nil window") {
@@ -326,7 +327,8 @@ extension RouterBasicSpec {
                         expectation.fulfill()
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
-                    expect(router.viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
                 }
 
             }
@@ -363,7 +365,8 @@ extension RouterBasicSpec {
                         expectation.fulfill()
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
-                    expect(router.viewControllers).to(equal([mockViewControllerA]))
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA]))
                 }
                 
             }
@@ -414,6 +417,7 @@ extension RouterBasicSpec {
                     }
                     expectation.fulfill()
                 }
+                print("DBG: initialSequence=\(initialSequence)")
                 self.waitForExpectationsWithTimeout(5, handler: nil)
             }
 
@@ -459,7 +463,7 @@ extension RouterBasicSpec {
                 }
                 
             }
-            
+
         }
         
     }
@@ -541,7 +545,8 @@ extension RouterBasicSpec {
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
 
-                    expect(router.viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
                 }
                 
             }
@@ -567,7 +572,8 @@ extension RouterBasicSpec {
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
 
-                    expect(router.viewControllers).to(equal([mockViewControllerA,mockViewControllerB]))
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB]))
                 }
                 
             }
@@ -595,7 +601,8 @@ extension RouterBasicSpec {
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
 
-                    expect(router.viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerE]))
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerE]))
                 }
                 
             }

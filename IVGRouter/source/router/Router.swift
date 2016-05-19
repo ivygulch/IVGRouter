@@ -30,18 +30,18 @@ public protocol RouterType {
     var routeSegments: [Identifier: RouteSegmentType] { get }
     var routeBranches: [Identifier: RouteBranchType] { get }
     var presenters: [Identifier: RouteSegmentPresenterType] { get }
-    var viewControllers: [UIViewController] { get }
     func registerPresenter(presenter: RouteSegmentPresenterType)
     func registerRouteSegment(routeSegment: RouteSegmentType)
     func registerRouteBranch(routeBranch: RouteBranchType)
     func appendRoute(source: [Any], completion:(RoutingResult -> Void))
-    func appendRoute(source: [Any], routeBranch: RouteBranchType?, completion:(RoutingResult -> Void))
+    func appendRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
     func executeRoute(source: [Any], completion:(RoutingResult -> Void))
-    func executeRoute(source: [Any], routeBranch: RouteBranchType?, completion:(RoutingResult -> Void))
+    func executeRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
     func popRoute(completion:(RoutingResult -> Void))
+    func popRoute(routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
     func registerDefaultPresenters()
 
-    var currentSequence:[Any] { get }
+    func viewControllersForRouteBranchIdentifier(branchIdentifier: Identifier) -> [UIViewController]
     func debug(msg: String)
 }
 
@@ -49,21 +49,26 @@ public class Router : RouterType {
 
     public init(window: UIWindow?) {
         self.window = window
+        defaultRouteBranch = RouteBranch(branchIdentifier: Identifier(name: NSUUID().UUIDString), routeSequence: RouteSequence(source: []))
+        registerRouteBranch(defaultRouteBranch)
     }
 
     public func debug(msg: String) {
-        print("Router(\(msg)), lastRecordedSegments.count=\(lastRecordedSegments.count)")
-        for index in 0..<lastRecordedSegments.count {
-            let recordedSegment = lastRecordedSegments[index]
-            let segmentIdentifier = recordedSegment.segmentIdentifier
-            let vc = recordedSegment.viewController
-            var result = "[\(index)]"
-            result += "=\(segmentIdentifier.name)"
-            result += "," + String(vc.dynamicType)
-            if let p = vc?.parentViewController {
-                result += ",p=" + String(p.dynamicType)
+        print("Router(\(msg)), branch.count=\(branchLastRecordedSegments.count)")
+        for (branchID, lastRecordedSegments) in branchLastRecordedSegments {
+            print("branch[\(branchID)].count=\(lastRecordedSegments.count)")
+            for index in 0..<lastRecordedSegments.count {
+                let recordedSegment = lastRecordedSegments[index]
+                let segmentIdentifier = recordedSegment.segmentIdentifier
+                let vc = recordedSegment.viewController
+                var result = "[\(index)]"
+                result += "=\(segmentIdentifier.name)"
+                result += "," + String(vc.dynamicType)
+                if let p = vc?.parentViewController {
+                    result += ",p=" + String(p.dynamicType)
+                }
+                print(result)
             }
-            print(result)
         }
     }
 
@@ -72,9 +77,14 @@ public class Router : RouterType {
     public private(set) var presenters: [Identifier: RouteSegmentPresenterType] = [:]
 
     public let window: UIWindow?
+    public let defaultRouteBranch: RouteBranchType
 
-    public var viewControllers:[UIViewController] {
-        return lastRecordedSegments.flatMap { $0.viewController }
+    public func viewControllersForRouteBranchIdentifier(routeBranchIdentifier: Identifier) -> [UIViewController] {
+        if let lastRecordedSegments = branchLastRecordedSegments[routeBranchIdentifier] {
+            return lastRecordedSegments.flatMap { $0.viewController }
+        } else {
+            return []
+        }
     }
 
     public func registerPresenter(presenter:RouteSegmentPresenterType) {
@@ -97,28 +107,35 @@ public class Router : RouterType {
         registerPresenter(WrappingRouteSegmentPresenter(wrappingRouteSegmentAnimator: SlidingWrappingRouteSegmentAnimator()))
     }
 
-    public var currentSequence:[Any] {
-        return lastRecordedSegments.map {
-            recordedSegment -> Identifier in
-            return recordedSegment.segmentIdentifier
-        }
-    }
+//    public var currentSequence:[Any] {
+//        return lastRecordedSegments.map {
+//            recordedSegment -> Identifier in
+//            return recordedSegment.segmentIdentifier
+//        }
+//    }
 
     public func appendRoute(source: [Any], completion:(RoutingResult -> Void)) {
-        self.appendRoute(source, routeBranch: nil, completion: completion)
+        self.appendRoute(source, routeBranch: defaultRouteBranch, completion: completion)
     }
 
-    public func appendRoute(source: [Any], routeBranch: RouteBranchType?, completion:(RoutingResult -> Void)) {
+    public func appendRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
         self.executeRouteSequence(source, append: true, routeBranch: routeBranch, completion: completion)
     }
 
     public func popRoute(completion:(RoutingResult -> Void)) {
-        guard self.lastRecordedSegments.count > 0 else {
+        popRoute(defaultRouteBranch, completion: completion)
+    }
+
+    public func popRoute(routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
+        let routeBranchIdentifier = routeBranch.branchIdentifier
+        guard let lastRecordedSegments = branchLastRecordedSegments[routeBranchIdentifier] where lastRecordedSegments.count > 0 else {
             completion(.Failure(RoutingErrors.InvalidRouteSequence))
             return
         }
 
-        let lastRecordedSegment = lastRecordedSegments.removeLast()
+        var updatedRecordedSegments = lastRecordedSegments
+        let lastRecordedSegment = updatedRecordedSegments.removeLast()
+        branchLastRecordedSegments[routeBranchIdentifier] = updatedRecordedSegments
 
         let lastSegmentIdentifier = lastRecordedSegment.segmentIdentifier
         if let lastPresenterIdentifier = routeSegments[lastSegmentIdentifier]?.presenterIdentifier,
@@ -144,8 +161,9 @@ public class Router : RouterType {
             })
 
         } else {
-            let previousSequence: [Any] = self.lastRecordedSegments.map { $0.segmentIdentifier }
-            self.executeRouteSequence(previousSequence, append: false, routeBranch: nil, completion: completion)
+            let previousSequence: [Any] = updatedRecordedSegments.map { $0.segmentIdentifier }
+            print("DBG: previousSequence=\(previousSequence)")
+            self.executeRouteSequence(previousSequence, append: false, routeBranch: defaultRouteBranch, completion: completion)
         }
     }
 
@@ -181,16 +199,18 @@ public class Router : RouterType {
     }
 
     public func executeRoute(source: [Any], completion:(RoutingResult -> Void)) {
-        self.executeRoute(source, routeBranch: nil, completion: completion)
+        self.executeRoute(source, routeBranch: defaultRouteBranch, completion: completion)
     }
 
-    public func executeRoute(source: [Any], routeBranch: RouteBranchType?, completion:(RoutingResult -> Void)) {
+    public func executeRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
         self.executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: completion)
     }
 
-    private func executeRouteSequence(source: [Any], append: Bool, routeBranch: RouteBranchType?, completion:(RoutingResult -> Void)) {
+    private func executeRouteSequence(source: [Any], append: Bool, routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
         // routeSequenceTracker is the requested route
         // routeSegmentFIFOPipe is the actual route segments that were successful completed
+        let routeBranchIdentifier = routeBranch.branchIdentifier
+        let lastRecordedSegments = branchLastRecordedSegments[routeBranchIdentifier] ?? []
         guard let routeSequenceTracker = RouteSequenceTracker(routeSequence: RouteSequence(source: source)) else {
             completion(.Failure(RoutingErrors.InvalidRouteSequence))
             return
@@ -201,7 +221,7 @@ public class Router : RouterType {
             routeSegmentFIFOPipe: routeSegmentFIFOPipe,
             sequenceCompletion: {
                 routingResult in
-                self.lastRecordedSegments = routeSegmentFIFOPipe.newRecordedSegments
+                self.branchLastRecordedSegments[routeBranchIdentifier] = routeSegmentFIFOPipe.newRecordedSegments
                 completion(routingResult)
             }
         )
@@ -334,7 +354,7 @@ public class Router : RouterType {
         return true
     }
 
-    private var lastRecordedSegments:[RecordedSegment] = []
+    private var branchLastRecordedSegments:[Identifier:[RecordedSegment]] = [:]
     private var registeredViewControllers:[UIViewController:Identifier] = [:]
 
 }

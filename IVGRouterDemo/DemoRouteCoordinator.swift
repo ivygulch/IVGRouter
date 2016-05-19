@@ -43,9 +43,9 @@ class DemoRouteCoordinator {
     lazy var routeBranchSequenceTab1:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab1SegmentIdentifier]
     lazy var routeBranchSequenceTab2:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab2SegmentIdentifier]
 
-    lazy var routeSequenceTab1NCA:[Any] = [self.tab1SegmentIdentifier,self.setNCSegmentIdentifier,self.pushASegmentIdentifier]
-    lazy var routeSequenceTab1NCAF:[Any] = [self.tab1SegmentIdentifier,self.setNCSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier]
-    lazy var routeSequenceTab2Z:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab2SegmentIdentifier,self.setZSegmentIdentifier]
+    lazy var routeSequenceNCA:[Any] = [self.setNCSegmentIdentifier,self.pushASegmentIdentifier]
+    lazy var routeSequenceNCAF:[Any] = [self.setNCSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier]
+    lazy var routeSequenceZ:[Any] = [self.setZSegmentIdentifier]
 
     lazy var sequences:[(String,[Any])] = [
         ("Welcome", self.routeSequenceWelcome),
@@ -57,11 +57,14 @@ class DemoRouteCoordinator {
         ("WDEF", self.routeSequenceWDEF),
         ("WDEFG", self.routeSequenceWDEFG),
         ("WAFE", self.routeSequenceWAFE),
-        ("Tab1NCA", self.routeSequenceTab1NCA),
-        ("Tab1NCAF", self.routeSequenceTab1NCAF),
-        ("Tab2Z", self.routeSequenceTab2Z),
+        ("NCA", self.routeSequenceNCA),
+        ("NCAF", self.routeSequenceNCAF),
+        ("Z", self.routeSequenceZ),
         ("Wrapper", self.routeSequenceWrapper)
     ]
+
+    lazy var routeBranchTab1: RouteBranch = RouteBranch(branchIdentifier: self.tab1SegmentIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab1))
+    lazy var routeBranchTab2: RouteBranch = RouteBranch(branchIdentifier: self.tab2SegmentIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab2))
 
     init(window: UIWindow?) {
         router = Router(window: window)
@@ -92,8 +95,8 @@ class DemoRouteCoordinator {
         router.registerRouteSegment(buildSetSegment(setZSegmentIdentifier))
         router.registerRouteSegment(buildWrapperSegment())
 
-        router.registerRouteBranch(tab1SegmentIdentifier, self.routeBranchSequenceTab1)
-        router.registerRouteBranch(tab2SegmentIdentifier, self.routeBranchSequenceTab2)
+        router.registerRouteBranch(routeBranchTab1);
+        router.registerRouteBranch(routeBranchTab2);
     }
 
     private func buildRootSegment() -> VisualRouteSegmentType {
