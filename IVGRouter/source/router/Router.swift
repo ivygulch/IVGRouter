@@ -65,11 +65,17 @@ public class Router : RouterType {
                 let vc = recordedSegment.viewController
                 var result = "[\(index)]"
                 result += "=\(segmentIdentifier.name)"
-                result += "," + String(vc.dynamicType)
+                result += "," + String(vc)
                 if let p = vc?.parentViewController {
-                    result += ",p=" + String(p.dynamicType)
+                    result += ",p=" + String(p)
                 }
                 lines.append(result)
+                if let children = vc?.childViewControllers where children.count > 1 {
+                    for childIndex in 0..<children.count {
+                        let child = children[childIndex]
+                        lines.append("   child\(childIndex)=\(String(child))")
+                    }
+                }
             }
         }
         return lines.joinWithSeparator("\n")
