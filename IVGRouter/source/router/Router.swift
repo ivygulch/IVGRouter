@@ -42,6 +42,7 @@ public protocol RouterType {
     func registerDefaultPresenters()
 
     func viewControllersForRouteBranchIdentifier(branchIdentifier: Identifier) -> [UIViewController]
+    func debugString(msg: String) -> String
     func debug(msg: String)
 }
 
@@ -53,10 +54,11 @@ public class Router : RouterType {
         registerRouteBranch(defaultRouteBranch)
     }
 
-    public func debug(msg: String) {
-        print("Router(\(msg)), branch.count=\(branchLastRecordedSegments.count)")
+    public func debugString(msg: String) -> String {
+        var lines: [String] = []
+        lines.append("Router(\(msg)), branch.count=\(branchLastRecordedSegments.count)")
         for (branchID, lastRecordedSegments) in branchLastRecordedSegments {
-            print("branch[\(branchID)].count=\(lastRecordedSegments.count)")
+            lines.append("branch[\(branchID)].count=\(lastRecordedSegments.count)")
             for index in 0..<lastRecordedSegments.count {
                 let recordedSegment = lastRecordedSegments[index]
                 let segmentIdentifier = recordedSegment.segmentIdentifier
@@ -67,9 +69,14 @@ public class Router : RouterType {
                 if let p = vc?.parentViewController {
                     result += ",p=" + String(p.dynamicType)
                 }
-                print(result)
+                lines.append(result)
             }
         }
+        return lines.joinWithSeparator("\n")
+    }
+
+    public func debug(msg: String) {
+        print("\(debugString(msg))")
     }
 
     public private(set) var routeSegments: [Identifier: RouteSegmentType] = [:]
@@ -162,7 +169,6 @@ public class Router : RouterType {
 
         } else {
             let previousSequence: [Any] = updatedRecordedSegments.map { $0.segmentIdentifier }
-            print("DBG: previousSequence=\(previousSequence)")
             self.executeRouteSequence(previousSequence, append: false, routeBranch: defaultRouteBranch, completion: completion)
         }
     }
@@ -192,7 +198,7 @@ public class Router : RouterType {
                 self.popRouteUsingRouteSegmentsToPop(newRecordedSegmentsToPop, sequenceCompletion: sequenceCompletion, popCompletion: popCompletion)
             case .Failure(_):
                 // if popping this segment failed, do not attempt to pop the next one, just fail
-                sequenceCompletion(.Failure(RoutingErrors.PresenterNotRegistered(recordedSegment.segmentIdentifier)))
+                sequenceCompletion(.Failure(RoutingErrors.CouldNotReversePresentation(recordedSegment.segmentIdentifier)))
                 popCompletion()
             }
         }
