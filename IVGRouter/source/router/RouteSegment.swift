@@ -95,6 +95,62 @@ extension UITabBarController: TrunkRouteController {
         }
     }
 
+    private func appendBranchIfNeeded(branchIdentifier: Identifier, selectViewController: Bool, completion: (RoutingResult -> Void)) {
+        var localViewControllers: [UIViewController] = viewControllers ?? []
+
+        if let index = branches[branchIdentifier.name] as? Int where index < localViewControllers.count {
+            guard let result = localViewControllers[index] as? PlaceholderViewController else {
+                completion(.Failure(RoutingErrors.InvalidRouteSegment(branchIdentifier, "TrunkRouteControllers must use PlaceholderViewController as direct children")))
+                return
+            }
+            if selectViewController {
+                selectedViewController = result
+            }
+            completion(.Success(result))
+        }
+
+        let result = PlaceholderViewController()
+        localViewControllers.append(result)
+        viewControllers = localViewControllers
+        branches[branchIdentifier.name] = localViewControllers.count - 1
+        if selectViewController {
+            selectedViewController = result
+        }
+        completion(.Success(result))
+    }
+
+    public var asViewController: UIViewController {
+        return self
+    }
+
+    public func configureBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
+        return appendBranchIfNeeded(branchIdentifier, selectViewController: false, completion: completion)
+    }
+
+    public func selectBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
+        appendBranchIfNeeded(branchIdentifier, selectViewController: true, completion: completion)
+    }
+    
+}
+
+extension UISplitViewController: TrunkRouteController {
+
+    private struct AssociatedKey {
+        static var branchDictionary = "branchDictionary"
+    }
+
+    private var branches: NSMutableDictionary {
+        get {
+            if let result = objc_getAssociatedObject(self, &AssociatedKey.branchDictionary) as? NSMutableDictionary {
+                return result
+            }
+            let result = NSMutableDictionary()
+            objc_setAssociatedObject(self, &AssociatedKey.branchDictionary, result, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return result
+        }
+    }
+
+
     private func appendBranchIfNeeded(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
         var localViewControllers: [UIViewController] = viewControllers ?? []
 
@@ -124,6 +180,5 @@ extension UITabBarController: TrunkRouteController {
     public func selectBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
         appendBranchIfNeeded(branchIdentifier, completion: completion)
     }
-
-
+    
 }

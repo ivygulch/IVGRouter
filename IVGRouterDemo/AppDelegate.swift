@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
 
         demoRouteCoordinator = DemoRouteCoordinator(window: window)
-        demoRouteCoordinator?.executeDefaultRouteSequence()
+        demoRouteCoordinator?.startupAction()
 
         return true
     }

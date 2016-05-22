@@ -203,7 +203,26 @@ public class Router : RouterType {
     }
 
     public func executeRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
-        self.executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: completion)
+        if routeBranch.branchIdentifier != defaultRouteBranch.branchIdentifier {
+            // make sure the defaultBranch is set to the proper place for this branch
+            let defaultSource = routeBranch.routeSequence.items.map {
+                routeSequenceItem -> Any in
+                return routeSequenceItem
+            }
+            self.executeRouteSequence(defaultSource, append: false, routeBranch: defaultRouteBranch) {
+                routeResult in
+                switch routeResult {
+                case .Success:
+                    // if we successfully switched to the correct spot on the default branch, append the rest
+                    self.executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: completion)
+                case .Failure:
+                    // we could not reset the default branch, so just give up
+                    completion(routeResult)
+                }
+            }
+        } else {
+            self.executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: completion)
+        }
     }
 
     private func executeRouteSequence(source: [Any], append: Bool, routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {

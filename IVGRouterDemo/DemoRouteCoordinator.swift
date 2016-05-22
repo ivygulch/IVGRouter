@@ -29,6 +29,9 @@ class DemoRouteCoordinator {
     let setZSegmentIdentifier = Identifier(name: "ID.setZ")
     let wrapperSegmentIdentifier = Identifier(name: "ID.wrapper")
 
+    let tab1BranchIdentifier = Identifier(name: "B1")
+    let tab2BranchIdentifier = Identifier(name: "B2")
+
     lazy var routeSequenceWelcome:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier]
     lazy var routeSequenceWA:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier]
     lazy var routeSequenceWAB:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier,self.pushBSegmentIdentifier]
@@ -47,24 +50,24 @@ class DemoRouteCoordinator {
     lazy var routeSequenceNCAF:[Any] = [self.setNCSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier]
     lazy var routeSequenceZ:[Any] = [self.setZSegmentIdentifier]
 
-    lazy var sequences:[(String,[Any])] = [
-        ("Welcome", self.routeSequenceWelcome),
-        ("WA", self.routeSequenceWA),
-        ("WAB", self.routeSequenceWAB),
-        ("WABC", self.routeSequenceWABC),
-        ("WD", self.routeSequenceWD),
-        ("WDE", self.routeSequenceWDE),
-        ("WDEF", self.routeSequenceWDEF),
-        ("WDEFG", self.routeSequenceWDEFG),
-        ("WAFE", self.routeSequenceWAFE),
-        ("NCA", self.routeSequenceNCA),
-        ("NCAF", self.routeSequenceNCAF),
-        ("Z", self.routeSequenceZ),
-        ("Wrapper", self.routeSequenceWrapper)
-    ]
+    lazy var routeBranchTab1: RouteBranch = RouteBranch(branchIdentifier: self.tab1BranchIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab1))
+    lazy var routeBranchTab2: RouteBranch = RouteBranch(branchIdentifier: self.tab2BranchIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab2))
 
-    lazy var routeBranchTab1: RouteBranch = RouteBranch(branchIdentifier: self.tab1SegmentIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab1))
-    lazy var routeBranchTab2: RouteBranch = RouteBranch(branchIdentifier: self.tab2SegmentIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab2))
+    lazy var sequences:[(String,(RouteBranch?,[Any]))] = [
+        ("Welcome", (nil,self.routeSequenceWelcome)),
+        ("WA", (nil,self.routeSequenceWA)),
+        ("WAB", (nil,self.routeSequenceWAB)),
+        ("WABC", (nil,self.routeSequenceWABC)),
+        ("WD", (nil,self.routeSequenceWD)),
+        ("WDE", (nil,self.routeSequenceWDE)),
+        ("WDEF", (nil,self.routeSequenceWDEF)),
+        ("WDEFG", (nil,self.routeSequenceWDEFG)),
+        ("WAFE", (nil,self.routeSequenceWAFE)),
+        ("T1.NCA", (self.routeBranchTab1,self.routeSequenceNCA)),
+        ("T1.NCAF", (self.routeBranchTab1,self.routeSequenceNCAF)),
+        ("T2.Z", (self.routeBranchTab2,self.routeSequenceZ)),
+        ("Wrapper", (nil,self.routeSequenceWrapper))
+    ]
 
     init(window: UIWindow?) {
         router = Router(window: window)
@@ -72,7 +75,7 @@ class DemoRouteCoordinator {
         registerRouteSegments()
     }
 
-    func executeDefaultRouteSequence() {
+    func startupAction() {
         router.executeRoute(routeSequenceWelcome) {
             _ in
         }
@@ -143,10 +146,16 @@ class DemoRouteCoordinator {
             return {
                 let result = ViewController(name: segmentIdentifier.name)
 
-                for (title,sequence) in self.sequences {
+                for (title,(branch,sequence)) in self.sequences {
                     result.addAction(title, action: {
-                        self.router.executeRoute(sequence) {
-                            _ in
+                        if let branch = branch {
+                            self.router.executeRoute(sequence, routeBranch: branch) {
+                                _ in
+                            }
+                        } else {
+                            self.router.executeRoute(sequence) {
+                                _ in
+                            }
                         }
                     })
                 }
