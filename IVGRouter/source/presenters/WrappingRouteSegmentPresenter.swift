@@ -17,9 +17,9 @@ public protocol WrappingRouteSegmentAnimator {
     var animateViewWrapping: ((UIViewController,UIViewController,ViewAnimationInfoType) -> ViewAnimationInfoType) { get }
     var completeViewWrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) { get }
 
-//    var prepareForViewUnwrappingAnimation: ((UIViewController,UIViewController) -> ViewAnimationInfoType) { get }
-//    var animateViewUnwrapping: ((UIViewController,UIViewController,ViewAnimationInfoType) -> ViewAnimationInfoType) { get }
-//    var completeViewUnwrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) { get }
+    var prepareForViewUnwrappingAnimation: ((UIViewController,UIViewController) -> ViewAnimationInfoType) { get }
+    var animateViewUnwrapping: ((UIViewController,UIViewController,ViewAnimationInfoType) -> ViewAnimationInfoType) { get }
+    var completeViewUnwrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) { get }
 }
 
 public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
@@ -139,7 +139,9 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
 
         viewControllers[index] = wrapper
         navigationController.viewControllers = viewControllers
-        return { child.didMoveToParentViewController(wrapper) }
+        return {
+            child.didMoveToParentViewController(wrapper)
+        }
     }
 
     // MARK: unwrapping methods
@@ -152,25 +154,72 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         var frame = child.view.frame
         frame.origin.x = 0
 
+        let finishUnwrappingViewControllerBlock = startUnwrappingViewController(child, fromWrapper: wrapper)
+
+        var viewAnimationInfo = wrappingRouteSegmentAnimator.prepareForViewWrappingAnimation(child, wrapper)
+
         UIView.animateWithDuration(
-            0.3,
-            animations: {
-                child.view.frame = frame
+            wrappingRouteSegmentAnimator.animationDuration,
+            animations:{
+                viewAnimationInfo = self.wrappingRouteSegmentAnimator.animateViewUnwrapping(child, wrapper, viewAnimationInfo)
             },
             completion: {
                 finished in
-
-                // do not just add the child back to the parent's view, there were potentially other views in there previously
-                wrapper.view.superview?.addSubview(child.view)
-                wrapper.view.removeFromSuperview()
-                parent.addChildViewController(child)
-                wrapper.willMoveToParentViewController(nil)
-                wrapper.removeFromParentViewController()
-
-                completion(.Success(child))
+                self.wrappingRouteSegmentAnimator.completeViewUnwrappingAnimation(child, wrapper, viewAnimationInfo)
+                finishUnwrappingViewControllerBlock()
+                completion(.Success(wrapper))
             }
         )
+
     }
+
+    private func startUnwrappingViewController(child: UIViewController, fromWrapper wrapper : UIViewController) -> (Void -> Void) {
+        let parent = wrapper.parentViewController
+        if let navigationController = parent as? UINavigationController {
+            return startUnwrappingNavigationController(navigationController, withChild: child, fromWrapper: wrapper)
+        } else if let _ = parent as? UISplitViewController {
+            // TODO: splitViewController not handled yet
+            print("WARNING: splitViewController not handled yet")
+            return {}
+        } else if let _ = parent as? UITabBarController {
+            // TODO: tabBarController not handled yet
+            print("WARNING: tabBarController not handled yet")
+            return {}
+        } else {
+            return startUnwrappingBasicController(child, fromWrapper: wrapper)
+        }
+    }
+
+    private func startUnwrappingBasicController(child: UIViewController, fromWrapper wrapper: UIViewController) -> (Void -> Void) {
+        let parent = child.parentViewController
+
+        return {
+            // do not just add the child back to the parent's view, there were potentially other views in there previously
+            wrapper.view.superview?.addSubview(child.view)
+            wrapper.view.removeFromSuperview()
+            parent?.addChildViewController(child)
+            wrapper.willMoveToParentViewController(nil)
+            wrapper.removeFromParentViewController()
+        }
+    }
+
+    private func startUnwrappingNavigationController(navigationController: UINavigationController, withChild child: UIViewController, fromWrapper wrapper : UIViewController) -> (Void -> Void) {
+        // UINavigationController will handle *some* of the add/move stuff for us
+        var viewControllers = navigationController.viewControllers
+        guard let index = viewControllers.indexOf(wrapper) else {
+            print("WARNING: parentViewController was UINavigationController, but wrapper was not in the list of viewControllers")
+            return {}
+        }
+
+        let parent = wrapper.parentViewController
+        return {
+            wrapper.view.superview?.addSubview(child.view)
+            viewControllers[index] = child
+            navigationController.viewControllers = viewControllers
+            child.didMoveToParentViewController(parent)
+        }
+    }
+    
 
     // MARK: private variables
 
