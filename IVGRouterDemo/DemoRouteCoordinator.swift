@@ -9,6 +9,12 @@
 import Foundation
 import IVGRouter
 
+enum DemoSequenceType {
+    case Execute
+    case Branch(branch: RouteBranch)
+    case Append
+}
+
 class DemoRouteCoordinator {
 
     let router: Router
@@ -53,20 +59,20 @@ class DemoRouteCoordinator {
     lazy var routeBranchTab1: RouteBranch = RouteBranch(branchIdentifier: self.tab1BranchIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab1))
     lazy var routeBranchTab2: RouteBranch = RouteBranch(branchIdentifier: self.tab2BranchIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab2))
 
-    lazy var sequences:[(String,(RouteBranch?,[Any]))] = [
-        ("Welcome", (nil,self.routeSequenceWelcome)),
-        ("WA", (nil,self.routeSequenceWA)),
-        ("WAB", (nil,self.routeSequenceWAB)),
-        ("WABC", (nil,self.routeSequenceWABC)),
-        ("WD", (nil,self.routeSequenceWD)),
-        ("WDE", (nil,self.routeSequenceWDE)),
-        ("WDEF", (nil,self.routeSequenceWDEF)),
-        ("WDEFG", (nil,self.routeSequenceWDEFG)),
-        ("WAFE", (nil,self.routeSequenceWAFE)),
-        ("T1.NCA", (self.routeBranchTab1,self.routeSequenceNCA)),
-        ("T1.NCAF", (self.routeBranchTab1,self.routeSequenceNCAF)),
-        ("T2.Z", (self.routeBranchTab2,self.routeSequenceZ)),
-        ("Wrapper", (nil,self.routeSequenceWrapper))
+    lazy var sequences:[(String,(DemoSequenceType,[Any]))] = [
+        ("Welcome", (.Execute,self.routeSequenceWelcome)),
+        ("WA", (.Execute,self.routeSequenceWA)),
+        ("WAB", (.Execute,self.routeSequenceWAB)),
+        ("WABC", (.Execute,self.routeSequenceWABC)),
+        ("WD", (.Execute,self.routeSequenceWD)),
+        ("WDE", (.Execute,self.routeSequenceWDE)),
+        ("WDEF", (.Execute,self.routeSequenceWDEF)),
+        ("WDEFG", (.Execute,self.routeSequenceWDEFG)),
+        ("WAFE", (.Execute,self.routeSequenceWAFE)),
+        ("T1.NCA", (.Branch(branch: self.routeBranchTab1),self.routeSequenceNCA)),
+        ("T1.NCAF", (.Branch(branch: self.routeBranchTab1),self.routeSequenceNCAF)),
+        ("T2.Z", (.Branch(branch: self.routeBranchTab2),self.routeSequenceZ)),
+        ("Wrapper", (.Append,self.routeSequenceWrapper))
     ]
 
     init(window: UIWindow?) {
@@ -146,14 +152,19 @@ class DemoRouteCoordinator {
             return {
                 let result = ViewController(name: segmentIdentifier.name)
 
-                for (title,(branch,sequence)) in self.sequences {
+                for (title,(type,sequence)) in self.sequences {
                     result.addAction(title, action: {
-                        if let branch = branch {
+                        switch type {
+                        case .Execute:
+                            self.router.executeRoute(sequence) {
+                                _ in
+                            }
+                        case .Branch(let branch):
                             self.router.executeRoute(sequence, routeBranch: branch) {
                                 _ in
                             }
-                        } else {
-                            self.router.executeRoute(sequence) {
+                        case .Append:
+                            self.router.appendRoute(sequence) {
                                 _ in
                             }
                         }
@@ -222,8 +233,9 @@ class DemoRouteCoordinator {
             isSingleton: true,
             loadViewController:{ return {
                 let result = ViewController(name: self.wrapperSegmentIdentifier.name)
+                result.view.backgroundColor = UIColor.yellowColor()
 
-                result.addAction("Unwrap", action: {
+                result.addAction("Unwrap", titleColor: UIColor.blackColor(), action: {
                     self.router.popRoute() {
                         _ in
                     }

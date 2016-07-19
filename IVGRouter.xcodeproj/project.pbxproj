@@ -128,6 +128,7 @@
 		F8AB8D691CCD4FB800E50ABD /* PlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
 		F8AB8D6B1CCD506000E50ABD /* PlaceholderViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderViewControllerSpec.swift; sourceTree = "<group>"; };
 		F8AB8D6D1CCD5FC000E50ABD /* MockTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTabBarController.swift; sourceTree = "<group>"; };
+		F8DCFE941D3DAD880015411F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +309,7 @@
 		F8711CCB1CCD1DA600E6EEBB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F8DCFE941D3DAD880015411F /* Reveal.framework */,
 				F8711CC91CCD1D9F00E6EEBB /* Nimble.framework */,
 				F8711CC71CCD1D9900E6EEBB /* Quick.framework */,
 			);
@@ -702,8 +704,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = IVGRouterDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -713,8 +725,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = IVGRouterDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

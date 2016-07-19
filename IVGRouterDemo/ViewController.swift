@@ -79,13 +79,14 @@ class ViewController : UIViewController {
         currentItemTop += itemSize.height + 8
     }
 
-    func addAction(title: String, action: (Void -> Void)) {
+    func addAction(title: String, titleColor: UIColor = UIColor.whiteColor(), action: (Void -> Void)) -> UIButton {
         let button = UIButton(type: .System)
         button.setTitle(title, forState: .Normal)
-        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        button.setTitleColor(titleColor, forState: .Normal)
         button.addTarget(self, action: #selector(ViewController.doAction(_:)), forControlEvents: .TouchUpInside)
         actions[button] = action
         addItem(button)
+        return button
     }
 
     func doBackAction() {
