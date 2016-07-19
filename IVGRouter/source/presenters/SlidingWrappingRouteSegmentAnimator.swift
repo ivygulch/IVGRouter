@@ -47,18 +47,15 @@ public class SlidingWrappingRouteSegmentAnimator : WrappingRouteSegmentAnimator 
     public lazy var prepareForViewUnwrappingAnimation: ((UIViewController,UIViewController) -> ViewAnimationInfoType) = {
         [weak self] (child,wrapper) -> ViewAnimationInfoType in
         var frame = child.view.frame
-        let slideFactor = self?.slideFactor ?? SlidingWrappingRouteSegmentAnimatorSettings.DefaultSlideFactor
-        frame.origin.x = frame.size.width * slideFactor
+        frame.origin.x = 0
         return ["frame":NSValue(CGRect:frame)]
     }
 
     public lazy var animateViewUnwrapping: ((UIViewController,UIViewController,ViewAnimationInfoType) -> ViewAnimationInfoType) = {
         (child,wrapper,viewAnimationInfo) in
-
-        var frame = child.view.frame
-        frame.origin.x = 0
-        child.view.frame = frame
-
+        if let frame = viewAnimationInfo["frame"] as? NSValue {
+            child.view.frame = frame.CGRectValue()
+        }
         return viewAnimationInfo
     }
 

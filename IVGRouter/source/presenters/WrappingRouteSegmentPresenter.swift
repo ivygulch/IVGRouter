@@ -156,7 +156,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
 
         let finishUnwrappingViewControllerBlock = startUnwrappingViewController(child, fromWrapper: wrapper)
 
-        var viewAnimationInfo = wrappingRouteSegmentAnimator.prepareForViewWrappingAnimation(child, wrapper)
+        var viewAnimationInfo = wrappingRouteSegmentAnimator.prepareForViewUnwrappingAnimation(child, wrapper)
 
         UIView.animateWithDuration(
             wrappingRouteSegmentAnimator.animationDuration,
