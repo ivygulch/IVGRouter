@@ -22,8 +22,7 @@ public protocol WrappingRouteSegmentAnimator {
 //    var completeViewUnwrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) { get }
 }
 
-//public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
-public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
+public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     // MARK: public methods
 
@@ -172,46 +171,6 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
             }
         )
     }
-
-    //    if let navigationController = presentedViewController.navigationController,
-    //    let actualChild = presentedViewController.childViewControllers.first {
-    //        return unwrapChild(actualChild, toNavigationController: navigationController, withMenu: presentedViewController, completion: completion)
-    //    } else {
-    //    return remove(presentedViewController, completion: completion)
-    //    }
-    /*
-     func unwrapChild(child: UIViewController, fromWrapper wrapper: UIViewController, completion: ((Bool) -> Void)) -> UIViewController {
-     var newViewControllers = navigationController.viewControllers
-     if let index = newViewControllers.indexOf(menu) {
-     newViewControllers[index] = child
-     }
-
-     child.willMoveToParentViewController(navigationController)
-
-     var frame = child.view.frame
-     frame.origin.x = 0
-
-     UIView.animateWithDuration(
-     0.3,
-     animations: {
-     child.view.frame = frame
-     },
-     completion: {
-     finished in
-
-     menu.view.removeFromSuperview()
-     menu.willMoveToParentViewController(nil)
-
-     navigationController.viewControllers = newViewControllers
-     child.didMoveToParentViewController(navigationController)
-     navigationController.popViewControllerAnimated(true)
-     completion(true)
-     }
-     )
-
-     return child
-     }
-     */
 
     // MARK: private variables
 

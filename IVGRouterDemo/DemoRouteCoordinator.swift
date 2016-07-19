@@ -235,9 +235,15 @@ class DemoRouteCoordinator {
                 let result = ViewController(name: self.wrapperSegmentIdentifier.name)
                 result.view.backgroundColor = UIColor.yellowColor()
 
+                result.didAppearAction = {
+                    self.router.debug("unwrap didAppear")
+                }
+
                 result.addAction("Unwrap", titleColor: UIColor.blackColor(), action: {
+                    self.router.debug("before unwrap")
                     self.router.popRoute() {
                         _ in
+                        self.router.debug("after unwrap")
                     }
                 })
 

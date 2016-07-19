@@ -34,6 +34,7 @@ class ViewController : UIViewController {
             }
         }
     }
+    var didAppearAction: Action?
 
     var currentItemTop: CGFloat = 80.0
     let itemSize = CGSizeMake(200.0,30.0)
@@ -70,6 +71,12 @@ class ViewController : UIViewController {
         titleLabel.font = UIFont.boldSystemFontOfSize(18)
         titleLabel.textAlignment = .Center
         addItem(titleLabel)
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        didAppearAction?()
     }
 
     func addItem(item: UIView) {
