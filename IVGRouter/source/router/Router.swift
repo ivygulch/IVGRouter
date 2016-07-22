@@ -348,7 +348,8 @@ public class Router : RouterType {
             return true // we handled it by failing the sequence
         }
 
-        visualPresenter.presentViewController(viewController, from: parent, options: routeSequenceOptions, window: window, completion: {
+        let presentingViewController = parent?.actingPresentingController
+        visualPresenter.presentViewController(viewController, from: presentingViewController, options: routeSequenceOptions, window: window, completion: {
             presenterResult in
 
             switch presenterResult {

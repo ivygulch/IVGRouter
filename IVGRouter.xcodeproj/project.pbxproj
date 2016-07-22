@@ -55,6 +55,7 @@
 		F8AB8D6A1CCD4FB800E50ABD /* PlaceholderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AB8D691CCD4FB800E50ABD /* PlaceholderViewController.swift */; };
 		F8AB8D6C1CCD506000E50ABD /* PlaceholderViewControllerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AB8D6B1CCD506000E50ABD /* PlaceholderViewControllerSpec.swift */; };
 		F8AB8D6E1CCD5FC000E50ABD /* MockTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AB8D6D1CCD5FC000E50ABD /* MockTabBarController.swift */; };
+		F8C0309F1D426506003CF124 /* ActingPresentingViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C0309E1D426506003CF124 /* ActingPresentingViewControllerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +129,7 @@
 		F8AB8D691CCD4FB800E50ABD /* PlaceholderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderViewController.swift; sourceTree = "<group>"; };
 		F8AB8D6B1CCD506000E50ABD /* PlaceholderViewControllerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderViewControllerSpec.swift; sourceTree = "<group>"; };
 		F8AB8D6D1CCD5FC000E50ABD /* MockTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTabBarController.swift; sourceTree = "<group>"; };
+		F8C0309E1D426506003CF124 /* ActingPresentingViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActingPresentingViewControllerDelegate.swift; sourceTree = "<group>"; };
 		F8DCFE941D3DAD880015411F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				F8AB8D691CCD4FB800E50ABD /* PlaceholderViewController.swift */,
+				F8C0309E1D426506003CF124 /* ActingPresentingViewControllerDelegate.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -471,6 +474,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8C0309F1D426506003CF124 /* ActingPresentingViewControllerDelegate.swift in Sources */,
 				F8711C9D1CCD1C7300E6EEBB /* Router.swift in Sources */,
 				F8AB8D6A1CCD4FB800E50ABD /* PlaceholderViewController.swift in Sources */,
 				F8711C971CCD1C7300E6EEBB /* PushRouteSegmentPresenter.swift in Sources */,
