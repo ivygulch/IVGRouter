@@ -123,6 +123,7 @@ class DemoRouteCoordinator {
             isSingleton: true,
             loadViewController:{ return {
                 let result = TabBarController(name: segmentIdentifier.name)
+                result.view.backgroundColor = UIColor.orangeColor()
 
                 result.rightAction = {
                     self.debug(result)
