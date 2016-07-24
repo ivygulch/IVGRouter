@@ -10,12 +10,7 @@ import Foundation
 
 public typealias RouteSequenceOptions = [String:AnyObject]
 
-public protocol RouteSequenceItemType {
-    var segmentIdentifier: Identifier { get }
-    var options: RouteSequenceOptions { get }
-}
-
-public struct RouteSequenceItem: RouteSequenceItemType {
+public struct RouteSequenceItem: Equatable {
 
     public static func transform(item: Any) -> RouteSequenceItem? {
         if let routeSequenceItem = item as? RouteSequenceItem {
@@ -55,3 +50,7 @@ public struct RouteSequenceItem: RouteSequenceItemType {
 
 }
 
+public func ==(lhs: RouteSequenceItem, rhs: RouteSequenceItem) -> Bool {
+    return lhs.segmentIdentifier == rhs.segmentIdentifier
+        && String(lhs.options) == String(rhs.options)
+}

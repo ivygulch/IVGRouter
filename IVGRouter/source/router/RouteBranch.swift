@@ -10,7 +10,7 @@ import Foundation
 
 public protocol RouteBranchType {
     var branchIdentifier: Identifier { get }
-    var routeSequence: RouteSequenceType { get }
+    var routeSequence: RouteSequence { get }
     func validateRouteSequenceWithRouter(router: RouterType) -> Bool
 }
 
@@ -29,12 +29,11 @@ public class RouteBranch: RouteBranchType {
         return true
     }
 
-    public init(branchIdentifier: Identifier, routeSequence: RouteSequenceType) {
+    public init(branchIdentifier: Identifier, routeSequence: RouteSequence) {
         self.branchIdentifier = branchIdentifier
         self.routeSequence = routeSequence
     }
 
     public let branchIdentifier: Identifier
-    public let routeSequence: RouteSequenceType
-
+    public let routeSequence: RouteSequence
 }

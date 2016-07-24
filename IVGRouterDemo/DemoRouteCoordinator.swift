@@ -126,8 +126,7 @@ class DemoRouteCoordinator {
                 result.view.backgroundColor = UIColor.orangeColor()
 
                 result.rightAction = {
-                    self.debug(result)
-                    self.router.debug("debug")
+                    self.displayOptionMenu(result)
                 }
 
                 result.backAction = {
@@ -173,8 +172,7 @@ class DemoRouteCoordinator {
                 }
 
                 result.rightAction = {
-                    self.debug(result)
-                    self.router.debug("debug")
+                    self.displayOptionMenu(result)
                 }
 
                 result.backAction = {
@@ -251,6 +249,28 @@ class DemoRouteCoordinator {
                 return result
                 } }
         )
+    }
+
+    private func displayOptionMenu(viewController: UIViewController) {
+        let alert = UIAlertController(title: "options", message: "Options", preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "debug", style: .Default) {
+            _ in
+            self.debug(viewController)
+            self.router.debug("debug")
+            })
+        if router.historyHasPrevious() {
+            alert.addAction(UIAlertAction(title: "back", style: .Default) {
+                _ in
+                self.router.goBack() { _ in }
+                })
+        }
+        if router.historyHasNext() {
+            alert.addAction(UIAlertAction(title: "forward", style: .Default) {
+                _ in
+                self.router.goForward() { _ in }
+                })
+        }
+        viewController.presentViewController(alert, animated: true) {}
     }
 
 }

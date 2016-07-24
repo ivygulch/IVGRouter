@@ -11,7 +11,7 @@ import Quick
 import Nimble
 import IVGRouter
 
-class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPresenterType {
+class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     static let defaultPresenterIdentifier = Identifier(name: String(MockVisualRouteSegmentPresenter))
 
@@ -28,6 +28,15 @@ class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPr
         track("presentViewController", [presentedViewController.description,from,windowID])
         if completionBlockArg {
             completion(.Success(presentedViewController))
+        } else {
+            completion(.Failure(RoutingErrors.CannotPresent(self.presenterIdentifier, "mock result is false")))
+        }
+    }
+
+    func reversePresentation(viewControllerToRemove : UIViewController, completion: (RoutingResult -> Void)) {
+        track("reversePresentation", [viewControllerToRemove.description])
+        if completionBlockArg {
+            completion(.Success(viewControllerToRemove))
         } else {
             completion(.Failure(RoutingErrors.CannotPresent(self.presenterIdentifier, "mock result is false")))
         }

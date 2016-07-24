@@ -1,5 +1,5 @@
 //
-//  RouterBasicSpec.swift
+//  RouterSpec.swift
 //  IVGRouter
 //
 //  Created by Douglas Sjoquist on 4/1/16.
@@ -11,7 +11,7 @@ import Quick
 import Nimble
 import IVGRouter
 
-class RouterBasicSpec: QuickSpec {
+class RouterSpec: QuickSpec {
     override func spec() {
         describe("Router") {
             self.initializationTests()
@@ -21,13 +21,14 @@ class RouterBasicSpec: QuickSpec {
             self.simpleMultipleSegmentRouteExecutionTests()
             self.popRouteTests()
             self.executeSubsetOfCurrentRouteTests()
+            self.checkHistoryUsage()
         }
     }
 }
 
 
 // MARK: intialization tests
-extension RouterBasicSpec {
+extension RouterSpec {
 
     func initializationTests() {
 
@@ -66,7 +67,7 @@ extension RouterBasicSpec {
 }
 
 // MARK: presenter registration tests
-extension RouterBasicSpec {
+extension RouterSpec {
 
     func presenterRegistrationTests() {
 
@@ -96,7 +97,7 @@ extension RouterBasicSpec {
 }
 
 // MARK: route segment registration tests
-extension RouterBasicSpec {
+extension RouterSpec {
 
     func routeSegmentRegistrationTests() {
 
@@ -151,7 +152,7 @@ extension RouterBasicSpec {
 }
 
 // MARK: single segment route execution tests
-extension RouterBasicSpec {
+extension RouterSpec {
 
     func singleSegmentRouteExecutionTests() {
 
@@ -266,7 +267,7 @@ extension RouterBasicSpec {
 }
 
 // MARK: simple, multiple segment route execution tests
-extension RouterBasicSpec {
+extension RouterSpec {
 
     func simpleMultipleSegmentRouteExecutionTests() {
 
@@ -368,17 +369,17 @@ extension RouterBasicSpec {
                     let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
                     expect(defaultBranchViewControllers).to(equal([mockViewControllerA]))
                 }
-                
+
             }
-            
+
         }
-        
+
     }
-    
+
 }
 
 // MARK: simple popRoute tests
-extension RouterBasicSpec {
+extension RouterSpec {
 
     func popRouteTests() {
 
@@ -461,17 +462,17 @@ extension RouterBasicSpec {
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
                 }
-                
+
             }
 
         }
-        
+
     }
-    
+
 }
 
 // MARK: execute subset of current route
-extension RouterBasicSpec {
+extension RouterSpec {
 
     func executeSubsetOfCurrentRouteTests() {
 
@@ -548,7 +549,7 @@ extension RouterBasicSpec {
                     let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
                     expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
                 }
-                
+
             }
 
             context("then executing subset of route with two less segments") {
@@ -575,7 +576,7 @@ extension RouterBasicSpec {
                     let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
                     expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB]))
                 }
-                
+
             }
 
             context("then executing new sequence that partially matches") {
@@ -604,11 +605,217 @@ extension RouterBasicSpec {
                     let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
                     expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerE]))
                 }
-                
+
+            }
+
+        }
+
+    }
+
+}
+
+// MARK: manage history
+
+extension RouterSpec {
+
+    func checkHistoryUsage() {
+
+        let mockViewControllerA = MockViewController("A")
+        let mockViewControllerB = MockViewController("B")
+        let mockViewControllerC = MockViewController("C")
+        let mockViewControllerD = MockViewController("D")
+        var mockPresenterCompletionSucceeds: MockVisualRouteSegmentPresenter!
+        var mockVisualRouteSegmentRoot: MockVisualRouteSegment!
+        var mockVisualRouteSegmentA: MockVisualRouteSegment!
+        var mockVisualRouteSegmentB: MockVisualRouteSegment!
+        var mockVisualRouteSegmentC: MockVisualRouteSegment!
+        var mockVisualRouteSegmentD: MockVisualRouteSegment!
+        var router: Router!
+
+        beforeEach {
+            mockPresenterCompletionSucceeds = MockVisualRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)
+            mockVisualRouteSegmentRoot = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "A"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: UINavigationController())
+            mockVisualRouteSegmentA = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "A"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerA)
+            mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerB)
+            mockVisualRouteSegmentC = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "C"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerC)
+            mockVisualRouteSegmentD = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "D"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerD)
+            router = Router(window: nil)
+            router.registerPresenter(mockPresenterCompletionSucceeds)
+            router.registerRouteSegment(mockVisualRouteSegmentRoot)
+            router.registerRouteSegment(mockVisualRouteSegmentA)
+            router.registerRouteSegment(mockVisualRouteSegmentB)
+            router.registerRouteSegment(mockVisualRouteSegmentC)
+            router.registerRouteSegment(mockVisualRouteSegmentD)
+        }
+
+        context("when executing a single sequence") {
+
+            beforeEach {
+                router.executeRoute([mockVisualRouteSegmentRoot.segmentIdentifier, mockVisualRouteSegmentA.segmentIdentifier]) { _ in }
+            }
+
+            it("should not have previous in history") {
+                expect(router.historyHasPrevious()).to(beFalse())
+            }
+
+            it("should not have next in history") {
+                expect(router.historyHasNext()).to(beFalse())
+            }
+
+            it("should not move back") {
+                let expectation = self.expectationWithDescription("goBack completion callback")
+                router.goBack() {
+                    routingResult in
+                    switch routingResult {
+                    case .Success:
+                        fail("Did not expect success: \(routingResult)")
+                    case .Failure(let error):
+                        expect(error as? RoutingErrors).toNot(beNil())
+                        if let error = error as? RoutingErrors {
+                            switch error {
+                            case .NoHistory:
+                            break // yup
+                            default:
+                                fail("Did not expect: \(error)")
+                            }
+                        }
+                    }
+                    expectation.fulfill()
+                }
+                self.waitForExpectationsWithTimeout(5, handler: nil)
+            }
+
+            it("should not move forward") {
+                let expectation = self.expectationWithDescription("goForward completion callback")
+                router.goForward() {
+                    routingResult in
+                    switch routingResult {
+                    case .Success:
+                        fail("Did not expect success: \(routingResult)")
+                    case .Failure(let error):
+                        expect(error as? RoutingErrors).toNot(beNil())
+                        if let error = error as? RoutingErrors {
+                            switch error {
+                            case .NoHistory:
+                            break // yup
+                            default:
+                                fail("Did not expect: \(error)")
+                            }
+                        }
+                    }
+                    expectation.fulfill()
+                }
+                self.waitForExpectationsWithTimeout(5, handler: nil)
+            }
+
+        }
+
+        context("when executing two sequences") {
+
+            beforeEach {
+                router.executeRoute([mockVisualRouteSegmentRoot.segmentIdentifier, mockVisualRouteSegmentA.segmentIdentifier]) { _ in }
+                router.executeRoute([mockVisualRouteSegmentRoot.segmentIdentifier, mockVisualRouteSegmentB.segmentIdentifier]) { _ in }
+            }
+
+            it("should have previous in history") {
+                expect(router.historyHasPrevious()).to(beTrue())
+            }
+
+            it("should not have next in history") {
+                expect(router.historyHasNext()).to(beFalse())
+            }
+
+            it("should move back") {
+                let expectation = self.expectationWithDescription("goBack completion callback")
+                router.goBack() {
+                    routingResult in
+                    print("DBG: routingResult=\(routingResult)")
+                    switch routingResult {
+                    case .Success(let viewController):
+                        expect(viewController).to(equal(mockViewControllerA))
+                    case .Failure(let error):
+                        fail("Did not expect failure: \(error)")
+                    }
+                    expectation.fulfill()
+                }
+                self.waitForExpectationsWithTimeout(5, handler: nil)
+            }
+
+            it("should not move forward") {
+                let expectation = self.expectationWithDescription("goForward completion callback")
+                router.goForward() {
+                    routingResult in
+                    switch routingResult {
+                    case .Success:
+                        fail("Did not expect success: \(routingResult)")
+                    case .Failure(let error):
+                        expect(error as? RoutingErrors).toNot(beNil())
+                        if let error = error as? RoutingErrors {
+                            switch error {
+                            case .NoHistory:
+                            break // yup
+                            default:
+                                fail("Did not expect: \(error)")
+                            }
+                        }
+                    }
+                    expectation.fulfill()
+                }
+                self.waitForExpectationsWithTimeout(5, handler: nil)
+            }
+
+        }
+        
+        context("when executing four sequences forward then one back") {
+            
+            beforeEach {
+                router.executeRoute([mockVisualRouteSegmentRoot.segmentIdentifier, mockVisualRouteSegmentA.segmentIdentifier]) { _ in }
+                router.executeRoute([mockVisualRouteSegmentRoot.segmentIdentifier, mockVisualRouteSegmentB.segmentIdentifier]) { _ in }
+                router.executeRoute([mockVisualRouteSegmentRoot.segmentIdentifier, mockVisualRouteSegmentC.segmentIdentifier]) { _ in }
+                router.executeRoute([mockVisualRouteSegmentRoot.segmentIdentifier, mockVisualRouteSegmentD.segmentIdentifier]) { _ in }
+                router.goBack() { _ in }
+            }
+            
+            it("should have previous in history") {
+                expect(router.historyHasPrevious()).to(beTrue())
+            }
+            
+            it("should have next in history") {
+                expect(router.historyHasNext()).to(beTrue())
+            }
+            
+            it("should move back") {
+                let expectation = self.expectationWithDescription("goBack completion callback")
+                router.goBack() {
+                    routingResult in
+                    switch routingResult {
+                    case .Success(let viewController):
+                        expect(viewController).to(equal(mockViewControllerB))
+                    case .Failure(let error):
+                        fail("Did not expect failure: \(error)")
+                    }
+                    expectation.fulfill()
+                }
+                self.waitForExpectationsWithTimeout(5, handler: nil)
+            }
+            
+            it("should move forward") {
+                let expectation = self.expectationWithDescription("goForward completion callback")
+                router.goForward() {
+                    routingResult in
+                    switch routingResult {
+                    case .Success(let viewController):
+                        expect(viewController).to(equal(mockViewControllerD))
+                    case .Failure(let error):
+                        fail("Did not expect failure: \(error)")
+                    }
+                    expectation.fulfill()
+                }
+                self.waitForExpectationsWithTimeout(5, handler: nil)
             }
             
         }
-        
+
     }
     
 }

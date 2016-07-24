@@ -8,14 +8,9 @@
 
 import Foundation
 
-public protocol RouteSequenceType {
-    var items: [RouteSequenceItemType] { get }
-    func validatedRouteSegmentsWithRouter(router: RouterType) -> [RouteSegmentType]?
-}
+public class RouteSequence : Equatable, CustomStringConvertible {
 
-public class RouteSequence : RouteSequenceType {
-
-    public var items: [RouteSequenceItemType] = []
+    public var items: [RouteSequenceItem] = []
 
     public init(source: [Any]) {
         self.items = source.map { RouteSequenceItem.transform($0) }.flatMap { $0 }
@@ -30,4 +25,12 @@ public class RouteSequence : RouteSequenceType {
         return checkRouteSegments
     }
 
+    public var description: String {
+        return String(items)
+    }
+
+}
+
+public func ==(lhs: RouteSequence, rhs: RouteSequence) -> Bool {
+    return lhs.items == rhs.items
 }
