@@ -16,13 +16,13 @@ class MockVisualRouteSegment : TrackableTestClass, VisualRouteSegmentType {
     init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, presentedViewController: UIViewController?) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
-        self.name = segmentIdentifier.name
+        self.title = segmentIdentifier.name
         self.presentedViewController = presentedViewController
     }
 
     let segmentIdentifier: Identifier
     let presenterIdentifier: Identifier
-    let name: String
+    let title: String
     let presentedViewController: UIViewController?
 
     func viewController() -> UIViewController? {

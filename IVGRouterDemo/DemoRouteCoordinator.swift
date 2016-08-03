@@ -120,7 +120,10 @@ class DemoRouteCoordinator {
         return VisualRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier,
-            name: "Trunk_\(segmentIdentifier.name)",
+            titleProducer: {
+                _ -> String in
+                return "Trunk_\(segmentIdentifier.name)"
+            },
             isSingleton: true,
             loadViewController:{ return {
                 let result = TabBarController(name: segmentIdentifier.name)
@@ -145,7 +148,10 @@ class DemoRouteCoordinator {
         return BranchRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: BranchRouteSegmentPresenter.defaultPresenterIdentifier,
-            name: "Branch_\(segmentIdentifier.name)"
+            titleProducer: {
+                _ -> String in
+                return "Branch_\(segmentIdentifier.name)"
+            }
         )
     }
 
@@ -208,7 +214,10 @@ class DemoRouteCoordinator {
         return VisualRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: presenterIdentifier,
-            name: "Visual_\(segmentIdentifier.name)",
+            titleProducer: {
+                _ -> String in
+                return "Visual_\(segmentIdentifier.name)"
+            },
             isSingleton: true,
             loadViewController: viewControllerLoaderFunction
         )
@@ -232,7 +241,10 @@ class DemoRouteCoordinator {
         return VisualRouteSegment(
             segmentIdentifier: wrapperSegmentIdentifier,
             presenterIdentifier: WrappingRouteSegmentPresenter.defaultPresenterIdentifier,
-            name: "Wrapper_\(wrapperSegmentIdentifier.name)",
+            titleProducer: {
+                _ -> String in
+                return "Wrapper_\(self.wrapperSegmentIdentifier.name)"
+            },
             isSingleton: true,
             loadViewController:{ return {
                 let result = ViewController(name: self.wrapperSegmentIdentifier.name)
@@ -263,14 +275,14 @@ class DemoRouteCoordinator {
             self.router.debug("debug")
             })
         if let previousSegment = router.previousHistoryRouteSegment() {
-            let title = "back [\(previousSegment.name)]"
+            let title = "back [\(previousSegment.title)]"
             alert.addAction(UIAlertAction(title: title, style: .Default) {
                 _ in
                 self.router.goBack() { _ in }
                 })
         }
         if let nextSegment = router.nextHistoryRouteSegment() {
-            let title = "next [\(nextSegment.name)]"
+            let title = "next [\(nextSegment.title)]"
             alert.addAction(UIAlertAction(title: title, style: .Default) {
                 _ in
                 self.router.goForward() { _ in }

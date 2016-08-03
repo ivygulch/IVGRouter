@@ -9,11 +9,13 @@
 import UIKit
 
 public typealias ViewControllerLoaderFunction = (Void) -> ((Void) -> UIViewController?)
+public typealias TitleProducer = (RouteSegmentType -> String)
+
 
 public protocol RouteSegmentType {
     var segmentIdentifier: Identifier { get }
     var presenterIdentifier: Identifier { get }
-    var name: String { get }
+    var title: String { get }
 }
 
 public protocol VisualRouteSegmentType: RouteSegmentType {
@@ -33,23 +35,29 @@ public protocol TrunkRouteController {
 
 public class RouteSegment : RouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, name: String) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, titleProducer: TitleProducer) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
-        self.name = name
+        self.titleProducer = titleProducer
     }
 
+    public var title: String {
+        return titleProducer(self)
+    }
     public let segmentIdentifier: Identifier
     public let presenterIdentifier: Identifier
-    public let name: String
+
+    // MARK: private variables
+    
+    private let titleProducer: TitleProducer
 }
 
 public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, name: String, isSingleton: Bool, loadViewController: ViewControllerLoaderFunction) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, titleProducer: TitleProducer, isSingleton: Bool, loadViewController: ViewControllerLoaderFunction) {
         self.isSingleton = isSingleton
         self.loadViewController = loadViewController
-        super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier, name: name)
+        super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier, titleProducer: titleProducer)
     }
 
     public func viewController() -> UIViewController? {

@@ -37,7 +37,10 @@ class VisualRouteSegmentSpec: QuickSpec {
                 beforeEach {
                     visualRouteSegment = VisualRouteSegment(segmentIdentifier: mockIdentifier,
                         presenterIdentifier: mockIdentifier,
-                        name: mockIdentifier.name,
+                        titleProducer: {
+                            _ -> String in
+                            return mockIdentifier.name
+                        },
                         isSingleton: true,
                         loadViewController: mockViewControllerBLoader.load)
                     loadedViewController = visualRouteSegment.viewController()
@@ -56,7 +59,10 @@ class VisualRouteSegmentSpec: QuickSpec {
                 beforeEach {
                     visualRouteSegment = VisualRouteSegment(segmentIdentifier: mockIdentifier,
                         presenterIdentifier: mockIdentifier,
-                        name: mockIdentifier.name,
+                        titleProducer: {
+                            _ -> String in
+                            return mockIdentifier.name
+                        },
                         isSingleton: true,
                         loadViewController: mockViewControllerBLoader.load)
                     visualRouteSegment.viewController()
@@ -76,7 +82,10 @@ class VisualRouteSegmentSpec: QuickSpec {
                 beforeEach {
                     visualRouteSegment = VisualRouteSegment(segmentIdentifier: mockIdentifier,
                         presenterIdentifier: mockIdentifier,
-                        name: mockIdentifier.name,
+                        titleProducer: {
+                            _ -> String in
+                            return mockIdentifier.name
+                        },
                         isSingleton: false,
                         loadViewController: mockViewControllerBLoader.load)
                     visualRouteSegment.viewController()
@@ -96,7 +105,10 @@ class VisualRouteSegmentSpec: QuickSpec {
                 beforeEach {
                     visualRouteSegment = VisualRouteSegment(segmentIdentifier: mockIdentifier,
                         presenterIdentifier: mockIdentifier,
-                        name: mockIdentifier.name,
+                        titleProducer: {
+                            _ -> String in
+                            return mockIdentifier.name
+                        },
                         isSingleton: false,
                         loadViewController: mockNilViewControllerLoader.load)
                     visualRouteSegment.viewController()
