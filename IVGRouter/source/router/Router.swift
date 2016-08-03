@@ -40,6 +40,9 @@ public protocol RouterType {
     func executeRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
     func popRoute(completion:(RoutingResult -> Void))
     func popRoute(routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
+
+    func clearHistory()
+    func clearHistory(routeBranch: RouteBranchType)
     func previousRouteHistoryItem() -> RouteHistoryItemType?
     func previousRouteHistoryItem(routeBranch: RouteBranchType) -> RouteHistoryItemType?
     func nextRouteHistoryItem() -> RouteHistoryItemType?
@@ -49,6 +52,9 @@ public protocol RouterType {
     func goForward(completion:(RoutingResult -> Void))
     func goForward(routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
     func registerDefaultPresenters()
+
+    func configurePreviousButton(button: UIButton, titleProducer:(String? -> String)?, completion:(Void -> Void)?)
+    func configureNextButton(button: UIButton, titleProducer:(String? -> String)?, completion:(Void -> Void)?)
 
     func viewControllersForRouteBranchIdentifier(branchIdentifier: Identifier) -> [UIViewController]
 }
@@ -155,6 +161,14 @@ public class Router : RouterType {
         popRouteInternal(routeBranch, completion: wrappedCompletion)
     }
 
+    public func clearHistory() {
+        clearHistory(defaultRouteBranch)
+    }
+
+    public func clearHistory(routeBranch: RouteBranchType) {
+        historyForIdentifiers[routeBranch.branchIdentifier] = nil
+    }
+
     public func previousRouteHistoryItem() -> RouteHistoryItemType? {
         return previousRouteHistoryItem(defaultRouteBranch)
     }
@@ -247,6 +261,59 @@ public class Router : RouterType {
             }
         } else {
             executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
+        }
+    }
+
+    // MARK: UIButton configuration
+
+    private var previousButtonCompletions: [UIButton: (Void -> Void)] = [:]
+    private var nextButtonCompletions: [UIButton: (Void -> Void)] = [:]
+
+    @objc private func previousButtonAction(button: UIButton) {
+        let buttonCompletion = previousButtonCompletions[button]
+        goBack() {
+            _ in
+            buttonCompletion?()
+        }
+    }
+
+    @objc private func nextButtonAction(button: UIButton) {
+        let buttonCompletion = nextButtonCompletions[button]
+        goForward() {
+            _ in
+            buttonCompletion?()
+        }
+    }
+
+    public func configurePreviousButton(button: UIButton, titleProducer:(String? -> String)?, completion:(Void -> Void)?) {
+        let selector = #selector(Router.previousButtonAction(_:))
+        if let historyItem = previousRouteHistoryItem() {
+            let title = (titleProducer == nil) ? historyItem.title : titleProducer?(historyItem.title)
+            button.setTitle(title, forState:.Normal)
+            button.hidden = false
+            previousButtonCompletions[button] = completion
+            button.addTarget(self, action:selector, forControlEvents: .TouchUpInside)
+        } else {
+            button.hidden = true
+            previousButtonCompletions[button] = nil
+            button.removeTarget(self, action:selector, forControlEvents:.TouchUpInside)
+            button.setTitle(nil, forState:.Normal)
+        }
+    }
+
+    public func configureNextButton(button: UIButton, titleProducer:(String? -> String)?, completion:(Void -> Void)?) {
+        let selector = #selector(Router.nextButtonAction(_:))
+        if let historyItem = nextRouteHistoryItem() {
+            let title = (titleProducer == nil) ? historyItem.title : titleProducer?(historyItem.title)
+            button.setTitle(title, forState:.Normal)
+            button.hidden = false
+            nextButtonCompletions[button] = completion
+            button.addTarget(self, action:selector, forControlEvents: .TouchUpInside)
+        } else {
+            button.hidden = true
+            nextButtonCompletions[button] = nil
+            button.removeTarget(self, action:selector, forControlEvents:.TouchUpInside)
+            button.setTitle(nil, forState:.Normal)
         }
     }
 
