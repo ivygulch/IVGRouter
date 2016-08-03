@@ -9,13 +9,10 @@
 import UIKit
 
 public typealias ViewControllerLoaderFunction = (Void) -> ((Void) -> UIViewController?)
-public typealias TitleProducer = (RouteSegmentType -> String)
-
 
 public protocol RouteSegmentType {
     var segmentIdentifier: Identifier { get }
     var presenterIdentifier: Identifier { get }
-    var title: String { get }
 }
 
 public protocol VisualRouteSegmentType: RouteSegmentType {
@@ -35,29 +32,21 @@ public protocol TrunkRouteController {
 
 public class RouteSegment : RouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, titleProducer: TitleProducer) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
-        self.titleProducer = titleProducer
     }
 
-    public var title: String {
-        return titleProducer(self)
-    }
     public let segmentIdentifier: Identifier
     public let presenterIdentifier: Identifier
-
-    // MARK: private variables
-    
-    private let titleProducer: TitleProducer
 }
 
 public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, titleProducer: TitleProducer, isSingleton: Bool, loadViewController: ViewControllerLoaderFunction) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: ViewControllerLoaderFunction) {
         self.isSingleton = isSingleton
         self.loadViewController = loadViewController
-        super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier, titleProducer: titleProducer)
+        super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier)
     }
 
     public func viewController() -> UIViewController? {

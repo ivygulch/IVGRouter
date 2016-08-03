@@ -655,11 +655,11 @@ extension RouterSpec {
             }
 
             it("should not have previous in history") {
-                expect(router.previousHistoryRouteSegment()).to(beNil())
+                expect(router.previousRouteHistoryItem()).to(beNil())
             }
 
             it("should not have next in history") {
-                expect(router.nextHistoryRouteSegment()).to(beNil())
+                expect(router.nextRouteHistoryItem()).to(beNil())
             }
 
             it("should not move back") {
@@ -718,11 +718,11 @@ extension RouterSpec {
             }
 
             it("should have previous in history") {
-                expect(router.previousHistoryRouteSegment()).toNot(beNil())
+                expect(router.previousRouteHistoryItem()).toNot(beNil())
             }
 
             it("should not have next in history") {
-                expect(router.nextHistoryRouteSegment()).to(beNil())
+                expect(router.nextRouteHistoryItem()).to(beNil())
             }
 
             it("should move back") {
@@ -777,11 +777,11 @@ extension RouterSpec {
             }
             
             it("should have previous in history") {
-                expect(router.previousHistoryRouteSegment()).toNot(beNil())
+                expect(router.previousRouteHistoryItem()).toNot(beNil())
             }
             
             it("should have next in history") {
-                expect(router.nextHistoryRouteSegment()).toNot(beNil())
+                expect(router.nextRouteHistoryItem()).toNot(beNil())
             }
             
             it("should move back") {

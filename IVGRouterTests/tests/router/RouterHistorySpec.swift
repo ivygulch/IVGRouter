@@ -9,7 +9,7 @@
 import UIKit
 import Quick
 import Nimble
-import IVGRouter
+@testable import IVGRouter
 
 class RouterHistorySpec: QuickSpec {
 
@@ -17,11 +17,11 @@ class RouterHistorySpec: QuickSpec {
 
         describe("Router") {
 
-            let mockRouterSequenceA = RouteSequence(source: ["A"])
-            let mockRouterSequenceB = RouteSequence(source: ["B"])
-            let mockRouterSequenceC = RouteSequence(source: ["C"])
-            let mockRouterSequenceD = RouteSequence(source: ["D"])
-            let mockRouterSequenceE = RouteSequence(source: ["E"])
+            let mockRouteHistoryItemA = RouteHistoryItem(routeSequence: RouteSequence(source: ["A"]), title: "title A")
+            let mockRouteHistoryItemB = RouteHistoryItem(routeSequence: RouteSequence(source: ["B"]), title: "title B")
+            let mockRouteHistoryItemC = RouteHistoryItem(routeSequence: RouteSequence(source: ["C"]), title: "title C")
+            let mockRouteHistoryItemD = RouteHistoryItem(routeSequence: RouteSequence(source: ["D"]), title: "title D")
+            let mockRouteHistoryItemE = RouteHistoryItem(routeSequence: RouteSequence(source: ["E"]), title: "title E")
             var routerHistory: RouterHistory!
 
             beforeEach {
@@ -30,12 +30,12 @@ class RouterHistorySpec: QuickSpec {
 
             context("when initialized") {
 
-                it("should return nil for previousSequence") {
-                    expect(routerHistory.previousSequence).to(beNil())
+                it("should return nil for previousRouteHistoryItem") {
+                    expect(routerHistory.previousRouteHistoryItem).to(beNil())
                 }
 
-                it("should return nil for nextSequence") {
-                    expect(routerHistory.nextSequence).to(beNil())
+                it("should return nil for nextRouteHistoryItem") {
+                    expect(routerHistory.nextRouteHistoryItem).to(beNil())
                 }
 
             }
@@ -43,15 +43,15 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward one step") {
 
                 beforeEach {
-                    routerHistory.recordRouteSequence(mockRouterSequenceA)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
                 }
 
-                it("should return nil for previousSequence") {
-                    expect(routerHistory.previousSequence).to(beNil())
+                it("should return nil for previousRouteHistoryItem") {
+                    expect(routerHistory.previousRouteHistoryItem).to(beNil())
                 }
 
-                it("should return nil for nextSequence") {
-                    expect(routerHistory.nextSequence).to(beNil())
+                it("should return nil for nextRouteHistoryItem") {
+                    expect(routerHistory.nextRouteHistoryItem).to(beNil())
                 }
                 
             }
@@ -59,16 +59,16 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward two steps") {
 
                 beforeEach {
-                    routerHistory.recordRouteSequence(mockRouterSequenceA)
-                    routerHistory.recordRouteSequence(mockRouterSequenceB)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
                 }
 
-                it("should return A for previousSequence") {
-                    expect(routerHistory.previousSequence).to(equal(mockRouterSequenceA))
+                it("should return A for previousRouteHistoryItem") {
+                    expect(routerHistory.previousRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemA))
                 }
 
-                it("should return nil for nextSequence") {
-                    expect(routerHistory.nextSequence).to(beNil())
+                it("should return nil for nextRouteHistoryItem") {
+                    expect(routerHistory.nextRouteHistoryItem).to(beNil())
                 }
                 
             }
@@ -76,17 +76,17 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward two steps, then back one") {
 
                 beforeEach {
-                    routerHistory.recordRouteSequence(mockRouterSequenceA)
-                    routerHistory.recordRouteSequence(mockRouterSequenceB)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
                     routerHistory.moveBackward()
                 }
 
-                it("should return nil for previousSequence") {
-                    expect(routerHistory.previousSequence).to(beNil())
+                it("should return nil for previousRouteHistoryItem") {
+                    expect(routerHistory.previousRouteHistoryItem).to(beNil())
                 }
 
-                it("should return B for nextSequence") {
-                    expect(routerHistory.nextSequence).to(equal(mockRouterSequenceB))
+                it("should return B for nextRouteHistoryItem") {
+                    expect(routerHistory.nextRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemB))
                 }
                 
             }
@@ -94,18 +94,18 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward three steps, then back one") {
 
                 beforeEach {
-                    routerHistory.recordRouteSequence(mockRouterSequenceA)
-                    routerHistory.recordRouteSequence(mockRouterSequenceB)
-                    routerHistory.recordRouteSequence(mockRouterSequenceC)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC)
                     routerHistory.moveBackward()
                 }
 
-                it("should return A for previousSequence") {
-                    expect(routerHistory.previousSequence).to(equal(mockRouterSequenceA))
+                it("should return A for previousRouteHistoryItem") {
+                    expect(routerHistory.previousRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemA))
                 }
 
-                it("should return C for nextSequence") {
-                    expect(routerHistory.nextSequence).to(equal(mockRouterSequenceC))
+                it("should return C for nextRouteHistoryItem") {
+                    expect(routerHistory.nextRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemC))
                 }
                 
             }
@@ -113,21 +113,21 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward four steps, then back two, then forward with same as before") {
 
                 beforeEach {
-                    routerHistory.recordRouteSequence(mockRouterSequenceA)
-                    routerHistory.recordRouteSequence(mockRouterSequenceB)
-                    routerHistory.recordRouteSequence(mockRouterSequenceC)
-                    routerHistory.recordRouteSequence(mockRouterSequenceD)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemD)
                     routerHistory.moveBackward()
                     routerHistory.moveBackward()
-                    routerHistory.recordRouteSequence(mockRouterSequenceC)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC)
                 }
 
-                it("should return B for previousSequence") {
-                    expect(routerHistory.previousSequence).to(equal(mockRouterSequenceB))
+                it("should return B for previousRouteHistoryItem") {
+                    expect(routerHistory.previousRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemB))
                 }
 
-                it("should return D for nextSequence") {
-                    expect(routerHistory.nextSequence).to(equal(mockRouterSequenceD))
+                it("should return D for nextRouteHistoryItem") {
+                    expect(routerHistory.nextRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemD))
                 }
                 
             }
@@ -135,21 +135,21 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward four steps, then back two, then forward with different from before") {
 
                 beforeEach {
-                    routerHistory.recordRouteSequence(mockRouterSequenceA)
-                    routerHistory.recordRouteSequence(mockRouterSequenceB)
-                    routerHistory.recordRouteSequence(mockRouterSequenceC)
-                    routerHistory.recordRouteSequence(mockRouterSequenceD)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemD)
                     routerHistory.moveBackward()
                     routerHistory.moveBackward()
-                    routerHistory.recordRouteSequence(mockRouterSequenceE)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemE)
                 }
 
-                it("should return B for previousSequence") {
-                    expect(routerHistory.previousSequence).to(equal(mockRouterSequenceB))
+                it("should return B for previousRouteHistoryItem") {
+                    expect(routerHistory.previousRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemB))
                 }
 
-                it("should return nil for nextSequence") {
-                    expect(routerHistory.nextSequence).to(beNil())
+                it("should return nil for nextRouteHistoryItem") {
+                    expect(routerHistory.nextRouteHistoryItem).to(beNil())
                 }
                 
             }

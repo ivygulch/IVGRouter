@@ -8,13 +8,18 @@
 
 import Foundation
 
+public protocol RouteHistoryItemType {
+    var routeSequence: RouteSequence { get }
+    var title: String? { get }
+}
+
 public protocol RouterHistoryType {
-    var previousSequence: RouteSequence? { get }
-    var nextSequence: RouteSequence? { get }
+    var previousRouteHistoryItem: RouteHistoryItemType? { get }
+    var nextRouteHistoryItem: RouteHistoryItemType? { get }
 
     func moveBackward()
     func moveForward()
-    func recordRouteSequence(routeSequence: RouteSequence)
+    func recordRouteHistoryItem(routeHistoryItem: RouteHistoryItemType)
 
     func debug(msg: String)
 }
@@ -26,12 +31,12 @@ public class RouterHistory: RouterHistoryType {
     public init() {
     }
 
-    public var previousSequence: RouteSequence? {
+    public var previousRouteHistoryItem: RouteHistoryItemType? {
         let previousIndex = currentIndex - 1
         return (previousIndex >= 0) && (previousIndex < history.count) ? history[previousIndex] : nil
     }
 
-    public var nextSequence: RouteSequence? {
+    public var nextRouteHistoryItem: RouteHistoryItemType? {
         let nextIndex = currentIndex + 1
         return nextIndex < history.count ? history[nextIndex] : nil
     }
@@ -51,11 +56,14 @@ public class RouterHistory: RouterHistoryType {
     private func debugStr() -> String {
         var checkIndex = 0
         return history.map {
+            routeHistoryItem in
             let flag = (checkIndex == currentIndex) ? "**" : ""
             checkIndex += 1
-            return "(" + flag + $0.items
+            let itemStr = routeHistoryItem.routeSequence.items
                 .map { item in item.segmentIdentifier.name }
-                .joinWithSeparator(",") + flag + ")"
+                .joinWithSeparator(",")
+            let title = (routeHistoryItem.title ?? "<null>")
+            return "(" + flag + itemStr + ", \"" + title + "\", " + flag + ")"
             }.joinWithSeparator("|")
     }
 
@@ -63,26 +71,33 @@ public class RouterHistory: RouterHistoryType {
         print("DBG: \(msg)=\(debugStr())")
     }
 
-    public func recordRouteSequence(routeSequence: RouteSequence) {
-        print("DBG: recordRouteSequence(\(routeSequence.items.map { $0.segmentIdentifier.name }.joinWithSeparator(",") ))")
+    public func recordRouteHistoryItem(routeHistoryItem: RouteHistoryItemType) {
         let nextIndex = currentIndex + 1
         if nextIndex < history.count {
-            if routeSequence != history[nextIndex] {
+            if routeHistoryItem.routeSequence != history[nextIndex].routeSequence {
                 let range = Range(nextIndex..<history.count)
                 history.removeRange(range)
-                print("DBG: removeRange(\(range))=\(debugStr())")
-                history.append(routeSequence)
+                history.append(routeHistoryItem)
             }
             currentIndex = nextIndex
         } else {
-            history.append(routeSequence)
+            history.append(routeHistoryItem)
             currentIndex = history.count - 1
         }
-        print("DBG: result=\(debugStr())")
     }
 
     // MARK: private variables
 
-    private var history: [RouteSequence] = []
+    private var history: [RouteHistoryItemType] = []
     private var currentIndex: Int = 0
+}
+
+public struct RouteHistoryItem: Equatable, RouteHistoryItemType {
+    public let routeSequence: RouteSequence
+    public let title: String?
+}
+
+public func ==(lhs: RouteHistoryItem, rhs: RouteHistoryItem) -> Bool {
+    return lhs.routeSequence == rhs.routeSequence
+        && lhs.title == rhs.title
 }

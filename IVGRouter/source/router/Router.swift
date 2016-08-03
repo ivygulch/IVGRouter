@@ -40,10 +40,10 @@ public protocol RouterType {
     func executeRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
     func popRoute(completion:(RoutingResult -> Void))
     func popRoute(routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
-    func previousHistoryRouteSegment() -> RouteSegmentType?
-    func previousHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType?
-    func nextHistoryRouteSegment() -> RouteSegmentType?
-    func nextHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType?
+    func previousRouteHistoryItem() -> RouteHistoryItemType?
+    func previousRouteHistoryItem(routeBranch: RouteBranchType) -> RouteHistoryItemType?
+    func nextRouteHistoryItem() -> RouteHistoryItemType?
+    func nextRouteHistoryItem(routeBranch: RouteBranchType) -> RouteHistoryItemType?
     func goBack(completion:(RoutingResult -> Void))
     func goBack(routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
     func goForward(completion:(RoutingResult -> Void))
@@ -131,11 +131,11 @@ public class Router : RouterType {
     // MARK: public routing methods
 
     public func appendRoute(source: [Any], completion:(RoutingResult -> Void)) {
-        self.appendRoute(source, routeBranch: defaultRouteBranch, completion: completion)
+        appendRoute(source, routeBranch: defaultRouteBranch, completion: completion)
     }
 
     public func appendRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
-        self.executeRouteSequence(source, append: true, routeBranch: routeBranch, completion: completion)
+        executeRouteSequence(source, append: true, routeBranch: routeBranch, completion: completion)
     }
 
     public func popRoute(completion:(RoutingResult -> Void)) {
@@ -145,9 +145,9 @@ public class Router : RouterType {
     public func popRoute(routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
         let routeBranchIdentifier = routeBranch.branchIdentifier
         let wrappedCompletion: (RoutingResult -> Void) = {
-            routingResult in
-            if case .Success = routingResult {
-                self.recordHistory(routeBranchIdentifier)
+            [weak self] routingResult in
+            if case .Success(let viewController) = routingResult {
+                self?.recordHistory(routeBranchIdentifier, title: viewController.title)
             }
             completion(routingResult)
         }
@@ -155,30 +155,20 @@ public class Router : RouterType {
         popRouteInternal(routeBranch, completion: wrappedCompletion)
     }
 
-    public func previousHistoryRouteSegment() -> RouteSegmentType? {
-        return previousHistoryRouteSegment(defaultRouteBranch)
+    public func previousRouteHistoryItem() -> RouteHistoryItemType? {
+        return previousRouteHistoryItem(defaultRouteBranch)
     }
 
-    public func previousHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType? {
-        guard let sequence = historyForIdentifiers[routeBranch.branchIdentifier]?.previousSequence,
-            let segmentIdentifier = sequence.items.last?.segmentIdentifier,
-            let segment = routeSegments[segmentIdentifier] else {
-                return nil
-        }
-        return segment
+    public func previousRouteHistoryItem(routeBranch: RouteBranchType) -> RouteHistoryItemType? {
+        return historyForIdentifiers[routeBranch.branchIdentifier]?.previousRouteHistoryItem
     }
 
-    public func nextHistoryRouteSegment() -> RouteSegmentType? {
-        return nextHistoryRouteSegment(defaultRouteBranch)
+    public func nextRouteHistoryItem() -> RouteHistoryItemType? {
+        return nextRouteHistoryItem(defaultRouteBranch)
     }
 
-    public func nextHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType? {
-        guard let sequence = historyForIdentifiers[routeBranch.branchIdentifier]?.nextSequence,
-            let segmentIdentifier = sequence.items.last?.segmentIdentifier,
-            let segment = routeSegments[segmentIdentifier] else {
-                return nil
-        }
-        return segment
+    public func nextRouteHistoryItem(routeBranch: RouteBranchType) -> RouteHistoryItemType? {
+        return historyForIdentifiers[routeBranch.branchIdentifier]?.nextRouteHistoryItem
     }
 
     public func goBack(completion:(RoutingResult -> Void)) {
@@ -188,7 +178,7 @@ public class Router : RouterType {
     public func goBack(routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
         let branchIdentifier = routeBranch.branchIdentifier
         let history = historyForIdentifier(branchIdentifier)
-        guard let previousSequence = history.previousSequence else {
+        guard let previousRouteHistoryItem = history.previousRouteHistoryItem else {
             completion(.Failure(RoutingErrors.NoHistory(branchIdentifier)))
             return
         }
@@ -200,7 +190,7 @@ public class Router : RouterType {
             }
             completion(routingResult)
         }
-        executeRouteSequence(previousSequence, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
+        executeRouteSequence(previousRouteHistoryItem.routeSequence, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
     }
 
     public func goForward(completion:(RoutingResult -> Void)) {
@@ -210,7 +200,7 @@ public class Router : RouterType {
     public func goForward(routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
         let branchIdentifier = routeBranch.branchIdentifier
         let history = historyForIdentifier(branchIdentifier)
-        guard let nextSequence = history.nextSequence else {
+        guard let nextRouteHistoryItem = history.nextRouteHistoryItem else {
             completion(.Failure(RoutingErrors.NoHistory(branchIdentifier)))
             return
         }
@@ -222,19 +212,19 @@ public class Router : RouterType {
             }
             completion(routingResult)
         }
-        executeRouteSequence(nextSequence, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
+        executeRouteSequence(nextRouteHistoryItem.routeSequence, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
     }
     
     public func executeRoute(source: [Any], completion:(RoutingResult -> Void)) {
-        self.executeRoute(source, routeBranch: defaultRouteBranch, completion: completion)
+        executeRoute(source, routeBranch: defaultRouteBranch, completion: completion)
     }
 
     public func executeRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
         let routeBranchIdentifier = routeBranch.branchIdentifier
         let wrappedCompletion: (RoutingResult -> Void) = {
-            routingResult in
-            if case .Success = routingResult {
-                self.recordHistory(routeBranchIdentifier)
+            [weak self] routingResult in
+            if case .Success(let viewController) = routingResult {
+                self?.recordHistory(routeBranchIdentifier, title: viewController.title)
             }
             completion(routingResult)
         }
@@ -244,19 +234,19 @@ public class Router : RouterType {
                 routeSequenceItem -> Any in
                 return routeSequenceItem
             }
-            self.executeRouteSequence(defaultSource, append: false, routeBranch: defaultRouteBranch) {
-                routeResult in
+            executeRouteSequence(defaultSource, append: false, routeBranch: defaultRouteBranch) {
+                [weak self] routeResult in
                 switch routeResult {
                 case .Success:
                     // if we successfully switched to the correct spot on the default branch, append the rest
-                    self.executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
+                    self?.executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
                 case .Failure:
                     // we could not reset the default branch, so just give up
                     wrappedCompletion(routeResult)
                 }
             }
         } else {
-            self.executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
+            executeRouteSequence(source, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
         }
     }
 
@@ -284,12 +274,12 @@ public class Router : RouterType {
             let lastParentViewController = lastViewController.parentViewController {
 
             reversibleRouteSegmentPresenter.reversePresentation(lastViewController) {
-                presenterResult in
+                [weak self] presenterResult in
 
                 switch presenterResult {
                 case .Success(_):
                     completion(.Success(lastParentViewController))
-                    self.debug("popRoute reversible")
+                    self?.debug("popRoute reversible")
                 case .Failure(_):
                     completion(.Failure(RoutingErrors.CouldNotReversePresentation(lastSegmentIdentifier)))
                 }
@@ -298,13 +288,14 @@ public class Router : RouterType {
         } else if let lastViewController = lastRecordedSegment.viewController,
             let navigationController = lastViewController.navigationController {
             navigationController.popViewControllerAnimated(true, completion: {
+                [weak self] in
                 completion(.Success(navigationController))
-                self.debug("popRoute navigationController")
+                self?.debug("popRoute navigationController")
             })
 
         } else {
             let previousSequence: [Any] = updatedRecordedSegments.map { $0.segmentIdentifier }
-            self.executeRouteSequence(previousSequence, append: false, routeBranch: defaultRouteBranch, completion: completion)
+            executeRouteSequence(previousSequence, append: false, routeBranch: defaultRouteBranch, completion: completion)
         }
     }
 
@@ -327,10 +318,10 @@ public class Router : RouterType {
         let recordedSegment = newRecordedSegmentsToPop.removeFirst()
 
         popRouteInternal() {
-            routingResult in
+            [weak self] routingResult in
             switch routingResult {
             case .Success(_):
-                self.popRouteUsingRouteSegmentsToPop(newRecordedSegmentsToPop, sequenceCompletion: sequenceCompletion, popCompletion: popCompletion)
+                self?.popRouteUsingRouteSegmentsToPop(newRecordedSegmentsToPop, sequenceCompletion: sequenceCompletion, popCompletion: popCompletion)
             case .Failure(_):
                 // if popping this segment failed, do not attempt to pop the next one, just fail
                 sequenceCompletion(.Failure(RoutingErrors.CouldNotReversePresentation(recordedSegment.segmentIdentifier)))
@@ -358,9 +349,9 @@ public class Router : RouterType {
             routeSegmentFIFOPipe: routeSegmentFIFOPipe,
             routeBranchIdentifier: routeBranchIdentifier,
             sequenceCompletion: {
-                routingResult in
-                self.branchLastRecordedSegments[routeBranchIdentifier] = routeSegmentFIFOPipe.newRecordedSegments
-                self.debug("sequenceCompletion")
+                [weak self] routingResult in
+                self?.branchLastRecordedSegments[routeBranchIdentifier] = routeSegmentFIFOPipe.newRecordedSegments
+                self?.debug("sequenceCompletion")
                 completion(routingResult)
             }
         )
@@ -389,11 +380,11 @@ public class Router : RouterType {
         }
 
         let onSuccessfulPresentation: ((RouteSegmentType,UIViewController) -> Void) = {
-            (routeSegment, presentedViewController) in
+            [weak self] (routeSegment, presentedViewController) in
 
             routeSegmentFIFOPipe.pushNewSegmentIdentifier(routeSegment.segmentIdentifier, viewController: presentedViewController)
 
-            self.performNextRouteSequenceItem(
+            self?.performNextRouteSequenceItem(
                 routeSequenceTracker,
                 routeSegmentFIFOPipe: routeSegmentFIFOPipe,
                 routeBranchIdentifier: routeBranchIdentifier,
@@ -411,7 +402,8 @@ public class Router : RouterType {
                 popRecordedSegments(routeSegmentFIFOPipe.oldSegmentsToPop,
                                     sequenceCompletion: sequenceCompletion,
                                     popCompletion: {
-                                        self.finishRouteSequenceItem(routeSequenceItem, routeSegment: routeSegment, routeSegmentFIFOPipe: routeSegmentFIFOPipe, routeBranchIdentifier: routeBranchIdentifier, onSuccessfulPresentation: onSuccessfulPresentation, sequenceCompletion: sequenceCompletion)
+                                        [weak self] in
+                                        self?.finishRouteSequenceItem(routeSequenceItem, routeSegment: routeSegment, routeSegmentFIFOPipe: routeSegmentFIFOPipe, routeBranchIdentifier: routeBranchIdentifier, onSuccessfulPresentation: onSuccessfulPresentation, sequenceCompletion: sequenceCompletion)
                 })
             }
         } else {
@@ -439,13 +431,13 @@ public class Router : RouterType {
         sequenceCompletion(.Failure(RoutingErrors.InvalidConfiguration("Presenter(\(presenter.dynamicType)) not handled for segment(\(routeSegment.dynamicType))")))
     }
 
-    private func recordHistory(routeBranchIdentifier: Identifier) {
+    private func recordHistory(routeBranchIdentifier: Identifier, title: String?) {
         guard let lastRecordedSegments = branchLastRecordedSegments[routeBranchIdentifier] else {
             return
         }
         let routeSequence = RouteSequence(source: lastRecordedSegments.map { $0.segmentIdentifier })
         let history = historyForIdentifier(routeBranchIdentifier)
-        history.recordRouteSequence(routeSequence)
+        history.recordRouteHistoryItem(RouteHistoryItem(routeSequence: routeSequence, title: title))
     }
 
     /// return true if this step was handled, otherwise false so another method can be called

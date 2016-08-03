@@ -120,10 +120,6 @@ class DemoRouteCoordinator {
         return VisualRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier,
-            titleProducer: {
-                _ -> String in
-                return "Trunk_\(segmentIdentifier.name)"
-            },
             isSingleton: true,
             loadViewController:{ return {
                 let result = TabBarController(name: segmentIdentifier.name)
@@ -147,11 +143,7 @@ class DemoRouteCoordinator {
     private func buildBranchSegment(segmentIdentifier: Identifier) -> BranchRouteSegmentType {
         return BranchRouteSegment(
             segmentIdentifier: segmentIdentifier,
-            presenterIdentifier: BranchRouteSegmentPresenter.defaultPresenterIdentifier,
-            titleProducer: {
-                _ -> String in
-                return "Branch_\(segmentIdentifier.name)"
-            }
+            presenterIdentifier: BranchRouteSegmentPresenter.defaultPresenterIdentifier
         )
     }
 
@@ -214,10 +206,6 @@ class DemoRouteCoordinator {
         return VisualRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: presenterIdentifier,
-            titleProducer: {
-                _ -> String in
-                return "Visual_\(segmentIdentifier.name)"
-            },
             isSingleton: true,
             loadViewController: viewControllerLoaderFunction
         )
@@ -241,10 +229,6 @@ class DemoRouteCoordinator {
         return VisualRouteSegment(
             segmentIdentifier: wrapperSegmentIdentifier,
             presenterIdentifier: WrappingRouteSegmentPresenter.defaultPresenterIdentifier,
-            titleProducer: {
-                _ -> String in
-                return "Wrapper_\(self.wrapperSegmentIdentifier.name)"
-            },
             isSingleton: true,
             loadViewController:{ return {
                 let result = ViewController(name: self.wrapperSegmentIdentifier.name)
@@ -274,15 +258,15 @@ class DemoRouteCoordinator {
             self.debug(viewController)
             self.router.debug("debug")
             })
-        if let previousSegment = router.previousHistoryRouteSegment() {
-            let title = "back [\(previousSegment.title)]"
+        if let previousItem = router.previousRouteHistoryItem() {
+            let title = "back [\(previousItem.title ?? "")]"
             alert.addAction(UIAlertAction(title: title, style: .Default) {
                 _ in
                 self.router.goBack() { _ in }
                 })
         }
-        if let nextSegment = router.nextHistoryRouteSegment() {
-            let title = "next [\(nextSegment.title)]"
+        if let nextItem = router.nextRouteHistoryItem() {
+            let title = "next [\(nextItem.title ?? "")]"
             alert.addAction(UIAlertAction(title: title, style: .Default) {
                 _ in
                 self.router.goForward() { _ in }
