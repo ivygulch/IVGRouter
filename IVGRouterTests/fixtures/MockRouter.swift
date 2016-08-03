@@ -38,24 +38,24 @@ class MockRouter : TrackableTestClass, RouterType {
         track("appendRoute:appendRoute", [String(source), String(routeBranch)])
     }
 
-    func historyHasPrevious() -> Bool {
-        track("historyHasPrevious", [])
-        return false
+    func previousHistoryRouteSegment() -> RouteSegmentType? {
+        track("previousHistoryRouteSegment", [])
+        return nil
     }
 
-    func historyHasPrevious(routeBranch: RouteBranchType) -> Bool {
-        track("historyHasPrevious", [String(routeBranch)])
-        return false
+    func previousHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType? {
+        track("previousHistoryRouteSegment", [String(routeBranch)])
+        return nil
     }
 
-    func historyHasNext() -> Bool {
-        track("historyHasNext", [])
-        return false
+    func nextHistoryRouteSegment() -> RouteSegmentType? {
+        track("nextHistoryRouteSegment", [])
+        return nil
     }
 
-    func historyHasNext(routeBranch: RouteBranchType) -> Bool {
-        track("historyHasNext", [String(routeBranch)])
-        return false
+    func nextHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType? {
+        track("nextHistoryRouteSegment", [String(routeBranch)])
+        return nil
     }
 
     func goBack(completion:(RoutingResult -> Void)) {

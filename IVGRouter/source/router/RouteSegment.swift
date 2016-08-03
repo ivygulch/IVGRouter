@@ -13,6 +13,7 @@ public typealias ViewControllerLoaderFunction = (Void) -> ((Void) -> UIViewContr
 public protocol RouteSegmentType {
     var segmentIdentifier: Identifier { get }
     var presenterIdentifier: Identifier { get }
+    var name: String { get }
 }
 
 public protocol VisualRouteSegmentType: RouteSegmentType {
@@ -32,22 +33,23 @@ public protocol TrunkRouteController {
 
 public class RouteSegment : RouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, name: String) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
+        self.name = name
     }
 
     public let segmentIdentifier: Identifier
     public let presenterIdentifier: Identifier
-
+    public let name: String
 }
 
 public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: ViewControllerLoaderFunction) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, name: String, isSingleton: Bool, loadViewController: ViewControllerLoaderFunction) {
         self.isSingleton = isSingleton
         self.loadViewController = loadViewController
-        super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier)
+        super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier, name: name)
     }
 
     public func viewController() -> UIViewController? {

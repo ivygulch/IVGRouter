@@ -16,9 +16,11 @@ class MockBranchRouteSegment : TrackableTestClass, BranchRouteSegmentType {
     init(segmentIdentifier: Identifier, presenterIdentifier: Identifier) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
+        self.name = segmentIdentifier.name
     }
 
     let segmentIdentifier: Identifier
     let presenterIdentifier: Identifier
+    let name: String
 
 }

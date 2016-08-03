@@ -40,10 +40,10 @@ public protocol RouterType {
     func executeRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
     func popRoute(completion:(RoutingResult -> Void))
     func popRoute(routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
-    func historyHasPrevious() -> Bool
-    func historyHasPrevious(routeBranch: RouteBranchType) -> Bool
-    func historyHasNext() -> Bool
-    func historyHasNext(routeBranch: RouteBranchType) -> Bool
+    func previousHistoryRouteSegment() -> RouteSegmentType?
+    func previousHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType?
+    func nextHistoryRouteSegment() -> RouteSegmentType?
+    func nextHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType?
     func goBack(completion:(RoutingResult -> Void))
     func goBack(routeBranch: RouteBranchType, completion:(RoutingResult -> Void))
     func goForward(completion:(RoutingResult -> Void))
@@ -155,20 +155,30 @@ public class Router : RouterType {
         popRouteInternal(routeBranch, completion: wrappedCompletion)
     }
 
-    public func historyHasPrevious() -> Bool {
-        return historyHasPrevious(defaultRouteBranch)
+    public func previousHistoryRouteSegment() -> RouteSegmentType? {
+        return previousHistoryRouteSegment(defaultRouteBranch)
     }
 
-    public func historyHasPrevious(routeBranch: RouteBranchType) -> Bool {
-        return historyForIdentifiers[routeBranch.branchIdentifier]?.previousSequence != nil
+    public func previousHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType? {
+        guard let sequence = historyForIdentifiers[routeBranch.branchIdentifier]?.previousSequence,
+            let segmentIdentifier = sequence.items.last?.segmentIdentifier,
+            let segment = routeSegments[segmentIdentifier] else {
+                return nil
+        }
+        return segment
     }
 
-    public func historyHasNext() -> Bool {
-        return historyHasNext(defaultRouteBranch)
+    public func nextHistoryRouteSegment() -> RouteSegmentType? {
+        return nextHistoryRouteSegment(defaultRouteBranch)
     }
 
-    public func historyHasNext(routeBranch: RouteBranchType) -> Bool {
-        return historyForIdentifiers[routeBranch.branchIdentifier]?.nextSequence != nil
+    public func nextHistoryRouteSegment(routeBranch: RouteBranchType) -> RouteSegmentType? {
+        guard let sequence = historyForIdentifiers[routeBranch.branchIdentifier]?.nextSequence,
+            let segmentIdentifier = sequence.items.last?.segmentIdentifier,
+            let segment = routeSegments[segmentIdentifier] else {
+                return nil
+        }
+        return segment
     }
 
     public func goBack(completion:(RoutingResult -> Void)) {

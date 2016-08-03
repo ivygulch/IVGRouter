@@ -120,6 +120,7 @@ class DemoRouteCoordinator {
         return VisualRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier,
+            name: "Trunk_\(segmentIdentifier.name)",
             isSingleton: true,
             loadViewController:{ return {
                 let result = TabBarController(name: segmentIdentifier.name)
@@ -143,7 +144,8 @@ class DemoRouteCoordinator {
     private func buildBranchSegment(segmentIdentifier: Identifier) -> BranchRouteSegmentType {
         return BranchRouteSegment(
             segmentIdentifier: segmentIdentifier,
-            presenterIdentifier: BranchRouteSegmentPresenter.defaultPresenterIdentifier
+            presenterIdentifier: BranchRouteSegmentPresenter.defaultPresenterIdentifier,
+            name: "Branch_\(segmentIdentifier.name)"
         )
     }
 
@@ -206,6 +208,7 @@ class DemoRouteCoordinator {
         return VisualRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: presenterIdentifier,
+            name: "Visual_\(segmentIdentifier.name)",
             isSingleton: true,
             loadViewController: viewControllerLoaderFunction
         )
@@ -229,6 +232,7 @@ class DemoRouteCoordinator {
         return VisualRouteSegment(
             segmentIdentifier: wrapperSegmentIdentifier,
             presenterIdentifier: WrappingRouteSegmentPresenter.defaultPresenterIdentifier,
+            name: "Wrapper_\(wrapperSegmentIdentifier.name)",
             isSingleton: true,
             loadViewController:{ return {
                 let result = ViewController(name: self.wrapperSegmentIdentifier.name)
@@ -258,14 +262,16 @@ class DemoRouteCoordinator {
             self.debug(viewController)
             self.router.debug("debug")
             })
-        if router.historyHasPrevious() {
-            alert.addAction(UIAlertAction(title: "back", style: .Default) {
+        if let previousSegment = router.previousHistoryRouteSegment() {
+            let title = "back [\(previousSegment.name)]"
+            alert.addAction(UIAlertAction(title: title, style: .Default) {
                 _ in
                 self.router.goBack() { _ in }
                 })
         }
-        if router.historyHasNext() {
-            alert.addAction(UIAlertAction(title: "forward", style: .Default) {
+        if let nextSegment = router.nextHistoryRouteSegment() {
+            let title = "next [\(nextSegment.name)]"
+            alert.addAction(UIAlertAction(title: title, style: .Default) {
                 _ in
                 self.router.goForward() { _ in }
                 })
