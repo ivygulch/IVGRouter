@@ -31,11 +31,15 @@ public class SetRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSe
                 childViewController.removeFromParentViewController()
             }
 
-            presentedViewController.view.frame = parentViewController.view.bounds
-            presentedViewController.view.autoresizingMask = [.FlexibleWidth,.FlexibleHeight]
-            parentViewController.view.addSubview(presentedViewController.view)
-            parentViewController.addChildViewController(presentedViewController)
-            presentedViewController.didMoveToParentViewController(parentViewController)
+            if let navigationController = parentViewController as? UINavigationController {
+                navigationController.viewControllers = [presentedViewController]
+            } else {
+                presentedViewController.view.frame = parentViewController.view.bounds
+                presentedViewController.view.autoresizingMask = [.FlexibleWidth,.FlexibleHeight]
+                parentViewController.addChildViewController(presentedViewController)
+                parentViewController.view.addSubview(presentedViewController.view)
+                presentedViewController.didMoveToParentViewController(parentViewController)
+            }
             completion(.Success(presentedViewController))
         }
 
