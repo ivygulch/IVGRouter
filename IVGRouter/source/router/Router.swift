@@ -340,16 +340,23 @@ public class Router : RouterType {
             let lastViewController = lastRecordedSegment.viewController,
             let lastParentViewController = lastViewController.parentViewController {
 
-            reversibleRouteSegmentPresenter.reversePresentation(lastViewController) {
-                [weak self] presenterResult in
+            let presentationBlock = {
+                reversibleRouteSegmentPresenter.reversePresentation(lastViewController) {
+                    [weak self] presenterResult in
 
-                switch presenterResult {
-                case .Success(_):
-                    completion(.Success(lastParentViewController))
-                    self?.debug("popRoute reversible")
-                case .Failure(_):
-                    completion(.Failure(RoutingErrors.CouldNotReversePresentation(lastSegmentIdentifier)))
+                    switch presenterResult {
+                    case .Success(_):
+                        completion(.Success(lastParentViewController))
+                        self?.debug("popRoute reversible")
+                    case .Failure(_):
+                        completion(.Failure(RoutingErrors.CouldNotReversePresentation(lastSegmentIdentifier)))
+                    }
                 }
+            }
+            if NSThread.isMainThread() {
+                presentationBlock()
+            } else {
+                dispatch_async(dispatch_get_main_queue(), presentationBlock)
             }
 
         } else if let lastViewController = lastRecordedSegment.viewController,
@@ -522,17 +529,25 @@ public class Router : RouterType {
         }
 
         let presentingViewController = parent?.actingPresentingController
-        visualPresenter.presentViewController(viewController, from: presentingViewController, options: routeSequenceOptions, window: window, completion: {
-            presenterResult in
+        let presentationBlock = {
+            visualPresenter.presentViewController(viewController, from: presentingViewController, options: routeSequenceOptions, window: self.window, completion: {
+                presenterResult in
 
-            switch presenterResult {
-            case .Success(_):
-                presentationCompletion(visualRouteSegment, viewController)
-            case .Failure(let error):
-                sequenceCompletion(.Failure(error))
-            }
+                switch presenterResult {
+                case .Success(_):
+                    presentationCompletion(visualRouteSegment, viewController)
+                case .Failure(let error):
+                    sequenceCompletion(.Failure(error))
+                }
+                
+            })
+        }
+        if NSThread.isMainThread() {
+            presentationBlock()
+        } else {
+            dispatch_async(dispatch_get_main_queue(), presentationBlock)
+        }
 
-        })
         return true // we handled it by presenting the view controller
     }
 
