@@ -347,7 +347,7 @@ public class Router : RouterType {
                     switch presenterResult {
                     case .Success(_):
                         completion(.Success(lastParentViewController))
-                        self?.debug("popRoute reversible")
+//                        self?.debug("popRoute reversible")
                     case .Failure(_):
                         completion(.Failure(RoutingErrors.CouldNotReversePresentation(lastSegmentIdentifier)))
                     }
@@ -364,7 +364,7 @@ public class Router : RouterType {
             navigationController.popViewControllerAnimated(true, completion: {
                 [weak self] in
                 completion(.Success(navigationController))
-                self?.debug("popRoute navigationController")
+//                self?.debug("popRoute navigationController")
             })
 
         } else {
@@ -425,7 +425,7 @@ public class Router : RouterType {
             sequenceCompletion: {
                 [weak self] routingResult in
                 self?.branchLastRecordedSegments[routeBranchIdentifier] = routeSegmentFIFOPipe.newRecordedSegments
-                self?.debug("sequenceCompletion")
+//                self?.debug("sequenceCompletion")
                 completion(routingResult)
             }
         )
