@@ -511,7 +511,8 @@ public class Router : RouterType {
         }
         let routeSequence = RouteSequence(source: lastRecordedSegments.map { $0.segmentIdentifier })
         let history = historyForIdentifier(routeBranchIdentifier)
-        history.recordRouteHistoryItem(RouteHistoryItem(routeSequence: routeSequence, title: title))
+        print("DBG: recordHistory \(routeSequence)")
+        history.recordRouteHistoryItem(RouteHistoryItem(routeSequence: routeSequence, title: title), ignoreDuplicates: true)
     }
 
     /// return true if this step was handled, otherwise false so another method can be called

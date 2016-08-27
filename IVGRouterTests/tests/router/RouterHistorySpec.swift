@@ -43,7 +43,7 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward one step") {
 
                 beforeEach {
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA, ignoreDuplicates: false)
                 }
 
                 it("should return nil for previousRouteHistoryItem") {
@@ -59,8 +59,8 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward two steps") {
 
                 beforeEach {
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB, ignoreDuplicates: false)
                 }
 
                 it("should return A for previousRouteHistoryItem") {
@@ -76,8 +76,8 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward two steps, then back one") {
 
                 beforeEach {
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB, ignoreDuplicates: false)
                     routerHistory.moveBackward()
                 }
 
@@ -94,9 +94,9 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward three steps, then back one") {
 
                 beforeEach {
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC, ignoreDuplicates: false)
                     routerHistory.moveBackward()
                 }
 
@@ -113,13 +113,13 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward four steps, then back two, then forward with same as before") {
 
                 beforeEach {
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemD)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemD, ignoreDuplicates: false)
                     routerHistory.moveBackward()
                     routerHistory.moveBackward()
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC, ignoreDuplicates: false)
                 }
 
                 it("should return B for previousRouteHistoryItem") {
@@ -135,13 +135,13 @@ class RouterHistorySpec: QuickSpec {
             context("after moving forward four steps, then back two, then forward with different from before") {
 
                 beforeEach {
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC)
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemD)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemA, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemB, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemC, ignoreDuplicates: false)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemD, ignoreDuplicates: false)
                     routerHistory.moveBackward()
                     routerHistory.moveBackward()
-                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemE)
+                    routerHistory.recordRouteHistoryItem(mockRouteHistoryItemE, ignoreDuplicates: false)
                 }
 
                 it("should return B for previousRouteHistoryItem") {

@@ -19,7 +19,7 @@ public protocol RouterHistoryType {
 
     func moveBackward()
     func moveForward()
-    func recordRouteHistoryItem(routeHistoryItem: RouteHistoryItemType)
+    func recordRouteHistoryItem(routeHistoryItem: RouteHistoryItemType, ignoreDuplicates: Bool)
 
     func debug(msg: String)
 }
@@ -71,7 +71,10 @@ public class RouterHistory: RouterHistoryType {
         print("DBG: \(msg)=\(debugStr())")
     }
 
-    public func recordRouteHistoryItem(routeHistoryItem: RouteHistoryItemType) {
+    public func recordRouteHistoryItem(routeHistoryItem: RouteHistoryItemType, ignoreDuplicates: Bool) {
+        if let lastHistory = history.last where ignoreDuplicates && lastHistory.routeSequence == routeHistoryItem.routeSequence {
+            return
+        }
         let nextIndex = currentIndex + 1
         if nextIndex < history.count {
             if routeHistoryItem.routeSequence != history[nextIndex].routeSequence {
