@@ -38,6 +38,14 @@ class MockRouter : TrackableTestClass, RouterType {
         track("appendRoute:appendRoute", [String(source), String(routeBranch)])
     }
 
+    func clearHistory() {
+        track("clearHistory", [])
+    }
+
+    func clearHistory(routeBranch: RouteBranchType) {
+        track("clearHistory", [String(routeBranch)])
+    }
+
     func previousRouteHistoryItem() -> RouteHistoryItemType? {
         track("previousRouteHistoryItem", [])
         return nil
@@ -96,6 +104,14 @@ class MockRouter : TrackableTestClass, RouterType {
 
     func registerDefaultPresenters() {
         track("registerDefaultPresenters", [])
+    }
+
+    func configurePreviousButton(button: UIButton, titleProducer:(String? -> String)?, completion:(Void -> Void)?) {
+        track("configurePreviousButton", [])
+    }
+
+    func configureNextButton(button: UIButton, titleProducer:(String? -> String)?, completion:(Void -> Void)?) {
+        track("configureNextButton", [])
     }
 
     func viewControllersForRouteBranchIdentifier(branchIdentifier: Identifier) -> [UIViewController] {

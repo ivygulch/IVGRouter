@@ -342,7 +342,8 @@ public class Router : RouterType {
 
             let presentationBlock = {
                 reversibleRouteSegmentPresenter.reversePresentation(lastViewController) {
-                    [weak self] presenterResult in
+                    presenterResult in
+//                    [weak self] presenterResult in
 
                     switch presenterResult {
                     case .Success(_):
@@ -362,7 +363,7 @@ public class Router : RouterType {
         } else if let lastViewController = lastRecordedSegment.viewController,
             let navigationController = lastViewController.navigationController {
             navigationController.popViewControllerAnimated(true, completion: {
-                [weak self] in
+//                [weak self] in
                 completion(.Success(navigationController))
 //                self?.debug("popRoute navigationController")
             })
