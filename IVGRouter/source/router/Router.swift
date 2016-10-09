@@ -512,7 +512,7 @@ public class Router : RouterType {
         }
         let routeSequence = RouteSequence(source: lastRecordedSegments.map { $0.segmentIdentifier })
         let history = historyForIdentifier(routeBranchIdentifier)
-        print("DBG: recordHistory \(routeSequence)")
+//        print("DBG: recordHistory \(routeSequence)")
         history.recordRouteHistoryItem(RouteHistoryItem(routeSequence: routeSequence, title: title), ignoreDuplicates: true)
     }
 
