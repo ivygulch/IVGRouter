@@ -141,7 +141,15 @@ public class Router : RouterType {
     }
 
     public func appendRoute(source: [Any], routeBranch: RouteBranchType, completion:(RoutingResult -> Void)) {
-        executeRouteSequence(source, append: true, routeBranch: routeBranch, completion: completion)
+        let routeBranchIdentifier = routeBranch.branchIdentifier
+        let wrappedCompletion: (RoutingResult -> Void) = {
+            [weak self] routingResult in
+            if case .Success(let viewController) = routingResult {
+                self?.recordHistory(routeBranchIdentifier, title: viewController.title)
+            }
+            completion(routingResult)
+        }
+        executeRouteSequence(source, append: true, routeBranch: routeBranch, completion: wrappedCompletion)
     }
 
     public func popRoute(completion:(RoutingResult -> Void)) {

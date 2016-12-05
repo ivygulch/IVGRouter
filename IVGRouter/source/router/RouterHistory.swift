@@ -71,6 +71,19 @@ public class RouterHistory: RouterHistoryType {
         print("DBG: \(msg)=\(debugStr())")
     }
 
+    public func debugFull(msg: String) {
+        print("DBG: \(msg), count=\(history.count), currentIndex=\(currentIndex)")
+        for (checkIndex,routeHistoryItem) in history.enumerate() {
+            let flag = (checkIndex == currentIndex) ? "**" : "  "
+            let itemStr = routeHistoryItem.routeSequence.items
+                .map { item in item.segmentIdentifier.name }
+                .joinWithSeparator(",")
+            let title = (routeHistoryItem.title ?? "<null>")
+            print("DBG:   \(flag) \"\(title)\", \(itemStr)")
+        }
+    }
+
+
     public func recordRouteHistoryItem(routeHistoryItem: RouteHistoryItemType, ignoreDuplicates: Bool) {
         if let lastHistory = history.last where ignoreDuplicates && lastHistory.routeSequence == routeHistoryItem.routeSequence {
             return
