@@ -249,6 +249,9 @@ public class Router : RouterType {
                 self?.recordHistory(routeBranchIdentifier, title: viewController.title)
             }
             completion(routingResult)
+            if let history = self?.historyForIdentifier(routeBranchIdentifier) as? RouterHistory {
+                history.debugFull("after execute")
+            }
         }
         if routeBranchIdentifier != defaultRouteBranch.branchIdentifier {
             // make sure the defaultBranch is set to the proper place for this branch
