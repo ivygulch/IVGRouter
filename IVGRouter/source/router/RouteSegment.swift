@@ -26,8 +26,8 @@ public protocol BranchRouteSegmentType: RouteSegmentType {
 // UITabBarController would have extension that added tabs, selected, etc
 // UISplitViewController would have extension that set master or detail, selected, etc.
 public protocol TrunkRouteController {
-    func configureBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void))
-    func selectBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void))
+    func configureBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void))
+    func selectBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void))
 }
 
 public class RouteSegment : RouteSegmentType {
@@ -43,7 +43,7 @@ public class RouteSegment : RouteSegmentType {
 
 public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: ViewControllerLoaderFunction) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: @escaping ViewControllerLoaderFunction) {
         self.isSingleton = isSingleton
         self.loadViewController = loadViewController
         super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier)
@@ -53,7 +53,7 @@ public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
         return self.getViewController()
     }
 
-    private func getViewController() -> UIViewController? {
+    fileprivate func getViewController() -> UIViewController? {
         if isSingleton {
             if cachedViewController == nil {
                 cachedViewController = loadViewController()()
@@ -64,13 +64,13 @@ public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
         }
     }
 
-    private func callLoadViewController() -> UIViewController? {
+    fileprivate func callLoadViewController() -> UIViewController? {
         return loadViewController()()
     }
 
-    private let isSingleton: Bool
-    private let loadViewController: ViewControllerLoaderFunction
-    private var cachedViewController: UIViewController?
+    fileprivate let isSingleton: Bool
+    fileprivate let loadViewController: ViewControllerLoaderFunction
+    fileprivate var cachedViewController: UIViewController?
     
 }
 
@@ -79,11 +79,11 @@ public class BranchRouteSegment : RouteSegment, BranchRouteSegmentType {
 
 extension UITabBarController: TrunkRouteController {
 
-    private struct AssociatedKey {
+    fileprivate struct AssociatedKey {
         static var branchDictionary = "branchDictionary"
     }
 
-    private var branches: NSMutableDictionary {
+    fileprivate var branches: NSMutableDictionary {
         get {
             if let result = objc_getAssociatedObject(self, &AssociatedKey.branchDictionary) as? NSMutableDictionary {
                 return result
@@ -94,18 +94,18 @@ extension UITabBarController: TrunkRouteController {
         }
     }
 
-    private func appendBranchIfNeeded(branchIdentifier: Identifier, selectViewController: Bool, completion: (RoutingResult -> Void)) {
+    fileprivate func appendBranchIfNeeded(_ branchIdentifier: Identifier, selectViewController: Bool, completion: ((RoutingResult) -> Void)) {
         var localViewControllers: [UIViewController] = viewControllers ?? []
 
-        if let index = branches[branchIdentifier.name] as? Int where index < localViewControllers.count {
+        if let index = branches[branchIdentifier.name] as? Int, index < localViewControllers.count {
             guard let result = localViewControllers[index] as? PlaceholderViewController else {
-                completion(.Failure(RoutingErrors.InvalidRouteSegment(branchIdentifier, "TrunkRouteControllers must use PlaceholderViewController as direct children")))
+                completion(.failure(RoutingErrors.invalidRouteSegment(branchIdentifier, "TrunkRouteControllers must use PlaceholderViewController as direct children")))
                 return
             }
             if selectViewController {
                 selectedViewController = result
             }
-            completion(.Success(result))
+            completion(.success(result))
         }
 
         let result = PlaceholderViewController()
@@ -115,18 +115,18 @@ extension UITabBarController: TrunkRouteController {
         if selectViewController {
             selectedViewController = result
         }
-        completion(.Success(result))
+        completion(.success(result))
     }
 
     public var asViewController: UIViewController {
         return self
     }
 
-    public func configureBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
+    public func configureBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void)) {
         return appendBranchIfNeeded(branchIdentifier, selectViewController: false, completion: completion)
     }
 
-    public func selectBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
+    public func selectBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void)) {
         appendBranchIfNeeded(branchIdentifier, selectViewController: true, completion: completion)
     }
     
@@ -134,11 +134,11 @@ extension UITabBarController: TrunkRouteController {
 
 extension UISplitViewController: TrunkRouteController {
 
-    private struct AssociatedKey {
+    fileprivate struct AssociatedKey {
         static var branchDictionary = "branchDictionary"
     }
 
-    private var branches: NSMutableDictionary {
+    fileprivate var branches: NSMutableDictionary {
         get {
             if let result = objc_getAssociatedObject(self, &AssociatedKey.branchDictionary) as? NSMutableDictionary {
                 return result
@@ -150,33 +150,33 @@ extension UISplitViewController: TrunkRouteController {
     }
 
 
-    private func appendBranchIfNeeded(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
+    fileprivate func appendBranchIfNeeded(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void)) {
         var localViewControllers: [UIViewController] = viewControllers ?? []
 
-        if let index = branches[branchIdentifier.name] as? Int where index < localViewControllers.count {
+        if let index = branches[branchIdentifier.name] as? Int, index < localViewControllers.count {
             guard let result = localViewControllers[index] as? PlaceholderViewController else {
-                completion(.Failure(RoutingErrors.InvalidRouteSegment(branchIdentifier, "TrunkRouteControllers must use PlaceholderViewController as direct children")))
+                completion(.failure(RoutingErrors.invalidRouteSegment(branchIdentifier, "TrunkRouteControllers must use PlaceholderViewController as direct children")))
                 return
             }
-            completion(.Success(result))
+            completion(.success(result))
         }
 
         let result = PlaceholderViewController()
         localViewControllers.append(result)
         viewControllers = localViewControllers
         branches[branchIdentifier.name] = localViewControllers.count - 1
-        completion(.Success(result))
+        completion(.success(result))
     }
 
     public var asViewController: UIViewController {
         return self
     }
 
-    public func configureBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
+    public func configureBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void)) {
         return appendBranchIfNeeded(branchIdentifier, completion: completion)
     }
 
-    public func selectBranch(branchIdentifier: Identifier, completion: (RoutingResult -> Void)) {
+    public func selectBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void)) {
         appendBranchIfNeeded(branchIdentifier, completion: completion)
     }
     

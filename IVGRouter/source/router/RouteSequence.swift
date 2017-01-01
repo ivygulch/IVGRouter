@@ -16,7 +16,7 @@ public class RouteSequence : Equatable, CustomStringConvertible {
         self.items = source.map { RouteSequenceItem.transform($0) }.flatMap { $0 }
     }
 
-    public func validatedRouteSegmentsWithRouter(router: RouterType) -> [RouteSegmentType]? {
+    public func validatedRouteSegmentsWithRouter(_ router: RouterType) -> [RouteSegmentType]? {
         let routeSegments: [RouteSegmentType?] = items.map { router.routeSegments[$0.segmentIdentifier] }
         let checkRouteSegments = routeSegments.flatMap { $0 }
         if routeSegments.count != checkRouteSegments.count {
@@ -26,7 +26,7 @@ public class RouteSequence : Equatable, CustomStringConvertible {
     }
 
     public var description: String {
-        return String(items)
+        return String(describing: items)
     }
 
 }

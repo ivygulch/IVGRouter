@@ -10,9 +10,9 @@ import UIKit
 
 public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
 
-    public static let defaultPresenterIdentifier = Identifier(name: String(RootRouteSegmentPresenter))
+    public static let defaultPresenterIdentifier = Identifier(name: String(describing: RootRouteSegmentPresenter.self))
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (RoutingResult -> Void)) {
+    public func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
         guard verify(checkNotNil(window, "Router.window"), completion: completion),
             let window = window else {
             return
@@ -22,7 +22,7 @@ public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
         }
         window.rootViewController = presentedViewController
         window.makeKeyAndVisible()
-        completion(.Success(presentedViewController))
+        completion(.success(presentedViewController))
     }
     
 }

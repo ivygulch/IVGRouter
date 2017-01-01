@@ -15,7 +15,7 @@ public class BaseRouteSegmentPresenter {
         guard let subtype = self as? RouteSegmentPresenterType else {
             fatalError("\(self) should implement RouteSegmentPresenterType")
         }
-        self.presenterIdentifier = subtype.dynamicType.defaultPresenterIdentifier
+        self.presenterIdentifier = type(of: subtype).defaultPresenterIdentifier
     }
     
     public init(presenterIdentifier: Identifier) {
@@ -23,33 +23,33 @@ public class BaseRouteSegmentPresenter {
     }
 
     // need this form & initialization to match the RouteSegmentPresenterType requirement
-    public private(set) var presenterIdentifier = Identifier(name: "")
+    public fileprivate(set) var presenterIdentifier = Identifier(name: "")
 
-    public func checkNil(item : Any?, _ source: String) -> String? {
+    public func checkNil(_ item : Any?, _ source: String) -> String? {
         if item == nil {
             return nil
         }
         return "\(source) must be nil"
     }
 
-    public func checkNotNil(item : Any?, _ source: String) -> String? {
+    public func checkNotNil(_ item : Any?, _ source: String) -> String? {
         if item != nil {
             return nil
         }
         return "\(source) must not be nil"
     }
 
-    public func checkType<T>(item : Any?, type: T.Type, _ source: String) -> String? {
+    public func checkType<T>(_ item : Any?, type: T.Type, _ source: String) -> String? {
         if let _ = item as? T {
             return nil
         }
-        let foundDescription = (item == nil) ? "nil" : String(item!)
+        let foundDescription = (item == nil) ? "nil" : String(describing: item!)
         return "\(source) must be of type \(type) but found \(foundDescription)"
     }
 
-    public func verify(verificationMessage: String?, completion: (RoutingResult -> Void)) -> Bool {
+    public func verify(_ verificationMessage: String?, completion: ((RoutingResult) -> Void)) -> Bool {
         if let verificationMessage = verificationMessage {
-            completion(.Failure(RoutingErrors.CannotPresent(self.presenterIdentifier, verificationMessage)))
+            completion(.failure(RoutingErrors.cannotPresent(self.presenterIdentifier, verificationMessage)))
             return false
         }
         return true

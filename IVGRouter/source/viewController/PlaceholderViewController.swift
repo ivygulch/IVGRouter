@@ -15,7 +15,7 @@ public class PlaceholderViewController: UIViewController {
         self.childViewController = childViewController
     }
 
-    public init(lazyLoader:(Void -> UIViewController)) {
+    public init(lazyLoader:@escaping ((Void) -> UIViewController)) {
         self.lazyLoader = lazyLoader
         super.init(nibName: nil, bundle: nil)
     }
@@ -33,16 +33,16 @@ public class PlaceholderViewController: UIViewController {
                 return // nothing to do
             }
             for viewController in self.childViewControllers {
-                viewController.willMoveToParentViewController(nil)
+                viewController.willMove(toParentViewController: nil)
                 viewController.view.removeFromSuperview()
                 viewController.removeFromParentViewController()
             }
             if let newValue = newValue {
                 addChildViewController(newValue)
-                newValue.view.autoresizingMask = [.FlexibleWidth,.FlexibleHeight]
+                newValue.view.autoresizingMask = [.flexibleWidth,.flexibleHeight]
                 newValue.view.frame = self.view.bounds
                 self.view.addSubview(newValue.view)
-                newValue.didMoveToParentViewController(self)
+                newValue.didMove(toParentViewController: self)
             }
         }
     }
@@ -75,6 +75,6 @@ public class PlaceholderViewController: UIViewController {
         }
     }
 
-    private var lazyLoader: (Void -> UIViewController)?
+    fileprivate var lazyLoader: ((Void) -> UIViewController)?
     
 }

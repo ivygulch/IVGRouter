@@ -11,12 +11,12 @@ import Foundation
 public protocol RouteBranchType {
     var branchIdentifier: Identifier { get }
     var routeSequence: RouteSequence { get }
-    func validateRouteSequenceWithRouter(router: RouterType) -> Bool
+    func validateRouteSequenceWithRouter(_ router: RouterType) -> Bool
 }
 
 public class RouteBranch: RouteBranchType {
 
-    public func validateRouteSequenceWithRouter(router: RouterType) -> Bool {
+    public func validateRouteSequenceWithRouter(_ router: RouterType) -> Bool {
         guard let routeSegments = routeSequence.validatedRouteSegmentsWithRouter(router) else {
             return false // not a valid sequence
         }

@@ -12,16 +12,16 @@ public struct BranchRouteSegmentPresenterOptions {
     public static let AppendOnlyKey = "appendOnly"
     public static let AppendOnlyDefault = false
 
-    static func appendOnlyFromOptions(options: RouteSequenceOptions) -> Bool {
+    static func appendOnlyFromOptions(_ options: RouteSequenceOptions) -> Bool {
         return options[BranchRouteSegmentPresenterOptions.AppendOnlyKey] as? Bool ?? BranchRouteSegmentPresenterOptions.AppendOnlyDefault
     }
 }
 
 public class BranchRouteSegmentPresenter : BaseRouteSegmentPresenter, BranchRouteSegmentPresenterType {
 
-    public static let defaultPresenterIdentifier = Identifier(name: String(BranchRouteSegmentPresenter))
+    public static let defaultPresenterIdentifier = Identifier(name: String(describing: BranchRouteSegmentPresenter.self))
 
-    public func selectBranch(branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: (RoutingResult -> Void)) {
+    public func selectBranch(_ branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
         if BranchRouteSegmentPresenterOptions.appendOnlyFromOptions(options) {
             trunkRouteController.configureBranch(branchRouteSegmentIdentifier, completion: completion)
         } else {

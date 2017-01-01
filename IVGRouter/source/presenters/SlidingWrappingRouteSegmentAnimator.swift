@@ -10,15 +10,15 @@ import UIKit
 
 public struct SlidingWrappingRouteSegmentAnimatorSettings {
     static let DefaultSlideFactor: CGFloat = 0.8
-    static let DefaultAnimationDuration: NSTimeInterval = 0.3
+    static let DefaultAnimationDuration: TimeInterval = 0.3
 }
 
 public class SlidingWrappingRouteSegmentAnimator : WrappingRouteSegmentAnimator {
 
-    public let animationDuration: NSTimeInterval
+    public let animationDuration: TimeInterval
     public let slideFactor: CGFloat
 
-    public init(animationDuration: NSTimeInterval = SlidingWrappingRouteSegmentAnimatorSettings.DefaultAnimationDuration, slideFactor: CGFloat = SlidingWrappingRouteSegmentAnimatorSettings.DefaultSlideFactor) {
+    public init(animationDuration: TimeInterval = SlidingWrappingRouteSegmentAnimatorSettings.DefaultAnimationDuration, slideFactor: CGFloat = SlidingWrappingRouteSegmentAnimatorSettings.DefaultSlideFactor) {
         self.animationDuration = animationDuration
         self.slideFactor = slideFactor
     }
@@ -28,13 +28,13 @@ public class SlidingWrappingRouteSegmentAnimator : WrappingRouteSegmentAnimator 
         var frame = child.view.frame
         let slideFactor = self?.slideFactor ?? SlidingWrappingRouteSegmentAnimatorSettings.DefaultSlideFactor
         frame.origin.x = frame.size.width * slideFactor
-        return ["frame":NSValue(CGRect:frame)]
+        return ["frame":NSValue(cgRect:frame)]
     }
 
     public lazy var animateViewWrapping: ((UIViewController,UIViewController,ViewAnimationInfoType) -> ViewAnimationInfoType) = {
         (child,wrapper,viewAnimationInfo) in
         if let frame = viewAnimationInfo["frame"] as? NSValue {
-            child.view.frame = frame.CGRectValue()
+            child.view.frame = frame.cgRectValue
         }
         return viewAnimationInfo
     }
@@ -48,13 +48,13 @@ public class SlidingWrappingRouteSegmentAnimator : WrappingRouteSegmentAnimator 
         [weak self] (child,wrapper) -> ViewAnimationInfoType in
         var frame = child.view.frame
         frame.origin.x = 0
-        return ["frame":NSValue(CGRect:frame)]
+        return ["frame":NSValue(cgRect:frame)]
     }
 
     public lazy var animateViewUnwrapping: ((UIViewController,UIViewController,ViewAnimationInfoType) -> ViewAnimationInfoType) = {
         (child,wrapper,viewAnimationInfo) in
         if let frame = viewAnimationInfo["frame"] as? NSValue {
-            child.view.frame = frame.CGRectValue()
+            child.view.frame = frame.cgRectValue
         }
         return viewAnimationInfo
     }

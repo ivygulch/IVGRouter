@@ -12,67 +12,67 @@ public struct PushRouteSegmentPresenterOptions {
     public static let AnimatedKey = "animated"
     public static let AnimatedDefault = true
 
-    static func animatedFromOptions(options: RouteSequenceOptions) -> Bool {
+    static func animatedFromOptions(_ options: RouteSequenceOptions) -> Bool {
         return options[PushRouteSegmentPresenterOptions.AnimatedKey] as? Bool ?? PushRouteSegmentPresenterOptions.AnimatedDefault
     }
 }
 
 public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
-    public static let defaultPresenterIdentifier = Identifier(name: String(PushRouteSegmentPresenter))
+    public static let defaultPresenterIdentifier = Identifier(name: String(describing: PushRouteSegmentPresenter.self))
 
-    private func stackConfigurationError(stack:[UIViewController], additional:UIViewController? = nil) -> RoutingErrors? {
+    fileprivate func stackConfigurationError(_ stack:[UIViewController], additional:UIViewController? = nil) -> RoutingErrors? {
         var existingSet = Set<UIViewController>()
         for viewController in stack {
             if existingSet.contains(viewController) {
-                return RoutingErrors.InvalidConfiguration("View controllers may only appear once in view controller stack: \(viewController)")
+                return RoutingErrors.invalidConfiguration("View controllers may only appear once in view controller stack: \(viewController)")
             }
             existingSet.insert(viewController)
         }
         if let additional = additional {
             if existingSet.contains(additional) {
-                return RoutingErrors.InvalidConfiguration("View controllers may only appear once in view controller stack: \(additional)")
+                return RoutingErrors.invalidConfiguration("View controllers may only appear once in view controller stack: \(additional)")
             }
         }
         return nil
     }
 
-    private func setViewControllerAsRoot(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: (RoutingResult -> Void)) {
+    fileprivate func setViewControllerAsRoot(_ presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
         let stack = [presentedViewController]
         if let stackConfigurationError = stackConfigurationError(stack) {
-            completion(.Failure(stackConfigurationError))
+            completion(.failure(stackConfigurationError))
             return
         }
         let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
         navigationController.setViewControllers(stack, animated: animated, completion: {
-            completion(.Success(presentedViewController))
+            completion(.success(presentedViewController))
         })
     }
 
-    private func pushViewController(presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: (RoutingResult -> Void)) {
+    fileprivate func pushViewController(_ presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
         if let stackConfigurationError = stackConfigurationError(navigationController.viewControllers, additional:presentedViewController) {
-            completion(.Failure(stackConfigurationError))
+            completion(.failure(stackConfigurationError))
             return
         }
         let animated = PushRouteSegmentPresenterOptions.animatedFromOptions(options)
         navigationController.pushViewController(presentedViewController, animated: animated, completion: {
-            completion(.Success(presentedViewController))
+            completion(.success(presentedViewController))
         })
     }
 
-    private func popViewController(navigationController: UINavigationController, completion: (RoutingResult -> Void)) {
+    fileprivate func popViewController(_ navigationController: UINavigationController, completion: @escaping ((RoutingResult) -> Void)) {
         guard navigationController.viewControllers.count > 1 else {
-            completion(.Failure(RoutingErrors.CouldNotReversePresentation(self.presenterIdentifier)))
+            completion(.failure(RoutingErrors.couldNotReversePresentation(self.presenterIdentifier)))
             return
         }
 
         let animated = true
         navigationController.popViewControllerAnimated(animated, completion: {
-            completion(.Success(navigationController.topViewController!))
+            completion(.success(navigationController.topViewController!))
         })
     }
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (RoutingResult -> Void)) {
+    public func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
         if let asNavigationController = presentingViewController as? UINavigationController {
             setViewControllerAsRoot(presentedViewController, navigationController: asNavigationController, options: options, completion: completion)
             return
@@ -85,7 +85,7 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
     }
 
     // TODO: consider passing options here, would need to figure out what they were  
-    public func reversePresentation(viewControllerToRemove : UIViewController, completion: (RoutingResult -> Void)) {
+    public func reversePresentation(_ viewControllerToRemove : UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
         if verify(checkNotNil(viewControllerToRemove.navigationController, "viewControllerToRemove.navigationController"), completion: completion) {
             let navigationController = viewControllerToRemove.navigationController!
 
@@ -98,9 +98,9 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
 
 extension UINavigationController {
 
-    private func addCompletion(completion:(Void -> Void)) -> Bool {
-        if let transitionCoordinator = transitionCoordinator() {
-            return transitionCoordinator.animateAlongsideTransition(nil,
+    fileprivate func addCompletion(_ completion:@escaping ((Void) -> Void)) -> Bool {
+        if let transitionCoordinator = transitionCoordinator {
+            return transitionCoordinator.animate(alongsideTransition: nil,
                 completion: {
                     _ in
                     completion()
@@ -110,21 +110,21 @@ extension UINavigationController {
         return false
     }
 
-    func popViewControllerAnimated(animated: Bool, completion:(Void -> Void)) {
-        self.popViewControllerAnimated(animated)
+    func popViewControllerAnimated(_ animated: Bool, completion:@escaping ((Void) -> Void)) {
+        self.popViewController(animated: animated)
         if !addCompletion(completion) {
             completion()
         }
     }
 
-    func pushViewController(viewController: UIViewController, animated: Bool, completion:(Void -> Void)) {
+    func pushViewController(_ viewController: UIViewController, animated: Bool, completion:@escaping ((Void) -> Void)) {
         self.pushViewController(viewController, animated: animated)
         if !addCompletion(completion) {
             completion()
         }
     }
 
-    func setViewControllers(viewControllers: [UIViewController], animated: Bool, completion:(Void -> Void)) {
+    func setViewControllers(_ viewControllers: [UIViewController], animated: Bool, completion:@escaping ((Void) -> Void)) {
         self.setViewControllers(viewControllers, animated: animated)
         if !addCompletion(completion) {
             completion()

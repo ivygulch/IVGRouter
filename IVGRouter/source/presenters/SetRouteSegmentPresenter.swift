@@ -10,9 +10,9 @@ import UIKit
 
 public class SetRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
 
-    public static let defaultPresenterIdentifier = Identifier(name: String(SetRouteSegmentPresenter))
+    public static let defaultPresenterIdentifier = Identifier(name: String(describing: SetRouteSegmentPresenter.self))
 
-    public func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: (RoutingResult -> Void)) {
+    public func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
         guard verify(checkNotNil(presentingViewController, "presentingViewController"), completion: completion),
             let parentViewController = presentingViewController else {
             return
@@ -20,13 +20,13 @@ public class SetRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSe
 
         if let placeholderViewController = parentViewController as? PlaceholderViewController {
             placeholderViewController.childViewController = presentedViewController
-            completion(.Success(presentedViewController))
+            completion(.success(presentedViewController))
         } else if presentedViewController == parentViewController.childViewControllers.first {
-            completion(.Success(presentedViewController))
+            completion(.success(presentedViewController))
         } else {
             let childViewControllers = parentViewController.childViewControllers
             for childViewController in childViewControllers {
-                childViewController.willMoveToParentViewController(nil)
+                childViewController.willMove(toParentViewController: nil)
                 childViewController.view.removeFromSuperview()
                 childViewController.removeFromParentViewController()
             }
@@ -35,12 +35,12 @@ public class SetRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSe
                 navigationController.viewControllers = [presentedViewController]
             } else {
                 presentedViewController.view.frame = parentViewController.view.bounds
-                presentedViewController.view.autoresizingMask = [.FlexibleWidth,.FlexibleHeight]
+                presentedViewController.view.autoresizingMask = [.flexibleWidth,.flexibleHeight]
                 parentViewController.addChildViewController(presentedViewController)
                 parentViewController.view.addSubview(presentedViewController.view)
-                presentedViewController.didMoveToParentViewController(parentViewController)
+                presentedViewController.didMove(toParentViewController: parentViewController)
             }
-            completion(.Success(presentedViewController))
+            completion(.success(presentedViewController))
         }
 
     }
