@@ -21,9 +21,9 @@ class MockCompletionBlock : TrackableTestClass {
             routingResult -> Void in
 
             switch routingResult {
-            case .Success(let viewController):
+            case .success(let viewController):
                 self.track("completion", [String(true),String(viewController)])
-            case .Failure(_):
+            case .failure(_):
                 self.track("completion", [String(false),"nil"])
             }
             if let expectation = self.expectation {

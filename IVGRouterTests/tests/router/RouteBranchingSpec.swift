@@ -57,9 +57,9 @@ class RouterBranchingSpec: QuickSpec {
                         router.executeRoute(validSequence) {
                             routingResult in
                             switch routingResult {
-                            case .Success(let finalViewController):
+                            case .success(let finalViewController):
                                 expect(finalViewController).to(equal(mockViewController))
-                            case .Failure(let error):
+                            case .failure(let error):
                                 fail("Did not expect error: \(error)")
                             }
                             expectation.fulfill()
