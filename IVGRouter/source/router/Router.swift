@@ -674,7 +674,7 @@ private class RouteSegmentFIFOPipe {
 
     private var currentIndexIntoOld = -1
     private var oldRecordedSegments: [RecordedSegment]
-    private var newRecordedSegments: [RecordedSegment]
+    fileprivate var newRecordedSegments: [RecordedSegment]
 }
 
 private class RouteSequenceTracker {

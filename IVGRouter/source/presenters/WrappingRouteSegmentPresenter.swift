@@ -228,7 +228,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
 
 extension UINavigationItem {
 
-    private func setValuesFrom(_ fromNavigationItem: UINavigationItem) {
+    fileprivate func setValuesFrom(_ fromNavigationItem: UINavigationItem) {
         title = fromNavigationItem.title
         titleView = fromNavigationItem.titleView
         prompt = fromNavigationItem.prompt
