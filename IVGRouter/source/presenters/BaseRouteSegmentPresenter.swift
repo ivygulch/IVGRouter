@@ -23,7 +23,7 @@ public class BaseRouteSegmentPresenter {
     }
 
     // need this form & initialization to match the RouteSegmentPresenterType requirement
-    public fileprivate(set) var presenterIdentifier = Identifier(name: "")
+    public private(set) var presenterIdentifier = Identifier(name: "")
 
     public func checkNil(_ item : Any?, _ source: String) -> String? {
         if item == nil {

@@ -75,6 +75,6 @@ public class PlaceholderViewController: UIViewController {
         }
     }
 
-    fileprivate var lazyLoader: ((Void) -> UIViewController)?
+    private var lazyLoader: ((Void) -> UIViewController)?
     
 }

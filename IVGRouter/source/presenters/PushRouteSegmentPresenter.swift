@@ -21,7 +21,7 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
 
     public static let defaultPresenterIdentifier = Identifier(name: String(describing: PushRouteSegmentPresenter.self))
 
-    fileprivate func stackConfigurationError(_ stack:[UIViewController], additional:UIViewController? = nil) -> RoutingErrors? {
+    private func stackConfigurationError(_ stack:[UIViewController], additional:UIViewController? = nil) -> RoutingErrors? {
         var existingSet = Set<UIViewController>()
         for viewController in stack {
             if existingSet.contains(viewController) {
@@ -37,7 +37,7 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
         return nil
     }
 
-    fileprivate func setViewControllerAsRoot(_ presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
+    private func setViewControllerAsRoot(_ presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
         let stack = [presentedViewController]
         if let stackConfigurationError = stackConfigurationError(stack) {
             completion(.failure(stackConfigurationError))
@@ -49,7 +49,7 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
         })
     }
 
-    fileprivate func pushViewController(_ presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
+    private func pushViewController(_ presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
         if let stackConfigurationError = stackConfigurationError(navigationController.viewControllers, additional:presentedViewController) {
             completion(.failure(stackConfigurationError))
             return
@@ -60,7 +60,7 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
         })
     }
 
-    fileprivate func popViewController(_ navigationController: UINavigationController, completion: @escaping ((RoutingResult) -> Void)) {
+    private func popViewController(_ navigationController: UINavigationController, completion: @escaping ((RoutingResult) -> Void)) {
         guard navigationController.viewControllers.count > 1 else {
             completion(.failure(RoutingErrors.couldNotReversePresentation(self.presenterIdentifier)))
             return
@@ -98,7 +98,7 @@ public class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteS
 
 extension UINavigationController {
 
-    fileprivate func addCompletion(_ completion:@escaping ((Void) -> Void)) -> Bool {
+    private func addCompletion(_ completion:@escaping ((Void) -> Void)) -> Bool {
         if let transitionCoordinator = transitionCoordinator {
             return transitionCoordinator.animate(alongsideTransition: nil,
                 completion: {

@@ -53,7 +53,7 @@ public class RouterHistory: RouterHistoryType {
         }
     }
 
-    fileprivate func debugStr() -> String {
+    private func debugStr() -> String {
         var checkIndex = 0
         return history.map {
             routeHistoryItem in
@@ -104,8 +104,8 @@ public class RouterHistory: RouterHistoryType {
 
     // MARK: private variables
 
-    fileprivate var history: [RouteHistoryItemType] = []
-    fileprivate var currentIndex: Int = 0
+    private var history: [RouteHistoryItemType] = []
+    private var currentIndex: Int = 0
 }
 
 public struct RouteHistoryItem: Equatable, RouteHistoryItemType {
