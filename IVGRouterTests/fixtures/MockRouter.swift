@@ -106,11 +106,11 @@ class MockRouter : TrackableTestClass, RouterType {
         track("registerDefaultPresenters", [])
     }
 
-    func configurePreviousButton(button: UIButton, titleProducer:(String? -> String)?, completion:(Void -> Void)?) {
+    func configurePreviousButton(button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:(Void -> Void)?) {
         track("configurePreviousButton", [])
     }
 
-    func configureNextButton(button: UIButton, titleProducer:(String? -> String)?, completion:(Void -> Void)?) {
+    func configureNextButton(button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:(Void -> Void)?) {
         track("configureNextButton", [])
     }
 

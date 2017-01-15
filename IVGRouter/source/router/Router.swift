@@ -53,10 +53,14 @@ public protocol RouterType {
     func goForward(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void))
     func registerDefaultPresenters()
 
-    func configurePreviousButton(_ button: UIButton, titleProducer:((String?) -> String)?, completion:((Void) -> Void)?)
-    func configureNextButton(_ button: UIButton, titleProducer:((String?) -> String)?, completion:((Void) -> Void)?)
+    func configurePreviousButton(_ button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:((Void) -> Void)?)
+    func configureNextButton(_ button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:((Void) -> Void)?)
 
     func viewControllersForRouteBranchIdentifier(_ branchIdentifier: Identifier) -> [UIViewController]
+}
+
+private struct RouterConstants {
+    static let defaultTitle = "Previous Page"
 }
 
 public class Router : RouterType {
@@ -296,11 +300,14 @@ public class Router : RouterType {
         }
     }
 
-    public func configurePreviousButton(_ button: UIButton, titleProducer:((String?) -> String)?, completion:((Void) -> Void)?) {
+    public func configurePreviousButton(_ button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:((Void) -> Void)?) {
         let selector = #selector(Router.previousButtonAction(_:))
         if let historyItem = previousRouteHistoryItem() {
-            let title = (titleProducer == nil) ? historyItem.title : titleProducer?(historyItem.title)
-            button.setTitle(title, for: .normal)
+            if let buttonUpdateHandler = buttonUpdateHandler {
+                buttonUpdateHandler(button, historyItem.title)
+            } else {
+                button.setTitle(historyItem.title ?? RouterConstants.defaultTitle, for: .normal)
+            }
             button.isHidden = false
             previousButtonCompletions[button] = completion
             button.addTarget(self, action:selector, for: .touchUpInside)
@@ -314,11 +321,14 @@ public class Router : RouterType {
         }
     }
 
-    public func configureNextButton(_ button: UIButton, titleProducer:((String?) -> String)?, completion:((Void) -> Void)?) {
+    public func configureNextButton(_ button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:((Void) -> Void)?) {
         let selector = #selector(Router.nextButtonAction(_:))
         if let historyItem = nextRouteHistoryItem() {
-            let title = (titleProducer == nil) ? historyItem.title : titleProducer?(historyItem.title)
-            button.setTitle(title, for: .normal)
+            if let buttonUpdateHandler = buttonUpdateHandler {
+                buttonUpdateHandler(button, historyItem.title)
+            } else {
+                button.setTitle(historyItem.title ?? RouterConstants.defaultTitle, for: .normal)
+            }
             button.isHidden = false
             nextButtonCompletions[button] = completion
             button.addTarget(self, action:selector, for: .touchUpInside)
