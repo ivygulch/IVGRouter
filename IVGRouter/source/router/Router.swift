@@ -26,6 +26,16 @@ public enum RoutingResult {
     case failure(Error)
 }
 
+public protocol RouteHistoryPreviousButtonProvider {
+    var previousHistoryItemButton: UIButton? { get }
+    func configurePreviousHistoryItem(forButton button: UIButton, routeHistoryItemTitle: String?) -> ((Void) -> Void)?
+}
+
+public protocol RouteHistoryNextButtonProvider {
+    var nextHistoryItemButton: UIButton? { get }
+    func configureNextHistoryItem(forButton button: UIButton, routeHistoryItemTitle: String?) -> ((Void) -> Void)?
+}
+
 public protocol RouterType {
     var window: UIWindow? { get }
     var routeSegments: [Identifier: RouteSegmentType] { get }
@@ -52,9 +62,6 @@ public protocol RouterType {
     func goForward(_ completion:@escaping ((RoutingResult) -> Void))
     func goForward(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void))
     func registerDefaultPresenters()
-
-    func configurePreviousButton(_ button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:((Void) -> Void)?)
-    func configureNextButton(_ button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:((Void) -> Void)?)
 
     func viewControllersForRouteBranchIdentifier(_ branchIdentifier: Identifier) -> [UIViewController]
 }
@@ -149,7 +156,8 @@ public class Router : RouterType {
         let wrappedCompletion: ((RoutingResult) -> Void) = {
             [weak self] routingResult in
             if case .success(let viewController) = routingResult {
-                self?.recordHistory(routeBranchIdentifier, title: viewController.title)
+                let historyItem = self?.recordHistory(routeBranchIdentifier, title: viewController.title)
+                self?.configureHistoryButtons(forRouteBranch: routeBranch, presented: viewController)
             }
             completion(routingResult)
         }
@@ -165,7 +173,8 @@ public class Router : RouterType {
         let wrappedCompletion: ((RoutingResult) -> Void) = {
             [weak self] routingResult in
             if case .success(let viewController) = routingResult {
-                self?.recordHistory(routeBranchIdentifier, title: viewController.title)
+                let historyItem = self?.recordHistory(routeBranchIdentifier, title: viewController.title)
+                self?.configureHistoryButtons(forRouteBranch: routeBranch, presented: viewController)
             }
             completion(routingResult)
         }
@@ -250,12 +259,10 @@ public class Router : RouterType {
         let wrappedCompletion: ((RoutingResult) -> Void) = {
             [weak self] routingResult in
             if case .success(let viewController) = routingResult {
-                self?.recordHistory(routeBranchIdentifier, title: viewController.title)
+                let historyItem = self?.recordHistory(routeBranchIdentifier, title: viewController.title)
+                self?.configureHistoryButtons(forRouteBranch: routeBranch, presented: viewController)
             }
             completion(routingResult)
-            if let history = self?.historyForIdentifier(routeBranchIdentifier) as? RouterHistory {
-                history.debugFull("after execute")
-            }
         }
         if routeBranchIdentifier != defaultRouteBranch.branchIdentifier {
             // make sure the defaultBranch is set to the proper place for this branch
@@ -300,37 +307,25 @@ public class Router : RouterType {
         }
     }
 
-    public func configurePreviousButton(_ button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:((Void) -> Void)?) {
+    private func configurePreviousButton(_ button: UIButton, forRouteBranch routeBranch: RouteBranchType, tapCompletion:((Void) -> Void)?) {
         let selector = #selector(Router.previousButtonAction(_:))
-        if let historyItem = previousRouteHistoryItem() {
-            if let buttonUpdateHandler = buttonUpdateHandler {
-                buttonUpdateHandler(button, historyItem.title)
-            } else {
-                button.setTitle(historyItem.title ?? RouterConstants.defaultTitle, for: .normal)
-            }
+        if let historyItem = previousRouteHistoryItem(routeBranch) {
             button.isHidden = false
-            previousButtonCompletions[button] = completion
+            previousButtonCompletions[button] = tapCompletion
             button.addTarget(self, action:selector, for: .touchUpInside)
-            print("DBG: PPB<\(Unmanaged.passUnretained(button).toOpaque())>.addTarget")
         } else {
             button.isHidden = true
             previousButtonCompletions[button] = nil
             button.removeTarget(self, action:selector, for:.touchUpInside)
             button.setTitle(nil, for: .normal)
-            print("DBG: PPB<\(Unmanaged.passUnretained(button).toOpaque())>.removeTarget")
         }
     }
 
-    public func configureNextButton(_ button: UIButton, buttonUpdateHandler:((UIButton, String?) -> Void)?, completion:((Void) -> Void)?) {
+    private func configureNextButton(_ button: UIButton, forRouteBranch routeBranch: RouteBranchType, tapCompletion:((Void) -> Void)?) {
         let selector = #selector(Router.nextButtonAction(_:))
-        if let historyItem = nextRouteHistoryItem() {
-            if let buttonUpdateHandler = buttonUpdateHandler {
-                buttonUpdateHandler(button, historyItem.title)
-            } else {
-                button.setTitle(historyItem.title ?? RouterConstants.defaultTitle, for: .normal)
-            }
+        if let historyItem = nextRouteHistoryItem(routeBranch) {
             button.isHidden = false
-            nextButtonCompletions[button] = completion
+            nextButtonCompletions[button] = tapCompletion
             button.addTarget(self, action:selector, for: .touchUpInside)
         } else {
             button.isHidden = true
@@ -339,6 +334,44 @@ public class Router : RouterType {
             button.setTitle(nil, for: .normal)
         }
     }
+
+    public func configureNextButton(_ button: UIButton, historyTitleHandler:((String?) -> Void)?, tapCompletion:((Void) -> Void)?) {
+        let selector = #selector(Router.nextButtonAction(_:))
+        if let historyItem = nextRouteHistoryItem() {
+            if let historyTitleHandler = historyTitleHandler {
+                historyTitleHandler(historyItem.title)
+            } else {
+                button.setTitle(historyItem.title ?? RouterConstants.defaultTitle, for: .normal)
+            }
+            button.isHidden = false
+            nextButtonCompletions[button] = tapCompletion
+            button.addTarget(self, action:selector, for: .touchUpInside)
+        } else {
+            button.isHidden = true
+            nextButtonCompletions[button] = nil
+            button.removeTarget(self, action:selector, for:.touchUpInside)
+            button.setTitle(nil, for: .normal)
+        }
+    }
+
+    private func configureHistoryButtons(forRouteBranch routeBranch: RouteBranchType, presented: Any) {
+        if let previousButtonProvider = presented as? RouteHistoryPreviousButtonProvider {
+            if let previousButton = previousButtonProvider.previousHistoryItemButton {
+                let routeHistoryItem = previousRouteHistoryItem(routeBranch)
+                let tapCompletion = previousButtonProvider.configurePreviousHistoryItem(forButton: previousButton, routeHistoryItemTitle: routeHistoryItem?.title)
+                configurePreviousButton(previousButton, forRouteBranch: routeBranch, tapCompletion: tapCompletion)
+            }
+        }
+        if let nextButtonProvider = presented as? RouteHistoryNextButtonProvider {
+            if let nextButton = nextButtonProvider.nextHistoryItemButton {
+                let routeHistoryItem = nextRouteHistoryItem(routeBranch)
+                let tapCompletion = nextButtonProvider.configureNextHistoryItem(forButton: nextButton, routeHistoryItemTitle: routeHistoryItem?.title)
+                configureNextButton(nextButton, forRouteBranch: routeBranch, tapCompletion: tapCompletion)
+            }
+        }
+    }
+    
+    
 
     // MARK: private routing methods
 
@@ -364,14 +397,11 @@ public class Router : RouterType {
             let lastParentViewController = lastViewController.parent {
 
             let presentationBlock = {
-                reversibleRouteSegmentPresenter.reversePresentation(lastViewController) {
-                    presenterResult in
-//                    [weak self] presenterResult in
+                reversibleRouteSegmentPresenter.reversePresentation(lastViewController) { presenterResult in
 
                     switch presenterResult {
                     case .success(_):
                         completion(.success(lastParentViewController))
-//                        self?.debug("popRoute reversible")
                     case .failure(_):
                         completion(.failure(RoutingErrors.couldNotReversePresentation(lastSegmentIdentifier)))
                     }
@@ -386,9 +416,7 @@ public class Router : RouterType {
         } else if let lastViewController = lastRecordedSegment.viewController,
             let navigationController = lastViewController.navigationController {
             navigationController.popViewControllerAnimated(true, completion: {
-//                [weak self] in
                 completion(.success(navigationController))
-//                self?.debug("popRoute navigationController")
             })
 
         } else {
@@ -446,10 +474,8 @@ public class Router : RouterType {
             routeSequenceTracker,
             routeSegmentFIFOPipe: routeSegmentFIFOPipe,
             routeBranchIdentifier: routeBranchIdentifier,
-            sequenceCompletion: {
-                [weak self] routingResult in
+            sequenceCompletion: { [weak self] routingResult in
                 self?.branchLastRecordedSegments[routeBranchIdentifier] = routeSegmentFIFOPipe.newRecordedSegments
-//                self?.debug("sequenceCompletion")
                 completion(routingResult)
             }
         )
@@ -480,13 +506,19 @@ public class Router : RouterType {
         let onSuccessfulPresentation: ((RouteSegmentType,UIViewController) -> Void) = {
             [weak self] (routeSegment, presentedViewController) in
 
+            print("DBG: onSuccessfulPresentation=\(routeSegment), \(presentedViewController)")
+
             routeSegmentFIFOPipe.pushNewSegmentIdentifier(routeSegment.segmentIdentifier, viewController: presentedViewController)
+
+            let wrappedSC: ((RoutingResult) -> Void) = { routingResult in
+                sequenceCompletion(routingResult)
+            }
 
             self?.performNextRouteSequenceItem(
                 routeSequenceTracker,
                 routeSegmentFIFOPipe: routeSegmentFIFOPipe,
                 routeBranchIdentifier: routeBranchIdentifier,
-                sequenceCompletion: sequenceCompletion
+                sequenceCompletion: wrappedSC//sequenceCompletion
             )
         }
 
@@ -529,14 +561,15 @@ public class Router : RouterType {
         sequenceCompletion(.failure(RoutingErrors.invalidConfiguration("Presenter(\(type(of: presenter))) not handled for segment(\(type(of: routeSegment)))")))
     }
 
-    private func recordHistory(_ routeBranchIdentifier: Identifier, title: String?) {
+    private func recordHistory(_ routeBranchIdentifier: Identifier, title: String?) -> RouteHistoryItem? {
         guard let lastRecordedSegments = branchLastRecordedSegments[routeBranchIdentifier] else {
-            return
+            return nil
         }
         let routeSequence = RouteSequence(source: lastRecordedSegments.map { $0.segmentIdentifier })
         let history = historyForIdentifier(routeBranchIdentifier)
-//        print("DBG: recordHistory \(routeSequence)")
-        history.recordRouteHistoryItem(RouteHistoryItem(routeSequence: routeSequence, title: title), ignoreDuplicates: true)
+        let routeHistoryItem = RouteHistoryItem(routeSequence: routeSequence, title: title)
+        history.recordRouteHistoryItem(routeHistoryItem, ignoreDuplicates: true)
+        return routeHistoryItem
     }
 
     /// return true if this step was handled, otherwise false so another method can be called
@@ -561,7 +594,7 @@ public class Router : RouterType {
                 switch presenterResult {
                 case .success(_):
                     presentationCompletion(visualRouteSegment, viewController)
-                case .failure(let error):
+                    case .failure(let error):
                     sequenceCompletion(.failure(error))
                 }
                 
@@ -610,6 +643,14 @@ public class Router : RouterType {
         let result = RouterHistory()
         historyForIdentifiers[identifier] = result
         return result
+    }
+
+    private func debugDefaultRouteBranch(_ msg: String) {
+        historyForIdentifiers[defaultRouteBranch.branchIdentifier]?.debug(msg)
+    }
+
+    private func debugFullDefaultRouteBranch(_ msg: String) {
+        historyForIdentifiers[defaultRouteBranch.branchIdentifier]?.debugFull(msg)
     }
 
     // MARK: private variables

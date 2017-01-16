@@ -22,6 +22,7 @@ public protocol RouterHistoryType {
     func recordRouteHistoryItem(_ routeHistoryItem: RouteHistoryItemType, ignoreDuplicates: Bool)
 
     func debug(_ msg: String)
+    func debugFull(_ msg: String)
 }
 
 public class RouterHistory: RouterHistoryType {
@@ -86,6 +87,7 @@ public class RouterHistory: RouterHistoryType {
 
     public func recordRouteHistoryItem(_ routeHistoryItem: RouteHistoryItemType, ignoreDuplicates: Bool) {
         if let lastHistory = history.last, ignoreDuplicates && lastHistory.routeSequence == routeHistoryItem.routeSequence {
+            currentIndex = history.count - 1
             return
         }
         let nextIndex = currentIndex + 1
