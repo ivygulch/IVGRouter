@@ -153,8 +153,7 @@ public class Router : RouterType {
 
     public func appendRoute(_ source: [Any], routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
         let routeBranchIdentifier = routeBranch.branchIdentifier
-        let wrappedCompletion: ((RoutingResult) -> Void) = {
-            [weak self] routingResult in
+        let wrappedCompletion: ((RoutingResult) -> Void) = { [weak self] routingResult in
             if case .success(let viewController) = routingResult {
                 let historyItem = self?.recordHistory(routeBranchIdentifier, title: viewController.title)
                 self?.configureHistoryButtons(forRouteBranch: routeBranch, presented: viewController)
@@ -170,8 +169,7 @@ public class Router : RouterType {
 
     public func popRoute(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
         let routeBranchIdentifier = routeBranch.branchIdentifier
-        let wrappedCompletion: ((RoutingResult) -> Void) = {
-            [weak self] routingResult in
+        let wrappedCompletion: ((RoutingResult) -> Void) = { [weak self] routingResult in
             if case .success(let viewController) = routingResult {
                 let historyItem = self?.recordHistory(routeBranchIdentifier, title: viewController.title)
                 self?.configureHistoryButtons(forRouteBranch: routeBranch, presented: viewController)
@@ -256,8 +254,7 @@ public class Router : RouterType {
 
     public func executeRoute(_ source: [Any], routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
         let routeBranchIdentifier = routeBranch.branchIdentifier
-        let wrappedCompletion: ((RoutingResult) -> Void) = {
-            [weak self] routingResult in
+        let wrappedCompletion: ((RoutingResult) -> Void) = { [weak self] routingResult in
             if case .success(let viewController) = routingResult {
                 let historyItem = self?.recordHistory(routeBranchIdentifier, title: viewController.title)
                 self?.configureHistoryButtons(forRouteBranch: routeBranch, presented: viewController)
@@ -270,8 +267,7 @@ public class Router : RouterType {
                 routeSequenceItem -> Any in
                 return routeSequenceItem
             }
-            executeRouteSequence(defaultSource, append: false, routeBranch: defaultRouteBranch) {
-                [weak self] routeResult in
+            executeRouteSequence(defaultSource, append: false, routeBranch: defaultRouteBranch) { [weak self] routeResult in
                 switch routeResult {
                 case .success:
                     // if we successfully switched to the correct spot on the default branch, append the rest
@@ -293,16 +289,14 @@ public class Router : RouterType {
 
     @objc private func previousButtonAction(_ button: UIButton) {
         let buttonCompletion = previousButtonCompletions[button]
-        goBack() {
-            _ in
+        goBack() { _ in
             buttonCompletion?()
         }
     }
 
     @objc private func nextButtonAction(_ button: UIButton) {
         let buttonCompletion = nextButtonCompletions[button]
-        goForward() {
-            _ in
+        goForward() { _ in
             buttonCompletion?()
         }
     }
@@ -443,8 +437,7 @@ public class Router : RouterType {
         var newRecordedSegmentsToPop = recordedSegmentsToPop
         let recordedSegment = newRecordedSegmentsToPop.removeFirst()
 
-        popRouteInternal() {
-            [weak self] routingResult in
+        popRouteInternal() { [weak self] routingResult in
             switch routingResult {
             case .success(_):
                 self?.popRouteUsingRouteSegmentsToPop(newRecordedSegmentsToPop, sequenceCompletion: sequenceCompletion, popCompletion: popCompletion)
@@ -503,8 +496,7 @@ public class Router : RouterType {
             return
         }
 
-        let onSuccessfulPresentation: ((RouteSegmentType,UIViewController) -> Void) = {
-            [weak self] (routeSegment, presentedViewController) in
+        let onSuccessfulPresentation: ((RouteSegmentType,UIViewController) -> Void) = { [weak self] (routeSegment, presentedViewController) in
 
             print("DBG: onSuccessfulPresentation=\(routeSegment), \(presentedViewController)")
 
@@ -531,8 +523,7 @@ public class Router : RouterType {
             } else {
                 popRecordedSegments(routeSegmentFIFOPipe.oldSegmentsToPop,
                                     sequenceCompletion: sequenceCompletion,
-                                    popCompletion: {
-                                        [weak self] in
+                                    popCompletion: { [weak self] in
                                         self?.finishRouteSequenceItem(routeSequenceItem, routeSegment: routeSegment, routeSegmentFIFOPipe: routeSegmentFIFOPipe, routeBranchIdentifier: routeBranchIdentifier, onSuccessfulPresentation: onSuccessfulPresentation, sequenceCompletion: sequenceCompletion)
                 })
             }
@@ -581,13 +572,13 @@ public class Router : RouterType {
             sequenceCompletion(.failure(RoutingErrors.invalidRouteSegment(routeSegment.segmentIdentifier, "expected VisualRouteSegmentType")))
             return true // we handled it by failing the sequence
         }
-        guard let viewController = visualRouteSegment.viewController() else {
-            sequenceCompletion(.failure(RoutingErrors.noViewControllerProduced(routeSegment.segmentIdentifier)))
-            return true // we handled it by failing the sequence
-        }
-
         let presentingViewController = parent?.actingPresentingController
         let presentationBlock = {
+            guard let viewController = visualRouteSegment.viewController() else {
+                sequenceCompletion(.failure(RoutingErrors.noViewControllerProduced(routeSegment.segmentIdentifier)))
+                return // we handled it by failing the sequence
+            }
+            
             visualPresenter.presentViewController(viewController, from: presentingViewController, options: routeSequenceOptions, window: self.window, completion: {
                 presenterResult in
 

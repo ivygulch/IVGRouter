@@ -82,9 +82,7 @@ class DemoRouteCoordinator {
     }
 
     func startupAction() {
-        router.executeRoute(routeSequenceWelcome) {
-            _ in
-        }
+        router.executeRoute(routeSequenceWelcome) { _ in }
     }
 
     func registerRouteSegments() {
@@ -130,9 +128,7 @@ class DemoRouteCoordinator {
                 }
 
                 result.backAction = {
-                    self.router.popRoute() {
-                        _ in
-                    }
+                    self.router.popRoute() { _ in }
                 }
 
                 return result
@@ -156,17 +152,11 @@ class DemoRouteCoordinator {
                     result.addAction(title, action: {
                         switch type {
                         case .Execute:
-                            self.router.executeRoute(sequence) {
-                                _ in
-                            }
+                            self.router.executeRoute(sequence) { _ in }
                         case .Branch(let branch):
-                            self.router.executeRoute(sequence, routeBranch: branch) {
-                                _ in
-                            }
+                            self.router.executeRoute(sequence, routeBranch: branch) { _ in }
                         case .Append:
-                            self.router.appendRoute(sequence) {
-                                _ in
-                            }
+                            self.router.appendRoute(sequence) { _ in }
                         }
                     })
                 }
@@ -176,9 +166,7 @@ class DemoRouteCoordinator {
                 }
 
                 result.backAction = {
-                    self.router.popRoute() {
-                        _ in
-                    }
+                    self.router.popRoute() { _ in }
                 }
                 
                 return result
@@ -240,8 +228,7 @@ class DemoRouteCoordinator {
 
                 result.addAction("Unwrap", titleColor: UIColor.blackColor(), action: {
                     self.router.debug("before unwrap")
-                    self.router.popRoute() {
-                        _ in
+                    self.router.popRoute() { _ in
                         self.router.debug("after unwrap")
                     }
                 })
@@ -253,22 +240,19 @@ class DemoRouteCoordinator {
 
     private func displayOptionMenu(viewController: UIViewController) {
         let alert = UIAlertController(title: "options", message: "Options", preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "debug", style: .Default) {
-            _ in
+        alert.addAction(UIAlertAction(title: "debug", style: .Default) { _ in
             self.debug(viewController)
             self.router.debug("debug")
             })
         if let previousItem = router.previousRouteHistoryItem() {
             let title = "back [\(previousItem.title ?? "")]"
-            alert.addAction(UIAlertAction(title: title, style: .Default) {
-                _ in
+            alert.addAction(UIAlertAction(title: title, style: .Default) { _ in
                 self.router.goBack() { _ in }
                 })
         }
         if let nextItem = router.nextRouteHistoryItem() {
             let title = "next [\(nextItem.title ?? "")]"
-            alert.addAction(UIAlertAction(title: title, style: .Default) {
-                _ in
+            alert.addAction(UIAlertAction(title: title, style: .Default) { _ in
                 self.router.goForward() { _ in }
                 })
         }

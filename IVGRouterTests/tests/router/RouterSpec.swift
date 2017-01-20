@@ -323,8 +323,7 @@ extension RouterSpec {
 
                 it("should produce full sequence") {
                     let expectation = self.expectationWithDescription("executeRoute completion callback")
-                    router.executeRoute(validSequence) {
-                        _ in
+                    router.executeRoute(validSequence) { _ in
                         expectation.fulfill()
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
@@ -361,8 +360,7 @@ extension RouterSpec {
 
                 it("should produce partial sequence") {
                     let expectation = self.expectationWithDescription("executeRoute completion callback")
-                    router.executeRoute(invalidSequence) {
-                        _ in
+                    router.executeRoute(invalidSequence) { _ in
                         expectation.fulfill()
                     }
                     self.waitForExpectationsWithTimeout(5, handler: nil)
@@ -445,8 +443,7 @@ extension RouterSpec {
 
                 it("should move back to first segment") {
                     let expectation = self.expectationWithDescription("second popRoute completion")
-                    router.popRoute() {
-                        _ in
+                    router.popRoute() { _ in
 
                         router.popRoute() {
                             routingResult in

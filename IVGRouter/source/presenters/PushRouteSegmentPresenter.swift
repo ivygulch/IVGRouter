@@ -101,8 +101,7 @@ extension UINavigationController {
     private func addCompletion(_ completion:@escaping ((Void) -> Void)) -> Bool {
         if let transitionCoordinator = transitionCoordinator {
             return transitionCoordinator.animate(alongsideTransition: nil,
-                completion: {
-                    _ in
+                completion: { _ in
                     completion()
                 }
             )
