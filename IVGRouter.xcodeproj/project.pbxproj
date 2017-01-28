@@ -59,6 +59,7 @@
 		F8C030A51D4562B1003CF124 /* RouterHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C030A41D4562B1003CF124 /* RouterHistory.swift */; };
 		F8C030A71D456410003CF124 /* RouterHistorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C030A61D456410003CF124 /* RouterHistorySpec.swift */; };
 		F8C030A91D456B89003CF124 /* MockRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C030A81D456B89003CF124 /* MockRouter.swift */; };
+		F8D0B4701E3C0E830020EF53 /* PresentRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D0B46F1E3C0E830020EF53 /* PresentRouteSegmentPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +137,7 @@
 		F8C030A41D4562B1003CF124 /* RouterHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterHistory.swift; sourceTree = "<group>"; };
 		F8C030A61D456410003CF124 /* RouterHistorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterHistorySpec.swift; sourceTree = "<group>"; };
 		F8C030A81D456B89003CF124 /* MockRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRouter.swift; sourceTree = "<group>"; };
+		F8D0B46F1E3C0E830020EF53 /* PresentRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F8DCFE941D3DAD880015411F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,6 +226,7 @@
 				F8711C891CCD1C7300E6EEBB /* BaseRouteSegmentPresenter.swift */,
 				F8711C8A1CCD1C7300E6EEBB /* PushRouteSegmentPresenter.swift */,
 				F82856ED1CE96AAD0042B8C0 /* SetRouteSegmentPresenter.swift */,
+				F8D0B46F1E3C0E830020EF53 /* PresentRouteSegmentPresenter.swift */,
 				F8711C8B1CCD1C7300E6EEBB /* RootRouteSegmentPresenter.swift */,
 				F8711C8C1CCD1C7300E6EEBB /* SlidingWrappingRouteSegmentAnimator.swift */,
 				F8711C8D1CCD1C7300E6EEBB /* BranchRouteSegmentPresenter.swift */,
@@ -494,6 +497,7 @@
 				F8711C961CCD1C7300E6EEBB /* BaseRouteSegmentPresenter.swift in Sources */,
 				F8711C9F1CCD1C7400E6EEBB /* RouteSegmentPresenter.swift in Sources */,
 				F8711C9C1CCD1C7300E6EEBB /* Identifier.swift in Sources */,
+				F8D0B4701E3C0E830020EF53 /* PresentRouteSegmentPresenter.swift in Sources */,
 				F8711C9A1CCD1C7300E6EEBB /* BranchRouteSegmentPresenter.swift in Sources */,
 				F8711C9E1CCD1C7400E6EEBB /* RouteSegment.swift in Sources */,
 				F82D21881CCD91D30010CDFF /* RouteBranch.swift in Sources */,

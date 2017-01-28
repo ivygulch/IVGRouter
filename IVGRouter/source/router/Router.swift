@@ -41,29 +41,58 @@ public protocol RouterType {
     var routeSegments: [Identifier: RouteSegmentType] { get }
     var routeBranches: [Identifier: RouteBranchType] { get }
     var presenters: [Identifier: RouteSegmentPresenterType] { get }
+    var defaultRouteBranch: RouteBranchType { get }
+
     func registerPresenter(_ presenter: RouteSegmentPresenterType)
     func registerRouteSegment(_ routeSegment: RouteSegmentType)
     func registerRouteBranch(_ routeBranch: RouteBranchType)
-    func appendRoute(_ source: [Any], completion:@escaping ((RoutingResult) -> Void))
     func appendRoute(_ source: [Any], routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void))
-    func executeRoute(_ source: [Any], completion:@escaping ((RoutingResult) -> Void))
     func executeRoute(_ source: [Any], routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void))
-    func popRoute(_ completion:@escaping ((RoutingResult) -> Void))
     func popRoute(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void))
 
-    func clearHistory()
     func clearHistory(_ routeBranch: RouteBranchType)
-    func previousRouteHistoryItem() -> RouteHistoryItemType?
     func previousRouteHistoryItem(_ routeBranch: RouteBranchType) -> RouteHistoryItemType?
-    func nextRouteHistoryItem() -> RouteHistoryItemType?
     func nextRouteHistoryItem(_ routeBranch: RouteBranchType) -> RouteHistoryItemType?
-    func goBack(_ completion:@escaping ((RoutingResult) -> Void))
     func goBack(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void))
-    func goForward(_ completion:@escaping ((RoutingResult) -> Void))
     func goForward(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void))
     func registerDefaultPresenters()
 
     func viewControllersForRouteBranchIdentifier(_ branchIdentifier: Identifier) -> [UIViewController]
+}
+
+extension RouterType {
+    public func appendRoute(_ source: [Any], completion:@escaping ((RoutingResult) -> Void)) {
+        appendRoute(source, routeBranch: defaultRouteBranch, completion: completion)
+    }
+
+    public func executeRoute(_ source: [Any], completion:@escaping ((RoutingResult) -> Void)) {
+        executeRoute(source, routeBranch: defaultRouteBranch, completion: completion)
+    }
+
+    public func popRoute(_ completion:@escaping ((RoutingResult) -> Void)) {
+        popRoute(defaultRouteBranch, completion: completion)
+    }
+
+    public func clearHistory() {
+        clearHistory(defaultRouteBranch)
+    }
+
+    public func previousRouteHistoryItem() -> RouteHistoryItemType? {
+        return previousRouteHistoryItem(defaultRouteBranch)
+    }
+
+    public func nextRouteHistoryItem() -> RouteHistoryItemType? {
+        return nextRouteHistoryItem(defaultRouteBranch)
+    }
+
+    public func goBack(_ completion:@escaping ((RoutingResult) -> Void)) {
+        goBack(defaultRouteBranch, completion: completion)
+    }
+
+    public func goForward(_ completion:@escaping ((RoutingResult) -> Void)) {
+        goForward(defaultRouteBranch, completion: completion)
+    }
+
 }
 
 private struct RouterConstants {
@@ -141,15 +170,12 @@ public class Router : RouterType {
         registerPresenter(RootRouteSegmentPresenter())
         registerPresenter(BranchRouteSegmentPresenter())
         registerPresenter(PushRouteSegmentPresenter())
+        registerPresenter(PresentRouteSegmentPresenter())
         registerPresenter(SetRouteSegmentPresenter())
         registerPresenter(WrappingRouteSegmentPresenter(wrappingRouteSegmentAnimator: SlidingWrappingRouteSegmentAnimator()))
     }
 
     // MARK: public routing methods
-
-    public func appendRoute(_ source: [Any], completion:@escaping ((RoutingResult) -> Void)) {
-        appendRoute(source, routeBranch: defaultRouteBranch, completion: completion)
-    }
 
     public func appendRoute(_ source: [Any], routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
         let routeBranchIdentifier = routeBranch.branchIdentifier
@@ -161,10 +187,6 @@ public class Router : RouterType {
             completion(routingResult)
         }
         executeRouteSequence(source, append: true, routeBranch: routeBranch, completion: wrappedCompletion)
-    }
-
-    public func popRoute(_ completion:@escaping ((RoutingResult) -> Void)) {
-        popRoute(defaultRouteBranch, completion: completion)
     }
 
     public func popRoute(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
@@ -180,32 +202,16 @@ public class Router : RouterType {
         popRouteInternal(routeBranch, completion: wrappedCompletion)
     }
 
-    public func clearHistory() {
-        clearHistory(defaultRouteBranch)
-    }
-
     public func clearHistory(_ routeBranch: RouteBranchType) {
         historyForIdentifiers[routeBranch.branchIdentifier] = nil
-    }
-
-    public func previousRouteHistoryItem() -> RouteHistoryItemType? {
-        return previousRouteHistoryItem(defaultRouteBranch)
     }
 
     public func previousRouteHistoryItem(_ routeBranch: RouteBranchType) -> RouteHistoryItemType? {
         return historyForIdentifiers[routeBranch.branchIdentifier]?.previousRouteHistoryItem
     }
 
-    public func nextRouteHistoryItem() -> RouteHistoryItemType? {
-        return nextRouteHistoryItem(defaultRouteBranch)
-    }
-
     public func nextRouteHistoryItem(_ routeBranch: RouteBranchType) -> RouteHistoryItemType? {
         return historyForIdentifiers[routeBranch.branchIdentifier]?.nextRouteHistoryItem
-    }
-
-    public func goBack(_ completion:@escaping ((RoutingResult) -> Void)) {
-        goBack(defaultRouteBranch, completion: completion)
     }
 
     public func goBack(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
@@ -226,10 +232,6 @@ public class Router : RouterType {
         executeRouteSequence(previousRouteHistoryItem.routeSequence, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
     }
 
-    public func goForward(_ completion:@escaping ((RoutingResult) -> Void)) {
-        goForward(defaultRouteBranch, completion: completion)
-    }
-
     public func goForward(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
         let branchIdentifier = routeBranch.branchIdentifier
         let history = historyForIdentifier(branchIdentifier)
@@ -248,10 +250,6 @@ public class Router : RouterType {
         executeRouteSequence(nextRouteHistoryItem.routeSequence, append: false, routeBranch: routeBranch, completion: wrappedCompletion)
     }
     
-    public func executeRoute(_ source: [Any], completion:@escaping ((RoutingResult) -> Void)) {
-        executeRoute(source, routeBranch: defaultRouteBranch, completion: completion)
-    }
-
     public func executeRoute(_ source: [Any], routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
         let routeBranchIdentifier = routeBranch.branchIdentifier
         let wrappedCompletion: ((RoutingResult) -> Void) = { [weak self] routingResult in
