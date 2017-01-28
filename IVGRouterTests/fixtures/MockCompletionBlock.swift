@@ -16,13 +16,13 @@ class MockCompletionBlock : TrackableTestClass {
         self.expectation = expectation
     }
 
-    var completion: (RoutingResult -> Void) {
+    var completion: ((RoutingResult) -> Void) {
         return {
             routingResult -> Void in
 
             switch routingResult {
             case .success(let viewController):
-                self.track("completion", [String(true),String(viewController)])
+                self.track("completion", [String(true),String(describing: viewController)])
             case .failure(_):
                 self.track("completion", [String(false),"nil"])
             }

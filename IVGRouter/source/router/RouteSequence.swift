@@ -8,15 +8,15 @@
 
 import Foundation
 
-public class RouteSequence : Equatable, CustomStringConvertible {
+open class RouteSequence : Equatable, CustomStringConvertible {
 
-    public var items: [RouteSequenceItem] = []
+    open var items: [RouteSequenceItem] = []
 
     public init(source: [Any]) {
         self.items = source.map { RouteSequenceItem.transform($0) }.flatMap { $0 }
     }
 
-    public func validatedRouteSegmentsWithRouter(_ router: RouterType) -> [RouteSegmentType]? {
+    open func validatedRouteSegmentsWithRouter(_ router: RouterType) -> [RouteSegmentType]? {
         let routeSegments: [RouteSegmentType?] = items.map { router.routeSegments[$0.segmentIdentifier] }
         let checkRouteSegments = routeSegments.flatMap { $0 }
         if routeSegments.count != checkRouteSegments.count {
@@ -25,7 +25,7 @@ public class RouteSequence : Equatable, CustomStringConvertible {
         return checkRouteSegments
     }
 
-    public var description: String {
+    open var description: String {
         return String(describing: items)
     }
 

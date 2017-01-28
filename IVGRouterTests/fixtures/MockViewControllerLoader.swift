@@ -23,5 +23,5 @@ class MockViewControllerLoader : TrackableTestClass {
         }
     }
 
-    private let viewController: UIViewController?
+    fileprivate let viewController: UIViewController?
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class PlaceholderViewController: UIViewController {
+open class PlaceholderViewController: UIViewController {
 
     public init(childViewController: UIViewController? = nil) {
         super.init(nibName: nil, bundle: nil)
@@ -24,7 +24,7 @@ public class PlaceholderViewController: UIViewController {
         super.init(coder:aDecoder)
     }
 
-    public var childViewController: UIViewController? {
+    open var childViewController: UIViewController? {
         get {
             return self.childViewControllers.first
         }
@@ -47,7 +47,7 @@ public class PlaceholderViewController: UIViewController {
         }
     }
 
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
 
         if let lazyLoader = lazyLoader {
@@ -56,7 +56,7 @@ public class PlaceholderViewController: UIViewController {
     }
 
 
-    override public var tabBarItem: UITabBarItem! {
+    override open var tabBarItem: UITabBarItem! {
         get {
             return childViewController?.tabBarItem ?? super.tabBarItem
         }
@@ -69,12 +69,12 @@ public class PlaceholderViewController: UIViewController {
         }
     }
 
-    override public var navigationItem: UINavigationItem {
+    override open var navigationItem: UINavigationItem {
         get {
             return childViewController?.navigationItem ?? super.navigationItem
         }
     }
 
-    private var lazyLoader: ((Void) -> UIViewController)?
+    fileprivate var lazyLoader: ((Void) -> UIViewController)?
     
 }

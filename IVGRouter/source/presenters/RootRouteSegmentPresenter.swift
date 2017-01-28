@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
+open class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType {
 
-    public static let defaultPresenterIdentifier = Identifier(name: String(describing: RootRouteSegmentPresenter.self))
+    open static let defaultPresenterIdentifier = Identifier(name: String(describing: RootRouteSegmentPresenter.self))
 
-    public func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
+    open func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
         guard verify(checkNotNil(window, "Router.window"), completion: completion),
             let window = window else {
             return

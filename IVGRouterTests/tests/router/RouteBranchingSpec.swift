@@ -53,7 +53,7 @@ class RouterBranchingSpec: QuickSpec {
                 context("with a valid sequence") {
 
                     it("should succeed") {
-                        let expectation = self.expectationWithDescription("executeRoute completion callback")
+                        let expectation = self.expectation(description: "executeRoute completion callback")
                         router.executeRoute(validSequence) {
                             routingResult in
                             switch routingResult {
@@ -64,7 +64,7 @@ class RouterBranchingSpec: QuickSpec {
                             }
                             expectation.fulfill()
                         }
-                        self.waitForExpectationsWithTimeout(5, handler: nil)
+                        self.waitForExpectations(timeout: 5, handler: nil)
                     }
 
 //                    it("should produce full sequence") {

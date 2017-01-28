@@ -30,18 +30,18 @@ public protocol TrunkRouteController {
     func selectBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void))
 }
 
-public class RouteSegment : RouteSegmentType {
+open class RouteSegment : RouteSegmentType {
 
     public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
     }
 
-    public let segmentIdentifier: Identifier
-    public let presenterIdentifier: Identifier
+    open let segmentIdentifier: Identifier
+    open let presenterIdentifier: Identifier
 }
 
-public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
+open class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
 
     public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: @escaping ViewControllerLoaderFunction) {
         self.isSingleton = isSingleton
@@ -49,11 +49,11 @@ public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
         super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier)
     }
 
-    public func viewController() -> UIViewController? {
+    open func viewController() -> UIViewController? {
         return self.getViewController()
     }
 
-    private func getViewController() -> UIViewController? {
+    fileprivate func getViewController() -> UIViewController? {
         if isSingleton {
             if cachedViewController == nil {
                 cachedViewController = loadViewController()()
@@ -64,26 +64,26 @@ public class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
         }
     }
 
-    private func callLoadViewController() -> UIViewController? {
+    fileprivate func callLoadViewController() -> UIViewController? {
         return loadViewController()()
     }
 
-    private let isSingleton: Bool
-    private let loadViewController: ViewControllerLoaderFunction
-    private var cachedViewController: UIViewController?
+    fileprivate let isSingleton: Bool
+    fileprivate let loadViewController: ViewControllerLoaderFunction
+    fileprivate var cachedViewController: UIViewController?
     
 }
 
-public class BranchRouteSegment : RouteSegment, BranchRouteSegmentType {
+open class BranchRouteSegment : RouteSegment, BranchRouteSegmentType {
 }
 
 extension UITabBarController: TrunkRouteController {
 
-    private struct AssociatedKey {
+    fileprivate struct AssociatedKey {
         static var branchDictionary = "branchDictionary"
     }
 
-    private var branches: NSMutableDictionary {
+    fileprivate var branches: NSMutableDictionary {
         get {
             if let result = objc_getAssociatedObject(self, &AssociatedKey.branchDictionary) as? NSMutableDictionary {
                 return result
@@ -94,7 +94,7 @@ extension UITabBarController: TrunkRouteController {
         }
     }
 
-    private func appendBranchIfNeeded(_ branchIdentifier: Identifier, selectViewController: Bool, completion: ((RoutingResult) -> Void)) {
+    fileprivate func appendBranchIfNeeded(_ branchIdentifier: Identifier, selectViewController: Bool, completion: ((RoutingResult) -> Void)) {
         var localViewControllers: [UIViewController] = viewControllers ?? []
 
         if let index = branches[branchIdentifier.name] as? Int, index < localViewControllers.count {
@@ -134,11 +134,11 @@ extension UITabBarController: TrunkRouteController {
 
 extension UISplitViewController: TrunkRouteController {
 
-    private struct AssociatedKey {
+    fileprivate struct AssociatedKey {
         static var branchDictionary = "branchDictionary"
     }
 
-    private var branches: NSMutableDictionary {
+    fileprivate var branches: NSMutableDictionary {
         get {
             if let result = objc_getAssociatedObject(self, &AssociatedKey.branchDictionary) as? NSMutableDictionary {
                 return result
@@ -150,8 +150,8 @@ extension UISplitViewController: TrunkRouteController {
     }
 
 
-    private func appendBranchIfNeeded(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void)) {
-        var localViewControllers: [UIViewController] = viewControllers ?? []
+    fileprivate func appendBranchIfNeeded(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void)) {
+        var localViewControllers: [UIViewController] = viewControllers 
 
         if let index = branches[branchIdentifier.name] as? Int, index < localViewControllers.count {
             guard let result = localViewControllers[index] as? PlaceholderViewController else {

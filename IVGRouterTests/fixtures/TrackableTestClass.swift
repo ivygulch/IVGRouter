@@ -8,16 +8,18 @@
 
 import Foundation
 
+
 struct TrackerLogEntry {
     let key: String
     let values: [String]
-    let timestamp: NSDate
+    let timestamp: Date
 }
 
 struct TrackerSummaryEntry {
     let values: [String]
-    let timestamp: NSDate
+    let timestamp: Date
 }
+
 
 protocol TrackableTestClassType {
     var trackerLog:[TrackerLogEntry] { get }
@@ -27,11 +29,14 @@ protocol TrackableTestClassType {
     var trackerKeyCounts:[String:Int] { get }
     var trackerCount:Int { get }
 
-    func track(key:String)
-    func track<T>(key:String, andReturn: T) -> T
-    func track(key:String, _ values:[String])
-    func track<T>(key:String, _ values:[String], andReturn: T) -> T
+    func track(_ key:String)
+    func track<T>(_ key:String, andReturn: T) -> T
+    func track(_ key:String, _ values:[String])
+    func track<T>(_ key:String, _ values:[String], andReturn: T) -> T
     func reset()
+
+    func trackerKeyValuesDifferences(_ key: String, _ values: [[String]]) -> [String]
+    func trackerKeyValuesDifferences(_ values: [String:[[String]]]) -> [String]
 }
 
 protocol TrackableTestClassProxy : TrackableTestClassType {
@@ -58,24 +63,32 @@ extension TrackableTestClassProxy {
         return trackableTestClass.trackerCount
     }
 
-    func track(key:String) {
+    func track(_ key:String) {
         trackableTestClass.track(key)
     }
 
-    func track<T>(key:String, andReturn: T) -> T {
+    func track<T>(_ key:String, andReturn: T) -> T {
         return trackableTestClass.track(key, andReturn: andReturn)
     }
 
-    func track(key:String, _ values:[String]) {
+    func track(_ key:String, _ values:[String]) {
         trackableTestClass.track(key, values)
     }
     
-    func track<T>(key:String, _ values:[String], andReturn: T) -> T {
+    func track<T>(_ key:String, _ values:[String], andReturn: T) -> T {
         return trackableTestClass.track(key, values, andReturn: andReturn)
     }
     
     func reset() {
         trackableTestClass.reset()
+    }
+
+    func trackerKeyValuesDifferences(_ key: String, _ values: [[String]]) -> [String] {
+        return trackableTestClass.trackerKeyValuesDifferences(key, values)
+    }
+
+    func trackerKeyValuesDifferences(_ values: [String:[[String]]]) -> [String] {
+        return trackableTestClass.trackerKeyValuesDifferences(values)
     }
 }
 
@@ -104,20 +117,20 @@ class TrackableTestClass : TrackableTestClassType {
         return result
     }
     var trackerCount:Int {
-        return trackerSummary.values.reduce(0,combine:{$0 + $1.count})
+        return trackerSummary.values.reduce(0,{$0 + $1.count})
     }
 
-    func track(key:String) {
+    func track(_ key:String) {
         track(key, [])
     }
 
-    func track<T>(key:String, andReturn: T) -> T {
+    func track<T>(_ key:String, andReturn: T) -> T {
         track(key)
         return andReturn
     }
 
-    func track(key:String, _ values:[String]) {
-        let timestamp = NSDate()
+    func track(_ key:String, _ values:[String]) {
+        let timestamp = Date()
         let trackerLogEntry = TrackerLogEntry(key: key, values: values, timestamp: timestamp)
         let trackerSummaryEntry = TrackerSummaryEntry(values: values, timestamp: timestamp)
 
@@ -127,7 +140,7 @@ class TrackableTestClass : TrackableTestClassType {
         trackerLog.append(trackerLogEntry)
     }
 
-    func track<T>(key:String, _ values:[String], andReturn: T) -> T {
+    func track<T>(_ key:String, _ values:[String], andReturn: T) -> T {
         track(key, values)
         return andReturn
     }
@@ -135,6 +148,14 @@ class TrackableTestClass : TrackableTestClassType {
     func reset() {
         trackerLog = []
         trackerSummary = [:]
+    }
+
+    func trackerKeyValuesDifferences(_ key: String, _ values: [[String]]) -> [String] {
+        return []
+    }
+
+    func trackerKeyValuesDifferences(_ values: [String:[[String]]]) -> [String] {
+        return []
     }
 }
 

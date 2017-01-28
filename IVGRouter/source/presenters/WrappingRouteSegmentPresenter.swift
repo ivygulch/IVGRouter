@@ -22,11 +22,11 @@ public protocol WrappingRouteSegmentAnimator {
     var completeViewUnwrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) { get }
 }
 
-public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
+open class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     // MARK: public methods
 
-    public static let defaultPresenterIdentifier = Identifier(name: String(describing: WrappingRouteSegmentPresenter.self))
+    open static let defaultPresenterIdentifier = Identifier(name: String(describing: WrappingRouteSegmentPresenter.self))
 
     public init(wrappingRouteSegmentAnimator: WrappingRouteSegmentAnimator) {
         self.wrappingRouteSegmentAnimator = wrappingRouteSegmentAnimator
@@ -38,9 +38,9 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         super.init(presenterIdentifier: presenterIdentifier)
     }
 
-    public func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
+    open func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
         guard let child = presentingViewController else {
-            verify(checkNotNil(presentingViewController, "presentingViewController"), completion: completion)
+            _ = verify(checkNotNil(presentingViewController, "presentingViewController"), completion: completion)
             return
         }
         if presentedViewController == child {
@@ -51,15 +51,15 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         }
     }
 
-    public func reversePresentation(_ viewControllerToRemove: UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
+    open func reversePresentation(_ viewControllerToRemove: UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
         let parent = viewControllerToRemove.parent
         guard let _ = parent else {
-            verify(checkNotNil(parent, "parent"), completion: completion)
+            _ = verify(checkNotNil(parent, "parent"), completion: completion)
             return
         }
         let firstChild = viewControllerToRemove.childViewControllers.first
         guard let child = firstChild else {
-            verify(checkNotNil(firstChild, "child"), completion: completion)
+            _ = verify(checkNotNil(firstChild, "child"), completion: completion)
             return
         }
 
@@ -68,7 +68,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
 
     // MARK: wrapping methods
 
-    private func wrapChild(_ child: UIViewController, inWrapper wrapper : UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
+    fileprivate func wrapChild(_ child: UIViewController, inWrapper wrapper : UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
         let parent = child.parent
         let previousChildViewIndex = parent?.view.subviews.index(of: child.view)
 
@@ -98,7 +98,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         )
     }
 
-    private func startWrappingViewController(_ child: UIViewController, inWrapper wrapper : UIViewController) -> ((Void) -> Void) {
+    fileprivate func startWrappingViewController(_ child: UIViewController, inWrapper wrapper : UIViewController) -> ((Void) -> Void) {
         let parent = child.parent
         if let navigationController = parent as? UINavigationController {
             return startWrappingNavigationController(navigationController, withChild: child, inWrapper: wrapper)
@@ -115,7 +115,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         }
     }
 
-    private func startWrappingBasicController(_ child: UIViewController, inWrapper wrapper: UIViewController) -> ((Void) -> Void) {
+    fileprivate func startWrappingBasicController(_ child: UIViewController, inWrapper wrapper: UIViewController) -> ((Void) -> Void) {
         let parent = child.parent
         wrapper.addChildViewController(child)
         parent?.addChildViewController(wrapper)
@@ -125,7 +125,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         }
     }
 
-    private func startWrappingNavigationController(_ navigationController: UINavigationController, withChild child: UIViewController, inWrapper wrapper : UIViewController) -> ((Void) -> Void) {
+    fileprivate func startWrappingNavigationController(_ navigationController: UINavigationController, withChild child: UIViewController, inWrapper wrapper : UIViewController) -> ((Void) -> Void) {
         // UINavigationController will handle *some* of the add/move stuff for us
         var viewControllers = navigationController.viewControllers
         guard let index = viewControllers.index(of: child) else {
@@ -146,7 +146,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
 
     // MARK: unwrapping methods
 
-    private func unwrapChild(_ child: UIViewController, fromWrapper wrapper: UIViewController, completion: @escaping ((RoutingResult) -> Void))  {
+    fileprivate func unwrapChild(_ child: UIViewController, fromWrapper wrapper: UIViewController, completion: @escaping ((RoutingResult) -> Void))  {
         let parent = wrapper.parent!
         let child = wrapper.childViewControllers.first!
         child.willMove(toParentViewController: parent)
@@ -173,7 +173,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
 
     }
 
-    private func startUnwrappingViewController(_ child: UIViewController, fromWrapper wrapper : UIViewController) -> ((Void) -> Void) {
+    fileprivate func startUnwrappingViewController(_ child: UIViewController, fromWrapper wrapper : UIViewController) -> ((Void) -> Void) {
         let parent = wrapper.parent
         if let navigationController = parent as? UINavigationController {
             return startUnwrappingNavigationController(navigationController, withChild: child, fromWrapper: wrapper)
@@ -190,7 +190,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         }
     }
 
-    private func startUnwrappingBasicController(_ child: UIViewController, fromWrapper wrapper: UIViewController) -> ((Void) -> Void) {
+    fileprivate func startUnwrappingBasicController(_ child: UIViewController, fromWrapper wrapper: UIViewController) -> ((Void) -> Void) {
         let parent = child.parent
 
         return {
@@ -203,7 +203,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
         }
     }
 
-    private func startUnwrappingNavigationController(_ navigationController: UINavigationController, withChild child: UIViewController, fromWrapper wrapper : UIViewController) -> ((Void) -> Void) {
+    fileprivate func startUnwrappingNavigationController(_ navigationController: UINavigationController, withChild child: UIViewController, fromWrapper wrapper : UIViewController) -> ((Void) -> Void) {
         // UINavigationController will handle *some* of the add/move stuff for us
         var viewControllers = navigationController.viewControllers
         guard let index = viewControllers.index(of: wrapper) else {
@@ -223,7 +223,7 @@ public class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRo
 
     // MARK: private variables
 
-    private var wrappingRouteSegmentAnimator: WrappingRouteSegmentAnimator
+    fileprivate var wrappingRouteSegmentAnimator: WrappingRouteSegmentAnimator
 }
 
 extension UINavigationItem {

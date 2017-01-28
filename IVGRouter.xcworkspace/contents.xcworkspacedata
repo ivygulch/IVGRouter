@@ -4,10 +4,4 @@
    <FileRef
       location = "group:IVGRouter.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:external/Quick/Quick.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:external/Nimble/Nimble.xcodeproj">
-   </FileRef>
 </Workspace>

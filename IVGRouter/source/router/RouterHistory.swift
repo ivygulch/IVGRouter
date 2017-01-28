@@ -25,36 +25,36 @@ public protocol RouterHistoryType {
     func debugFull(_ msg: String)
 }
 
-public class RouterHistory: RouterHistoryType {
+open class RouterHistory: RouterHistoryType {
 
     // MARK: protocol methods
 
     public init() {
     }
 
-    public var previousRouteHistoryItem: RouteHistoryItemType? {
+    open var previousRouteHistoryItem: RouteHistoryItemType? {
         let previousIndex = currentIndex - 1
         return (previousIndex >= 0) && (previousIndex < history.count) ? history[previousIndex] : nil
     }
 
-    public var nextRouteHistoryItem: RouteHistoryItemType? {
+    open var nextRouteHistoryItem: RouteHistoryItemType? {
         let nextIndex = currentIndex + 1
         return nextIndex < history.count ? history[nextIndex] : nil
     }
 
-    public func moveBackward() {
+    open func moveBackward() {
         if currentIndex > 0 {
             currentIndex -= 1
         }
     }
 
-    public func moveForward() {
+    open func moveForward() {
         if currentIndex < (history.count-1) {
             currentIndex += 1
         }
     }
 
-    private func debugStr() -> String {
+    fileprivate func debugStr() -> String {
         var checkIndex = 0
         return history.map {
             routeHistoryItem in
@@ -68,11 +68,11 @@ public class RouterHistory: RouterHistoryType {
             }.joined(separator: "|")
     }
 
-    public func debug(_ msg: String) {
+    open func debug(_ msg: String) {
         print("DBG: \(msg)=\(debugStr())")
     }
 
-    public func debugFull(_ msg: String) {
+    open func debugFull(_ msg: String) {
         print("DBG: \(msg), count=\(history.count), currentIndex=\(currentIndex)")
         for (checkIndex,routeHistoryItem) in history.enumerated() {
             let flag = (checkIndex == currentIndex) ? "**" : "  "
@@ -85,7 +85,7 @@ public class RouterHistory: RouterHistoryType {
     }
 
 
-    public func recordRouteHistoryItem(_ routeHistoryItem: RouteHistoryItemType, ignoreDuplicates: Bool) {
+    open func recordRouteHistoryItem(_ routeHistoryItem: RouteHistoryItemType, ignoreDuplicates: Bool) {
         if let lastHistory = history.last, ignoreDuplicates && lastHistory.routeSequence == routeHistoryItem.routeSequence {
             currentIndex = history.count - 1
             return
@@ -106,8 +106,8 @@ public class RouterHistory: RouterHistoryType {
 
     // MARK: private variables
 
-    private var history: [RouteHistoryItemType] = []
-    private var currentIndex: Int = 0
+    fileprivate var history: [RouteHistoryItemType] = []
+    fileprivate var currentIndex: Int = 0
 }
 
 public struct RouteHistoryItem: Equatable, RouteHistoryItemType {

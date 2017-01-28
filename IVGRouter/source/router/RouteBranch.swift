@@ -14,9 +14,9 @@ public protocol RouteBranchType {
     func validateRouteSequenceWithRouter(_ router: RouterType) -> Bool
 }
 
-public class RouteBranch: RouteBranchType {
+open class RouteBranch: RouteBranchType {
 
-    public func validateRouteSequenceWithRouter(_ router: RouterType) -> Bool {
+    open func validateRouteSequenceWithRouter(_ router: RouterType) -> Bool {
         guard let routeSegments = routeSequence.validatedRouteSegmentsWithRouter(router) else {
             return false // not a valid sequence
         }
@@ -34,6 +34,6 @@ public class RouteBranch: RouteBranchType {
         self.routeSequence = routeSequence
     }
 
-    public let branchIdentifier: Identifier
-    public let routeSequence: RouteSequence
+    open let branchIdentifier: Identifier
+    open let routeSequence: RouteSequence
 }

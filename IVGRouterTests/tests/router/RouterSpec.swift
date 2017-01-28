@@ -51,7 +51,7 @@ extension RouterSpec {
 
             it("should have an empty set of viewControllers") {
                 let router = Router(window: nil)
-                let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier)
                 expect(defaultBranchViewControllers).to(beEmpty())
             }
 
@@ -81,15 +81,15 @@ extension RouterSpec {
             }
 
             it("should include RootRouteSegmentPresenter") {
-                expect(router.presenters[Identifier(name: String(RootRouteSegmentPresenter))]).toNot(beNil())
+                expect(router.presenters[Identifier(name: String(describing: RootRouteSegmentPresenter.self))]).toNot(beNil())
             }
 
             it("should include BranchRouteSegmentPresenter") {
-                expect(router.presenters[Identifier(name: String(BranchRouteSegmentPresenter))]).toNot(beNil())
+                expect(router.presenters[Identifier(name: String(describing: BranchRouteSegmentPresenter.self))]).toNot(beNil())
             }
 
             it("should include PushRouteSegmentPresenter") {
-                expect(router.presenters[Identifier(name: String(PushRouteSegmentPresenter))]).toNot(beNil())
+                expect(router.presenters[Identifier(name: String(describing: PushRouteSegmentPresenter.self))]).toNot(beNil())
             }
 
         }
@@ -190,7 +190,7 @@ extension RouterSpec {
 
                 it("should succeed") {
                     let routeSequence: [Any] = [mockVisualRouteSegmentValid.segmentIdentifier]
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(routeSequence) {
                         routingResult in
                         switch routingResult {
@@ -201,7 +201,7 @@ extension RouterSpec {
                         }
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
                 }
 
             }
@@ -210,7 +210,7 @@ extension RouterSpec {
 
                 it("should fail") {
                     let routeSequence: [Any] = [mockVisualRouteSegmentNoViewController.segmentIdentifier]
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(routeSequence) {
                         routingResult in
                         switch routingResult {
@@ -220,7 +220,7 @@ extension RouterSpec {
                             expect(error as? RoutingErrors).toNot(beNil())
                             if let error = error as? RoutingErrors {
                                 switch error {
-                                case .NoViewControllerProduced(let identifier):
+                                case .noViewControllerProduced(let identifier):
                                     expect(identifier).to(equal(identifierNoViewController))
                                 default:
                                     fail("Did not expect: \(error)")
@@ -229,7 +229,7 @@ extension RouterSpec {
                         }
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
                 }
 
             }
@@ -238,7 +238,7 @@ extension RouterSpec {
 
                 it("should fail") {
                     let routeSequence: [Any] = [mockVisualRouteSegmentCompletionFails.segmentIdentifier]
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(routeSequence) {
                         routingResult in
                         switch routingResult {
@@ -248,7 +248,7 @@ extension RouterSpec {
                             expect(error as? RoutingErrors).toNot(beNil())
                             if let error = error as? RoutingErrors {
                                 switch error {
-                                case .CannotPresent(let identifier, _):
+                                case .cannotPresent(let identifier, _):
                                     expect(identifier).to(equal(mockPresenterCompletionFails.presenterIdentifier))
                                 default:
                                     fail("Did not expect: \(error)")
@@ -257,7 +257,7 @@ extension RouterSpec {
                         }
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
                 }
 
             }
@@ -307,7 +307,7 @@ extension RouterSpec {
             context("with a valid sequence") {
 
                 it("should succeed") {
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(validSequence) {
                         routingResult in
                         switch routingResult {
@@ -318,16 +318,16 @@ extension RouterSpec {
                         }
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
                 }
 
                 it("should produce full sequence") {
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(validSequence) { _ in
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
-                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    self.waitForExpectations(timeout: 5, handler: nil)
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier)
                     expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
                 }
 
@@ -336,7 +336,7 @@ extension RouterSpec {
             context("with an invalid sequence") {
 
                 it("should fail") {
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(invalidSequence) {
                         routingResult in
                         switch routingResult {
@@ -346,7 +346,7 @@ extension RouterSpec {
                             expect(error as? RoutingErrors).toNot(beNil())
                             if let error = error as? RoutingErrors {
                                 switch error {
-                                case .SegmentNotRegistered(let identifier):
+                                case .segmentNotRegistered(let identifier):
                                     expect(identifier).to(equal(identifierInvalid))
                                 default:
                                     fail("Did not expect: \(error)")
@@ -355,16 +355,16 @@ extension RouterSpec {
                         }
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
                 }
 
                 it("should produce partial sequence") {
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(invalidSequence) { _ in
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
-                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    self.waitForExpectations(timeout: 5, handler: nil)
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier)
                     expect(defaultBranchViewControllers).to(equal([mockViewControllerA]))
                 }
 
@@ -405,7 +405,7 @@ extension RouterSpec {
                 router.registerRouteSegment(mockVisualRouteSegmentC)
                 initialSequence = [mockVisualRouteSegmentA.segmentIdentifier,mockVisualRouteSegmentB.segmentIdentifier,mockVisualRouteSegmentC.segmentIdentifier]
 
-                let expectation = self.expectationWithDescription("executeRoute initialRoute")
+                let expectation = self.expectation(description: "executeRoute initialRoute")
                 router.executeRoute(initialSequence) {
                     routingResult in
                     switch routingResult {
@@ -417,13 +417,13 @@ extension RouterSpec {
                     expectation.fulfill()
                 }
                 print("DBG: initialSequence=\(initialSequence)")
-                self.waitForExpectationsWithTimeout(5, handler: nil)
+                self.waitForExpectations(timeout: 5, handler: nil)
             }
 
             context("then calling popRoute once") {
 
                 it("should move back to previous segment") {
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.popRoute() {
                         routingResult in
                         switch routingResult {
@@ -434,7 +434,7 @@ extension RouterSpec {
                         }
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
                 }
 
             }
@@ -442,7 +442,7 @@ extension RouterSpec {
             context("then calling popRoute twice") {
 
                 it("should move back to first segment") {
-                    let expectation = self.expectationWithDescription("second popRoute completion")
+                    let expectation = self.expectation(description: "second popRoute completion")
                     router.popRoute() { _ in
 
                         router.popRoute() {
@@ -457,7 +457,7 @@ extension RouterSpec {
                         }
 
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
                 }
 
             }
@@ -505,7 +505,7 @@ extension RouterSpec {
                 router.registerRouteSegment(mockVisualRouteSegmentE)
                 initialSequence = [mockVisualRouteSegmentA.segmentIdentifier,mockVisualRouteSegmentB.segmentIdentifier,mockVisualRouteSegmentC.segmentIdentifier,mockVisualRouteSegmentD.segmentIdentifier]
 
-                let expectation = self.expectationWithDescription("executeRoute initialRoute")
+                let expectation = self.expectation(description: "executeRoute initialRoute")
                 router.executeRoute(initialSequence) {
                     routingResult in
                     switch routingResult {
@@ -519,14 +519,14 @@ extension RouterSpec {
                     }
                     expectation.fulfill()
                 }
-                self.waitForExpectationsWithTimeout(5, handler: nil)
+                self.waitForExpectations(timeout: 5, handler: nil)
             }
 
             context("then executing subset of route with one less segment") {
 
                 it("should effectively pop to previous segment") {
                     let subSequence = Array(initialSequence.prefix(initialSequence.count-1))
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(subSequence) {
                         routingResult in
                         switch routingResult {
@@ -541,9 +541,9 @@ extension RouterSpec {
                         }
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
 
-                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier)
                     expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
                 }
 
@@ -553,7 +553,7 @@ extension RouterSpec {
 
                 it("should effectively pop twice to earlier segment") {
                     let subSequence = Array(initialSequence.prefix(initialSequence.count-2))
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(subSequence) {
                         routingResult in
                         switch routingResult {
@@ -568,9 +568,9 @@ extension RouterSpec {
                         }
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
 
-                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier)
                     expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB]))
                 }
 
@@ -581,7 +581,7 @@ extension RouterSpec {
                 it("should effectively pop some segments before moving to new one") {
                     var subSequence = Array(initialSequence.prefix(initialSequence.count-2))
                     subSequence.append(mockVisualRouteSegmentE.segmentIdentifier)
-                    let expectation = self.expectationWithDescription("executeRoute completion callback")
+                    let expectation = self.expectation(description: "executeRoute completion callback")
                     router.executeRoute(subSequence) {
                         routingResult in
                         switch routingResult {
@@ -597,9 +597,9 @@ extension RouterSpec {
                         }
                         expectation.fulfill()
                     }
-                    self.waitForExpectationsWithTimeout(5, handler: nil)
+                    self.waitForExpectations(timeout: 5, handler: nil)
 
-                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier) ?? []
+                    let defaultBranchViewControllers = router.viewControllersForRouteBranchIdentifier(router.defaultRouteBranch.branchIdentifier)
                     expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerE]))
                 }
 
@@ -660,7 +660,7 @@ extension RouterSpec {
             }
 
             it("should not move back") {
-                let expectation = self.expectationWithDescription("goBack completion callback")
+                let expectation = self.expectation(description: "goBack completion callback")
                 router.goBack() {
                     routingResult in
                     switch routingResult {
@@ -670,7 +670,7 @@ extension RouterSpec {
                         expect(error as? RoutingErrors).toNot(beNil())
                         if let error = error as? RoutingErrors {
                             switch error {
-                            case .NoHistory:
+                            case .noHistory:
                             break // yup
                             default:
                                 fail("Did not expect: \(error)")
@@ -679,11 +679,11 @@ extension RouterSpec {
                     }
                     expectation.fulfill()
                 }
-                self.waitForExpectationsWithTimeout(5, handler: nil)
+                self.waitForExpectations(timeout: 5, handler: nil)
             }
 
             it("should not move forward") {
-                let expectation = self.expectationWithDescription("goForward completion callback")
+                let expectation = self.expectation(description: "goForward completion callback")
                 router.goForward() {
                     routingResult in
                     switch routingResult {
@@ -693,7 +693,7 @@ extension RouterSpec {
                         expect(error as? RoutingErrors).toNot(beNil())
                         if let error = error as? RoutingErrors {
                             switch error {
-                            case .NoHistory:
+                            case .noHistory:
                             break // yup
                             default:
                                 fail("Did not expect: \(error)")
@@ -702,7 +702,7 @@ extension RouterSpec {
                     }
                     expectation.fulfill()
                 }
-                self.waitForExpectationsWithTimeout(5, handler: nil)
+                self.waitForExpectations(timeout: 5, handler: nil)
             }
 
         }
@@ -723,7 +723,7 @@ extension RouterSpec {
             }
 
             it("should move back") {
-                let expectation = self.expectationWithDescription("goBack completion callback")
+                let expectation = self.expectation(description: "goBack completion callback")
                 router.goBack() {
                     routingResult in
                     print("DBG: routingResult=\(routingResult)")
@@ -735,11 +735,11 @@ extension RouterSpec {
                     }
                     expectation.fulfill()
                 }
-                self.waitForExpectationsWithTimeout(5, handler: nil)
+                self.waitForExpectations(timeout: 5, handler: nil)
             }
 
             it("should not move forward") {
-                let expectation = self.expectationWithDescription("goForward completion callback")
+                let expectation = self.expectation(description: "goForward completion callback")
                 router.goForward() {
                     routingResult in
                     switch routingResult {
@@ -749,7 +749,7 @@ extension RouterSpec {
                         expect(error as? RoutingErrors).toNot(beNil())
                         if let error = error as? RoutingErrors {
                             switch error {
-                            case .NoHistory:
+                            case .noHistory:
                             break // yup
                             default:
                                 fail("Did not expect: \(error)")
@@ -758,7 +758,7 @@ extension RouterSpec {
                     }
                     expectation.fulfill()
                 }
-                self.waitForExpectationsWithTimeout(5, handler: nil)
+                self.waitForExpectations(timeout: 5, handler: nil)
             }
 
         }
@@ -782,7 +782,7 @@ extension RouterSpec {
             }
             
             it("should move back") {
-                let expectation = self.expectationWithDescription("goBack completion callback")
+                let expectation = self.expectation(description: "goBack completion callback")
                 router.goBack() {
                     routingResult in
                     switch routingResult {
@@ -793,11 +793,11 @@ extension RouterSpec {
                     }
                     expectation.fulfill()
                 }
-                self.waitForExpectationsWithTimeout(5, handler: nil)
+                self.waitForExpectations(timeout: 5, handler: nil)
             }
             
             it("should move forward") {
-                let expectation = self.expectationWithDescription("goForward completion callback")
+                let expectation = self.expectation(description: "goForward completion callback")
                 router.goForward() {
                     routingResult in
                     switch routingResult {
@@ -808,7 +808,7 @@ extension RouterSpec {
                     }
                     expectation.fulfill()
                 }
-                self.waitForExpectationsWithTimeout(5, handler: nil)
+                self.waitForExpectations(timeout: 5, handler: nil)
             }
             
         }

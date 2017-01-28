@@ -17,11 +17,11 @@ public struct BranchRouteSegmentPresenterOptions {
     }
 }
 
-public class BranchRouteSegmentPresenter : BaseRouteSegmentPresenter, BranchRouteSegmentPresenterType {
+open class BranchRouteSegmentPresenter : BaseRouteSegmentPresenter, BranchRouteSegmentPresenterType {
 
-    public static let defaultPresenterIdentifier = Identifier(name: String(describing: BranchRouteSegmentPresenter.self))
+    open static let defaultPresenterIdentifier = Identifier(name: String(describing: BranchRouteSegmentPresenter.self))
 
-    public func selectBranch(_ branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
+    open func selectBranch(_ branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
         if BranchRouteSegmentPresenterOptions.appendOnlyFromOptions(options) {
             trunkRouteController.configureBranch(branchRouteSegmentIdentifier, completion: completion)
         } else {

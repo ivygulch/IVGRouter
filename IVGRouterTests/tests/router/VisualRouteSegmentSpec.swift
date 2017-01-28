@@ -43,7 +43,7 @@ class VisualRouteSegmentSpec: QuickSpec {
                 }
 
                 it("should load mockViewControllerB once") {
-                    expect(mockViewControllerBLoader.trackerKeyValues).to(equal(["load":[[mockViewControllerB.description]]]))
+                    expect(mockViewControllerBLoader.trackerKeyValuesDifferences(["load":[[mockViewControllerB.description]]])).to(beEmpty())
                     expect(loadedViewController).to(equal(mockViewControllerB))
                 }
             }
@@ -57,12 +57,12 @@ class VisualRouteSegmentSpec: QuickSpec {
                         presenterIdentifier: mockIdentifier,
                         isSingleton: true,
                         loadViewController: mockViewControllerBLoader.load)
-                    visualRouteSegment.viewController()
-                    visualRouteSegment.viewController()
+                    _ = visualRouteSegment.viewController()
+                    _ = visualRouteSegment.viewController()
                 }
 
                 it("should load mockViewControllerB just once") {
-                    expect(mockViewControllerBLoader.trackerKeyValues).to(equal(["load":[[mockViewControllerB.description]]]))
+                    expect(mockViewControllerBLoader.trackerKeyValuesDifferences(["load":[[mockViewControllerB.description]]])).to(beEmpty())
                 }
 
             }
@@ -76,12 +76,12 @@ class VisualRouteSegmentSpec: QuickSpec {
                         presenterIdentifier: mockIdentifier,
                         isSingleton: false,
                         loadViewController: mockViewControllerBLoader.load)
-                    visualRouteSegment.viewController()
-                    visualRouteSegment.viewController()
+                    _ = visualRouteSegment.viewController()
+                    _ = visualRouteSegment.viewController()
                 }
 
                 it("should load mockViewControllerB twice") {
-                    expect(mockViewControllerBLoader.trackerKeyValues).to(equal(["load":[[mockViewControllerB.description],[mockViewControllerB.description]]]))
+                    expect(mockViewControllerBLoader.trackerKeyValuesDifferences(["load":[[mockViewControllerB.description],[mockViewControllerB.description]]])).to(beEmpty())
                 }
 
             }
@@ -95,11 +95,11 @@ class VisualRouteSegmentSpec: QuickSpec {
                         presenterIdentifier: mockIdentifier,
                         isSingleton: false,
                         loadViewController: mockNilViewControllerLoader.load)
-                    visualRouteSegment.viewController()
+                    _ = visualRouteSegment.viewController()
                 }
 
                 it("load should return nil") {
-                    expect(mockNilViewControllerLoader.trackerKeyValues).to(equal(["load":[["nil"]]]))
+                    expect(mockNilViewControllerLoader.trackerKeyValuesDifferences(["load":[["nil"]]])).to(beEmpty())
                 }
 
             }

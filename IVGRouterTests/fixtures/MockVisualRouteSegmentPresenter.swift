@@ -13,7 +13,7 @@ import IVGRouter
 
 class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
-    static let defaultPresenterIdentifier = Identifier(name: String(MockVisualRouteSegmentPresenter))
+    static let defaultPresenterIdentifier = Identifier(name: String(describing: MockVisualRouteSegmentPresenter.self))
 
     init(presenterIdentifier: String, completionBlockArg: Bool) {
         self.presenterIdentifier = Identifier(name: presenterIdentifier)
@@ -22,25 +22,25 @@ class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPr
 
     let presenterIdentifier: Identifier
 
-    func presentViewController(presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: RoutingResult -> Void)  {
+    func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping (RoutingResult) -> Void)  {
         let from = presentingViewController?.description ?? "nil"
-        let windowID = window == nil ? "nil" : "\(unsafeAddressOf(window!))"
+        let windowID = window == nil ? "nil" : "\(Unmanaged.passUnretained(window!).toOpaque())"
         track("presentViewController", [presentedViewController.description,from,windowID])
         if completionBlockArg {
-            completion(.Success(presentedViewController))
+            completion(.success(presentedViewController))
         } else {
-            completion(.Failure(RoutingErrors.CannotPresent(self.presenterIdentifier, "mock result is false")))
+            completion(.failure(RoutingErrors.cannotPresent(self.presenterIdentifier, "mock result is false")))
         }
     }
 
-    func reversePresentation(viewControllerToRemove : UIViewController, completion: (RoutingResult -> Void)) {
+    func reversePresentation(_ viewControllerToRemove : UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
         track("reversePresentation", [viewControllerToRemove.description])
         if completionBlockArg {
-            completion(.Success(viewControllerToRemove))
+            completion(.success(viewControllerToRemove))
         } else {
-            completion(.Failure(RoutingErrors.CannotPresent(self.presenterIdentifier, "mock result is false")))
+            completion(.failure(RoutingErrors.cannotPresent(self.presenterIdentifier, "mock result is false")))
         }
     }
 
-    private let completionBlockArg: Bool
+    fileprivate let completionBlockArg: Bool
 }

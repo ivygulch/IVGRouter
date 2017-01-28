@@ -77,6 +77,132 @@
 			remoteGlobalIDString = F8711C6B1CCD1C0A00E6EEBB;
 			remoteInfo = IVGRouter;
 		};
+		F8D0B4B41E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DAEB6B8E1943873100289F44;
+			remoteInfo = "Quick-macOS";
+		};
+		F8D0B4B61E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DAEB6B991943873100289F44;
+			remoteInfo = "Quick-macOSTests";
+		};
+		F8D0B4B81E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5663E81A4C8D8500193C88;
+			remoteInfo = "QuickFocused-macOSTests";
+		};
+		F8D0B4BA1E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64076CF51D6D7C2000E2B499;
+			remoteInfo = "QuickAfterSuite-macOSTests";
+		};
+		F8D0B4BC1E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A5D117C19473F2100F6D13D;
+			remoteInfo = "Quick-iOS";
+		};
+		F8D0B4BE1E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A5D118619473F2100F6D13D;
+			remoteInfo = "Quick-iOSTests";
+		};
+		F8D0B4C01E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA9876B21A4C70EB0004AA17;
+			remoteInfo = "QuickFocused-iOSTests";
+		};
+		F8D0B4C21E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64076D081D6D7CD600E2B499;
+			remoteInfo = "QuickAfterSuite-iOSTests";
+		};
+		F8D0B4C41E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F118CD51BDCA4AB005013A2;
+			remoteInfo = "Quick-tvOS";
+		};
+		F8D0B4C61E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F118CDE1BDCA4AB005013A2;
+			remoteInfo = "Quick-tvOSTests";
+		};
+		F8D0B4C81E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F118CF01BDCA4BB005013A2;
+			remoteInfo = "QuickFocused-tvOSTests";
+		};
+		F8D0B4CA1E3C19BB0020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64076D1A1D6D7CEA00E2B499;
+			remoteInfo = "QuickAfterSuite-tvOSTests";
+		};
+		F8D0B4D51E3C19C80020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4CC1E3C19C80020EF53 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F925EAD195C0D6300ED456B;
+			remoteInfo = "Nimble-macOS";
+		};
+		F8D0B4D71E3C19C80020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4CC1E3C19C80020EF53 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F925EB7195C0D6300ED456B;
+			remoteInfo = "Nimble-macOSTests";
+		};
+		F8D0B4D91E3C19C80020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4CC1E3C19C80020EF53 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F1A74291940169200FFFC47;
+			remoteInfo = "Nimble-iOS";
+		};
+		F8D0B4DB1E3C19C80020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4CC1E3C19C80020EF53 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F1A74341940169200FFFC47;
+			remoteInfo = "Nimble-iOSTests";
+		};
+		F8D0B4DD1E3C19C80020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4CC1E3C19C80020EF53 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F5DF1551BDCA0CE00C3A531;
+			remoteInfo = "Nimble-tvOS";
+		};
+		F8D0B4DF1E3C19C80020EF53 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F8D0B4CC1E3C19C80020EF53 /* Nimble.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1F5DF15E1BDCA0CE00C3A531;
+			remoteInfo = "Nimble-tvOSTests";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -138,6 +264,8 @@
 		F8C030A61D456410003CF124 /* RouterHistorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterHistorySpec.swift; sourceTree = "<group>"; };
 		F8C030A81D456B89003CF124 /* MockRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockRouter.swift; sourceTree = "<group>"; };
 		F8D0B46F1E3C0E830020EF53 /* PresentRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentRouteSegmentPresenter.swift; sourceTree = "<group>"; };
+		F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = ../Quick/Quick.xcodeproj; sourceTree = "<group>"; };
+		F8D0B4CC1E3C19C80020EF53 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = ../Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		F8DCFE941D3DAD880015411F /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +305,8 @@
 				F8711CD11CCD1DE000E6EEBB /* IVGRouterDemo */,
 				F8711CCB1CCD1DA600E6EEBB /* Frameworks */,
 				F8711C6D1CCD1C0A00E6EEBB /* Products */,
+				F8D0B4CC1E3C19C80020EF53 /* Nimble.xcodeproj */,
+				F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -346,6 +476,38 @@
 			path = IVGRouterDemo;
 			sourceTree = "<group>";
 		};
+		F8D0B4A61E3C19BB0020EF53 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F8D0B4B51E3C19BB0020EF53 /* Quick.framework */,
+				F8D0B4B71E3C19BB0020EF53 /* Quick-macOSTests.xctest */,
+				F8D0B4B91E3C19BB0020EF53 /* QuickFocused-macOSTests.xctest */,
+				F8D0B4BB1E3C19BB0020EF53 /* QuickAfterSuite-macOSTests.xctest */,
+				F8D0B4BD1E3C19BB0020EF53 /* Quick.framework */,
+				F8D0B4BF1E3C19BB0020EF53 /* Quick-iOSTests.xctest */,
+				F8D0B4C11E3C19BB0020EF53 /* QuickFocused-iOSTests.xctest */,
+				F8D0B4C31E3C19BB0020EF53 /* QuickAfterSuite-iOSTests.xctest */,
+				F8D0B4C51E3C19BB0020EF53 /* Quick.framework */,
+				F8D0B4C71E3C19BB0020EF53 /* Quick-tvOSTests.xctest */,
+				F8D0B4C91E3C19BB0020EF53 /* QuickFocused-tvOSTests.xctest */,
+				F8D0B4CB1E3C19BB0020EF53 /* QuickAfterSuite-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F8D0B4CD1E3C19C80020EF53 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F8D0B4D61E3C19C80020EF53 /* Nimble.framework */,
+				F8D0B4D81E3C19C80020EF53 /* NimbleTests.xctest */,
+				F8D0B4DA1E3C19C80020EF53 /* Nimble.framework */,
+				F8D0B4DC1E3C19C80020EF53 /* NimbleTests.xctest */,
+				F8D0B4DE1E3C19C80020EF53 /* Nimble.framework */,
+				F8D0B4E01E3C19C80020EF53 /* NimbleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -421,15 +583,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Ivy Gulch LLC";
 				TargetAttributes = {
 					F8711C6B1CCD1C0A00E6EEBB = {
 						CreatedOnToolsVersion = 7.3;
-						LastSwiftMigration = 0810;
+						LastSwiftMigration = 0820;
 					};
 					F8711C751CCD1C0B00E6EEBB = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0820;
 					};
 					F8711CCF1CCD1DE000E6EEBB = {
 						CreatedOnToolsVersion = 7.3;
@@ -447,6 +610,16 @@
 			mainGroup = F8711C621CCD1C0A00E6EEBB;
 			productRefGroup = F8711C6D1CCD1C0A00E6EEBB /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F8D0B4CD1E3C19C80020EF53 /* Products */;
+					ProjectRef = F8D0B4CC1E3C19C80020EF53 /* Nimble.xcodeproj */;
+				},
+				{
+					ProductGroup = F8D0B4A61E3C19BB0020EF53 /* Products */;
+					ProjectRef = F8D0B4A51E3C19BB0020EF53 /* Quick.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				F8711C6B1CCD1C0A00E6EEBB /* IVGRouter */,
@@ -455,6 +628,135 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F8D0B4B51E3C19BB0020EF53 /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = F8D0B4B41E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4B71E3C19BB0020EF53 /* Quick-macOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Quick-macOSTests.xctest";
+			remoteRef = F8D0B4B61E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4B91E3C19BB0020EF53 /* QuickFocused-macOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickFocused-macOSTests.xctest";
+			remoteRef = F8D0B4B81E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4BB1E3C19BB0020EF53 /* QuickAfterSuite-macOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickAfterSuite-macOSTests.xctest";
+			remoteRef = F8D0B4BA1E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4BD1E3C19BB0020EF53 /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = F8D0B4BC1E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4BF1E3C19BB0020EF53 /* Quick-iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Quick-iOSTests.xctest";
+			remoteRef = F8D0B4BE1E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4C11E3C19BB0020EF53 /* QuickFocused-iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickFocused-iOSTests.xctest";
+			remoteRef = F8D0B4C01E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4C31E3C19BB0020EF53 /* QuickAfterSuite-iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickAfterSuite-iOSTests.xctest";
+			remoteRef = F8D0B4C21E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4C51E3C19BB0020EF53 /* Quick.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quick.framework;
+			remoteRef = F8D0B4C41E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4C71E3C19BB0020EF53 /* Quick-tvOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Quick-tvOSTests.xctest";
+			remoteRef = F8D0B4C61E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4C91E3C19BB0020EF53 /* QuickFocused-tvOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickFocused-tvOSTests.xctest";
+			remoteRef = F8D0B4C81E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4CB1E3C19BB0020EF53 /* QuickAfterSuite-tvOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickAfterSuite-tvOSTests.xctest";
+			remoteRef = F8D0B4CA1E3C19BB0020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4D61E3C19C80020EF53 /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = F8D0B4D51E3C19C80020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4D81E3C19C80020EF53 /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = F8D0B4D71E3C19C80020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4DA1E3C19C80020EF53 /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = F8D0B4D91E3C19C80020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4DC1E3C19C80020EF53 /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = F8D0B4DB1E3C19C80020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4DE1E3C19C80020EF53 /* Nimble.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nimble.framework;
+			remoteRef = F8D0B4DD1E3C19C80020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F8D0B4E01E3C19C80020EF53 /* NimbleTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NimbleTests.xctest;
+			remoteRef = F8D0B4DF1E3C19C80020EF53 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F8711C6A1CCD1C0A00E6EEBB /* Resources */ = {
@@ -592,8 +894,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -641,8 +945,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -662,6 +968,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -672,6 +979,7 @@
 		F8711C811CCD1C0B00E6EEBB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -689,6 +997,7 @@
 		F8711C821CCD1C0B00E6EEBB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -710,6 +1019,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -720,6 +1030,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

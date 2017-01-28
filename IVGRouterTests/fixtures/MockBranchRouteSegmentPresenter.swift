@@ -13,7 +13,7 @@ import IVGRouter
 
 class MockBranchRouteSegmentPresenter : TrackableTestClass, BranchRouteSegmentPresenterType {
 
-    static let defaultPresenterIdentifier = Identifier(name: String(MockBranchRouteSegmentPresenter))
+    static let defaultPresenterIdentifier = Identifier(name: String(describing: MockBranchRouteSegmentPresenter.self))
 
     init(presenterIdentifier: String, completionBlockArg: Bool) {
         self.presenterIdentifier = Identifier(name: presenterIdentifier)
@@ -22,15 +22,15 @@ class MockBranchRouteSegmentPresenter : TrackableTestClass, BranchRouteSegmentPr
 
     let presenterIdentifier: Identifier
 
-    func selectBranch(branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: (RoutingResult -> Void)) {
-        track("selectBranchViewController", [branchRouteSegmentIdentifier.name, String(trunkRouteController)])
+    func selectBranch(_ branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion:@escaping  ((RoutingResult) -> Void)) {
+        track("selectBranchViewController", [branchRouteSegmentIdentifier.name, String(describing: trunkRouteController)])
 
         if completionBlockArg {
             trunkRouteController.selectBranch(branchRouteSegmentIdentifier, completion: completion)
         } else {
-            completion(.Failure(RoutingErrors.CannotPresent(self.presenterIdentifier, "mock result is false")))
+            completion(.failure(RoutingErrors.cannotPresent(self.presenterIdentifier, "mock result is false")))
         }
     }
 
-    private let completionBlockArg: Bool
+    fileprivate let completionBlockArg: Bool
 }

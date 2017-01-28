@@ -12,8 +12,8 @@ import Nimble
 @testable import IVGRouter
 
 // need a class that implements RouteSegmentPresenterType to make it testable
-public class TestBaseRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
-    public static let defaultPresenterIdentifier = Identifier(name: String(TestBaseRouteSegmentPresenter))
+open class TestBaseRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
+    open static let defaultPresenterIdentifier = Identifier(name: String(describing: TestBaseRouteSegmentPresenter.self))
 }
 
 class BaseRouteSegmentPresenterSpec: QuickSpec {
@@ -24,7 +24,7 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
 
             it("should get a default value") {
                 let presenter = TestBaseRouteSegmentPresenter()
-                let defaultIdentifier = Identifier(name: String(presenter.dynamicType))
+                let defaultIdentifier = Identifier(name: String(describing: type(of: presenter)))
                 expect(presenter.presenterIdentifier).to(equal(defaultIdentifier))
             }
 
@@ -122,7 +122,7 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
                     }
 
                     it("should call completion block") {
-                        expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion":[["false","nil"]]]))
+                        expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion":[["false","nil"]]])).to(beEmpty())
                     }
                 }
             }
