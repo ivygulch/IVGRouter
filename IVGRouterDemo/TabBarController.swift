@@ -14,7 +14,7 @@ class TabBarController : UITabBarController {
     var backAction: Action? {
         didSet {
             if let _ = backAction {
-                let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.doBackAction))
+                let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.doBackAction))
                 navigationItem.leftBarButtonItem = backButton
             } else {
                 navigationItem.leftBarButtonItem = nil
@@ -24,7 +24,7 @@ class TabBarController : UITabBarController {
     var rightAction: Action? {
         didSet {
             if let _ = rightAction {
-                let rightButton = UIBarButtonItem(title: "Right", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.doRightAction))
+                let rightButton = UIBarButtonItem(title: "Right", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.doRightAction))
                 navigationItem.rightBarButtonItem = rightButton
             } else {
                 navigationItem.rightBarButtonItem = nil
@@ -48,7 +48,7 @@ class TabBarController : UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.lightGrayColor()
+        view.backgroundColor = UIColor.lightGray
         navigationItem.title = name
 
         navigationItem.hidesBackButton = true

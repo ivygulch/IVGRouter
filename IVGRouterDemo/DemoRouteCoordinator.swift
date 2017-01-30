@@ -10,9 +10,9 @@ import Foundation
 import IVGRouter
 
 enum DemoSequenceType {
-    case Execute
-    case Branch(branch: RouteBranch)
-    case Append
+    case execute
+    case branch(branch: RouteBranch)
+    case append
 }
 
 class DemoRouteCoordinator {
@@ -60,19 +60,19 @@ class DemoRouteCoordinator {
     lazy var routeBranchTab2: RouteBranch = RouteBranch(branchIdentifier: self.tab2BranchIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab2))
 
     lazy var sequences:[(String,(DemoSequenceType,[Any]))] = [
-        ("Welcome", (.Execute,self.routeSequenceWelcome)),
-        ("WA", (.Execute,self.routeSequenceWA)),
-        ("WAB", (.Execute,self.routeSequenceWAB)),
-        ("WABC", (.Execute,self.routeSequenceWABC)),
-        ("WD", (.Execute,self.routeSequenceWD)),
-        ("WDE", (.Execute,self.routeSequenceWDE)),
-        ("WDEF", (.Execute,self.routeSequenceWDEF)),
-        ("WDEFG", (.Execute,self.routeSequenceWDEFG)),
-        ("WAFE", (.Execute,self.routeSequenceWAFE)),
-        ("T1.NCA", (.Branch(branch: self.routeBranchTab1),self.routeSequenceNCA)),
-        ("T1.NCAF", (.Branch(branch: self.routeBranchTab1),self.routeSequenceNCAF)),
-        ("T2.Z", (.Branch(branch: self.routeBranchTab2),self.routeSequenceZ)),
-        ("Wrapper", (.Append,self.routeSequenceWrapper))
+        ("Welcome", (.execute,self.routeSequenceWelcome)),
+        ("WA", (.execute,self.routeSequenceWA)),
+        ("WAB", (.execute,self.routeSequenceWAB)),
+        ("WABC", (.execute,self.routeSequenceWABC)),
+        ("WD", (.execute,self.routeSequenceWD)),
+        ("WDE", (.execute,self.routeSequenceWDE)),
+        ("WDEF", (.execute,self.routeSequenceWDEF)),
+        ("WDEFG", (.execute,self.routeSequenceWDEFG)),
+        ("WAFE", (.execute,self.routeSequenceWAFE)),
+        ("T1.NCA", (.branch(branch: self.routeBranchTab1),self.routeSequenceNCA)),
+        ("T1.NCAF", (.branch(branch: self.routeBranchTab1),self.routeSequenceNCAF)),
+        ("T2.Z", (.branch(branch: self.routeBranchTab2),self.routeSequenceZ)),
+        ("Wrapper", (.append,self.routeSequenceWrapper))
     ]
 
     init(window: UIWindow?) {
@@ -106,7 +106,7 @@ class DemoRouteCoordinator {
         router.registerRouteBranch(routeBranchTab2);
     }
 
-    private func buildRootSegment() -> VisualRouteSegmentType {
+    fileprivate func buildRootSegment() -> VisualRouteSegmentType {
         return buildVisualSegment(rootSegmentIdentifier, presenterIdentifier: RootRouteSegmentPresenter.defaultPresenterIdentifier, viewControllerLoaderFunction: {
             return {
                 return RootViewController()
@@ -114,14 +114,14 @@ class DemoRouteCoordinator {
         })
     }
 
-    private func buildTrunkSegment(segmentIdentifier: Identifier) -> VisualRouteSegmentType {
+    fileprivate func buildTrunkSegment(_ segmentIdentifier: Identifier) -> VisualRouteSegmentType {
         return VisualRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,
             loadViewController:{ return {
                 let result = TabBarController(name: segmentIdentifier.name)
-                result.view.backgroundColor = UIColor.orangeColor()
+                result.view.backgroundColor = UIColor.orange
 
                 result.rightAction = {
                     self.displayOptionMenu(result)
@@ -136,26 +136,26 @@ class DemoRouteCoordinator {
         )
     }
 
-    private func buildBranchSegment(segmentIdentifier: Identifier) -> BranchRouteSegmentType {
+    fileprivate func buildBranchSegment(_ segmentIdentifier: Identifier) -> BranchRouteSegmentType {
         return BranchRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: BranchRouteSegmentPresenter.defaultPresenterIdentifier
         )
     }
 
-    func defaultViewControllerLoader(segmentIdentifier: Identifier) -> ViewControllerLoaderFunction {
+    func defaultViewControllerLoader(_ segmentIdentifier: Identifier) -> ViewControllerLoaderFunction {
         return {
             return {
                 let result = ViewController(name: segmentIdentifier.name)
 
                 for (title,(type,sequence)) in self.sequences {
-                    result.addAction(title, action: {
+                    _ = result.addAction(title, action: {
                         switch type {
-                        case .Execute:
+                        case .execute:
                             self.router.executeRoute(sequence) { _ in }
-                        case .Branch(let branch):
+                        case .branch(let branch):
                             self.router.executeRoute(sequence, routeBranch: branch) { _ in }
-                        case .Append:
+                        case .append:
                             self.router.appendRoute(sequence) { _ in }
                         }
                     })
@@ -174,15 +174,15 @@ class DemoRouteCoordinator {
         }
     }
 
-    private func buildPushSegment(segmentIdentifier: Identifier) -> VisualRouteSegmentType  {
+    fileprivate func buildPushSegment(_ segmentIdentifier: Identifier) -> VisualRouteSegmentType  {
         return buildVisualSegment(segmentIdentifier, presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier, viewControllerLoaderFunction: defaultViewControllerLoader(segmentIdentifier))
     }
 
-    private func buildSetSegment(segmentIdentifier: Identifier) -> VisualRouteSegmentType  {
+    fileprivate func buildSetSegment(_ segmentIdentifier: Identifier) -> VisualRouteSegmentType  {
         return buildVisualSegment(segmentIdentifier, presenterIdentifier: SetRouteSegmentPresenter.defaultPresenterIdentifier, viewControllerLoaderFunction: defaultViewControllerLoader(segmentIdentifier))
     }
     
-    private func buildSetNCSegment(segmentIdentifier: Identifier) -> VisualRouteSegmentType  {
+    fileprivate func buildSetNCSegment(_ segmentIdentifier: Identifier) -> VisualRouteSegmentType  {
         return buildVisualSegment(segmentIdentifier, presenterIdentifier: SetRouteSegmentPresenter.defaultPresenterIdentifier, viewControllerLoaderFunction: {
             {
                 return UINavigationController()
@@ -190,7 +190,7 @@ class DemoRouteCoordinator {
         })
     }
 
-    private func buildVisualSegment(segmentIdentifier: Identifier, presenterIdentifier: Identifier, viewControllerLoaderFunction: ViewControllerLoaderFunction) -> VisualRouteSegmentType  {
+    fileprivate func buildVisualSegment(_ segmentIdentifier: Identifier, presenterIdentifier: Identifier, viewControllerLoaderFunction: @escaping ViewControllerLoaderFunction) -> VisualRouteSegmentType  {
         return VisualRouteSegment(
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: presenterIdentifier,
@@ -199,34 +199,34 @@ class DemoRouteCoordinator {
         )
     }
 
-    private func debug(vc: UIViewController) {
-        print("debug: \(vc.dynamicType)")
+    fileprivate func debug(_ vc: UIViewController) {
+        print("debug: \(type(of: vc))")
         if let rvc = router.window?.rootViewController {
             debug(rvc, margin:"  ")
         }
     }
 
-    private func debug(vc: UIViewController, margin: String) {
+    fileprivate func debug(_ vc: UIViewController, margin: String) {
         print("\(margin)\(vc)")
         for childVC in vc.childViewControllers {
             debug(childVC, margin: margin+"  ")
         }
     }
 
-    private func buildWrapperSegment() -> VisualRouteSegment  {
+    fileprivate func buildWrapperSegment() -> VisualRouteSegment  {
         return VisualRouteSegment(
             segmentIdentifier: wrapperSegmentIdentifier,
             presenterIdentifier: WrappingRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,
             loadViewController:{ return {
                 let result = ViewController(name: self.wrapperSegmentIdentifier.name)
-                result.view.backgroundColor = UIColor.yellowColor()
+                result.view.backgroundColor = UIColor.yellow
 
                 result.didAppearAction = {
                     self.router.debug("unwrap didAppear")
                 }
 
-                result.addAction("Unwrap", titleColor: UIColor.blackColor(), action: {
+                _ = result.addAction("Unwrap", titleColor: UIColor.black, action: {
                     self.router.debug("before unwrap")
                     self.router.popRoute() { _ in
                         self.router.debug("after unwrap")
@@ -238,25 +238,25 @@ class DemoRouteCoordinator {
         )
     }
 
-    private func displayOptionMenu(viewController: UIViewController) {
-        let alert = UIAlertController(title: "options", message: "Options", preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "debug", style: .Default) { _ in
+    fileprivate func displayOptionMenu(_ viewController: UIViewController) {
+        let alert = UIAlertController(title: "options", message: "Options", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "debug", style: .default) { _ in
             self.debug(viewController)
             self.router.debug("debug")
             })
         if let previousItem = router.previousRouteHistoryItem() {
             let title = "back [\(previousItem.title ?? "")]"
-            alert.addAction(UIAlertAction(title: title, style: .Default) { _ in
+            alert.addAction(UIAlertAction(title: title, style: .default) { _ in
                 self.router.goBack() { _ in }
                 })
         }
         if let nextItem = router.nextRouteHistoryItem() {
             let title = "next [\(nextItem.title ?? "")]"
-            alert.addAction(UIAlertAction(title: title, style: .Default) { _ in
+            alert.addAction(UIAlertAction(title: title, style: .default) { _ in
                 self.router.goForward() { _ in }
                 })
         }
-        viewController.presentViewController(alert, animated: true) {}
+        viewController.present(alert, animated: true) {}
     }
 
 }

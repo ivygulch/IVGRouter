@@ -596,6 +596,7 @@
 					};
 					F8711CCF1CCD1DE000E6EEBB = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -1052,6 +1053,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1073,6 +1075,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

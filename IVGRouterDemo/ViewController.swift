@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias Action = (Void -> Void)
+typealias Action = ((Void) -> Void)
 
 class ViewController : UIViewController {
 
@@ -17,7 +17,7 @@ class ViewController : UIViewController {
     var backAction: Action? {
         didSet {
             if let _ = backAction {
-                let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.doBackAction))
+                let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.doBackAction))
                 navigationItem.leftBarButtonItem = backButton
             } else {
                 navigationItem.leftBarButtonItem = nil
@@ -27,7 +27,7 @@ class ViewController : UIViewController {
     var rightAction: Action? {
         didSet {
             if let _ = rightAction {
-                let rightButton = UIBarButtonItem(title: "Right", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(self.doRightAction))
+                let rightButton = UIBarButtonItem(title: "Right", style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.doRightAction))
                 navigationItem.rightBarButtonItem = rightButton
             } else {
                 navigationItem.rightBarButtonItem = nil
@@ -37,7 +37,7 @@ class ViewController : UIViewController {
     var didAppearAction: Action?
 
     var currentItemTop: CGFloat = 80.0
-    let itemSize = CGSizeMake(200.0,30.0)
+    let itemSize = CGSize(width: 200.0,height: 30.0)
 
     init(name: String) {
         self.name = name
@@ -52,45 +52,45 @@ class ViewController : UIViewController {
         fatalError("coder not supported")
     }
 
-    func centeredRect(top: CGFloat, _ size: CGSize) -> CGRect {
-        let midX = CGRectGetMidX(self.view.bounds)
-        return CGRectMake(midX-size.width/2,top,size.width,size.height)
+    func centeredRect(_ top: CGFloat, _ size: CGSize) -> CGRect {
+        let midX = self.view.bounds.midX
+        return CGRect(x: midX-size.width/2,y: top,width: size.width,height: size.height)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.lightGrayColor()
+        view.backgroundColor = UIColor.lightGray
         navigationItem.title = name
 
         navigationItem.hidesBackButton = true
 
         let titleLabel = UILabel()
-        titleLabel.textColor = UIColor.blackColor()
+        titleLabel.textColor = UIColor.black
         titleLabel.text = name
-        titleLabel.font = UIFont.boldSystemFontOfSize(18)
-        titleLabel.textAlignment = .Center
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.textAlignment = .center
         addItem(titleLabel)
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         didAppearAction?()
     }
 
-    func addItem(item: UIView) {
+    func addItem(_ item: UIView) {
         loadViewIfNeeded()
         item.frame = centeredRect(currentItemTop,itemSize)
         view.addSubview(item)
         currentItemTop += itemSize.height + 8
     }
 
-    func addAction(title: String, titleColor: UIColor = UIColor.whiteColor(), action: (Void -> Void)) -> UIButton {
-        let button = UIButton(type: .System)
-        button.setTitle(title, forState: .Normal)
-        button.setTitleColor(titleColor, forState: .Normal)
-        button.addTarget(self, action: #selector(ViewController.doAction(_:)), forControlEvents: .TouchUpInside)
+    func addAction(_ title: String, titleColor: UIColor = UIColor.white, action: @escaping ((Void) -> Void)) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: UIControlState())
+        button.setTitleColor(titleColor, for: UIControlState())
+        button.addTarget(self, action: #selector(ViewController.doAction(_:)), for: .touchUpInside)
         actions[button] = action
         addItem(button)
         return button
@@ -112,9 +112,9 @@ class ViewController : UIViewController {
         }
     }
 
-    func doAction(button: UIButton) {
+    func doAction(_ button: UIButton) {
         if let action = actions[button] {
-            let title = button.titleForState(.Normal) ?? "?"
+            let title = button.title(for: UIControlState()) ?? "?"
             print("\(name).\(title)")
             action()
         }
