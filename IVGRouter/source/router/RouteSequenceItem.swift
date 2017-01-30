@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias RouteSequenceOptions = [String:AnyObject]
+public typealias RouteSequenceOptions = [String: AnyObject]
 
 public struct RouteSequenceItem: Equatable {
 
@@ -16,15 +16,15 @@ public struct RouteSequenceItem: Equatable {
         if let routeSequenceItem = item as? RouteSequenceItem {
             return routeSequenceItem
         } else if let segmentIdentifier = item as? Identifier {
-            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:[:])
+            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, options: [: ])
         } else if let (segmentIdentifier,options) = item as? (Identifier,RouteSequenceOptions) {
-            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, options:options)
+            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, options: options)
         } else if let (name,options) = item as? (String,RouteSequenceOptions) {
-            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:options)
+            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options: options)
         } else if let value = item as? String {
             let values = value.components(separatedBy: ";")
             let name = values.first!
-            var options: RouteSequenceOptions = [:]
+            var options: RouteSequenceOptions = [: ]
             for index in 1..<values.count {
                 let value = values[index]
                 let pieces = value.components(separatedBy: "=")
@@ -34,7 +34,7 @@ public struct RouteSequenceItem: Equatable {
                     options[value] = "" as AnyObject?
                 }
             }
-            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options:options)
+            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options: options)
         }
         print("Invalid sourceItem: \(item)")
         return nil

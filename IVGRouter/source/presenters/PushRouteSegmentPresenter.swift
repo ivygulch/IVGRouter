@@ -21,7 +21,7 @@ open class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSeg
 
     open static let defaultPresenterIdentifier = Identifier(name: String(describing: PushRouteSegmentPresenter.self))
 
-    fileprivate func stackConfigurationError(_ stack:[UIViewController], additional:UIViewController? = nil) -> RoutingErrors? {
+    fileprivate func stackConfigurationError(_ stack: [UIViewController], additional: UIViewController? = nil) -> RoutingErrors? {
         var existingSet = Set<UIViewController>()
         for viewController in stack {
             if existingSet.contains(viewController) {
@@ -50,7 +50,7 @@ open class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSeg
     }
 
     fileprivate func pushViewController(_ presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
-        if let stackConfigurationError = stackConfigurationError(navigationController.viewControllers, additional:presentedViewController) {
+        if let stackConfigurationError = stackConfigurationError(navigationController.viewControllers, additional: presentedViewController) {
             completion(.failure(stackConfigurationError))
             return
         }
@@ -98,7 +98,7 @@ open class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSeg
 
 extension UINavigationController {
 
-    fileprivate func addCompletion(_ completion:@escaping ((Void) -> Void)) -> Bool {
+    fileprivate func addCompletion(_ completion: @escaping ((Void) -> Void)) -> Bool {
         if let transitionCoordinator = transitionCoordinator {
             return transitionCoordinator.animate(alongsideTransition: nil,
                 completion: { _ in
@@ -109,21 +109,21 @@ extension UINavigationController {
         return false
     }
 
-    func popViewControllerAnimated(_ animated: Bool, completion:@escaping ((Void) -> Void)) {
+    func popViewControllerAnimated(_ animated: Bool, completion: @escaping ((Void) -> Void)) {
         self.popViewController(animated: animated)
         if !addCompletion(completion) {
             completion()
         }
     }
 
-    func pushViewController(_ viewController: UIViewController, animated: Bool, completion:@escaping ((Void) -> Void)) {
+    func pushViewController(_ viewController: UIViewController, animated: Bool, completion: @escaping ((Void) -> Void)) {
         self.pushViewController(viewController, animated: animated)
         if !addCompletion(completion) {
             completion()
         }
     }
 
-    func setViewControllers(_ viewControllers: [UIViewController], animated: Bool, completion:@escaping ((Void) -> Void)) {
+    func setViewControllers(_ viewControllers: [UIViewController], animated: Bool, completion: @escaping ((Void) -> Void)) {
         self.setViewControllers(viewControllers, animated: animated)
         if !addCompletion(completion) {
             completion()

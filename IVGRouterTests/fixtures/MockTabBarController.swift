@@ -16,7 +16,7 @@ class MockTabBarController : UITabBarController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("init(coder: ) has not been implemented")
     }
 
     override var description: String {

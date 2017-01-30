@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias ViewAnimationInfoType = [String:AnyObject]
+public typealias ViewAnimationInfoType = [String: AnyObject]
 
 public protocol WrappingRouteSegmentAnimator {
     var animationDuration: TimeInterval { get }
@@ -86,7 +86,7 @@ open class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRout
 
         UIView.animate(
             withDuration: wrappingRouteSegmentAnimator.animationDuration,
-            animations:{
+            animations: {
                 viewAnimationInfo = self.wrappingRouteSegmentAnimator.animateViewWrapping(child, wrapper, viewAnimationInfo)
             },
             completion: {
@@ -160,7 +160,7 @@ open class WrappingRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRout
 
         UIView.animate(
             withDuration: wrappingRouteSegmentAnimator.animationDuration,
-            animations:{
+            animations: {
                 viewAnimationInfo = self.wrappingRouteSegmentAnimator.animateViewUnwrapping(child, wrapper, viewAnimationInfo)
             },
             completion: {

@@ -15,13 +15,13 @@ open class PlaceholderViewController: UIViewController {
         self.childViewController = childViewController
     }
 
-    public init(lazyLoader:@escaping ((Void) -> UIViewController)) {
+    public init(lazyLoader: @escaping ((Void) -> UIViewController)) {
         self.lazyLoader = lazyLoader
         super.init(nibName: nil, bundle: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        super.init(coder:aDecoder)
+        super.init(coder: aDecoder)
     }
 
     open var childViewController: UIViewController? {

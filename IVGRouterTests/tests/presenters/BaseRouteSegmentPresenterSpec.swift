@@ -55,7 +55,7 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
                 }
 
                 it("checkType should return an error message") {
-                    expect(presenter.checkType(nil, type:Any.self, "source")).toNot(beNil())
+                    expect(presenter.checkType(nil, type: Any.self, "source")).toNot(beNil())
                 }
 
             }
@@ -71,7 +71,7 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
                 }
 
                 it("checkType should not return an error message") {
-                    expect(presenter.checkType("test", type:Any.self, "source")).to(beNil())
+                    expect(presenter.checkType("test", type: Any.self, "source")).to(beNil())
                 }
 
             }
@@ -79,7 +79,7 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
             describe("when item is wrong class") {
 
                 it("checkType should return an error message") {
-                    expect(presenter.checkType("test", type:Int.self, "source")).toNot(beNil())
+                    expect(presenter.checkType("test", type: Int.self, "source")).toNot(beNil())
                 }
 
             }
@@ -94,10 +94,10 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
 
                 describe("calling verify with nil error message") {
 
-                    var verifyResult:Bool!
+                    var verifyResult: Bool!
 
                     beforeEach {
-                        verifyResult = presenter.verify(nil, completion:mockCompletionBlock.completion)
+                        verifyResult = presenter.verify(nil, completion: mockCompletionBlock.completion)
                     }
 
                     it("should return true") {
@@ -111,10 +111,10 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
 
                 describe("calling verify with non-nil error message") {
 
-                    var verifyResult:Bool!
+                    var verifyResult: Bool!
 
                     beforeEach {
-                        verifyResult = presenter.verify("test", completion:mockCompletionBlock.completion)
+                        verifyResult = presenter.verify("test", completion: mockCompletionBlock.completion)
                     }
 
                     it("should return false") {
@@ -122,7 +122,7 @@ class BaseRouteSegmentPresenterSpec: QuickSpec {
                     }
 
                     it("should call completion block") {
-                        expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion":[["false","nil"]]])).to(beEmpty())
+                        expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion": [["false","nil"]]])).to(beEmpty())
                     }
                 }
             }

@@ -16,9 +16,9 @@ class MockRouter : TrackableTestClass, RouterType {
 
     var window: UIWindow? { return track("window", andReturn: nil) }
 
-    var routeSegments: [Identifier: RouteSegmentType] { return track("routeSegments", andReturn: [:]) }
-    var routeBranches: [Identifier: RouteBranchType] { return track("routeBranches", andReturn: [:]) }
-    var presenters: [Identifier: RouteSegmentPresenterType] { return track("presenters", andReturn: [:]) }
+    var routeSegments: [Identifier: RouteSegmentType] { return track("routeSegments", andReturn: [: ]) }
+    var routeBranches: [Identifier: RouteBranchType] { return track("routeBranches", andReturn: [: ]) }
+    var presenters: [Identifier: RouteSegmentPresenterType] { return track("presenters", andReturn: [: ]) }
 
     func registerPresenter(_ presenter: RouteSegmentPresenterType) {
         track("registerPresenter", [String(describing: presenter)])
@@ -32,8 +32,8 @@ class MockRouter : TrackableTestClass, RouterType {
         track("registerRouteBranch", [String(describing: routeBranch)])
     }
 
-    func appendRoute(_ source: [Any], routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
-        track("appendRoute:appendRoute", [String(describing: source), String(describing: routeBranch)])
+    func appendRoute(_ source: [Any], routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
+        track("appendRoute: appendRoute", [String(describing: source), String(describing: routeBranch)])
     }
 
     func clearHistory(_ routeBranch: RouteBranchType) {
@@ -50,24 +50,24 @@ class MockRouter : TrackableTestClass, RouterType {
         return nil
     }
 
-    func goBack(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
+    func goBack(_ routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("goBack", [String(describing: routeBranch)])
     }
 
-    func goForward(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
+    func goForward(_ routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("goForward", [String(describing: routeBranch)])
     }
 
-    func executeRoute(_ source: [Any], routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
-        track("executeRoute:routeBranch", [String(describing: source), String(describing: routeBranch)])
+    func executeRoute(_ source: [Any], routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
+        track("executeRoute: routeBranch", [String(describing: source), String(describing: routeBranch)])
     }
 
-    func executeRouteSequence(_ routeSequence: RouteSequence, routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
+    func executeRouteSequence(_ routeSequence: RouteSequence, routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("executeRouteSequence", [String(describing: routeSequence), String(describing: routeBranch)])
     }
 
-    func popRoute(_ routeBranch: RouteBranchType, completion:@escaping ((RoutingResult) -> Void)) {
-        track("popRoute:routeBranch", [String(describing: routeBranch)])
+    func popRoute(_ routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
+        track("popRoute: routeBranch", [String(describing: routeBranch)])
     }
 
     func registerDefaultPresenters() {

@@ -16,9 +16,9 @@ class IdentifierSpec: QuickSpec {
     override func spec() {
 
         describe("checking equality") {
-            let segmentIdentifierA1 = Identifier(name:"a")
-            let segmentIdentifierA2 = Identifier(name:"a")
-            let segmentIdentifierB = Identifier(name:"b")
+            let segmentIdentifierA1 = Identifier(name: "a")
+            let segmentIdentifierA2 = Identifier(name: "a")
+            let segmentIdentifierB = Identifier(name: "b")
 
             it("of same object should be true") {
                 expect(segmentIdentifierA1).to(equal(segmentIdentifierA1))

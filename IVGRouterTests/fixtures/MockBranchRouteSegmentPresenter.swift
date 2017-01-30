@@ -22,7 +22,7 @@ class MockBranchRouteSegmentPresenter : TrackableTestClass, BranchRouteSegmentPr
 
     let presenterIdentifier: Identifier
 
-    func selectBranch(_ branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion:@escaping  ((RoutingResult) -> Void)) {
+    func selectBranch(_ branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: @escaping  ((RoutingResult) -> Void)) {
         track("selectBranchViewController", [branchRouteSegmentIdentifier.name, String(describing: trunkRouteController)])
 
         if completionBlockArg {

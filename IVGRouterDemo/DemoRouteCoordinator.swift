@@ -38,28 +38,28 @@ class DemoRouteCoordinator {
     let tab1BranchIdentifier = Identifier(name: "B1")
     let tab2BranchIdentifier = Identifier(name: "B2")
 
-    lazy var routeSequenceWelcome:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier]
-    lazy var routeSequenceWA:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier]
-    lazy var routeSequenceWAB:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier,self.pushBSegmentIdentifier]
-    lazy var routeSequenceWABC:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier,self.pushBSegmentIdentifier,self.pushCSegmentIdentifier]
-    lazy var routeSequenceWD:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushDSegmentIdentifier]
-    lazy var routeSequenceWDE:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushDSegmentIdentifier,self.pushESegmentIdentifier]
-    lazy var routeSequenceWDEF:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushDSegmentIdentifier,self.pushESegmentIdentifier,self.pushFSegmentIdentifier]
-    lazy var routeSequenceWDEFG:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushDSegmentIdentifier,self.pushESegmentIdentifier,self.pushFSegmentIdentifier,self.pushGSegmentIdentifier]
-    lazy var routeSequenceWAFE:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier,self.pushESegmentIdentifier]
-    lazy var routeSequenceWrapper:[Any] = [self.wrapperSegmentIdentifier]
+    lazy var routeSequenceWelcome: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier]
+    lazy var routeSequenceWA: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier]
+    lazy var routeSequenceWAB: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier,self.pushBSegmentIdentifier]
+    lazy var routeSequenceWABC: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier,self.pushBSegmentIdentifier,self.pushCSegmentIdentifier]
+    lazy var routeSequenceWD: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushDSegmentIdentifier]
+    lazy var routeSequenceWDE: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushDSegmentIdentifier,self.pushESegmentIdentifier]
+    lazy var routeSequenceWDEF: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushDSegmentIdentifier,self.pushESegmentIdentifier,self.pushFSegmentIdentifier]
+    lazy var routeSequenceWDEFG: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushDSegmentIdentifier,self.pushESegmentIdentifier,self.pushFSegmentIdentifier,self.pushGSegmentIdentifier]
+    lazy var routeSequenceWAFE: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier,self.pushESegmentIdentifier]
+    lazy var routeSequenceWrapper: [Any] = [self.wrapperSegmentIdentifier]
 
-    lazy var routeBranchSequenceTab1:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab1SegmentIdentifier]
-    lazy var routeBranchSequenceTab2:[Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab2SegmentIdentifier]
+    lazy var routeBranchSequenceTab1: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab1SegmentIdentifier]
+    lazy var routeBranchSequenceTab2: [Any] = [self.rootSegmentIdentifier,self.pushWelcomeSegmentIdentifier,self.pushTBCSegmentIdentifier,self.tab2SegmentIdentifier]
 
-    lazy var routeSequenceNCA:[Any] = [self.setNCSegmentIdentifier,self.pushASegmentIdentifier]
-    lazy var routeSequenceNCAF:[Any] = [self.setNCSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier]
-    lazy var routeSequenceZ:[Any] = [self.setZSegmentIdentifier]
+    lazy var routeSequenceNCA: [Any] = [self.setNCSegmentIdentifier,self.pushASegmentIdentifier]
+    lazy var routeSequenceNCAF: [Any] = [self.setNCSegmentIdentifier,self.pushASegmentIdentifier,self.pushFSegmentIdentifier]
+    lazy var routeSequenceZ: [Any] = [self.setZSegmentIdentifier]
 
     lazy var routeBranchTab1: RouteBranch = RouteBranch(branchIdentifier: self.tab1BranchIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab1))
     lazy var routeBranchTab2: RouteBranch = RouteBranch(branchIdentifier: self.tab2BranchIdentifier, routeSequence: RouteSequence(source: self.routeBranchSequenceTab2))
 
-    lazy var sequences:[(String,(DemoSequenceType,[Any]))] = [
+    lazy var sequences: [(String,(DemoSequenceType,[Any]))] = [
         ("Welcome", (.execute,self.routeSequenceWelcome)),
         ("WA", (.execute,self.routeSequenceWA)),
         ("WAB", (.execute,self.routeSequenceWAB)),
@@ -119,7 +119,7 @@ class DemoRouteCoordinator {
             segmentIdentifier: segmentIdentifier,
             presenterIdentifier: PushRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,
-            loadViewController:{ return {
+            loadViewController: { return {
                 let result = TabBarController(name: segmentIdentifier.name)
                 result.view.backgroundColor = UIColor.orange
 
@@ -151,11 +151,11 @@ class DemoRouteCoordinator {
                 for (title,(type,sequence)) in self.sequences {
                     _ = result.addAction(title, action: {
                         switch type {
-                        case .execute:
+                        case .execute: 
                             self.router.executeRoute(sequence) { _ in }
-                        case .branch(let branch):
+                        case .branch(let branch): 
                             self.router.executeRoute(sequence, routeBranch: branch) { _ in }
-                        case .append:
+                        case .append: 
                             self.router.appendRoute(sequence) { _ in }
                         }
                     })
@@ -202,7 +202,7 @@ class DemoRouteCoordinator {
     fileprivate func debug(_ vc: UIViewController) {
         print("debug: \(type(of: vc))")
         if let rvc = router.window?.rootViewController {
-            debug(rvc, margin:"  ")
+            debug(rvc, margin: "  ")
         }
     }
 
@@ -218,7 +218,7 @@ class DemoRouteCoordinator {
             segmentIdentifier: wrapperSegmentIdentifier,
             presenterIdentifier: WrappingRouteSegmentPresenter.defaultPresenterIdentifier,
             isSingleton: true,
-            loadViewController:{ return {
+            loadViewController: { return {
                 let result = ViewController(name: self.wrapperSegmentIdentifier.name)
                 result.view.backgroundColor = UIColor.yellow
 

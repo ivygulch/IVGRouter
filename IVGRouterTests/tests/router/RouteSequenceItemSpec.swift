@@ -18,10 +18,10 @@ class RouteSequenceItemSpec: QuickSpec {
         for (key,expectedValue) in expectedOptions {
             if let actualValue = actualOptions?[key] {
                 if actualValue !== expectedValue {
-                    result.append("Expected option: \(key):\(expectedValue), got \(key):\(actualValue)")
+                    result.append("Expected option: \(key): \(expectedValue), got \(key): \(actualValue)")
                 }
             } else {
-                result.append("Expected option: \(key):\(expectedValue)")
+                result.append("Expected option: \(key): \(expectedValue)")
             }
         }
 
@@ -29,7 +29,7 @@ class RouteSequenceItemSpec: QuickSpec {
             for (key,actualValue) in actualOptions {
                 let expectedValue = expectedOptions[key]
                 if expectedValue == nil {
-                    result.append("Did not expected option: \(key):\(actualValue)")
+                    result.append("Did not expected option: \(key): \(actualValue)")
                 }
             }
         }
@@ -45,7 +45,7 @@ class RouteSequenceItemSpec: QuickSpec {
 
                 it("should retain values") {
                     let testIdentifier = Identifier(name: "test")
-                    let testOptions: RouteSequenceOptions = ["a":1 as AnyObject, "b":true as AnyObject, "c":"value" as AnyObject]
+                    let testOptions: RouteSequenceOptions = ["a": 1 as AnyObject, "b": true as AnyObject, "c": "value" as AnyObject]
                     let item = RouteSequenceItem(segmentIdentifier: testIdentifier, options: testOptions)
                     expect(item.segmentIdentifier).to(equal(testIdentifier))
                     expect(String(describing: item.options)).to(equal(String(describing: testOptions)))
@@ -69,7 +69,7 @@ class RouteSequenceItemSpec: QuickSpec {
 
                 it("should produce valid item") {
                     let testIdentifier = Identifier(name: "test")
-                    let testOptions: RouteSequenceOptions = ["a":1 as AnyObject, "b":true as AnyObject, "c":"value" as AnyObject]
+                    let testOptions: RouteSequenceOptions = ["a": 1 as AnyObject, "b": true as AnyObject, "c": "value" as AnyObject]
                     let item = RouteSequenceItem.transform((testIdentifier,testOptions))
                     expect(item).toNot(beNil())
                     if let item = item {
@@ -83,7 +83,7 @@ class RouteSequenceItemSpec: QuickSpec {
 
                 it("should produce valid item") {
                     let testValue = "test"
-                    let testOptions: RouteSequenceOptions = ["a":1 as AnyObject, "b":true as AnyObject, "c":"value" as AnyObject]
+                    let testOptions: RouteSequenceOptions = ["a": 1 as AnyObject, "b": true as AnyObject, "c": "value" as AnyObject]
                     let item = RouteSequenceItem.transform((testValue,testOptions))
                     expect(item).toNot(beNil())
                     if let item = item {
@@ -111,7 +111,7 @@ class RouteSequenceItemSpec: QuickSpec {
                 it("should produce valid item") {
                     let testName = "test"
                     let testValue = "\(testName);a=1;b=2;c"
-                    let expectedOptions: RouteSequenceOptions = ["a":"1" as AnyObject,"b":"2" as AnyObject,"c":"" as AnyObject]
+                    let expectedOptions: RouteSequenceOptions = ["a": "1" as AnyObject,"b": "2" as AnyObject,"c": "" as AnyObject]
                     let item = RouteSequenceItem.transform(testValue)
                     expect(item).toNot(beNil())
                     if let item = item {

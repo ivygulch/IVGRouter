@@ -29,7 +29,7 @@ class RouterBranchingSpec: QuickSpec {
                 var mockBranchRouteSegment: MockBranchRouteSegment!
                 var mockVisualRouteSegment: MockVisualRouteSegment!
                 var router: Router!
-                var validSequence:[Any]!
+                var validSequence: [Any]!
 
                 beforeEach {
                     mockVisualRouteSegmentPresenter = MockVisualRouteSegmentPresenter(presenterIdentifier: "VISUAL", completionBlockArg: true)
@@ -57,9 +57,9 @@ class RouterBranchingSpec: QuickSpec {
                         router.executeRoute(validSequence) {
                             routingResult in
                             switch routingResult {
-                            case .success(let finalViewController):
+                            case .success(let finalViewController): 
                                 expect(finalViewController).to(equal(mockViewController))
-                            case .failure(let error):
+                            case .failure(let error): 
                                 fail("Did not expect error: \(error)")
                             }
                             expectation.fulfill()

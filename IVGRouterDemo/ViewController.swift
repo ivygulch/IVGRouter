@@ -13,7 +13,7 @@ typealias Action = ((Void) -> Void)
 class ViewController : UIViewController {
 
     let name: String
-    var actions: [UIButton: Action] = [:]
+    var actions: [UIButton: Action] = [: ]
     var backAction: Action? {
         didSet {
             if let _ = backAction {
@@ -90,7 +90,7 @@ class ViewController : UIViewController {
         let button = UIButton(type: .system)
         button.setTitle(title, for: UIControlState())
         button.setTitleColor(titleColor, for: UIControlState())
-        button.addTarget(self, action: #selector(ViewController.doAction(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(ViewController.doAction(_: )), for: .touchUpInside)
         actions[button] = action
         addItem(button)
         return button

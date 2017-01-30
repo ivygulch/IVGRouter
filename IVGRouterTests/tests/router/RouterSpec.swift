@@ -194,9 +194,9 @@ extension RouterSpec {
                     router.executeRoute(routeSequence) {
                         routingResult in
                         switch routingResult {
-                        case .success(let finalViewController):
+                        case .success(let finalViewController): 
                             expect(finalViewController).to(equal(mockViewControllerA))
-                        case .failure(let error):
+                        case .failure(let error): 
                             fail("Did not expect error: \(error)")
                         }
                         expectation.fulfill()
@@ -214,15 +214,15 @@ extension RouterSpec {
                     router.executeRoute(routeSequence) {
                         routingResult in
                         switch routingResult {
-                        case .success(let finalViewController):
+                        case .success(let finalViewController): 
                             fail("Did not expect success: \(finalViewController)")
-                        case .failure(let error):
+                        case .failure(let error): 
                             expect(error as? RoutingErrors).toNot(beNil())
                             if let error = error as? RoutingErrors {
                                 switch error {
-                                case .noViewControllerProduced(let identifier):
+                                case .noViewControllerProduced(let identifier): 
                                     expect(identifier).to(equal(identifierNoViewController))
-                                default:
+                                default: 
                                     fail("Did not expect: \(error)")
                                 }
                             }
@@ -242,15 +242,15 @@ extension RouterSpec {
                     router.executeRoute(routeSequence) {
                         routingResult in
                         switch routingResult {
-                        case .success(let finalViewController):
+                        case .success(let finalViewController): 
                             fail("Did not expect success: \(finalViewController)")
-                        case .failure(let error):
+                        case .failure(let error): 
                             expect(error as? RoutingErrors).toNot(beNil())
                             if let error = error as? RoutingErrors {
                                 switch error {
-                                case .cannotPresent(let identifier, _):
+                                case .cannotPresent(let identifier, _): 
                                     expect(identifier).to(equal(mockPresenterCompletionFails.presenterIdentifier))
-                                default:
+                                default: 
                                     fail("Did not expect: \(error)")
                                 }
                             }
@@ -284,8 +284,8 @@ extension RouterSpec {
             var mockVisualRouteSegmentC: MockVisualRouteSegment!
             var mockVisualRouteSegmentInvalid: MockVisualRouteSegment!
             var router: Router!
-            var validSequence:[Any]!
-            var invalidSequence:[Any]!
+            var validSequence: [Any]!
+            var invalidSequence: [Any]!
 
             beforeEach {
                 mockPresenterCompletionSucceeds = MockVisualRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)
@@ -311,9 +311,9 @@ extension RouterSpec {
                     router.executeRoute(validSequence) {
                         routingResult in
                         switch routingResult {
-                        case .success(let finalViewController):
+                        case .success(let finalViewController): 
                             expect(finalViewController).to(equal(mockViewControllerC))
-                        case .failure(let error):
+                        case .failure(let error): 
                             fail("Did not expect error: \(error)")
                         }
                         expectation.fulfill()
@@ -340,15 +340,15 @@ extension RouterSpec {
                     router.executeRoute(invalidSequence) {
                         routingResult in
                         switch routingResult {
-                        case .success(let finalViewController):
+                        case .success(let finalViewController): 
                             fail("Did not expect success: \(finalViewController)")
-                        case .failure(let error):
+                        case .failure(let error): 
                             expect(error as? RoutingErrors).toNot(beNil())
                             if let error = error as? RoutingErrors {
                                 switch error {
-                                case .segmentNotRegistered(let identifier):
+                                case .segmentNotRegistered(let identifier): 
                                     expect(identifier).to(equal(identifierInvalid))
-                                default:
+                                default: 
                                     fail("Did not expect: \(error)")
                                 }
                             }
@@ -391,7 +391,7 @@ extension RouterSpec {
             var mockVisualRouteSegmentB: MockVisualRouteSegment!
             var mockVisualRouteSegmentC: MockVisualRouteSegment!
             var router: Router!
-            var initialSequence:[Any]!
+            var initialSequence: [Any]!
 
             beforeEach {
                 mockPresenterCompletionSucceeds = MockVisualRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)
@@ -409,9 +409,9 @@ extension RouterSpec {
                 router.executeRoute(initialSequence) {
                     routingResult in
                     switch routingResult {
-                    case .success(let finalViewController):
+                    case .success(let finalViewController): 
                         expect(finalViewController).to(equal(mockViewControllerC))
-                    case .failure(let error):
+                    case .failure(let error): 
                         fail("Did not expect error: \(error)")
                     }
                     expectation.fulfill()
@@ -427,9 +427,9 @@ extension RouterSpec {
                     router.popRoute() {
                         routingResult in
                         switch routingResult {
-                        case .success(let finalViewController):
+                        case .success(let finalViewController): 
                             expect(finalViewController).to(equal(mockViewControllerB))
-                        case .failure(let error):
+                        case .failure(let error): 
                             fail("Did not expect error: \(error)")
                         }
                         expectation.fulfill()
@@ -448,9 +448,9 @@ extension RouterSpec {
                         router.popRoute() {
                             routingResult in
                             switch routingResult {
-                            case .success(let finalViewController):
+                            case .success(let finalViewController): 
                                 expect(finalViewController).to(equal(mockViewControllerA))
-                            case .failure(let error):
+                            case .failure(let error): 
                                 fail("Did not expect error: \(error)")
                             }
                             expectation.fulfill()
@@ -487,7 +487,7 @@ extension RouterSpec {
             var mockVisualRouteSegmentD: MockVisualRouteSegment!
             var mockVisualRouteSegmentE: MockVisualRouteSegment!
             var router: Router!
-            var initialSequence:[Any]!
+            var initialSequence: [Any]!
 
             beforeEach {
                 mockPresenterCompletionSucceeds = MockVisualRouteSegmentPresenter(presenterIdentifier: "Success", completionBlockArg: true)
@@ -509,12 +509,12 @@ extension RouterSpec {
                 router.executeRoute(initialSequence) {
                     routingResult in
                     switch routingResult {
-                    case .success(let finalViewController):
+                    case .success(let finalViewController): 
                         let presentedVCNames = mockPresenterCompletionSucceeds.trackerLog.map { $0.values[0] }
                         let actualVCNames = initialSequence.map { ($0 as! Identifier).name }
                         expect(presentedVCNames).to(equal(actualVCNames))
                         expect(finalViewController).to(equal(mockViewControllerD))
-                    case .failure(let error):
+                    case .failure(let error): 
                         fail("Did not expect error: \(error)")
                     }
                     expectation.fulfill()
@@ -530,13 +530,13 @@ extension RouterSpec {
                     router.executeRoute(subSequence) {
                         routingResult in
                         switch routingResult {
-                        case .success(let finalViewController):
+                        case .success(let finalViewController): 
                             // executing a subsequence should not present any new VCs
                             let presentedVCNames = mockPresenterCompletionSucceeds.trackerLog.map { $0.values[0] }
                             let actualVCNames = initialSequence.map { ($0 as! Identifier).name }
                             expect(presentedVCNames).to(equal(actualVCNames))
                             expect(finalViewController).to(equal(mockViewControllerC))
-                        case .failure(let error):
+                        case .failure(let error): 
                             fail("Did not expect error: \(error)")
                         }
                         expectation.fulfill()
@@ -557,13 +557,13 @@ extension RouterSpec {
                     router.executeRoute(subSequence) {
                         routingResult in
                         switch routingResult {
-                        case .success(let finalViewController):
+                        case .success(let finalViewController): 
                             // executing a subsequence should not re-present any initial VCs
                             let presentedVCNames = mockPresenterCompletionSucceeds.trackerLog.map { $0.values[0] }
                             let actualVCNames = initialSequence.map { ($0 as! Identifier).name }
                             expect(presentedVCNames).to(equal(actualVCNames))
                             expect(finalViewController).to(equal(mockViewControllerB))
-                        case .failure(let error):
+                        case .failure(let error): 
                             fail("Did not expect error: \(error)")
                         }
                         expectation.fulfill()
@@ -585,14 +585,14 @@ extension RouterSpec {
                     router.executeRoute(subSequence) {
                         routingResult in
                         switch routingResult {
-                        case .success(let finalViewController):
+                        case .success(let finalViewController): 
                             // executing new sequence should not re-present any initial VCs, just the new one
                             let presentedVCNames = mockPresenterCompletionSucceeds.trackerLog.map { $0.values[0] }
                             var actualVCNames = initialSequence.map { ($0 as! Identifier).name }
                             actualVCNames.append(mockVisualRouteSegmentE.segmentIdentifier.name)
                             expect(presentedVCNames).to(equal(actualVCNames))
                             expect(finalViewController).to(equal(mockViewControllerE))
-                        case .failure(let error):
+                        case .failure(let error): 
                             fail("Did not expect error: \(error)")
                         }
                         expectation.fulfill()
@@ -664,15 +664,15 @@ extension RouterSpec {
                 router.goBack() {
                     routingResult in
                     switch routingResult {
-                    case .success:
+                    case .success: 
                         fail("Did not expect success: \(routingResult)")
-                    case .failure(let error):
+                    case .failure(let error): 
                         expect(error as? RoutingErrors).toNot(beNil())
                         if let error = error as? RoutingErrors {
                             switch error {
-                            case .noHistory:
+                            case .noHistory: 
                             break // yup
-                            default:
+                            default: 
                                 fail("Did not expect: \(error)")
                             }
                         }
@@ -687,15 +687,15 @@ extension RouterSpec {
                 router.goForward() {
                     routingResult in
                     switch routingResult {
-                    case .success:
+                    case .success: 
                         fail("Did not expect success: \(routingResult)")
-                    case .failure(let error):
+                    case .failure(let error): 
                         expect(error as? RoutingErrors).toNot(beNil())
                         if let error = error as? RoutingErrors {
                             switch error {
-                            case .noHistory:
+                            case .noHistory: 
                             break // yup
-                            default:
+                            default: 
                                 fail("Did not expect: \(error)")
                             }
                         }
@@ -728,9 +728,9 @@ extension RouterSpec {
                     routingResult in
 //                    print("DBG: routingResult=\(routingResult)")
                     switch routingResult {
-                    case .success(let viewController):
+                    case .success(let viewController): 
                         expect(viewController).to(equal(mockViewControllerA))
-                    case .failure(let error):
+                    case .failure(let error): 
                         fail("Did not expect failure: \(error)")
                     }
                     expectation.fulfill()
@@ -743,15 +743,15 @@ extension RouterSpec {
                 router.goForward() {
                     routingResult in
                     switch routingResult {
-                    case .success:
+                    case .success: 
                         fail("Did not expect success: \(routingResult)")
-                    case .failure(let error):
+                    case .failure(let error): 
                         expect(error as? RoutingErrors).toNot(beNil())
                         if let error = error as? RoutingErrors {
                             switch error {
-                            case .noHistory:
+                            case .noHistory: 
                             break // yup
-                            default:
+                            default: 
                                 fail("Did not expect: \(error)")
                             }
                         }
@@ -786,9 +786,9 @@ extension RouterSpec {
                 router.goBack() {
                     routingResult in
                     switch routingResult {
-                    case .success(let viewController):
+                    case .success(let viewController): 
                         expect(viewController).to(equal(mockViewControllerB))
-                    case .failure(let error):
+                    case .failure(let error): 
                         fail("Did not expect failure: \(error)")
                     }
                     expectation.fulfill()
@@ -801,9 +801,9 @@ extension RouterSpec {
                 router.goForward() {
                     routingResult in
                     switch routingResult {
-                    case .success(let viewController):
+                    case .success(let viewController): 
                         expect(viewController).to(equal(mockViewControllerD))
-                    case .failure(let error):
+                    case .failure(let error): 
                         fail("Did not expect failure: \(error)")
                     }
                     expectation.fulfill()
