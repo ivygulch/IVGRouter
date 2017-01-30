@@ -416,7 +416,7 @@ extension RouterSpec {
                     }
                     expectation.fulfill()
                 }
-                print("DBG: initialSequence=\(initialSequence)")
+//                print("DBG: initialSequence=\(initialSequence)")
                 self.waitForExpectations(timeout: 5, handler: nil)
             }
 
@@ -726,7 +726,7 @@ extension RouterSpec {
                 let expectation = self.expectation(description: "goBack completion callback")
                 router.goBack() {
                     routingResult in
-                    print("DBG: routingResult=\(routingResult)")
+//                    print("DBG: routingResult=\(routingResult)")
                     switch routingResult {
                     case .success(let viewController):
                         expect(viewController).to(equal(mockViewControllerA))

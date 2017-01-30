@@ -496,7 +496,7 @@ open class Router : RouterType {
 
         let onSuccessfulPresentation: ((RouteSegmentType,UIViewController) -> Void) = { [weak self] (routeSegment, presentedViewController) in
 
-            print("DBG: onSuccessfulPresentation=\(routeSegment), \(presentedViewController)")
+//            print("DBG: onSuccessfulPresentation=\(routeSegment), \(presentedViewController)")
 
             routeSegmentFIFOPipe.pushNewSegmentIdentifier(routeSegment.segmentIdentifier, viewController: presentedViewController)
 
