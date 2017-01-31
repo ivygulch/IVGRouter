@@ -20,53 +20,53 @@ class MockRouter : TrackableTestClass, RouterType {
     var routeBranches: [Identifier: RouteBranchType] { return track("routeBranches", andReturn: [: ]) }
     var presenters: [Identifier: RouteSegmentPresenterType] { return track("presenters", andReturn: [: ]) }
 
-    func registerPresenter(_ presenter: RouteSegmentPresenterType) {
-        track("registerPresenter", [String(describing: presenter)])
+    func register(routeSegmentPresenter: RouteSegmentPresenterType) {
+        track("registerPresenter", [String(describing: routeSegmentPresenter)])
     }
 
-    func registerRouteSegment(_ routeSegment: RouteSegmentType) {
+    func register(routeSegment: RouteSegmentType) {
         track("registerRouteSegment", [String(describing: routeSegment)])
     }
 
-    func registerRouteBranch(_ routeBranch: RouteBranchType) {
+    func register(routeBranch: RouteBranchType) {
         track("registerRouteBranch", [String(describing: routeBranch)])
     }
 
-    func appendRoute(_ source: [Any], routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
+    func append(route source: [Any], toRouteBranch routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("appendRoute: appendRoute", [String(describing: source), String(describing: routeBranch)])
     }
 
-    func clearHistory(_ routeBranch: RouteBranchType) {
+    func clearHistory(onRouteBranch routeBranch: RouteBranchType) {
         track("clearHistory", [String(describing: routeBranch)])
     }
 
-    func previousRouteHistoryItem(_ routeBranch: RouteBranchType) -> RouteHistoryItemType? {
+    func previousRouteHistoryItem(onRouteBranch routeBranch: RouteBranchType) -> RouteHistoryItemType? {
         track("previousRouteHistoryItem", [String(describing: routeBranch)])
         return nil
     }
 
-    func nextRouteHistoryItem(_ routeBranch: RouteBranchType) -> RouteHistoryItemType? {
+    func nextRouteHistoryItem(onRouteBranch routeBranch: RouteBranchType) -> RouteHistoryItemType? {
         track("nextRouteHistoryItem", [String(describing: routeBranch)])
         return nil
     }
 
-    func goBack(_ routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
+    func goBack(onRouteBranch routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("goBack", [String(describing: routeBranch)])
     }
 
-    func goForward(_ routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
+    func goForward(onRouteBranch routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("goForward", [String(describing: routeBranch)])
     }
 
-    func executeRoute(_ source: [Any], routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
+    func execute(route source: [Any], toRouteBranch routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("executeRoute: routeBranch", [String(describing: source), String(describing: routeBranch)])
     }
 
-    func executeRouteSequence(_ routeSequence: RouteSequence, routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
+    func execute(routeSequence: RouteSequence, routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("executeRouteSequence", [String(describing: routeSequence), String(describing: routeBranch)])
     }
 
-    func popRoute(_ routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
+    func pop(fromRouteBranch routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("popRoute: routeBranch", [String(describing: routeBranch)])
     }
 
@@ -74,7 +74,7 @@ class MockRouter : TrackableTestClass, RouterType {
         track("registerDefaultPresenters", [])
     }
 
-    func viewControllersForRouteBranchIdentifier(_ branchIdentifier: Identifier) -> [UIViewController] {
+    func viewControllers(forRouteBranchIdentifier branchIdentifier: Identifier) -> [UIViewController] {
         track("viewControllersForRouteBranchIdentifier", [String(describing: branchIdentifier)])
         return []
     }

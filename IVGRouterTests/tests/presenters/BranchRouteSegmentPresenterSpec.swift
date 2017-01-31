@@ -43,13 +43,13 @@ class BranchRouteSegmentPresenterSpec: QuickSpec {
 //
 //            it("should fail when presentingViewController is not a UITabBarController") {
 //                let presenter = BranchRouteSegmentPresenter()
-//                presenter.presentViewController(mockViewControllerB, from: mockViewControllerA, options: [: ], window: nil, completion: mockCompletionBlock.completion)
+//                presenter.present(viewController: mockViewControllerB, from: mockViewControllerA, options: [: ], window: nil, completion: mockCompletionBlock.completion)
 //                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion": [["false","nil"]]]))
 //            }
 //
 //            it("should succeed when presentingViewController is a UITabBarController") {
 //                let presenter = BranchRouteSegmentPresenter()
-//                presenter.presentViewController(mockViewControllerB, from: UITabBarController(), options: [: ], window: nil, completion: mockCompletionBlock.completion)
+//                presenter.present(viewController: mockViewControllerB, from: UITabBarController(), options: [: ], window: nil, completion: mockCompletionBlock.completion)
 //                expect(mockCompletionBlock.trackerKeyValues).to(equal(["completion": [["true", String(mockViewControllerB)]]]))
 //            }
 //
@@ -60,9 +60,9 @@ class BranchRouteSegmentPresenterSpec: QuickSpec {
 //            it("should leave last tab added as selected one by default") {
 //                let presenter = BranchRouteSegmentPresenter()
 //                let tabBarController = UITabBarController()
-//                presenter.presentViewController(mockViewControllerA, from: tabBarController, options: [: ], window: nil, completion: mockCompletionBlock.completion)
+//                presenter.present(viewController: mockViewControllerA, from: tabBarController, options: [: ], window: nil, completion: mockCompletionBlock.completion)
 //                expect(tabBarController.selectedViewController).to(equal(mockViewControllerA))
-//                presenter.presentViewController(mockViewControllerB, from: tabBarController, options: [: ], window: nil, completion: mockCompletionBlock.completion)
+//                presenter.present(viewController: mockViewControllerB, from: tabBarController, options: [: ], window: nil, completion: mockCompletionBlock.completion)
 //                expect(tabBarController.selectedViewController).to(equal(mockViewControllerB))
 //            }
 //
@@ -74,11 +74,11 @@ class BranchRouteSegmentPresenterSpec: QuickSpec {
 //
 //                expect(tabBarController.selectedViewController).to(beNil())
 //
-//                presenter.presentViewController(mockViewControllerA, from: tabBarController, options: options, window: nil, completion: mockCompletionBlock.completion)
+//                presenter.present(viewController: mockViewControllerA, from: tabBarController, options: options, window: nil, completion: mockCompletionBlock.completion)
 //                // the first tab added will automatically become the selected one, regardless of the options
 //                expect(tabBarController.selectedViewController).to(equal(mockViewControllerA))
 //
-//                presenter.presentViewController(mockViewControllerB, from: tabBarController, options: options, window: nil, completion: mockCompletionBlock.completion)
+//                presenter.present(viewController: mockViewControllerB, from: tabBarController, options: options, window: nil, completion: mockCompletionBlock.completion)
 //                expect(tabBarController.selectedViewController).to(equal(mockViewControllerA))
 //            }
 //

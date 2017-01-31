@@ -36,7 +36,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
             it("should fail") {
                 let mockCompletionBlock = MockCompletionBlock()
                 let presenter = PushRouteSegmentPresenter()
-                presenter.presentViewController(mockViewControllerC, from: nil, options: [: ], window: nil, completion: mockCompletionBlock.completion)
+                presenter.present(viewController: mockViewControllerC, from: nil, options: [: ], window: nil, completion: mockCompletionBlock.completion)
                 expect(mockCompletionBlock.trackerKeyValuesDifferences("completion", [["false","nil"]])).to(beEmpty())
             }
 
@@ -47,7 +47,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
             it("should fail") {
                 let mockCompletionBlock = MockCompletionBlock()
                 let presenter = PushRouteSegmentPresenter()
-                presenter.presentViewController(mockViewControllerC, from: mockViewControllerA, options: [: ], window: nil, completion: mockCompletionBlock.completion)
+                presenter.present(viewController: mockViewControllerC, from: mockViewControllerA, options: [: ], window: nil, completion: mockCompletionBlock.completion)
                 expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion": [["false","nil"]]])).to(beEmpty())
             }
 
@@ -64,7 +64,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
                 // test environment does not work with animated pushes
                 let options: RouteSequenceOptions = [PushRouteSegmentPresenterOptions.AnimatedKey: false as AnyObject]
 
-                presenter.presentViewController(mockViewControllerA, from: mockViewControllerB, options: options, window: nil, completion: mockCompletionBlock.completion)
+                presenter.present(viewController: mockViewControllerA, from: mockViewControllerB, options: options, window: nil, completion: mockCompletionBlock.completion)
                 expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion": [["false","nil"]]])).to(beEmpty())
             }
 
@@ -78,7 +78,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
                 let navigationController = UINavigationController()
                 expect(navigationController.viewControllers).to(beEmpty())
                 
-                presenter.presentViewController(mockViewControllerC, from: navigationController, options: [: ], window: nil, completion: mockCompletionBlock.completion)
+                presenter.present(viewController: mockViewControllerC, from: navigationController, options: [: ], window: nil, completion: mockCompletionBlock.completion)
                 self.waitForExpectations(timeout: 5, handler: nil)
                 expect(navigationController.viewControllers).to(equal([mockViewControllerC]))
                 expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion": [["true",String(describing: mockViewControllerC)]]])).to(beEmpty())
@@ -94,7 +94,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
                 // test environment does not work with animated pushes
                 let options: RouteSequenceOptions = [PushRouteSegmentPresenterOptions.AnimatedKey: false as AnyObject]
 
-                presenter.presentViewController(mockViewControllerC, from: navigationController, options: options, window: nil, completion: mockCompletionBlock.completion)
+                presenter.present(viewController: mockViewControllerC, from: navigationController, options: options, window: nil, completion: mockCompletionBlock.completion)
                 self.waitForExpectations(timeout: 5, handler: nil)
                 expect(navigationController.viewControllers).to(equal([mockViewControllerC]))
                 expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion": [["true",String(describing: mockViewControllerC)]]])).to(beEmpty())
@@ -113,7 +113,7 @@ class PushRouteSegmentPresenterSpec: QuickSpec {
                 // test environment does not work with animated pushes
                 let options: RouteSequenceOptions = [PushRouteSegmentPresenterOptions.AnimatedKey: false as AnyObject]
 
-                presenter.presentViewController(mockViewControllerC, from: mockViewControllerA, options: options, window: nil, completion: mockCompletionBlock.completion)
+                presenter.present(viewController: mockViewControllerC, from: mockViewControllerA, options: options, window: nil, completion: mockCompletionBlock.completion)
                 self.waitForExpectations(timeout: 5, handler: nil)
                 expect(navigationController.viewControllers).to(equal([mockViewControllerA, mockViewControllerC]))
                 expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion": [["true",String(describing: mockViewControllerC)]]])).to(beEmpty())

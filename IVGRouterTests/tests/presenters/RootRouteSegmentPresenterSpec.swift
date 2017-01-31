@@ -37,20 +37,20 @@ class RootRouteSegmentPresenterSpec: QuickSpec {
 
             it("should fail when window is nil") {
                 let presenter = RootRouteSegmentPresenter()
-                presenter.presentViewController(mockViewControllerB, from: nil, options: [: ], window: nil, completion: mockCompletionBlock.completion)
+                presenter.present(viewController: mockViewControllerB, from: nil, options: [: ], window: nil, completion: mockCompletionBlock.completion)
                 expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion": [["false","nil"]]])).to(beEmpty())
             }
 
             it("should fail when presentingViewController is not nil") {
                 let presenter = RootRouteSegmentPresenter()
-                presenter.presentViewController(mockViewControllerB, from: mockViewControllerA, options: [: ], window: mockWindow, completion: mockCompletionBlock.completion)
+                presenter.present(viewController: mockViewControllerB, from: mockViewControllerA, options: [: ], window: mockWindow, completion: mockCompletionBlock.completion)
                 expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion": [["false","nil"]]])).to(beEmpty())
                 expect(mockWindow.trackerKeyValues).to(beEmpty())
             }
 
             it("should pass when window is not nil") {
                 let presenter = RootRouteSegmentPresenter()
-                presenter.presentViewController(mockViewControllerB, from: nil, options: [: ], window: mockWindow, completion: mockCompletionBlock.completion)
+                presenter.present(viewController: mockViewControllerB, from: nil, options: [: ], window: mockWindow, completion: mockCompletionBlock.completion)
                 expect(mockCompletionBlock.trackerKeyValuesDifferences(["completion": [["true",String(describing: mockViewControllerB)]]])).to(beEmpty())
                 expect(mockWindow.trackerKeyValuesDifferences(["makeKeyAndVisible": [[]],"setRootViewController": [[mockViewControllerB.description]]])).to(beEmpty())
             }

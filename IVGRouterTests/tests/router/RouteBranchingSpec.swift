@@ -38,11 +38,11 @@ class RouterBranchingSpec: QuickSpec {
                     mockBranchRouteSegment = MockBranchRouteSegment(segmentIdentifier: Identifier(name: "BRANCH"), presenterIdentifier: mockBranchRouteSegmentPresenter.presenterIdentifier)
                     mockVisualRouteSegment = MockVisualRouteSegment(segmentIdentifier: Identifier(name: mockViewController.name), presenterIdentifier: mockVisualRouteSegmentPresenter.presenterIdentifier, presentedViewController: mockViewController)
                     router = Router(window: nil)
-                    router.registerPresenter(mockVisualRouteSegmentPresenter)
-                    router.registerPresenter(mockBranchRouteSegmentPresenter)
-                    router.registerRouteSegment(mockTrunkRouteSegment)
-                    router.registerRouteSegment(mockBranchRouteSegment)
-                    router.registerRouteSegment(mockVisualRouteSegment)
+                    router.register(routeSegmentPresenter: mockVisualRouteSegmentPresenter)
+                    router.register(routeSegmentPresenter: mockBranchRouteSegmentPresenter)
+                    router.register(routeSegment: mockTrunkRouteSegment)
+                    router.register(routeSegment: mockBranchRouteSegment)
+                    router.register(routeSegment: mockVisualRouteSegment)
                     validSequence = [
                         mockTrunkRouteSegment.segmentIdentifier,
                         mockBranchRouteSegment.segmentIdentifier,
@@ -54,7 +54,7 @@ class RouterBranchingSpec: QuickSpec {
 
                     it("should succeed") {
                         let expectation = self.expectation(description: "executeRoute completion callback")
-                        router.executeRoute(validSequence) {
+                        router.execute(route: validSequence) {
                             routingResult in
                             switch routingResult {
                             case .success(let finalViewController): 
@@ -68,7 +68,7 @@ class RouterBranchingSpec: QuickSpec {
                     }
 
 //                    it("should produce full sequence") {
-//                        router.executeRoute(validSequence) {
+//                        router.execute(route: validSequence) {
 //                            _ in
 //                        }
 //                        expect(router.viewControllers).to(equal([mockTabBarController,mockViewController]))

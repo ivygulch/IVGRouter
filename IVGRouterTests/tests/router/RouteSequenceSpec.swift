@@ -33,8 +33,8 @@ class RouteSequenceSpec: QuickSpec {
 
                 beforeEach {
                     router = Router(window: nil)
-                    router.registerRouteSegment(mockVisualRouteSegmentA)
-                    router.registerRouteSegment(mockVisualRouteSegmentB)
+                    router.register(routeSegment: mockVisualRouteSegmentA)
+                    router.register(routeSegment: mockVisualRouteSegmentB)
                     routeSequence = RouteSequence(source: [
                         mockVisualRouteSegmentA.segmentIdentifier,
                         mockVisualRouteSegmentB.segmentIdentifier

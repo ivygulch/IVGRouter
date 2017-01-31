@@ -22,7 +22,7 @@ class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPr
 
     let presenterIdentifier: Identifier
 
-    func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping (RoutingResult) -> Void)  {
+    func present(viewController presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping (RoutingResult) -> Void)  {
         let from = presentingViewController?.description ?? "nil"
         let windowID = window == nil ? "nil" : "\(Unmanaged.passUnretained(window!).toOpaque())"
         track("presentViewController", [presentedViewController.description,from,windowID])
@@ -33,7 +33,7 @@ class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPr
         }
     }
 
-    func reversePresentation(_ viewControllerToRemove : UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
+    func reverse(viewController viewControllerToRemove : UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
         track("reversePresentation", [viewControllerToRemove.description])
         if completionBlockArg {
             completion(.success(viewControllerToRemove))

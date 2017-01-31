@@ -14,13 +14,13 @@ public protocol RouteSegmentPresenterType {
 }
 
 public protocol VisualRouteSegmentPresenterType: RouteSegmentPresenterType {
-    func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void))
+    func present(viewController presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void))
 }
 
 public protocol ReversibleRouteSegmentPresenterType: RouteSegmentPresenterType {
-    func reversePresentation(_ viewControllerToRemove : UIViewController, completion: @escaping  ((RoutingResult) -> Void))
+    func reverse(viewController viewControllerToRemove : UIViewController, completion: @escaping  ((RoutingResult) -> Void))
 }
 
 public protocol BranchRouteSegmentPresenterType: RouteSegmentPresenterType {
-    func selectBranch(_ branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: @escaping  ((RoutingResult) -> Void))
+    func select(branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: @escaping  ((RoutingResult) -> Void))
 }

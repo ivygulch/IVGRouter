@@ -34,9 +34,9 @@ class RouteBranchSpec: QuickSpec {
 
                 beforeEach {
                     router = Router(window: nil)
-                    router.registerRouteSegment(mockVisualRouteSegment)
-                    router.registerRouteSegment(mockTrunkRouteSegment)
-                    router.registerRouteSegment(mockBranchRouteSegment)
+                    router.register(routeSegment: mockVisualRouteSegment)
+                    router.register(routeSegment: mockTrunkRouteSegment)
+                    router.register(routeSegment: mockBranchRouteSegment)
                     routeBranch = RouteBranch(
                         branchIdentifier: Identifier(name: "branch"),
                         routeSequence: RouteSequence(source: [
@@ -48,7 +48,7 @@ class RouteBranchSpec: QuickSpec {
                 }
 
                 it("should validate routeSeqeuence") {
-                    expect(routeBranch.validateRouteSequenceWithRouter(router)).to(beTrue())
+                    expect(routeBranch.validateRouteSequence(withRouter: router)).to(beTrue())
                 }
 
             }
@@ -69,7 +69,7 @@ class RouteBranchSpec: QuickSpec {
                 }
 
                 it("should not validate routeSeqeuence") {
-                    expect(routeBranch.validateRouteSequenceWithRouter(router)).to(beFalse())
+                    expect(routeBranch.validateRouteSequence(withRouter: router)).to(beFalse())
                 }
 
             }
@@ -91,7 +91,7 @@ class RouteBranchSpec: QuickSpec {
                 }
 
                 it("should not validate routeSeqeuence") {
-                    expect(routeBranch.validateRouteSequenceWithRouter(router)).to(beFalse())
+                    expect(routeBranch.validateRouteSequence(withRouter: router)).to(beFalse())
                 }
 
             }

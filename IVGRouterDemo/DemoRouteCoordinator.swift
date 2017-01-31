@@ -82,28 +82,28 @@ class DemoRouteCoordinator {
     }
 
     func startupAction() {
-        router.executeRoute(routeSequenceWelcome) { _ in }
+        router.execute(route: routeSequenceWelcome) { _ in }
     }
 
     func registerRouteSegments() {
-        router.registerRouteSegment(buildRootSegment())
-        router.registerRouteSegment(buildPushSegment(pushWelcomeSegmentIdentifier))
-        router.registerRouteSegment(buildPushSegment(pushASegmentIdentifier))
-        router.registerRouteSegment(buildPushSegment(pushBSegmentIdentifier))
-        router.registerRouteSegment(buildPushSegment(pushCSegmentIdentifier))
-        router.registerRouteSegment(buildPushSegment(pushDSegmentIdentifier))
-        router.registerRouteSegment(buildPushSegment(pushESegmentIdentifier))
-        router.registerRouteSegment(buildPushSegment(pushFSegmentIdentifier))
-        router.registerRouteSegment(buildPushSegment(pushGSegmentIdentifier))
-        router.registerRouteSegment(buildTrunkSegment(pushTBCSegmentIdentifier))
-        router.registerRouteSegment(buildBranchSegment(tab1SegmentIdentifier))
-        router.registerRouteSegment(buildSetNCSegment(setNCSegmentIdentifier))
-        router.registerRouteSegment(buildBranchSegment(tab2SegmentIdentifier))
-        router.registerRouteSegment(buildSetSegment(setZSegmentIdentifier))
-        router.registerRouteSegment(buildWrapperSegment())
+        router.register(routeSegment: buildRootSegment())
+        router.register(routeSegment: buildPushSegment(pushWelcomeSegmentIdentifier))
+        router.register(routeSegment: buildPushSegment(pushASegmentIdentifier))
+        router.register(routeSegment: buildPushSegment(pushBSegmentIdentifier))
+        router.register(routeSegment: buildPushSegment(pushCSegmentIdentifier))
+        router.register(routeSegment: buildPushSegment(pushDSegmentIdentifier))
+        router.register(routeSegment: buildPushSegment(pushESegmentIdentifier))
+        router.register(routeSegment: buildPushSegment(pushFSegmentIdentifier))
+        router.register(routeSegment: buildPushSegment(pushGSegmentIdentifier))
+        router.register(routeSegment: buildTrunkSegment(pushTBCSegmentIdentifier))
+        router.register(routeSegment: buildBranchSegment(tab1SegmentIdentifier))
+        router.register(routeSegment: buildSetNCSegment(setNCSegmentIdentifier))
+        router.register(routeSegment: buildBranchSegment(tab2SegmentIdentifier))
+        router.register(routeSegment: buildSetSegment(setZSegmentIdentifier))
+        router.register(routeSegment: buildWrapperSegment())
 
-        router.registerRouteBranch(routeBranchTab1);
-        router.registerRouteBranch(routeBranchTab2);
+        router.register(routeBranch: routeBranchTab1);
+        router.register(routeBranch: routeBranchTab2);
     }
 
     fileprivate func buildRootSegment() -> VisualRouteSegmentType {
@@ -128,7 +128,7 @@ class DemoRouteCoordinator {
                 }
 
                 result.backAction = {
-                    self.router.popRoute() { _ in }
+                    self.router.pop() { _ in }
                 }
 
                 return result
@@ -152,11 +152,11 @@ class DemoRouteCoordinator {
                     _ = result.addAction(title, action: {
                         switch type {
                         case .execute: 
-                            self.router.executeRoute(sequence) { _ in }
+                            self.router.execute(route: sequence) { _ in }
                         case .branch(let branch): 
-                            self.router.executeRoute(sequence, routeBranch: branch) { _ in }
+                            self.router.execute(route: sequence, toRouteBranch: branch) { _ in }
                         case .append: 
-                            self.router.appendRoute(sequence) { _ in }
+                            self.router.append(route: sequence) { _ in }
                         }
                     })
                 }
@@ -166,7 +166,7 @@ class DemoRouteCoordinator {
                 }
 
                 result.backAction = {
-                    self.router.popRoute() { _ in }
+                    self.router.pop() { _ in }
                 }
                 
                 return result
@@ -228,7 +228,7 @@ class DemoRouteCoordinator {
 
                 _ = result.addAction("Unwrap", titleColor: UIColor.black, action: {
                     self.router.debug("before unwrap")
-                    self.router.popRoute() { _ in
+                    self.router.pop() { _ in
                         self.router.debug("after unwrap")
                     }
                 })

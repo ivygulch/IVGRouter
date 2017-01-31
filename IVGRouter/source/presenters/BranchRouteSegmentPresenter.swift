@@ -12,7 +12,7 @@ public struct BranchRouteSegmentPresenterOptions {
     public static let AppendOnlyKey = "appendOnly"
     public static let AppendOnlyDefault = false
 
-    static func appendOnlyFromOptions(_ options: RouteSequenceOptions) -> Bool {
+    static func append(onlyFromOptions options: RouteSequenceOptions) -> Bool {
         return options[BranchRouteSegmentPresenterOptions.AppendOnlyKey] as? Bool ?? BranchRouteSegmentPresenterOptions.AppendOnlyDefault
     }
 }
@@ -21,8 +21,8 @@ open class BranchRouteSegmentPresenter : BaseRouteSegmentPresenter, BranchRouteS
 
     open static let defaultPresenterIdentifier = Identifier(name: String(describing: BranchRouteSegmentPresenter.self))
 
-    open func selectBranch(_ branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
-        if BranchRouteSegmentPresenterOptions.appendOnlyFromOptions(options) {
+    open func select(branchRouteSegmentIdentifier: Identifier, from trunkRouteController: TrunkRouteController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
+        if BranchRouteSegmentPresenterOptions.append(onlyFromOptions: options) {
             trunkRouteController.configureBranch(branchRouteSegmentIdentifier, completion: completion)
         } else {
             trunkRouteController.selectBranch(branchRouteSegmentIdentifier, completion: completion)

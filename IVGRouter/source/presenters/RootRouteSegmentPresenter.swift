@@ -12,7 +12,7 @@ open class RootRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSeg
 
     open static let defaultPresenterIdentifier = Identifier(name: String(describing: RootRouteSegmentPresenter.self))
 
-    open func presentViewController(_ presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
+    open func present(viewController presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
         guard verify(checkNotNil(window, "Router.window"), completion: completion),
             let window = window else {
             return
