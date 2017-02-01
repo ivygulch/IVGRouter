@@ -13,7 +13,10 @@ open class RouteSequence : Equatable, CustomStringConvertible {
     open var items: [RouteSequenceItem] = []
 
     public init(source: [Any]) {
-        self.items = source.map { RouteSequenceItem.transform($0) }.flatMap { $0 }
+        items = source
+            .flatMap { $0 } // flatten out nested arrays
+            .map { RouteSequenceItem.transform($0) }
+            .flatMap { $0 } // remove nils
     }
 
     open func validatedRouteSegmentsWithRouter(_ router: RouterType) -> [RouteSegmentType]? {

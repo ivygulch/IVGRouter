@@ -655,36 +655,9 @@ extension RouterSpec {
                 expect(router.previousRouteHistoryItem()).to(beNil())
             }
 
-            it("should not have next in history") {
-                expect(router.nextRouteHistoryItem()).to(beNil())
-            }
-
             it("should not move back") {
                 let expectation = self.expectation(description: "goBack completion callback")
                 router.goBack() {
-                    routingResult in
-                    switch routingResult {
-                    case .success: 
-                        fail("Did not expect success: \(routingResult)")
-                    case .failure(let error): 
-                        expect(error as? RoutingErrors).toNot(beNil())
-                        if let error = error as? RoutingErrors {
-                            switch error {
-                            case .noHistory: 
-                            break // yup
-                            default: 
-                                fail("Did not expect: \(error)")
-                            }
-                        }
-                    }
-                    expectation.fulfill()
-                }
-                self.waitForExpectations(timeout: 5, handler: nil)
-            }
-
-            it("should not move forward") {
-                let expectation = self.expectation(description: "goForward completion callback")
-                router.goForward() {
                     routingResult in
                     switch routingResult {
                     case .success: 
@@ -718,43 +691,15 @@ extension RouterSpec {
                 expect(router.previousRouteHistoryItem()).toNot(beNil())
             }
 
-            it("should not have next in history") {
-                expect(router.nextRouteHistoryItem()).to(beNil())
-            }
-
             it("should move back") {
                 let expectation = self.expectation(description: "goBack completion callback")
                 router.goBack() {
                     routingResult in
-//                    print("DBG: routingResult=\(routingResult)")
                     switch routingResult {
                     case .success(let viewController): 
                         expect(viewController).to(equal(mockViewControllerA))
                     case .failure(let error): 
                         fail("Did not expect failure: \(error)")
-                    }
-                    expectation.fulfill()
-                }
-                self.waitForExpectations(timeout: 5, handler: nil)
-            }
-
-            it("should not move forward") {
-                let expectation = self.expectation(description: "goForward completion callback")
-                router.goForward() {
-                    routingResult in
-                    switch routingResult {
-                    case .success: 
-                        fail("Did not expect success: \(routingResult)")
-                    case .failure(let error): 
-                        expect(error as? RoutingErrors).toNot(beNil())
-                        if let error = error as? RoutingErrors {
-                            switch error {
-                            case .noHistory: 
-                            break // yup
-                            default: 
-                                fail("Did not expect: \(error)")
-                            }
-                        }
                     }
                     expectation.fulfill()
                 }
@@ -777,10 +722,6 @@ extension RouterSpec {
                 expect(router.previousRouteHistoryItem()).toNot(beNil())
             }
             
-            it("should have next in history") {
-                expect(router.nextRouteHistoryItem()).toNot(beNil())
-            }
-            
             it("should move back") {
                 let expectation = self.expectation(description: "goBack completion callback")
                 router.goBack() {
@@ -795,22 +736,7 @@ extension RouterSpec {
                 }
                 self.waitForExpectations(timeout: 5, handler: nil)
             }
-            
-            it("should move forward") {
-                let expectation = self.expectation(description: "goForward completion callback")
-                router.goForward() {
-                    routingResult in
-                    switch routingResult {
-                    case .success(let viewController): 
-                        expect(viewController).to(equal(mockViewControllerD))
-                    case .failure(let error): 
-                        fail("Did not expect failure: \(error)")
-                    }
-                    expectation.fulfill()
-                }
-                self.waitForExpectations(timeout: 5, handler: nil)
-            }
-            
+          
         }
 
     }

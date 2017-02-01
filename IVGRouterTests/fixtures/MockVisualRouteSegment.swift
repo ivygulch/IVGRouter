@@ -23,9 +23,13 @@ class MockVisualRouteSegment : TrackableTestClass, VisualRouteSegmentType {
     let segmentIdentifier: Identifier
     let presenterIdentifier: Identifier
     let title: String
+    let shouldBeRecorded = true
     let presentedViewController: UIViewController?
 
     func viewController() -> UIViewController? {
         return presentedViewController
+    }
+
+    func set(data: RouteSegmentDataType?, onViewController viewController: UIViewController) {
     }
 }

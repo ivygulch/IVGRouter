@@ -22,5 +22,6 @@ class MockBranchRouteSegment : TrackableTestClass, BranchRouteSegmentType {
     let segmentIdentifier: Identifier
     let presenterIdentifier: Identifier
     let title: String
+    let shouldBeRecorded = true
 
 }

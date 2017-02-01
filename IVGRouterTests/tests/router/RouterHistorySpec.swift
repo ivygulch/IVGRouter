@@ -25,17 +25,13 @@ class RouterHistorySpec: QuickSpec {
             var routerHistory: RouterHistory!
 
             beforeEach {
-                routerHistory = RouterHistory()
+                routerHistory = RouterHistory(historySize: 10)
             }
 
             context("when initialized") {
 
                 it("should return nil for previousRouteHistoryItem") {
                     expect(routerHistory.previousRouteHistoryItem).to(beNil())
-                }
-
-                it("should return nil for nextRouteHistoryItem") {
-                    expect(routerHistory.nextRouteHistoryItem).to(beNil())
                 }
 
             }
@@ -50,10 +46,6 @@ class RouterHistorySpec: QuickSpec {
                     expect(routerHistory.previousRouteHistoryItem).to(beNil())
                 }
 
-                it("should return nil for nextRouteHistoryItem") {
-                    expect(routerHistory.nextRouteHistoryItem).to(beNil())
-                }
-                
             }
 
             context("after moving forward two steps") {
@@ -67,10 +59,6 @@ class RouterHistorySpec: QuickSpec {
                     expect(routerHistory.previousRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemA))
                 }
 
-                it("should return nil for nextRouteHistoryItem") {
-                    expect(routerHistory.nextRouteHistoryItem).to(beNil())
-                }
-                
             }
 
             context("after moving forward two steps, then back one") {
@@ -85,10 +73,6 @@ class RouterHistorySpec: QuickSpec {
                     expect(routerHistory.previousRouteHistoryItem).to(beNil())
                 }
 
-                it("should return B for nextRouteHistoryItem") {
-                    expect(routerHistory.nextRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemB))
-                }
-                
             }
 
             context("after moving forward three steps, then back one") {
@@ -104,10 +88,6 @@ class RouterHistorySpec: QuickSpec {
                     expect(routerHistory.previousRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemA))
                 }
 
-                it("should return C for nextRouteHistoryItem") {
-                    expect(routerHistory.nextRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemC))
-                }
-                
             }
 
             context("after moving forward four steps, then back two, then forward with same as before") {
@@ -126,10 +106,6 @@ class RouterHistorySpec: QuickSpec {
                     expect(routerHistory.previousRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemB))
                 }
 
-                it("should return D for nextRouteHistoryItem") {
-                    expect(routerHistory.nextRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemD))
-                }
-                
             }
 
             context("after moving forward four steps, then back two, then forward with different from before") {
@@ -148,10 +124,6 @@ class RouterHistorySpec: QuickSpec {
                     expect(routerHistory.previousRouteHistoryItem as? RouteHistoryItem).to(equal(mockRouteHistoryItemB))
                 }
 
-                it("should return nil for nextRouteHistoryItem") {
-                    expect(routerHistory.nextRouteHistoryItem).to(beNil())
-                }
-                
             }
 
         }

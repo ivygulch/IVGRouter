@@ -8,15 +8,20 @@
 
 import UIKit
 
-public typealias ViewControllerLoaderFunction = (Void) -> ((Void) -> UIViewController?)
+public typealias RouteSegmentDataType = Any
+
+public typealias ViewControllerLoaderFunction = (Void) -> (() -> UIViewController?)
+public typealias ViewControllerSetDataFunction = (Void) -> ((UIViewController, RouteSegmentDataType?) -> Void)
 
 public protocol RouteSegmentType {
     var segmentIdentifier: Identifier { get }
     var presenterIdentifier: Identifier { get }
+    var shouldBeRecorded: Bool { get }
 }
 
 public protocol VisualRouteSegmentType: RouteSegmentType {
     func viewController() -> UIViewController?
+    func set(data: RouteSegmentDataType?, onViewController viewController: UIViewController)
 }
 
 public protocol BranchRouteSegmentType: RouteSegmentType {
@@ -32,29 +37,37 @@ public protocol TrunkRouteController {
 
 open class RouteSegment : RouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, shouldBeRecorded: Bool = true) {
         self.segmentIdentifier = segmentIdentifier
         self.presenterIdentifier = presenterIdentifier
+        self.shouldBeRecorded = shouldBeRecorded
     }
 
-    open let segmentIdentifier: Identifier
-    open let presenterIdentifier: Identifier
+    public let segmentIdentifier: Identifier
+    public let presenterIdentifier: Identifier
+    public let shouldBeRecorded: Bool
 }
 
 open class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, isSingleton: Bool, loadViewController: @escaping ViewControllerLoaderFunction) {
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, shouldBeRecorded: Bool = true, isSingleton: Bool, loadViewController: @escaping ViewControllerLoaderFunction, setData: ViewControllerSetDataFunction? = nil) {
         self.isSingleton = isSingleton
         self.loadViewController = loadViewController
-        super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier)
+        self.setData = setData
+        super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier, shouldBeRecorded: shouldBeRecorded)
     }
 
     open func viewController() -> UIViewController? {
-        return self.getViewController()
+        return getViewController()
+    }
+
+    open func set(data: RouteSegmentDataType?, onViewController viewController: UIViewController) {
+        setData?()(viewController, data)
     }
 
     fileprivate func getViewController() -> UIViewController? {
         if isSingleton {
+            // TODO: need method to provide fresh data for cached controllers
             if cachedViewController == nil {
                 cachedViewController = loadViewController()()
             }
@@ -64,14 +77,24 @@ open class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
         }
     }
 
-    fileprivate func callLoadViewController() -> UIViewController? {
-        return loadViewController()()
-    }
-
     fileprivate let isSingleton: Bool
     fileprivate let loadViewController: ViewControllerLoaderFunction
+    fileprivate let setData: ViewControllerSetDataFunction?
     fileprivate var cachedViewController: UIViewController?
     
+}
+
+open class AlertRouteSegment: VisualRouteSegment {
+
+    public init(segmentIdentifier: Identifier, preferredStyle: UIAlertControllerStyle, setData: ViewControllerSetDataFunction?) {
+        super.init(segmentIdentifier: segmentIdentifier,
+                   presenterIdentifier: PresentRouteSegmentPresenter.defaultPresenterIdentifier,
+                   shouldBeRecorded: false, // alerts are self dismissing and should not be put on the history stack or current route
+            isSingleton: false, // must not be a singleton, need a fresh copy each time
+            loadViewController: { return { return UIAlertController(title: nil, message: nil, preferredStyle: preferredStyle) } },
+            setData: setData)
+    }
+
 }
 
 open class BranchRouteSegment : RouteSegment, BranchRouteSegmentType {

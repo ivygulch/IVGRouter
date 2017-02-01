@@ -132,7 +132,8 @@ class DemoRouteCoordinator {
                 }
 
                 return result
-                } }
+                }
+        }
         )
     }
 
@@ -234,7 +235,8 @@ class DemoRouteCoordinator {
                 })
 
                 return result
-                } }
+                }
+        }
         )
     }
 
@@ -248,12 +250,6 @@ class DemoRouteCoordinator {
             let title = "back [\(previousItem.title ?? "")]"
             alert.addAction(UIAlertAction(title: title, style: .default) { _ in
                 self.router.goBack() { _ in }
-                })
-        }
-        if let nextItem = router.nextRouteHistoryItem() {
-            let title = "next [\(nextItem.title ?? "")]"
-            alert.addAction(UIAlertAction(title: title, style: .default) { _ in
-                self.router.goForward() { _ in }
                 })
         }
         viewController.present(alert, animated: true) {}

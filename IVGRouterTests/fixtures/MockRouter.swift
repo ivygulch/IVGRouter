@@ -12,6 +12,7 @@ import IVGRouter
 
 class MockRouter : TrackableTestClass, RouterType {
 
+    let historySize = 10
     let defaultRouteBranch: RouteBranchType = RouteBranch(branchIdentifier: Identifier(name: UUID().uuidString), routeSequence: RouteSequence(source: []))
 
     var window: UIWindow? { return track("window", andReturn: nil) }
@@ -52,10 +53,6 @@ class MockRouter : TrackableTestClass, RouterType {
 
     func goBack(onRouteBranch routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
         track("goBack", [String(describing: routeBranch)])
-    }
-
-    func goForward(onRouteBranch routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {
-        track("goForward", [String(describing: routeBranch)])
     }
 
     func execute(route source: [Any], toRouteBranch routeBranch: RouteBranchType, completion: @escaping ((RoutingResult) -> Void)) {

@@ -46,7 +46,7 @@ class RouteSequenceItemSpec: QuickSpec {
                 it("should retain values") {
                     let testIdentifier = Identifier(name: "test")
                     let testOptions: RouteSequenceOptions = ["a": 1 as AnyObject, "b": true as AnyObject, "c": "value" as AnyObject]
-                    let item = RouteSequenceItem(segmentIdentifier: testIdentifier, options: testOptions)
+                    let item = RouteSequenceItem(segmentIdentifier: testIdentifier, data: nil, options: testOptions)
                     expect(item.segmentIdentifier).to(equal(testIdentifier))
                     expect(String(describing: item.options)).to(equal(String(describing: testOptions)))
                 }
@@ -89,34 +89,6 @@ class RouteSequenceItemSpec: QuickSpec {
                     if let item = item {
                         expect(item.segmentIdentifier).to(equal(Identifier(name: testValue)))
                         expect(String(describing: item.options)).to(equal(String(describing: testOptions)))
-                    }
-                }
-            }
-
-            context("when transforming simple string") {
-
-                it("should produce valid item") {
-                    let testValue = "test"
-                    let item = RouteSequenceItem.transform(testValue)
-                    expect(item).toNot(beNil())
-                    if let item = item {
-                        expect(item.segmentIdentifier).to(equal(Identifier(name: testValue)))
-                        expect(item.options).to(beEmpty())
-                    }
-                }
-            }
-
-            context("when transforming string with embedded options") {
-
-                it("should produce valid item") {
-                    let testName = "test"
-                    let testValue = "\(testName);a=1;b=2;c"
-                    let expectedOptions: RouteSequenceOptions = ["a": "1" as AnyObject,"b": "2" as AnyObject,"c": "" as AnyObject]
-                    let item = RouteSequenceItem.transform(testValue)
-                    expect(item).toNot(beNil())
-                    if let item = item {
-                        expect(item.segmentIdentifier).to(equal(Identifier(name: testName)))
-                        expect(String(describing: item.options)).to(equal(String(describing: expectedOptions)))
                     }
                 }
             }

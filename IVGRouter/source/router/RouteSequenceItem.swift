@@ -11,41 +11,28 @@ import Foundation
 public typealias RouteSequenceOptions = [String: AnyObject]
 
 public struct RouteSequenceItem: Equatable {
+    public let segmentIdentifier: Identifier
+    public let data: RouteSegmentDataType?
+    public let options: RouteSequenceOptions
+
+    public init(segmentIdentifier: Identifier, data: RouteSegmentDataType?, options: RouteSequenceOptions = [:]) {
+        self.segmentIdentifier = segmentIdentifier
+        self.data = data
+        self.options = options
+    }
 
     public static func transform(_ item: Any) -> RouteSequenceItem? {
         if let routeSequenceItem = item as? RouteSequenceItem {
             return routeSequenceItem
         } else if let segmentIdentifier = item as? Identifier {
-            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, options: [: ])
-        } else if let (segmentIdentifier,options) = item as? (Identifier,RouteSequenceOptions) {
-            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, options: options)
-        } else if let (name,options) = item as? (String,RouteSequenceOptions) {
-            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options: options)
-        } else if let value = item as? String {
-            let values = value.components(separatedBy: ";")
-            let name = values.first!
-            var options: RouteSequenceOptions = [: ]
-            for index in 1..<values.count {
-                let value = values[index]
-                let pieces = value.components(separatedBy: "=")
-                if pieces.count > 1 {
-                    options[pieces[0]] = pieces[1] as AnyObject?
-                } else {
-                    options[value] = "" as AnyObject?
-                }
-            }
-            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), options: options)
+            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, data: nil, options: [: ])
+        } else if let (segmentIdentifier, options) = item as? (Identifier, RouteSequenceOptions) {
+            return RouteSequenceItem(segmentIdentifier: segmentIdentifier, data: nil, options: options)
+        } else if let (name, options) = item as? (String, RouteSequenceOptions) {
+            return RouteSequenceItem(segmentIdentifier: Identifier(name: name), data: nil, options: options)
         }
         print("Invalid sourceItem: \(item)")
         return nil
-    }
-
-    public let segmentIdentifier: Identifier
-    public let options: RouteSequenceOptions
-
-    public init(segmentIdentifier: Identifier, options: RouteSequenceOptions) {
-        self.segmentIdentifier = segmentIdentifier
-        self.options = options
     }
 
 }
