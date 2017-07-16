@@ -88,7 +88,7 @@ open class AlertRouteSegment: VisualRouteSegment {
 
     public init(segmentIdentifier: Identifier, preferredStyle: UIAlertControllerStyle, setData: ViewControllerSetDataFunction?) {
         super.init(segmentIdentifier: segmentIdentifier,
-                   presenterIdentifier: PresentRouteSegmentPresenter.defaultPresenterIdentifier,
+                   presenterIdentifier: PresentRouteSegmentPresenter.autoDismissPresenterIdentifier,
                    shouldBeRecorded: false, // alerts are self dismissing and should not be put on the history stack or current route
             isSingleton: false, // must not be a singleton, need a fresh copy each time
             loadViewController: { return { return UIAlertController(title: nil, message: nil, preferredStyle: preferredStyle) } },

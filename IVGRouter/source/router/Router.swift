@@ -160,6 +160,7 @@ open class Router : RouterType {
         register(routeSegmentPresenter: BranchRouteSegmentPresenter())
         register(routeSegmentPresenter: PushRouteSegmentPresenter())
         register(routeSegmentPresenter: PresentRouteSegmentPresenter())
+        register(routeSegmentPresenter: PresentRouteSegmentPresenter(presenterIdentifier: PresentRouteSegmentPresenter.autoDismissPresenterIdentifier)) // auto-dismiss version for use by AlertControllers
         register(routeSegmentPresenter: SetRouteSegmentPresenter())
         register(routeSegmentPresenter: WrappingRouteSegmentPresenter(wrappingRouteSegmentAnimator: SlidingWrappingRouteSegmentAnimator()))
     }
@@ -305,7 +306,7 @@ open class Router : RouterType {
         if let lastPresenterIdentifier = routeSegments[lastSegmentIdentifier]?.presenterIdentifier,
             let reversibleRouteSegmentPresenter = presenters[lastPresenterIdentifier] as? ReversibleRouteSegmentPresenterType,
             let lastViewController = lastRecordedSegment.viewController,
-            let lastParentViewController = lastViewController.parent {
+            let lastParentViewController = lastViewController.parent ?? lastViewController.presentingViewController {
 
             let presentationBlock = {
                 reversibleRouteSegmentPresenter.reverse(viewController: lastViewController) { presenterResult in
