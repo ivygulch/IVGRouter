@@ -161,6 +161,7 @@ open class Router : RouterType {
         register(routeSegmentPresenter: PushRouteSegmentPresenter())
         register(routeSegmentPresenter: PresentRouteSegmentPresenter())
         register(routeSegmentPresenter: PresentRouteSegmentPresenter(presenterIdentifier: PresentRouteSegmentPresenter.autoDismissPresenterIdentifier)) // auto-dismiss version for use by AlertControllers
+        register(routeSegmentPresenter: PresentRouteSegmentPresenter(presenterIdentifier: PresentRouteSegmentPresenter.fromRootPresenterIdentifier)) // fromRoot version for use by modal VCs
         register(routeSegmentPresenter: SetRouteSegmentPresenter())
         register(routeSegmentPresenter: WrappingRouteSegmentPresenter(wrappingRouteSegmentAnimator: SlidingWrappingRouteSegmentAnimator()))
     }

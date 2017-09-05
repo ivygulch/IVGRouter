@@ -11,23 +11,32 @@ import UIKit
 open class PresentRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     public static let autoDismissPresenterIdentifier = Identifier(name: String(describing: PresentRouteSegmentPresenter.self) + ".autoDismiss")
+    public static let fromRootPresenterIdentifier = Identifier(name: String(describing: PresentRouteSegmentPresenter.self) + ".fromRoot")
     public static let defaultPresenterIdentifier = Identifier(name: String(describing: PresentRouteSegmentPresenter.self))
 
-    private var autoDismiss: Bool { return presenterIdentifier == PresentRouteSegmentPresenter.autoDismissPresenterIdentifier }
+    private var isAutoDismiss: Bool { return presenterIdentifier == PresentRouteSegmentPresenter.autoDismissPresenterIdentifier }
+    private var isFromRoot: Bool { return presenterIdentifier == PresentRouteSegmentPresenter.fromRootPresenterIdentifier }
 
     open func present(viewController presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
-        guard verify(checkNotNil(presentingViewController, "presentingViewController"), completion: completion),
-            let parentViewController = presentingViewController else {
+        var usePresentingViewController = presentingViewController
+        if isFromRoot {
+            while usePresentingViewController?.parent != nil {
+                usePresentingViewController = usePresentingViewController?.parent
+            }
+        }
+        guard verify(checkNotNil(usePresentingViewController, "presentingViewController"), completion: completion),
+            let parentViewController = usePresentingViewController else {
                 return
         }
 
+        presentedViewController.modalPresentationStyle = .overCurrentContext
         parentViewController.present(presentedViewController, animated: true) {
             completion(.success(presentedViewController))
         }
     }
 
     open func reverse(viewController viewControllerToRemove : UIViewController, completion: @escaping  ((RoutingResult) -> Void)) {
-        if autoDismiss {
+        if isAutoDismiss {
              // nothing to do here, the caller promises to handle it (probably via an AlertViewController)
             completion(.success(viewControllerToRemove))
             return
