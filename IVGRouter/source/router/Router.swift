@@ -500,7 +500,7 @@ open class Router : RouterType {
                 return // we handled it by failing the sequence
             }
 
-            visualRouteSegment.set(data: routeSequenceData, onViewController: viewController)
+            visualRouteSegment.set(data: routeSequenceData, on: viewController, from: presentingViewController)
             visualPresenter.present(viewController: viewController, from: presentingViewController, options: routeSequenceOptions, window: self.window, completion: {
                 presenterResult in
 

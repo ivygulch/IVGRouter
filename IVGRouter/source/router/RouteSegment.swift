@@ -11,7 +11,7 @@ import UIKit
 public typealias RouteSegmentDataType = Any
 
 public typealias ViewControllerLoaderFunction = (Void) -> (() -> UIViewController?)
-public typealias ViewControllerSetDataFunction = (Void) -> ((UIViewController, RouteSegmentDataType?) -> Void)
+public typealias ViewControllerSetDataFunction = (Void) -> ((_ presented: UIViewController, _ presenting: UIViewController?, _ data: RouteSegmentDataType?) -> Void)
 
 public protocol RouteSegmentType {
     var segmentIdentifier: Identifier { get }
@@ -21,7 +21,7 @@ public protocol RouteSegmentType {
 
 public protocol VisualRouteSegmentType: RouteSegmentType {
     func viewController() -> UIViewController?
-    func set(data: RouteSegmentDataType?, onViewController viewController: UIViewController)
+    func set(data: RouteSegmentDataType?, on presented: UIViewController, from presenting: UIViewController?)
 }
 
 public protocol BranchRouteSegmentType: RouteSegmentType {
@@ -61,8 +61,8 @@ open class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
         return getViewController()
     }
 
-    open func set(data: RouteSegmentDataType?, onViewController viewController: UIViewController) {
-        setData?()(viewController, data)
+    open func set(data: RouteSegmentDataType?, on presented: UIViewController, from presenting: UIViewController?) {
+        setData?()(presented, presenting, data)
     }
 
     fileprivate func getViewController() -> UIViewController? {
