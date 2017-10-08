@@ -14,9 +14,9 @@ class MockViewControllerLoader : TrackableTestClass {
         self.viewController = viewController
     }
 
-    func load() -> ((Void) -> UIViewController?) {
+    func load() -> (() -> UIViewController?) {
         return {
-            (Void) -> UIViewController? in
+            () -> UIViewController? in
             let name = self.viewController?.description ?? "nil"
             self.track("load",[name])
             return self.viewController

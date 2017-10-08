@@ -28,7 +28,7 @@ public enum RoutingResult {
 
 public protocol RouteHistoryPreviousButtonProvider {
     var previousHistoryItemButton: UIButton? { get }
-    func configurePreviousHistoryItem(forButton button: UIButton, routeHistoryItemTitle: String?) -> ((Void) -> Void)?
+    func configurePreviousHistoryItem(forButton button: UIButton, routeHistoryItemTitle: String?) -> (() -> Void)?
 }
 
 public protocol RouterType {
@@ -81,9 +81,9 @@ extension RouterType {
 
 }
 
-private struct RouterConstants {
-    static let defaultTitle = "Previous Page"
-    static let defaultHistorySize: Int = 20
+public struct RouterConstants {
+    public static let defaultTitle = "Previous Page"
+    public static let defaultHistorySize: Int = 20
 }
 
 open class Router : RouterType {
@@ -251,7 +251,7 @@ open class Router : RouterType {
 
     // MARK: UIButton configuration
 
-    fileprivate var previousButtonCompletions: [UIButton: ((Void) -> Void)] = [: ]
+    fileprivate var previousButtonCompletions: [UIButton: (() -> Void)] = [: ]
 
     @objc fileprivate func previousButtonAction(_ button: UIButton) {
         let buttonCompletion = previousButtonCompletions[button]
@@ -260,7 +260,7 @@ open class Router : RouterType {
         }
     }
 
-    fileprivate func configure(previousButton button: UIButton, onRouteBranch routeBranch: RouteBranchType, tapCompletion: ((Void) -> Void)?) {
+    fileprivate func configure(previousButton button: UIButton, onRouteBranch routeBranch: RouteBranchType, tapCompletion: (() -> Void)?) {
         let selector = #selector(Router.previousButtonAction(_: ))
         if previousRouteHistoryItem(onRouteBranch: routeBranch) != nil {
             button.isHidden = false
@@ -338,7 +338,7 @@ open class Router : RouterType {
         }
     }
 
-    fileprivate func pop(recordedSegments recordedSegmentsToPop: [RecordedSegment], sequenceCompletion: @escaping ((RoutingResult) -> Void), popCompletion: @escaping ((Void) -> Void)) {
+    fileprivate func pop(recordedSegments recordedSegmentsToPop: [RecordedSegment], sequenceCompletion: @escaping ((RoutingResult) -> Void), popCompletion: @escaping (() -> Void)) {
         guard recordedSegmentsToPop.count > 0 else {
             popCompletion()
             return // nothing to do here
@@ -347,7 +347,7 @@ open class Router : RouterType {
         popUsing(recordedSegments: recordedSegmentsToPop, sequenceCompletion: sequenceCompletion, popCompletion: popCompletion)
     }
 
-    fileprivate func popUsing(recordedSegments recordedSegmentsToPop: [RecordedSegment], sequenceCompletion: @escaping ((RoutingResult) -> Void), popCompletion: @escaping ((Void) -> Void)) {
+    fileprivate func popUsing(recordedSegments recordedSegmentsToPop: [RecordedSegment], sequenceCompletion: @escaping ((RoutingResult) -> Void), popCompletion: @escaping (() -> Void)) {
         guard recordedSegmentsToPop.count > 0 else {
             // all finished popping
             popCompletion()
@@ -574,7 +574,7 @@ open class Router : RouterType {
 
 }
 
-private extension Collection where Indices.Iterator.Element == Index {
+private extension Collection {
     subscript (safe index: Index) -> Iterator.Element? {
         return indices.contains(index) ? self[index] : nil
     }

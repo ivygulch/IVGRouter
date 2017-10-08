@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias Action = ((Void) -> Void)
+typealias Action = (() -> Void)
 
 class ViewController : UIViewController {
 
@@ -86,7 +86,7 @@ class ViewController : UIViewController {
         currentItemTop += itemSize.height + 8
     }
 
-    func addAction(_ title: String, titleColor: UIColor = UIColor.white, action: @escaping ((Void) -> Void)) -> UIButton {
+    func addAction(_ title: String, titleColor: UIColor = UIColor.white, action: @escaping (() -> Void)) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: UIControlState())
         button.setTitleColor(titleColor, for: UIControlState())

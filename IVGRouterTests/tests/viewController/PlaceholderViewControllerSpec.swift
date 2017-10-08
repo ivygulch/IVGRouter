@@ -78,8 +78,7 @@ class PlaceholderViewControllerSpec: QuickSpec {
                     childViewController = UIViewController()
                     childViewController.tabBarItem = UITabBarItem(title: testTitle, image: nil, selectedImage: nil)
                     childViewController.navigationItem.title = testTitle
-                    placeholderViewController = PlaceholderViewController(lazyLoader: {
-                        Void -> UIViewController in
+                    placeholderViewController = PlaceholderViewController(lazyLoader: { 
                         return childViewController
                     })
                 }

@@ -182,6 +182,27 @@
 			remoteGlobalIDString = F8711C6B1CCD1C0A00E6EEBB;
 			remoteInfo = IVGRouter;
 		};
+		F880AB931F8AB96D00CCCCD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F85DD1721E4019F8009AD1D5 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64076CF51D6D7C2000E2B499;
+			remoteInfo = "QuickAfterSuite-macOSTests";
+		};
+		F880AB951F8AB96D00CCCCD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F85DD1721E4019F8009AD1D5 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64076D081D6D7CD600E2B499;
+			remoteInfo = "QuickAfterSuite-iOSTests";
+		};
+		F880AB971F8AB96D00CCCCD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F85DD1721E4019F8009AD1D5 /* Quick.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64076D1A1D6D7CEA00E2B499;
+			remoteInfo = "QuickAfterSuite-tvOSTests";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -277,10 +298,10 @@
 		F85DD15E1E4019EC009AD1D5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F85DD1671E4019EC009AD1D5 /* Nimble.framework */,
-				F85DD1691E4019EC009AD1D5 /* NimbleTests.xctest */,
 				F85DD16B1E4019EC009AD1D5 /* Nimble.framework */,
 				F85DD16D1E4019EC009AD1D5 /* NimbleTests.xctest */,
+				F85DD1671E4019EC009AD1D5 /* Nimble.framework */,
+				F85DD1691E4019EC009AD1D5 /* NimbleTests.xctest */,
 				F85DD16F1E4019EC009AD1D5 /* Nimble.framework */,
 				F85DD1711E4019EC009AD1D5 /* NimbleTests.xctest */,
 			);
@@ -291,14 +312,17 @@
 			isa = PBXGroup;
 			children = (
 				F85DD17F1E4019F8009AD1D5 /* Quick.framework */,
-				F85DD1811E4019F8009AD1D5 /* Quick-OSXTests.xctest */,
-				F85DD1831E4019F8009AD1D5 /* QuickFocused-OSXTests.xctest */,
+				F85DD1811E4019F8009AD1D5 /* Quick-macOSTests.xctest */,
+				F85DD1831E4019F8009AD1D5 /* QuickFocused-macOSTests.xctest */,
+				F880AB941F8AB96D00CCCCD3 /* QuickAfterSuite-macOSTests.xctest */,
 				F85DD1851E4019F8009AD1D5 /* Quick.framework */,
 				F85DD1871E4019F8009AD1D5 /* Quick-iOSTests.xctest */,
 				F85DD1891E4019F8009AD1D5 /* QuickFocused-iOSTests.xctest */,
+				F880AB961F8AB96D00CCCCD3 /* QuickAfterSuite-iOSTests.xctest */,
 				F85DD18B1E4019F8009AD1D5 /* Quick.framework */,
 				F85DD18D1E4019F8009AD1D5 /* Quick-tvOSTests.xctest */,
 				F85DD18F1E4019F8009AD1D5 /* QuickFocused-tvOSTests.xctest */,
+				F880AB981F8AB96D00CCCCD3 /* QuickAfterSuite-tvOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -555,16 +579,16 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Ivy Gulch LLC";
 				TargetAttributes = {
 					F8711C6B1CCD1C0A00E6EEBB = {
 						CreatedOnToolsVersion = 7.3;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 					};
 					F8711C751CCD1C0B00E6EEBB = {
 						CreatedOnToolsVersion = 7.3;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 					};
 					F8711CCF1CCD1DE000E6EEBB = {
 						CreatedOnToolsVersion = 7.3;
@@ -652,17 +676,17 @@
 			remoteRef = F85DD17E1E4019F8009AD1D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F85DD1811E4019F8009AD1D5 /* Quick-OSXTests.xctest */ = {
+		F85DD1811E4019F8009AD1D5 /* Quick-macOSTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "Quick-OSXTests.xctest";
+			path = "Quick-macOSTests.xctest";
 			remoteRef = F85DD1801E4019F8009AD1D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F85DD1831E4019F8009AD1D5 /* QuickFocused-OSXTests.xctest */ = {
+		F85DD1831E4019F8009AD1D5 /* QuickFocused-macOSTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "QuickFocused-OSXTests.xctest";
+			path = "QuickFocused-macOSTests.xctest";
 			remoteRef = F85DD1821E4019F8009AD1D5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -706,6 +730,27 @@
 			fileType = wrapper.cfbundle;
 			path = "QuickFocused-tvOSTests.xctest";
 			remoteRef = F85DD18E1E4019F8009AD1D5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F880AB941F8AB96D00CCCCD3 /* QuickAfterSuite-macOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickAfterSuite-macOSTests.xctest";
+			remoteRef = F880AB931F8AB96D00CCCCD3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F880AB961F8AB96D00CCCCD3 /* QuickAfterSuite-iOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickAfterSuite-iOSTests.xctest";
+			remoteRef = F880AB951F8AB96D00CCCCD3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F880AB981F8AB96D00CCCCD3 /* QuickAfterSuite-tvOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "QuickAfterSuite-tvOSTests.xctest";
+			remoteRef = F880AB971F8AB96D00CCCCD3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -841,14 +886,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -892,14 +943,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -942,7 +999,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -960,7 +1017,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -971,7 +1028,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -982,7 +1039,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ivygulch.IVGRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

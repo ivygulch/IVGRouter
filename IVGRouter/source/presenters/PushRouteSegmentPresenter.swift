@@ -98,7 +98,7 @@ open class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSeg
 
 extension UINavigationController {
 
-    fileprivate func add(completion: @escaping ((Void) -> Void)) -> Bool {
+    fileprivate func add(completion: @escaping (() -> Void)) -> Bool {
         if let transitionCoordinator = transitionCoordinator {
             return transitionCoordinator.animate(alongsideTransition: nil,
                 completion: { _ in
@@ -109,21 +109,21 @@ extension UINavigationController {
         return false
     }
 
-    func pop(animated: Bool, completion: @escaping ((Void) -> Void)) {
+    func pop(animated: Bool, completion: @escaping (() -> Void)) {
         self.popViewController(animated: animated)
         if !add(completion: completion) {
             completion()
         }
     }
 
-    func push(viewController: UIViewController, animated: Bool, completion: @escaping ((Void) -> Void)) {
+    func push(viewController: UIViewController, animated: Bool, completion: @escaping (() -> Void)) {
         self.pushViewController(viewController, animated: animated)
         if !add(completion: completion) {
             completion()
         }
     }
 
-    func set(viewControllers: [UIViewController], animated: Bool, completion: @escaping ((Void) -> Void)) {
+    func set(viewControllers: [UIViewController], animated: Bool, completion: @escaping (() -> Void)) {
         self.setViewControllers(viewControllers, animated: animated)
         if !add(completion: completion) {
             completion()

@@ -10,8 +10,8 @@ import UIKit
 
 public typealias RouteSegmentDataType = Any
 
-public typealias ViewControllerLoaderFunction = (Void) -> (() -> UIViewController?)
-public typealias ViewControllerSetDataFunction = (Void) -> ((_ presented: UIViewController, _ presenting: UIViewController?, _ data: RouteSegmentDataType?) -> Void)
+public typealias ViewControllerLoaderFunction = () -> (() -> UIViewController?)
+public typealias ViewControllerSetDataFunction = () -> ((_ presented: UIViewController, _ presenting: UIViewController?, _ data: RouteSegmentDataType?) -> Void)
 
 public protocol RouteSegmentType {
     var segmentIdentifier: Identifier { get }
