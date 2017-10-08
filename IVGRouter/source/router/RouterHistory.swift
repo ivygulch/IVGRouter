@@ -65,7 +65,7 @@ open class RouterHistory: RouterHistoryType {
                 .map { item in item.segmentIdentifier.name }
                 .joined(separator: ",")
             let title = (routeHistoryItem.title ?? "<null>")
-            print("DBG:   \"\(title)\", \(itemStr)")
+            print("DBG:   [\(checkIndex)] \"\(title)\", \(itemStr)")
         }
     }
 

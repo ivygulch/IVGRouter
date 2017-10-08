@@ -160,6 +160,8 @@ open class Router : RouterType {
         register(routeSegmentPresenter: BranchRouteSegmentPresenter())
         register(routeSegmentPresenter: PushRouteSegmentPresenter())
         register(routeSegmentPresenter: PresentRouteSegmentPresenter())
+        register(routeSegmentPresenter: PresentRouteSegmentPresenter(presenterIdentifier: PresentRouteSegmentPresenter.autoDismissPresenterIdentifier)) // auto-dismiss version for use by AlertControllers
+        register(routeSegmentPresenter: PresentRouteSegmentPresenter(presenterIdentifier: PresentRouteSegmentPresenter.fromRootPresenterIdentifier)) // fromRoot version for use by modal VCs
         register(routeSegmentPresenter: SetRouteSegmentPresenter())
         register(routeSegmentPresenter: WrappingRouteSegmentPresenter(wrappingRouteSegmentAnimator: SlidingWrappingRouteSegmentAnimator()))
     }
@@ -305,7 +307,7 @@ open class Router : RouterType {
         if let lastPresenterIdentifier = routeSegments[lastSegmentIdentifier]?.presenterIdentifier,
             let reversibleRouteSegmentPresenter = presenters[lastPresenterIdentifier] as? ReversibleRouteSegmentPresenterType,
             let lastViewController = lastRecordedSegment.viewController,
-            let lastParentViewController = lastViewController.parent {
+            let lastParentViewController = lastViewController.parent ?? lastViewController.presentingViewController {
 
             let presentationBlock = {
                 reversibleRouteSegmentPresenter.reverse(viewController: lastViewController) { presenterResult in
@@ -498,7 +500,7 @@ open class Router : RouterType {
                 return // we handled it by failing the sequence
             }
 
-            visualRouteSegment.set(data: routeSequenceData, onViewController: viewController)
+            visualRouteSegment.set(data: routeSequenceData, on: viewController, from: presentingViewController)
             visualPresenter.present(viewController: viewController, from: presentingViewController, options: routeSequenceOptions, window: self.window, completion: {
                 presenterResult in
 
