@@ -9,8 +9,8 @@
 import UIKit
 
 public struct SlidingWrappingRouteSegmentAnimatorSettings {
-    static let DefaultSlideFactor: CGFloat = 0.8
-    static let DefaultAnimationDuration: TimeInterval = 0.3
+    public static let DefaultSlideFactor: CGFloat = 0.8
+    public static let DefaultAnimationDuration: TimeInterval = 0.3
 }
 
 open class SlidingWrappingRouteSegmentAnimator : WrappingRouteSegmentAnimator {
@@ -37,7 +37,7 @@ open class SlidingWrappingRouteSegmentAnimator : WrappingRouteSegmentAnimator {
         return viewAnimationInfo
     }
 
-    open lazy var completeViewWrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) = { _ in
+    open lazy var completeViewWrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) = { _,_,_  in
         // nothing to do by default
     }
 
@@ -55,6 +55,6 @@ open class SlidingWrappingRouteSegmentAnimator : WrappingRouteSegmentAnimator {
     }
 
     // nothing to do by default
-    open lazy var completeViewUnwrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) = { _ in }
+    open lazy var completeViewUnwrappingAnimation: ((UIViewController,UIViewController,ViewAnimationInfoType) -> Void) = { _,_,_  in }
 
 }

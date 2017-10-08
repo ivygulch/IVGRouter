@@ -15,7 +15,7 @@ open class PlaceholderViewController: UIViewController {
         self.childViewController = childViewController
     }
 
-    public init(lazyLoader: @escaping ((Void) -> UIViewController)) {
+    public init(lazyLoader: @escaping (() -> UIViewController)) {
         self.lazyLoader = lazyLoader
         super.init(nibName: nil, bundle: nil)
     }
@@ -75,6 +75,6 @@ open class PlaceholderViewController: UIViewController {
         }
     }
 
-    fileprivate var lazyLoader: ((Void) -> UIViewController)?
+    fileprivate var lazyLoader: (() -> UIViewController)?
     
 }
