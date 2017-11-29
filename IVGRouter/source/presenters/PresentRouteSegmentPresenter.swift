@@ -8,6 +8,10 @@
 
 import UIKit
 
+public struct PresentRouteSegmentPresenterOptions {
+    public static let modalPresentationStyleKey = "modalPresentationStyle"
+}
+
 open class PresentRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     public static let autoDismissPresenterIdentifier = Identifier(name: String(describing: PresentRouteSegmentPresenter.self) + ".autoDismiss")
@@ -29,7 +33,12 @@ open class PresentRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRoute
                 return
         }
 
-        presentedViewController.modalPresentationStyle = .overCurrentContext
+        var modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        if let value = options[PresentRouteSegmentPresenterOptions.modalPresentationStyleKey] as? Int,
+            let style = UIModalPresentationStyle(rawValue: value) {
+            modalPresentationStyle = style
+        }
+        presentedViewController.modalPresentationStyle = modalPresentationStyle
         parentViewController.present(presentedViewController, animated: true) {
             completion(.success(presentedViewController))
         }
