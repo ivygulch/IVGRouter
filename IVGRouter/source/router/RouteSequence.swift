@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class RouteSequence : Equatable, CustomStringConvertible {
+open class RouteSequence: Equatable, CustomStringConvertible {
 
     open var items: [RouteSequenceItem] = []
 
@@ -20,7 +20,7 @@ open class RouteSequence : Equatable, CustomStringConvertible {
     }
 
     open func validatedRouteSegmentsWithRouter(_ router: RouterType) -> [RouteSegmentType]? {
-        let routeSegments: [RouteSegmentType?] = items.map { router.routeSegments[$0.segmentIdentifier] }
+        let routeSegments: [RouteSegmentType?] = items.map { router.routerContext.routeSegments[$0.segmentIdentifier] }
         let checkRouteSegments = routeSegments.flatMap { $0 }
         if routeSegments.count != checkRouteSegments.count {
             return nil // all the route segments must be registered

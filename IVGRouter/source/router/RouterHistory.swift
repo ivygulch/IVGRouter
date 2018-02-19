@@ -34,7 +34,7 @@ open class RouterHistory: RouterHistoryType {
 
     public var previousRouteHistoryItem: RouteHistoryItemType? {
         let previousIndex = history.count - 2
-        return (previousIndex >= 0) && (previousIndex < history.count) ? history[previousIndex] : nil
+        return (previousIndex >= 0) && (previousIndex < history.count) ? history[previousIndex]: nil
     }
 
     public func moveBackward() {

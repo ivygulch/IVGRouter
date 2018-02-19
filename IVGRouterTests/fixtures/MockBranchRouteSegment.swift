@@ -11,7 +11,7 @@ import Quick
 import Nimble
 import IVGRouter
 
-class MockBranchRouteSegment : TrackableTestClass, BranchRouteSegmentType {
+class MockBranchRouteSegment: TrackableTestClass, BranchRouteSegmentType {
 
     init(segmentIdentifier: Identifier, presenterIdentifier: Identifier) {
         self.segmentIdentifier = segmentIdentifier

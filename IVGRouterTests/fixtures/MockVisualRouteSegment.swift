@@ -11,7 +11,7 @@ import Quick
 import Nimble
 import IVGRouter
 
-class MockVisualRouteSegment : TrackableTestClass, VisualRouteSegmentType {
+class MockVisualRouteSegment: TrackableTestClass, VisualRouteSegmentType {
 
     init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, presentedViewController: UIViewController?) {
         self.segmentIdentifier = segmentIdentifier

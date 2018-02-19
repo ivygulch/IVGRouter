@@ -35,29 +35,29 @@ extension RouterSpec {
         context("when initialized") {
 
             it("should allow for a nil window") {
-                let router = Router(window: nil)
+                let router = Router(window: nil, routerContext: RouterContext())
                 expect(router.window).to(beNil())
             }
 
             it("should have an empty set of routeSegments") {
-                let router = Router(window: nil)
-                expect(router.routeSegments).to(beEmpty())
+                let router = Router(window: nil, routerContext: RouterContext())
+                expect(router.routerContext.routeSegments).to(beEmpty())
             }
 
             it("should have an empty set of presenters") {
-                let router = Router(window: nil, autoRegisterDefaultPresenters: false)
-                expect(router.presenters).to(beEmpty())
+                let router = Router(window: nil, routerContext: RouterContext(autoRegisterDefaultPresenters: false))
+                expect(router.routerContext.presenters).to(beEmpty())
             }
 
             it("should have an empty set of viewControllers") {
-                let router = Router(window: nil)
+                let router = Router(window: nil, routerContext: RouterContext())
                 let viewControllers = router.viewControllers()
                 expect(viewControllers).to(beEmpty())
             }
 
             it("should allow for a non-nil window") {
                 let mockWindow = UIWindow()
-                let router = Router(window: mockWindow)
+                let router = Router(window: mockWindow, routerContext: RouterContext())
                 expect(router.window).to(equal(mockWindow))
             }
 
@@ -76,16 +76,15 @@ extension RouterSpec {
             var router: Router!
 
             beforeEach {
-                router = Router(window: nil)
-                router.registerDefaultPresenters()
+                router = Router(window: nil, routerContext: RouterContext(autoRegisterDefaultPresenters: true))
             }
 
             it("should include RootRouteSegmentPresenter") {
-                expect(router.presenters[Identifier(name: String(describing: RootRouteSegmentPresenter.self))]).toNot(beNil())
+                expect(router.routerContext.presenters[Identifier(name: String(describing: RootRouteSegmentPresenter.self))]).toNot(beNil())
             }
 
             it("should include PushRouteSegmentPresenter") {
-                expect(router.presenters[Identifier(name: String(describing: PushRouteSegmentPresenter.self))]).toNot(beNil())
+                expect(router.routerContext.presenters[Identifier(name: String(describing: PushRouteSegmentPresenter.self))]).toNot(beNil())
             }
 
         }
@@ -110,36 +109,36 @@ extension RouterSpec {
                 mockPresenterB = MockVisualRouteSegmentPresenter(presenterIdentifier: "B", completionBlockArg: true)
                 mockVisualRouteSegmentA = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "A"), presenterIdentifier: mockPresenterA.presenterIdentifier, presentedViewController: MockViewController("A"))
                 mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: mockPresenterB.presenterIdentifier, presentedViewController: MockViewController("B"))
-                router = Router(window: nil)
+                router = Router(window: nil, routerContext: RouterContext())
             }
 
             it("should be able to register and recall single routes") {
-                router.register(routeSegment: mockVisualRouteSegmentA)
-                let actualRouteSegmentA = router.routeSegments[mockVisualRouteSegmentA.segmentIdentifier] as? MockVisualRouteSegment
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentA)
+                let actualRouteSegmentA = router.routerContext.routeSegments[mockVisualRouteSegmentA.segmentIdentifier] as? MockVisualRouteSegment
                 expect(actualRouteSegmentA).to(beIdenticalTo(mockVisualRouteSegmentA))
             }
 
             it("should be able to register and recall multiple routes") {
-                router.register(routeSegment: mockVisualRouteSegmentA)
-                router.register(routeSegment: mockVisualRouteSegmentB)
-                let actualRouteSegmentA = router.routeSegments[mockVisualRouteSegmentA.segmentIdentifier] as? MockVisualRouteSegment
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentA)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentB)
+                let actualRouteSegmentA = router.routerContext.routeSegments[mockVisualRouteSegmentA.segmentIdentifier] as? MockVisualRouteSegment
                 expect(actualRouteSegmentA).to(beIdenticalTo(mockVisualRouteSegmentA))
-                let actualRouteSegmentB = router.routeSegments[mockVisualRouteSegmentB.segmentIdentifier] as? MockVisualRouteSegment
+                let actualRouteSegmentB = router.routerContext.routeSegments[mockVisualRouteSegmentB.segmentIdentifier] as? MockVisualRouteSegment
                 expect(actualRouteSegmentB).to(beIdenticalTo(mockVisualRouteSegmentB))
             }
 
             it("should be able to register and recall single presenter") {
-                router.register(routeSegmentPresenter: mockPresenterA)
-                let actualPresenterA = router.presenters[mockPresenterA.presenterIdentifier] as? MockVisualRouteSegmentPresenter
+                router.routerContext.register(routeSegmentPresenter: mockPresenterA)
+                let actualPresenterA = router.routerContext.presenters[mockPresenterA.presenterIdentifier] as? MockVisualRouteSegmentPresenter
                 expect(actualPresenterA).to(beIdenticalTo(mockPresenterA))
             }
 
             it("should be able to register and recall multiple presenters") {
-                router.register(routeSegmentPresenter: mockPresenterA)
-                router.register(routeSegmentPresenter: mockPresenterB)
-                let actualPresenterA = router.presenters[mockPresenterA.presenterIdentifier] as? MockVisualRouteSegmentPresenter
+                router.routerContext.register(routeSegmentPresenter: mockPresenterA)
+                router.routerContext.register(routeSegmentPresenter: mockPresenterB)
+                let actualPresenterA = router.routerContext.presenters[mockPresenterA.presenterIdentifier] as? MockVisualRouteSegmentPresenter
                 expect(actualPresenterA).to(beIdenticalTo(mockPresenterA))
-                let actualPresenterB = router.presenters[mockPresenterB.presenterIdentifier] as? MockVisualRouteSegmentPresenter
+                let actualPresenterB = router.routerContext.presenters[mockPresenterB.presenterIdentifier] as? MockVisualRouteSegmentPresenter
                 expect(actualPresenterB).to(beIdenticalTo(mockPresenterB))
             }
         }
@@ -172,14 +171,14 @@ extension RouterSpec {
                 mockVisualRouteSegmentValid = MockVisualRouteSegment(segmentIdentifier: identifierValid, presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerA)
                 mockVisualRouteSegmentNoViewController = MockVisualRouteSegment(segmentIdentifier: identifierNoViewController, presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: nil)
                 mockVisualRouteSegmentCompletionFails = MockVisualRouteSegment(segmentIdentifier: identifierCompletionFails, presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, presentedViewController: mockViewControllerB)
-                router = Router(window: nil)
-                router.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
-                router.register(routeSegmentPresenter: mockPresenterCompletionFails)
-                router.register(routeSegment: mockVisualRouteSegmentNoViewController)
-                router.register(routeSegment: mockVisualRouteSegmentCompletionFails)
-                router.register(routeSegment: mockVisualRouteSegmentValid)
-                router.register(routeSegment: mockVisualRouteSegmentNoViewController)
-                router.register(routeSegment: mockVisualRouteSegmentCompletionFails)
+                router = Router(window: nil, routerContext: RouterContext())
+                router.routerContext.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
+                router.routerContext.register(routeSegmentPresenter: mockPresenterCompletionFails)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentNoViewController)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentCompletionFails)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentValid)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentNoViewController)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentCompletionFails)
             }
 
             context("with segment that produces a view controller and completion block arg is true") {
@@ -290,12 +289,12 @@ extension RouterSpec {
                 mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerB)
                 mockVisualRouteSegmentC = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "C"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerC)
                 mockVisualRouteSegmentInvalid = MockVisualRouteSegment(segmentIdentifier: identifierInvalid, presenterIdentifier: mockPresenterCompletionFails.presenterIdentifier, presentedViewController: nil)
-                router = Router(window: nil)
-                router.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
-                router.register(routeSegmentPresenter: mockPresenterCompletionFails)
-                router.register(routeSegment: mockVisualRouteSegmentA)
-                router.register(routeSegment: mockVisualRouteSegmentB)
-                router.register(routeSegment: mockVisualRouteSegmentC)
+                router = Router(window: nil, routerContext: RouterContext())
+                router.routerContext.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
+                router.routerContext.register(routeSegmentPresenter: mockPresenterCompletionFails)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentA)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentB)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentC)
                 validSequence = [mockVisualRouteSegmentA.segmentIdentifier,mockVisualRouteSegmentB.segmentIdentifier,mockVisualRouteSegmentC.segmentIdentifier]
                 invalidSequence = [mockVisualRouteSegmentA.segmentIdentifier,mockVisualRouteSegmentInvalid.segmentIdentifier,mockVisualRouteSegmentC.segmentIdentifier]
             }
@@ -394,11 +393,11 @@ extension RouterSpec {
                 mockVisualRouteSegmentA = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "A"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerA)
                 mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerB)
                 mockVisualRouteSegmentC = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "C"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerC)
-                router = Router(window: nil)
-                router.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
-                router.register(routeSegment: mockVisualRouteSegmentA)
-                router.register(routeSegment: mockVisualRouteSegmentB)
-                router.register(routeSegment: mockVisualRouteSegmentC)
+                router = Router(window: nil, routerContext: RouterContext())
+                router.routerContext.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentA)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentB)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentC)
                 initialSequence = [mockVisualRouteSegmentA.segmentIdentifier,mockVisualRouteSegmentB.segmentIdentifier,mockVisualRouteSegmentC.segmentIdentifier]
 
                 let expectation = self.expectation(description: "executeRoute initialRoute")
@@ -492,13 +491,13 @@ extension RouterSpec {
                 mockVisualRouteSegmentC = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "C"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerC)
                 mockVisualRouteSegmentD = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "D"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerD)
                 mockVisualRouteSegmentE = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "E"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerE)
-                router = Router(window: nil)
-                router.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
-                router.register(routeSegment: mockVisualRouteSegmentA)
-                router.register(routeSegment: mockVisualRouteSegmentB)
-                router.register(routeSegment: mockVisualRouteSegmentC)
-                router.register(routeSegment: mockVisualRouteSegmentD)
-                router.register(routeSegment: mockVisualRouteSegmentE)
+                router = Router(window: nil, routerContext: RouterContext())
+                router.routerContext.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentA)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentB)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentC)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentD)
+                router.routerContext.register(routeSegment: mockVisualRouteSegmentE)
                 initialSequence = [mockVisualRouteSegmentA.segmentIdentifier,mockVisualRouteSegmentB.segmentIdentifier,mockVisualRouteSegmentC.segmentIdentifier,mockVisualRouteSegmentD.segmentIdentifier]
 
                 let expectation = self.expectation(description: "executeRoute initialRoute")
@@ -632,13 +631,13 @@ extension RouterSpec {
             mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerB)
             mockVisualRouteSegmentC = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "C"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerC)
             mockVisualRouteSegmentD = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "D"), presenterIdentifier: mockPresenterCompletionSucceeds.presenterIdentifier, presentedViewController: mockViewControllerD)
-            router = Router(window: nil)
-            router.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
-            router.register(routeSegment: mockVisualRouteSegmentRoot)
-            router.register(routeSegment: mockVisualRouteSegmentA)
-            router.register(routeSegment: mockVisualRouteSegmentB)
-            router.register(routeSegment: mockVisualRouteSegmentC)
-            router.register(routeSegment: mockVisualRouteSegmentD)
+            router = Router(window: nil, routerContext: RouterContext())
+            router.routerContext.register(routeSegmentPresenter: mockPresenterCompletionSucceeds)
+            router.routerContext.register(routeSegment: mockVisualRouteSegmentRoot)
+            router.routerContext.register(routeSegment: mockVisualRouteSegmentA)
+            router.routerContext.register(routeSegment: mockVisualRouteSegmentB)
+            router.routerContext.register(routeSegment: mockVisualRouteSegmentC)
+            router.routerContext.register(routeSegment: mockVisualRouteSegmentD)
         }
 
         context("when executing a single sequence") {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MockViewControllerLoader : TrackableTestClass {
+class MockViewControllerLoader: TrackableTestClass {
 
     init(viewController: UIViewController?) {
         self.viewController = viewController

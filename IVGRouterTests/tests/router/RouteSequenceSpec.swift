@@ -17,13 +17,13 @@ class RouteSequenceSpec: QuickSpec {
 
         describe("RouteSequence") {
 
-            var router: Router = Router(window: nil)
+            var router: Router = Router(window: nil, routerContext: RouterContext())
             let dummyIdentifier = Identifier(name: "dummy")
             let mockVisualRouteSegmentA = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "A"), presenterIdentifier: dummyIdentifier, presentedViewController: nil)
             let mockVisualRouteSegmentB = MockVisualRouteSegment(segmentIdentifier: Identifier(name: "B"), presenterIdentifier: dummyIdentifier, presentedViewController: nil)
 
             beforeEach {
-                router = Router(window: nil)
+                router = Router(window: nil, routerContext: RouterContext())
             }
 
             context("with valid registered segments") {
@@ -32,9 +32,9 @@ class RouteSequenceSpec: QuickSpec {
                 var validatedRouteSegments: [RouteSegmentType]?
 
                 beforeEach {
-                    router = Router(window: nil)
-                    router.register(routeSegment: mockVisualRouteSegmentA)
-                    router.register(routeSegment: mockVisualRouteSegmentB)
+                    router = Router(window: nil, routerContext: RouterContext())
+                    router.routerContext.register(routeSegment: mockVisualRouteSegmentA)
+                    router.routerContext.register(routeSegment: mockVisualRouteSegmentB)
                     routeSequence = RouteSequence(source: [
                         mockVisualRouteSegmentA.segmentIdentifier,
                         mockVisualRouteSegmentB.segmentIdentifier
@@ -65,7 +65,7 @@ class RouteSequenceSpec: QuickSpec {
                 var validatedRouteSegments: [RouteSegmentType]?
 
                 beforeEach {
-                    router = Router(window: nil)
+                    router = Router(window: nil, routerContext: RouterContext())
                     routeSequence = RouteSequence(source: [
                         mockVisualRouteSegmentA.segmentIdentifier,
                         mockVisualRouteSegmentB.segmentIdentifier

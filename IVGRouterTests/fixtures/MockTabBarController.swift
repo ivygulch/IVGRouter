@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MockTabBarController : UITabBarController {
+class MockTabBarController: UITabBarController {
 
     init(_ name: String) {
         self.name = name

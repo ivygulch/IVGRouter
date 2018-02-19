@@ -25,25 +25,25 @@ open class BaseRouteSegmentPresenter {
     // need this form & initialization to match the RouteSegmentPresenterType requirement
     open fileprivate(set) var presenterIdentifier = Identifier(name: "")
 
-    open func checkNil(_ item : Any?, _ source: String) -> String? {
+    open func checkNil(_ item: Any?, _ source: String) -> String? {
         if item == nil {
             return nil
         }
         return "\(source) must be nil"
     }
 
-    open func checkNotNil(_ item : Any?, _ source: String) -> String? {
+    open func checkNotNil(_ item: Any?, _ source: String) -> String? {
         if item != nil {
             return nil
         }
         return "\(source) must not be nil"
     }
 
-    open func checkType<T>(_ item : Any?, type: T.Type, _ source: String) -> String? {
+    open func checkType<T>(_ item: Any?, type: T.Type, _ source: String) -> String? {
         if let _ = item as? T {
             return nil
         }
-        let foundDescription = (item == nil) ? "nil" : String(describing: item!)
+        let foundDescription = (item == nil) ? "nil": String(describing: item!)
         return "\(source) must be of type \(type) but found \(foundDescription)"
     }
 

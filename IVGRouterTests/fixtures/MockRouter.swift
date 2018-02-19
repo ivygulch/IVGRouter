@@ -10,10 +10,11 @@ import Quick
 import Nimble
 import IVGRouter
 
-class MockRouter : TrackableTestClass, RouterType {
+class MockRouter: TrackableTestClass, RouterContextType, RouterType {
 
     let historySize = 10
 
+    var routerContext: RouterContextType { return self }
     var window: UIWindow? { return track("window", andReturn: nil) }
 
     var routeSegments: [Identifier: RouteSegmentType] { return track("routeSegments", andReturn: [: ]) }

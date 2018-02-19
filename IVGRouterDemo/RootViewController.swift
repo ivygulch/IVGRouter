@@ -8,6 +8,6 @@
 
 import UIKit
 
-class RootViewController : UINavigationController {
+class RootViewController: UINavigationController {
 
 }

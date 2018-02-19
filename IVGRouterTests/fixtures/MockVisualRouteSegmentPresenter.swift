@@ -11,7 +11,7 @@ import Quick
 import Nimble
 import IVGRouter
 
-class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
+class MockVisualRouteSegmentPresenter: TrackableTestClass, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     static let defaultPresenterIdentifier = Identifier(name: String(describing: MockVisualRouteSegmentPresenter.self))
 
@@ -22,9 +22,9 @@ class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPr
 
     let presenterIdentifier: Identifier
 
-    func present(viewController presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping (RoutingResult) -> Void)  {
+    func present(viewController presentedViewController: UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping (RoutingResult) -> Void)  {
         let from = presentingViewController?.description ?? "nil"
-        let windowID = window == nil ? "nil" : "\(Unmanaged.passUnretained(window!).toOpaque())"
+        let windowID = window == nil ? "nil": "\(Unmanaged.passUnretained(window!).toOpaque())"
         track("presentViewController", [presentedViewController.description,from,windowID])
         if completionBlockArg {
             completion(.success(presentedViewController))
@@ -33,7 +33,7 @@ class MockVisualRouteSegmentPresenter : TrackableTestClass, VisualRouteSegmentPr
         }
     }
 
-    func reverse(viewController viewControllerToRemove : UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
+    func reverse(viewController viewControllerToRemove: UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
         track("reversePresentation", [viewControllerToRemove.description])
         if completionBlockArg {
             completion(.success(viewControllerToRemove))

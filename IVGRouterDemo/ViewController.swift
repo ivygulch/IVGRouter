@@ -10,7 +10,7 @@ import UIKit
 
 typealias Action = (() -> Void)
 
-class ViewController : UIViewController {
+class ViewController: UIViewController {
 
     let name: String
     var actions: [UIButton: Action] = [: ]

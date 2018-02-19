@@ -13,7 +13,7 @@ public struct SlidingWrappingRouteSegmentAnimatorSettings {
     public static let DefaultAnimationDuration: TimeInterval = 0.3
 }
 
-open class SlidingWrappingRouteSegmentAnimator : WrappingRouteSegmentAnimator {
+open class SlidingWrappingRouteSegmentAnimator: WrappingRouteSegmentAnimator {
 
     open let animationDuration: TimeInterval
     open let slideFactor: CGFloat

@@ -39,7 +39,7 @@ protocol TrackableTestClassType {
     func trackerKeyValuesDifferences(_ values: [String: [[String]]]) -> [String]
 }
 
-protocol TrackableTestClassProxy : TrackableTestClassType {
+protocol TrackableTestClassProxy: TrackableTestClassType {
     var trackableTestClass: TrackableTestClass { get }
 }
 
@@ -92,7 +92,7 @@ extension TrackableTestClassProxy {
     }
 }
 
-class TrackableTestClass : TrackableTestClassType {
+class TrackableTestClass: TrackableTestClassType {
     var trackerLog: [TrackerLogEntry] = []
     var trackerSummary: [String: [TrackerSummaryEntry]] = [: ]
     var trackerKeys: Set<String> {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F811FF22203A75AC000523D2 /* RouterContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F811FF21203A75AC000523D2 /* RouterContext.swift */; };
 		F82851691CD1200000A20190 /* RouteSequenceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82851681CD1200000A20190 /* RouteSequenceItem.swift */; };
 		F82856EA1CE90FFD0042B8C0 /* RouteSequenceItemSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82856E91CE90FFD0042B8C0 /* RouteSequenceItemSpec.swift */; };
 		F82856EC1CE9416E0042B8C0 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82856EB1CE9416E0042B8C0 /* TabBarController.swift */; };
@@ -201,6 +202,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F811FF21203A75AC000523D2 /* RouterContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterContext.swift; sourceTree = "<group>"; };
 		F82851681CD1200000A20190 /* RouteSequenceItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSequenceItem.swift; sourceTree = "<group>"; };
 		F82856E91CE90FFD0042B8C0 /* RouteSequenceItemSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSequenceItemSpec.swift; sourceTree = "<group>"; };
 		F82856EB1CE9416E0042B8C0 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 			children = (
 				F8711C901CCD1C7300E6EEBB /* Identifier.swift */,
 				F8711C911CCD1C7300E6EEBB /* Router.swift */,
+				F811FF21203A75AC000523D2 /* RouterContext.swift */,
 				F8C030A41D4562B1003CF124 /* RouterHistory.swift */,
 				F8711C921CCD1C7300E6EEBB /* RouteSegment.swift */,
 				F82D218B1CCD9B2B0010CDFF /* RouteSequence.swift */,
@@ -783,6 +786,7 @@
 				F8711C9C1CCD1C7300E6EEBB /* Identifier.swift in Sources */,
 				F8D0B4701E3C0E830020EF53 /* PresentRouteSegmentPresenter.swift in Sources */,
 				F8711C9E1CCD1C7400E6EEBB /* RouteSegment.swift in Sources */,
+				F811FF22203A75AC000523D2 /* RouterContext.swift in Sources */,
 				F8711C9B1CCD1C7300E6EEBB /* WrappingRouteSegmentPresenter.swift in Sources */,
 				F8711C991CCD1C7300E6EEBB /* SlidingWrappingRouteSegmentAnimator.swift in Sources */,
 				F82D218C1CCD9B2B0010CDFF /* RouteSequence.swift in Sources */,

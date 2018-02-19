@@ -35,7 +35,7 @@ public protocol TrunkRouteController {
     func selectBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void))
 }
 
-open class RouteSegment : RouteSegmentType {
+open class RouteSegment: RouteSegmentType {
 
     public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, shouldBeRecorded: Bool = true) {
         self.segmentIdentifier = segmentIdentifier
@@ -48,7 +48,7 @@ open class RouteSegment : RouteSegmentType {
     public let shouldBeRecorded: Bool
 }
 
-open class VisualRouteSegment : RouteSegment, VisualRouteSegmentType {
+open class VisualRouteSegment: RouteSegment, VisualRouteSegmentType {
 
     public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, shouldBeRecorded: Bool = true, isSingleton: Bool, loadViewController: @escaping ViewControllerLoaderFunction, setData: ViewControllerSetDataFunction? = nil) {
         self.isSingleton = isSingleton
@@ -97,7 +97,7 @@ open class AlertRouteSegment: VisualRouteSegment {
 
 }
 
-open class BranchRouteSegment : RouteSegment, BranchRouteSegmentType {
+open class BranchRouteSegment: RouteSegment, BranchRouteSegmentType {
 }
 
 extension UITabBarController: TrunkRouteController {

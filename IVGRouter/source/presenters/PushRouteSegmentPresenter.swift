@@ -17,7 +17,7 @@ public struct PushRouteSegmentPresenterOptions {
     }
 }
 
-open class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
+open class PushRouteSegmentPresenter: BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     open static let defaultPresenterIdentifier = Identifier(name: String(describing: PushRouteSegmentPresenter.self))
 
@@ -37,7 +37,7 @@ open class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSeg
         return nil
     }
 
-    fileprivate func setRoot(toViewController presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
+    fileprivate func setRoot(toViewController presentedViewController: UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
         let stack = [presentedViewController]
         if let stackConfigurationError = configurationError(withStack: stack) {
             completion(.failure(stackConfigurationError))
@@ -49,7 +49,7 @@ open class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSeg
         })
     }
 
-    fileprivate func push(viewController presentedViewController : UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
+    fileprivate func push(viewController presentedViewController: UIViewController, navigationController: UINavigationController, options: RouteSequenceOptions, completion: @escaping ((RoutingResult) -> Void)) {
         if let stackConfigurationError = configurationError(withStack: navigationController.viewControllers, additional: presentedViewController) {
             completion(.failure(stackConfigurationError))
             return
@@ -72,7 +72,7 @@ open class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSeg
         })
     }
 
-    open func present(viewController presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
+    open func present(viewController presentedViewController: UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
         if let asNavigationController = presentingViewController as? UINavigationController {
             setRoot(toViewController: presentedViewController, navigationController: asNavigationController, options: options, completion: completion)
             return
@@ -85,7 +85,7 @@ open class PushRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSeg
     }
 
     // TODO: consider passing options here, would need to figure out what they were  
-    open func reverse(viewController viewControllerToRemove : UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
+    open func reverse(viewController viewControllerToRemove: UIViewController, completion: @escaping ((RoutingResult) -> Void)) {
         if verify(checkNotNil(viewControllerToRemove.navigationController, "viewControllerToRemove.navigationController"), completion: completion) {
             let navigationController = viewControllerToRemove.navigationController!
 

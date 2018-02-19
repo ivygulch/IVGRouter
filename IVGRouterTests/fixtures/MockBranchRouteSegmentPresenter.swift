@@ -11,7 +11,7 @@ import Quick
 import Nimble
 import IVGRouter
 
-class MockBranchRouteSegmentPresenter : TrackableTestClass, BranchRouteSegmentPresenterType {
+class MockBranchRouteSegmentPresenter: TrackableTestClass, BranchRouteSegmentPresenterType {
 
     static let defaultPresenterIdentifier = Identifier(name: String(describing: MockBranchRouteSegmentPresenter.self))
 

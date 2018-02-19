@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TabBarController : UITabBarController {
+class TabBarController: UITabBarController {
 
     let name: String
     var backAction: Action? {

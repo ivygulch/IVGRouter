@@ -12,7 +12,7 @@ import Nimble
 @testable import IVGRouter
 
 // need a class that implements RouteSegmentPresenterType to make it testable
-open class TestBaseRouteSegmentPresenter : BaseRouteSegmentPresenter, RouteSegmentPresenterType {
+open class TestBaseRouteSegmentPresenter: BaseRouteSegmentPresenter, RouteSegmentPresenterType {
     open static let defaultPresenterIdentifier = Identifier(name: String(describing: TestBaseRouteSegmentPresenter.self))
 }
 

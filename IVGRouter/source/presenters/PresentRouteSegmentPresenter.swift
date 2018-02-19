@@ -12,7 +12,7 @@ public struct PresentRouteSegmentPresenterOptions {
     public static let modalPresentationStyleKey = "modalPresentationStyle"
 }
 
-open class PresentRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
+open class PresentRouteSegmentPresenter: BaseRouteSegmentPresenter, VisualRouteSegmentPresenterType, ReversibleRouteSegmentPresenterType {
 
     public static let autoDismissPresenterIdentifier = Identifier(name: String(describing: PresentRouteSegmentPresenter.self) + ".autoDismiss")
     public static let fromRootPresenterIdentifier = Identifier(name: String(describing: PresentRouteSegmentPresenter.self) + ".fromRoot")
@@ -21,7 +21,7 @@ open class PresentRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRoute
     private var isAutoDismiss: Bool { return presenterIdentifier == PresentRouteSegmentPresenter.autoDismissPresenterIdentifier }
     private var isFromRoot: Bool { return presenterIdentifier == PresentRouteSegmentPresenter.fromRootPresenterIdentifier }
 
-    open func present(viewController presentedViewController : UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
+    open func present(viewController presentedViewController: UIViewController, from presentingViewController: UIViewController?, options: RouteSequenceOptions, window: UIWindow?, completion: @escaping ((RoutingResult) -> Void)) {
         var usePresentingViewController = presentingViewController
         if isFromRoot {
             while usePresentingViewController?.parent != nil {
@@ -44,7 +44,7 @@ open class PresentRouteSegmentPresenter : BaseRouteSegmentPresenter, VisualRoute
         }
     }
 
-    open func reverse(viewController viewControllerToRemove : UIViewController, completion: @escaping  ((RoutingResult) -> Void)) {
+    open func reverse(viewController viewControllerToRemove: UIViewController, completion: @escaping  ((RoutingResult) -> Void)) {
         if isAutoDismiss {
              // nothing to do here, the caller promises to handle it (probably via an AlertViewController)
             completion(.success(viewControllerToRemove))

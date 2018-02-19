@@ -10,7 +10,7 @@ import UIKit
 import XCTest
 import IVGRouter
 
-class MockCompletionBlock : TrackableTestClass {
+class MockCompletionBlock: TrackableTestClass {
 
     init(expectation: XCTestExpectation? = nil) {
         self.expectation = expectation

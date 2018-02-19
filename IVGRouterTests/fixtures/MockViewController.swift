@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MockViewController : UIViewController {
+class MockViewController: UIViewController {
 
     init(_ name: String) {
         self.name = name

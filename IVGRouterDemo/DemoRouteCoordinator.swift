@@ -86,24 +86,24 @@ class DemoRouteCoordinator {
     }
 
     func registerRouteSegments() {
-        router.register(routeSegment: buildRootSegment())
-        router.register(routeSegment: buildPushSegment(pushWelcomeSegmentIdentifier))
-        router.register(routeSegment: buildPushSegment(pushASegmentIdentifier))
-        router.register(routeSegment: buildPushSegment(pushBSegmentIdentifier))
-        router.register(routeSegment: buildPushSegment(pushCSegmentIdentifier))
-        router.register(routeSegment: buildPushSegment(pushDSegmentIdentifier))
-        router.register(routeSegment: buildPushSegment(pushESegmentIdentifier))
-        router.register(routeSegment: buildPushSegment(pushFSegmentIdentifier))
-        router.register(routeSegment: buildPushSegment(pushGSegmentIdentifier))
-        router.register(routeSegment: buildTrunkSegment(pushTBCSegmentIdentifier))
-        router.register(routeSegment: buildBranchSegment(tab1SegmentIdentifier))
-        router.register(routeSegment: buildSetNCSegment(setNCSegmentIdentifier))
-        router.register(routeSegment: buildBranchSegment(tab2SegmentIdentifier))
-        router.register(routeSegment: buildSetSegment(setZSegmentIdentifier))
-        router.register(routeSegment: buildWrapperSegment())
+        router.routerContext.register(routeSegment: buildRootSegment())
+        router.routerContext.register(routeSegment: buildPushSegment(pushWelcomeSegmentIdentifier))
+        router.routerContext.register(routeSegment: buildPushSegment(pushASegmentIdentifier))
+        router.routerContext.register(routeSegment: buildPushSegment(pushBSegmentIdentifier))
+        router.routerContext.register(routeSegment: buildPushSegment(pushCSegmentIdentifier))
+        router.routerContext.register(routeSegment: buildPushSegment(pushDSegmentIdentifier))
+        router.routerContext.register(routeSegment: buildPushSegment(pushESegmentIdentifier))
+        router.routerContext.register(routeSegment: buildPushSegment(pushFSegmentIdentifier))
+        router.routerContext.register(routeSegment: buildPushSegment(pushGSegmentIdentifier))
+        router.routerContext.register(routeSegment: buildTrunkSegment(pushTBCSegmentIdentifier))
+        router.routerContext.register(routeSegment: buildBranchSegment(tab1SegmentIdentifier))
+        router.routerContext.register(routeSegment: buildSetNCSegment(setNCSegmentIdentifier))
+        router.routerContext.register(routeSegment: buildBranchSegment(tab2SegmentIdentifier))
+        router.routerContext.register(routeSegment: buildSetSegment(setZSegmentIdentifier))
+        router.routerContext.register(routeSegment: buildWrapperSegment())
 
-        router.register(routeBranch: routeBranchTab1);
-        router.register(routeBranch: routeBranchTab2);
+        router.routerContext.register(routeBranch: routeBranchTab1);
+        router.routerContext.register(routeBranch: routeBranchTab2);
     }
 
     fileprivate func buildRootSegment() -> VisualRouteSegmentType {

@@ -14,7 +14,7 @@ class MockWindow: UIWindow, TrackableTestClassProxy {
 
     override var rootViewController: UIViewController? {
         didSet {
-            let value = rootViewController == nil ? "nil" : "\(rootViewController!)"
+            let value = rootViewController == nil ? "nil": "\(rootViewController!)"
             track("setRootViewController", [value])
         }
     }

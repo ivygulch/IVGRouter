@@ -35,12 +35,9 @@ public typealias RouterProvider = ((UIWindow?) -> RouterType)
 
 public protocol RouterType {
     var window: UIWindow? { get }
-    var routeSegments: [Identifier: RouteSegmentType] { get }
-    var presenters: [Identifier: RouteSegmentPresenterType] { get }
+    var routerContext: RouterContextType { get }
     var historySize: Int { get }
 
-    func register(routeSegmentPresenter: RouteSegmentPresenterType)
-    func register(routeSegment: RouteSegmentType)
     func append(route source: [Any], completion: @escaping ((RoutingResult) -> Void))
     func execute(route source: [Any], completion: @escaping ((RoutingResult) -> Void))
     func pop(completion: @escaping ((RoutingResult) -> Void))
@@ -48,7 +45,6 @@ public protocol RouterType {
     func clearHistory()
     func previousRouteHistoryItem() -> RouteHistoryItemType?
     func goBack(completion: @escaping ((RoutingResult) -> Void))
-    func registerDefaultPresenters()
 
     func viewControllers() -> [UIViewController]
 }
@@ -58,14 +54,12 @@ public struct RouterConstants {
     public static let defaultHistorySize: Int = 20
 }
 
-open class Router : RouterType {
+open class Router: RouterType {
 
-    public init(window: UIWindow?, autoRegisterDefaultPresenters: Bool = true, historySize: Int = RouterConstants.defaultHistorySize) {
+    public init(window: UIWindow?, routerContext: RouterContextType, historySize: Int = RouterConstants.defaultHistorySize) {
         self.window = window
+        self.routerContext = routerContext
         self.historySize = historySize
-        if autoRegisterDefaultPresenters {
-            registerDefaultPresenters()
-        }
     }
 
     public func debugString(_ msg: String) -> String {
@@ -97,32 +91,12 @@ open class Router : RouterType {
         print("\(debugString(msg))")
     }
 
-    public fileprivate(set) var routeSegments: [Identifier: RouteSegmentType] = [: ]
-    public fileprivate(set) var presenters: [Identifier: RouteSegmentPresenterType] = [: ]
-
     public let window: UIWindow?
+    public let routerContext: RouterContextType
     public let historySize: Int
 
     public func viewControllers() -> [UIViewController] {
         return lastRecordedSegments.flatMap { $0.viewController }
-    }
-
-    public func register(routeSegmentPresenter: RouteSegmentPresenterType) {
-        presenters[routeSegmentPresenter.presenterIdentifier] = routeSegmentPresenter
-    }
-
-    public func register(routeSegment: RouteSegmentType) {
-        routeSegments[routeSegment.segmentIdentifier] = routeSegment
-    }
-
-    public func registerDefaultPresenters() {
-        register(routeSegmentPresenter: RootRouteSegmentPresenter())
-        register(routeSegmentPresenter: PushRouteSegmentPresenter())
-        register(routeSegmentPresenter: PresentRouteSegmentPresenter())
-        register(routeSegmentPresenter: PresentRouteSegmentPresenter(presenterIdentifier: PresentRouteSegmentPresenter.autoDismissPresenterIdentifier)) // auto-dismiss version for use by AlertControllers
-        register(routeSegmentPresenter: PresentRouteSegmentPresenter(presenterIdentifier: PresentRouteSegmentPresenter.fromRootPresenterIdentifier)) // fromRoot version for use by modal VCs
-        register(routeSegmentPresenter: SetRouteSegmentPresenter())
-        register(routeSegmentPresenter: WrappingRouteSegmentPresenter(wrappingRouteSegmentAnimator: SlidingWrappingRouteSegmentAnimator()))
     }
 
     // MARK: public routing methods
@@ -236,8 +210,8 @@ open class Router : RouterType {
         lastRecordedSegments = updatedRecordedSegments
 
         let lastSegmentIdentifier = lastRecordedSegment.segmentIdentifier
-        if let lastPresenterIdentifier = routeSegments[lastSegmentIdentifier]?.presenterIdentifier,
-            let reversibleRouteSegmentPresenter = presenters[lastPresenterIdentifier] as? ReversibleRouteSegmentPresenterType,
+        if let lastPresenterIdentifier = routerContext.routeSegments[lastSegmentIdentifier]?.presenterIdentifier,
+            let reversibleRouteSegmentPresenter = routerContext.presenters[lastPresenterIdentifier] as? ReversibleRouteSegmentPresenterType,
             let lastViewController = lastRecordedSegment.viewController,
             let lastParentViewController = lastViewController.parent ?? lastViewController.presentingViewController {
 
@@ -339,7 +313,7 @@ open class Router : RouterType {
         }
 
         let segmentIdentifier = routeSequenceItem.segmentIdentifier
-        guard let routeSegment = routeSegments[segmentIdentifier] else {
+        guard let routeSegment = routerContext.routeSegments[segmentIdentifier] else {
             sequenceCompletion(.failure(RoutingErrors.segmentNotRegistered(segmentIdentifier)))
             return
         }
@@ -383,7 +357,7 @@ open class Router : RouterType {
 
     fileprivate func finish(routeSequenceItem: RouteSequenceItem, routeSegment: RouteSegmentType, routeSegmentFIFOPipe: RouteSegmentFIFOPipe, onSuccessfulPresentation: @escaping ((RouteSegmentType,UIViewController) -> Void), sequenceCompletion: @escaping ((RoutingResult) -> Void)) {
         let presenterIdentifier = routeSegment.presenterIdentifier
-        guard let presenter = presenters[presenterIdentifier] else {
+        guard let presenter = routerContext.presenters[presenterIdentifier] else {
             sequenceCompletion(.failure(RoutingErrors.presenterNotRegistered(presenterIdentifier)))
             return
         }
@@ -470,7 +444,7 @@ open class Router : RouterType {
 
 private extension Collection {
     subscript (safe index: Index) -> Iterator.Element? {
-        return indices.contains(index) ? self[index] : nil
+        return indices.contains(index) ? self[index]: nil
     }
 }
 
@@ -489,16 +463,16 @@ private class RouteSegmentFIFOPipe {
 
     init(oldRecordedSegments: [RecordedSegment], appending: Bool) {
         self.oldRecordedSegments = oldRecordedSegments
-        self.newRecordedSegments = appending ? oldRecordedSegments : []
+        self.newRecordedSegments = appending ? oldRecordedSegments: []
     }
 
     func popOldRecordedSegment() -> RecordedSegment? {
         currentIndexIntoOld += 1
-        return currentIndexIntoOld < oldRecordedSegments.count ? oldRecordedSegments[currentIndexIntoOld] : nil
+        return currentIndexIntoOld < oldRecordedSegments.count ? oldRecordedSegments[currentIndexIntoOld]: nil
     }
 
     var peekOldRecordedSegment: RecordedSegment? {
-        return (currentIndexIntoOld >= 0) && (currentIndexIntoOld < oldRecordedSegments.count) ? oldRecordedSegments[currentIndexIntoOld] : nil
+        return (currentIndexIntoOld >= 0) && (currentIndexIntoOld < oldRecordedSegments.count) ? oldRecordedSegments[currentIndexIntoOld]: nil
     }
 
     var routeChanged: Bool {
