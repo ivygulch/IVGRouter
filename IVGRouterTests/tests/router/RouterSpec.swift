@@ -45,14 +45,14 @@ extension RouterSpec {
             }
 
             it("should have an empty set of presenters") {
-                let router = Router(window: nil)
+                let router = Router(window: nil, autoRegisterDefaultPresenters: false)
                 expect(router.presenters).to(beEmpty())
             }
 
             it("should have an empty set of viewControllers") {
                 let router = Router(window: nil)
-                let defaultBranchViewControllers = router.viewControllers(forRouteBranchIdentifier: router.defaultRouteBranch.branchIdentifier)
-                expect(defaultBranchViewControllers).to(beEmpty())
+                let viewControllers = router.viewControllers()
+                expect(viewControllers).to(beEmpty())
             }
 
             it("should allow for a non-nil window") {
@@ -82,10 +82,6 @@ extension RouterSpec {
 
             it("should include RootRouteSegmentPresenter") {
                 expect(router.presenters[Identifier(name: String(describing: RootRouteSegmentPresenter.self))]).toNot(beNil())
-            }
-
-            it("should include BranchRouteSegmentPresenter") {
-                expect(router.presenters[Identifier(name: String(describing: BranchRouteSegmentPresenter.self))]).toNot(beNil())
             }
 
             it("should include PushRouteSegmentPresenter") {
@@ -327,8 +323,8 @@ extension RouterSpec {
                         expectation.fulfill()
                     }
                     self.waitForExpectations(timeout: 5, handler: nil)
-                    let defaultBranchViewControllers = router.viewControllers(forRouteBranchIdentifier: router.defaultRouteBranch.branchIdentifier)
-                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
+                    let viewControllers = router.viewControllers()
+                    expect(viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
                 }
 
             }
@@ -364,8 +360,8 @@ extension RouterSpec {
                         expectation.fulfill()
                     }
                     self.waitForExpectations(timeout: 5, handler: nil)
-                    let defaultBranchViewControllers = router.viewControllers(forRouteBranchIdentifier: router.defaultRouteBranch.branchIdentifier)
-                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA]))
+                    let viewControllers = router.viewControllers()
+                    expect(viewControllers).to(equal([mockViewControllerA]))
                 }
 
             }
@@ -543,8 +539,8 @@ extension RouterSpec {
                     }
                     self.waitForExpectations(timeout: 5, handler: nil)
 
-                    let defaultBranchViewControllers = router.viewControllers(forRouteBranchIdentifier: router.defaultRouteBranch.branchIdentifier)
-                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
+                    let viewControllers = router.viewControllers()
+                    expect(viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerC]))
                 }
 
             }
@@ -570,8 +566,8 @@ extension RouterSpec {
                     }
                     self.waitForExpectations(timeout: 5, handler: nil)
 
-                    let defaultBranchViewControllers = router.viewControllers(forRouteBranchIdentifier: router.defaultRouteBranch.branchIdentifier)
-                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB]))
+                    let viewControllers = router.viewControllers()
+                    expect(viewControllers).to(equal([mockViewControllerA,mockViewControllerB]))
                 }
 
             }
@@ -599,8 +595,8 @@ extension RouterSpec {
                     }
                     self.waitForExpectations(timeout: 5, handler: nil)
 
-                    let defaultBranchViewControllers = router.viewControllers(forRouteBranchIdentifier: router.defaultRouteBranch.branchIdentifier)
-                    expect(defaultBranchViewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerE]))
+                    let viewControllers = router.viewControllers()
+                    expect(viewControllers).to(equal([mockViewControllerA,mockViewControllerB,mockViewControllerE]))
                 }
 
             }

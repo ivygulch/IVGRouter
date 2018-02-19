@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import IVGFoundation
+//import IVGFoundation
 
 struct TrackerLogEntry {
     let key: String
@@ -130,7 +130,7 @@ class TrackableTestClass : TrackableTestClassType {
     }
 
     func track(_ key: String, _ values: [String]) {
-        let timestamp = Clock.sharedClock.currentDate
+        let timestamp = Date()//Clock.sharedClock.currentDate
         let trackerLogEntry = TrackerLogEntry(key: key, values: values, timestamp: timestamp)
         let trackerSummaryEntry = TrackerSummaryEntry(values: values, timestamp: timestamp)
 
