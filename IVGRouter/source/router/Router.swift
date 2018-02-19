@@ -88,11 +88,14 @@ public struct RouterConstants {
 
 open class Router : RouterType {
 
-    public init(window: UIWindow?, historySize: Int = RouterConstants.defaultHistorySize) {
+    public init(window: UIWindow?, autoRegisterDefaultPresenters: Bool = true, historySize: Int = RouterConstants.defaultHistorySize) {
         self.window = window
         self.historySize = historySize
         defaultRouteBranch = RouteBranch(branchIdentifier: Identifier(name: UUID().uuidString), routeSequence: RouteSequence(source: []))
         register(routeBranch: defaultRouteBranch)
+        if autoRegisterDefaultPresenters {
+            registerDefaultPresenters()
+        }
     }
 
     public func debugString(_ msg: String) -> String {
