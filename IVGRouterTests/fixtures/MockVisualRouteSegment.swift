@@ -30,6 +30,6 @@ class MockVisualRouteSegment: TrackableTestClass, VisualRouteSegmentType {
         return presentedViewController
     }
 
-    func set(data: RouteSegmentDataType?, on presented: UIViewController, from presenting: UIViewController?) {
+    func set(data: RouteSegmentDataType?, withRouter router: RouterType, on presented: UIViewController, from presenting: UIViewController?) {
     }
 }

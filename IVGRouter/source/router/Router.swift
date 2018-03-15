@@ -31,7 +31,7 @@ public protocol RouteHistoryPreviousButtonProvider {
     func configurePreviousHistoryItem(forButton button: UIButton, routeHistoryItemTitle: String?) -> (() -> Void)?
 }
 
-public typealias RouterProvider = ((UIWindow?) -> RouterType)
+public typealias RouterProvider = ((String,UIWindow?) -> RouterType)
 
 public protocol RouterType {
     var window: UIWindow? { get }
@@ -395,7 +395,7 @@ open class Router: RouterType {
                 return // we handled it by failing the sequence
             }
 
-            visualRouteSegment.set(data: routeSequenceData, on: viewController, from: presentingViewController)
+            visualRouteSegment.set(data: routeSequenceData, withRouter: self, on: viewController, from: presentingViewController)
             visualPresenter.present(viewController: viewController, from: presentingViewController, options: routeSequenceOptions, window: self.window, completion: {
                 presenterResult in
 
