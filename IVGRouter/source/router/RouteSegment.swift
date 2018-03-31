@@ -141,10 +141,6 @@ extension UITabBarController: TrunkRouteController {
         completion(.success(result))
     }
 
-    public var asViewController: UIViewController {
-        return self
-    }
-
     public func configureBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void)) {
         return appendBranchIfNeeded(branchIdentifier, selectViewController: false, completion: completion)
     }
@@ -189,10 +185,6 @@ extension UISplitViewController: TrunkRouteController {
         viewControllers = localViewControllers
         branches[branchIdentifier.name] = localViewControllers.count - 1
         completion(.success(result))
-    }
-
-    public var asViewController: UIViewController {
-        return self
     }
 
     public func configureBranch(_ branchIdentifier: Identifier, completion: ((RoutingResult) -> Void)) {
