@@ -42,6 +42,7 @@ open class RouterContext: RouterContextType {
         register(routeSegmentPresenter: PresentRouteSegmentPresenter(presenterIdentifier: PresentRouteSegmentPresenter.autoDismissPresenterIdentifier)) // auto-dismiss version for use by AlertControllers
         register(routeSegmentPresenter: PresentRouteSegmentPresenter(presenterIdentifier: PresentRouteSegmentPresenter.fromRootPresenterIdentifier)) // fromRoot version for use by modal VCs
         register(routeSegmentPresenter: SetRouteSegmentPresenter())
+        register(routeSegmentPresenter: OrphanRouteSegmentPresenter())
         register(routeSegmentPresenter: WrappingRouteSegmentPresenter(wrappingRouteSegmentAnimator: SlidingWrappingRouteSegmentAnimator()))
     }
 

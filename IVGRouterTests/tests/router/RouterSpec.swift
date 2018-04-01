@@ -400,7 +400,7 @@ extension RouterSpec {
                 router.routerContext.register(routeSegment: mockVisualRouteSegmentC)
                 initialSequence = [mockVisualRouteSegmentA.segmentIdentifier,mockVisualRouteSegmentB.segmentIdentifier,mockVisualRouteSegmentC.segmentIdentifier]
 
-                let expectation = self.expectation(description: "executeRoute initialRoute")
+                let expectation = self.expectation(description: "executeRoute baseRoute")
                 router.execute(route: initialSequence) {
                     routingResult in
                     switch routingResult {
@@ -500,7 +500,7 @@ extension RouterSpec {
                 router.routerContext.register(routeSegment: mockVisualRouteSegmentE)
                 initialSequence = [mockVisualRouteSegmentA.segmentIdentifier,mockVisualRouteSegmentB.segmentIdentifier,mockVisualRouteSegmentC.segmentIdentifier,mockVisualRouteSegmentD.segmentIdentifier]
 
-                let expectation = self.expectation(description: "executeRoute initialRoute")
+                let expectation = self.expectation(description: "executeRoute baseRoute")
                 router.execute(route: initialSequence) {
                     routingResult in
                     switch routingResult {

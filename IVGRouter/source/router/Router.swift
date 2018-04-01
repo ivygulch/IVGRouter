@@ -34,6 +34,7 @@ public protocol RouteHistoryPreviousButtonProvider {
 public typealias RouterProvider = ((String,UIWindow?) -> RouterType)
 
 public protocol RouterType {
+    var identifier: Identifier { get }
     var window: UIWindow? { get }
     var routerContext: RouterContextType { get }
     var historySize: Int { get }
@@ -91,6 +92,7 @@ open class Router: RouterType {
         print("\(debugString(msg))")
     }
 
+    public var identifier = Identifier(name: "Router."+NSUUID().uuidString)
     public let window: UIWindow?
     public let routerContext: RouterContextType
     public let historySize: Int

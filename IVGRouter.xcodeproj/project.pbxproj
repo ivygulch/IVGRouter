@@ -19,6 +19,7 @@
 		F82D218E1CCD9EBC0010CDFF /* RouteSequenceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D218D1CCD9EBC0010CDFF /* RouteSequenceSpec.swift */; };
 		F85DD1901E401A3A009AD1D5 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F85DD1671E4019EC009AD1D5 /* Nimble.framework */; };
 		F85DD1911E401A3A009AD1D5 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F85DD1851E4019F8009AD1D5 /* Quick.framework */; };
+		F86682AF2071631A00DB9CD8 /* OrphanRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86682AE2071631A00DB9CD8 /* OrphanRouteSegmentPresenter.swift */; };
 		F8711C771CCD1C0B00E6EEBB /* IVGRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8711C6C1CCD1C0A00E6EEBB /* IVGRouter.framework */; };
 		F8711C951CCD1C7300E6EEBB /* IVGRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = F8711C871CCD1C7300E6EEBB /* IVGRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8711C961CCD1C7300E6EEBB /* BaseRouteSegmentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8711C891CCD1C7300E6EEBB /* BaseRouteSegmentPresenter.swift */; };
@@ -214,6 +215,7 @@
 		F82D218D1CCD9EBC0010CDFF /* RouteSequenceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSequenceSpec.swift; sourceTree = "<group>"; };
 		F85DD15D1E4019EC009AD1D5 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = external/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
 		F85DD1721E4019F8009AD1D5 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = external/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
+		F86682AE2071631A00DB9CD8 /* OrphanRouteSegmentPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrphanRouteSegmentPresenter.swift; sourceTree = "<group>"; };
 		F8711C6C1CCD1C0A00E6EEBB /* IVGRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IVGRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8711C711CCD1C0A00E6EEBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8711C761CCD1C0B00E6EEBB /* IVGRouterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IVGRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -380,6 +382,7 @@
 				F82856ED1CE96AAD0042B8C0 /* SetRouteSegmentPresenter.swift */,
 				F8D0B46F1E3C0E830020EF53 /* PresentRouteSegmentPresenter.swift */,
 				F8711C8B1CCD1C7300E6EEBB /* RootRouteSegmentPresenter.swift */,
+				F86682AE2071631A00DB9CD8 /* OrphanRouteSegmentPresenter.swift */,
 				F8711C8C1CCD1C7300E6EEBB /* SlidingWrappingRouteSegmentAnimator.swift */,
 				F8711C8E1CCD1C7300E6EEBB /* WrappingRouteSegmentPresenter.swift */,
 			);
@@ -774,6 +777,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F86682AF2071631A00DB9CD8 /* OrphanRouteSegmentPresenter.swift in Sources */,
 				F8C0309F1D426506003CF124 /* ActingPresentingViewControllerDelegate.swift in Sources */,
 				F8711C9D1CCD1C7300E6EEBB /* Router.swift in Sources */,
 				F8AB8D6A1CCD4FB800E50ABD /* PlaceholderViewController.swift in Sources */,
