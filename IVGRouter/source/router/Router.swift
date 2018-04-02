@@ -57,7 +57,8 @@ public struct RouterConstants {
 
 open class Router: RouterType {
 
-    public init(window: UIWindow?, routerContext: RouterContextType, historySize: Int = RouterConstants.defaultHistorySize) {
+    public init(identifier: Identifier? = nil, window: UIWindow?, routerContext: RouterContextType, historySize: Int = RouterConstants.defaultHistorySize) {
+        self.identifier = identifier ?? Identifier(name: "Router."+NSUUID().uuidString)
         self.window = window
         self.routerContext = routerContext
         self.historySize = historySize
@@ -92,7 +93,7 @@ open class Router: RouterType {
         print("\(debugString(msg))")
     }
 
-    public var identifier = Identifier(name: "Router."+NSUUID().uuidString)
+    public private(set) var identifier: Identifier
     public let window: UIWindow?
     public let routerContext: RouterContextType
     public let historySize: Int
