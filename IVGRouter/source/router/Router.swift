@@ -39,6 +39,7 @@ public protocol RouterType {
     var routerContext: RouterContextType { get }
     var historySize: Int { get }
 
+    func refresh()
     func append(route source: [Any], completion: @escaping ((RoutingResult) -> Void))
     func execute(route source: [Any], completion: @escaping ((RoutingResult) -> Void))
     func pop(completion: @escaping ((RoutingResult) -> Void))
@@ -103,6 +104,12 @@ open class Router: RouterType {
     }
 
     // MARK: public routing methods
+
+    public func refresh() {
+        guard let lastRecordedSegment = lastRecordedSegments.last else { return }
+        guard let refreshableRouteSegment = routerContext.routeSegments[lastRecordedSegment.segmentIdentifier] as? RefreshableRouteSegmentType else { return }
+        refreshableRouteSegment.refresh()
+    }
 
     public func append(route source: [Any], completion: @escaping ((RoutingResult) -> Void)) {
         let wrappedCompletion: ((RoutingResult) -> Void) = { [weak self] routingResult in

@@ -19,7 +19,11 @@ public protocol RouteSegmentType {
     var shouldBeRecorded: Bool { get }
 }
 
-public protocol VisualRouteSegmentType: RouteSegmentType {
+public protocol RefreshableRouteSegmentType {
+    func refresh()
+}
+
+public protocol VisualRouteSegmentType: RouteSegmentType, RefreshableRouteSegmentType {
     func viewController() -> UIViewController?
     func set(data: RouteSegmentDataType?, withRouter router: RouterType, on presented: UIViewController, from presenting: UIViewController?)
 }
@@ -50,10 +54,16 @@ open class RouteSegment: RouteSegmentType {
 
 open class VisualRouteSegment: RouteSegment, VisualRouteSegmentType {
 
-    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, shouldBeRecorded: Bool = true, isSingleton: Bool, loadViewController: @escaping ViewControllerLoaderFunction, setData: ViewControllerSetDataFunction? = nil) {
+    private var lastRouteSegmentData: RouteSegmentDataType?
+    private var lastRouter: RouterType?
+    private weak var lastPresentedViewController: UIViewController?
+    private weak var lastPresentingViewController: UIViewController?
+
+    public init(segmentIdentifier: Identifier, presenterIdentifier: Identifier, shouldBeRecorded: Bool = true, isSingleton: Bool, loadViewController: @escaping ViewControllerLoaderFunction, setData: ViewControllerSetDataFunction? = nil, refreshData: ViewControllerSetDataFunction? = nil) {
         self.isSingleton = isSingleton
         self.loadViewController = loadViewController
         self.setData = setData
+        self.refreshData = refreshData
         super.init(segmentIdentifier: segmentIdentifier, presenterIdentifier: presenterIdentifier, shouldBeRecorded: shouldBeRecorded)
     }
 
@@ -62,7 +72,16 @@ open class VisualRouteSegment: RouteSegment, VisualRouteSegmentType {
     }
 
     open func set(data: RouteSegmentDataType?, withRouter router: RouterType, on presented: UIViewController, from presenting: UIViewController?) {
+        lastRouteSegmentData = data
+        lastRouter = router
+        lastPresentedViewController = presented
+        lastPresentingViewController = presenting
         setData?()(presented, presenting, data, router)
+    }
+
+    open func refresh() {
+        guard let lastPresentedViewController = lastPresentedViewController, let lastRouter = lastRouter else { return }
+        refreshData?()(lastPresentedViewController, lastPresentingViewController, lastRouteSegmentData, lastRouter)
     }
 
     fileprivate func getViewController() -> UIViewController? {
@@ -80,6 +99,7 @@ open class VisualRouteSegment: RouteSegment, VisualRouteSegmentType {
     fileprivate let isSingleton: Bool
     fileprivate let loadViewController: ViewControllerLoaderFunction
     fileprivate let setData: ViewControllerSetDataFunction?
+    fileprivate let refreshData: ViewControllerSetDataFunction?
     fileprivate var cachedViewController: UIViewController?
     
 }
